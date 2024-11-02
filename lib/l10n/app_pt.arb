@@ -2,5 +2,6 @@
   "@@locale": "pt",
   "combats_page_title": "Combates",
   "groups_page_title": "Grupos",
-  "settings_page_title": "Configurações"
+  "settings_page_title": "Configurações",
+  "add_new_encounter": "Criar novo"
 }

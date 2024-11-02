@@ -11,5 +11,9 @@
   "settings_page_title": "Settings",
   "@settings_page_title": {
     "description": "The page where you can see the settings."
+  },
+  "add_new_encounter": "Add new",
+  "@add_new_encounter": {
+    "description": "Button to add a new encounter."
   }
 }

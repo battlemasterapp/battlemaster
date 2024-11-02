@@ -3,6 +3,7 @@ import 'package:drift_flutter/drift_flutter.dart';
 
 import '../features/combatant/data/combatant_converter.dart';
 import '../features/combatant/models/combatant.dart';
+import '../features/encounters/models/encounter_type.dart';
 
 part 'database.g.dart';
 
@@ -10,6 +11,7 @@ class EncounterTable extends Table {
   IntColumn get id => integer().autoIncrement()();
   TextColumn get name => text()();
   IntColumn get round => integer()();
+  IntColumn get type => intEnum<EncounterType>()();
   TextColumn get combatants => text().map(const CombatantConverter())();
   IntColumn get engine => integer()();
 }

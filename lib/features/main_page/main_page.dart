@@ -57,35 +57,37 @@ class _MainPageState extends State<MainPage> {
                   },
                 )
               : null,
-          body: Row(
-            children: [
-              if (orientation == Orientation.landscape)
-                Row(
-                  mainAxisSize: MainAxisSize.min,
-                  children: [
-                    NavigationRail(
-                      selectedIndex: pages.keys.toList().indexOf(_selectedPage),
-                      onDestinationSelected: (index) {
-                        setState(() {
-                          _selectedPage = pages.keys.toList()[index];
-                        });
-                      },
-                      labelType: NavigationRailLabelType.selected,
-                      destinations: [
-                        for (final page in pages.entries)
-                          NavigationRailDestination(
-                            icon: Icon(page.value.icon),
-                            label: Text(page.value.title),
-                          ),
-                      ],
-                    ),
-                    const VerticalDivider(thickness: 1, width: 1),
-                  ],
+          body: SafeArea(
+            child: Row(
+              children: [
+                if (orientation == Orientation.landscape)
+                  Row(
+                    mainAxisSize: MainAxisSize.min,
+                    children: [
+                      NavigationRail(
+                        selectedIndex: pages.keys.toList().indexOf(_selectedPage),
+                        onDestinationSelected: (index) {
+                          setState(() {
+                            _selectedPage = pages.keys.toList()[index];
+                          });
+                        },
+                        labelType: NavigationRailLabelType.selected,
+                        destinations: [
+                          for (final page in pages.entries)
+                            NavigationRailDestination(
+                              icon: Icon(page.value.icon),
+                              label: Text(page.value.title),
+                            ),
+                        ],
+                      ),
+                      const VerticalDivider(thickness: 1, width: 1),
+                    ],
+                  ),
+                Expanded(
+                  child: pages[_selectedPage]!.page,
                 ),
-              Expanded(
-                child: pages[_selectedPage]!.page,
-              ),
-            ],
+              ],
+            ),
           ),
         );
       },
