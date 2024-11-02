@@ -1,6 +1,6 @@
-# Combat class
+# Encounter class
 
-The `Combat` class is the main class for the combat tracker. It holds the list of combatants and the current round. 
+The `Encounter` class is the main class for the combat tracker. It holds the list of combatants and the current round. 
 It also has a reference to the game engine, which defines the rules for combat.
 
 **Attributes**
