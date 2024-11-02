@@ -7,7 +7,7 @@ import '../models/encounter.dart';
 class EncountersProvider extends ChangeNotifier {
   final AppDatabase _database;
 
-  EncountersProvider(AppDatabase database):_database = database;
+  EncountersProvider(AppDatabase database) : _database = database;
 
   Stream<List<Encounter>> watchEncounters(EncounterType type) =>
       _database.watchEncounters(type);

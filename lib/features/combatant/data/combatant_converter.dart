@@ -10,7 +10,10 @@ class CombatantsConverter extends TypeConverter<List<Combatant>, String>
   @override
   List<Combatant> fromSql(String fromDb) {
     final combatants = jsonDecode(fromDb) as List;
-    return combatants.cast<Map<String, dynamic>>().map((e) => Combatant.fromJson(e)).toList();
+    return combatants
+        .cast<Map<String, dynamic>>()
+        .map((e) => Combatant.fromJson(e))
+        .toList();
   }
 
   @override
