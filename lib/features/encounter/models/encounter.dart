@@ -2,6 +2,7 @@ import '../../combatant/models/combatant.dart';
 import '../../engines/models/game_engine_type.dart';
 
 class Encounter {
+  final int id;
   final String name;
   final int round;
   final List<Combatant> combatants;
@@ -11,6 +12,7 @@ class Encounter {
     required this.name,
     required this.combatants,
     required this.engine,
+    this.id = -1,
     this.round = 0,
   });
 }
