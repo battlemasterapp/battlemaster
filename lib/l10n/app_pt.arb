@@ -1,14 +1,6 @@
 {
   "@@locale": "pt",
-  "helloWorld": "Olá Mundo",
-  "counter": "Você pressionou o botão {count} vezes:",
-  "@counter": {
-    "description": "O número de vezes que o botão foi pressionado",
-    "placeholders": {
-      "count": {
-        "type": "int",
-        "example": "42"
-      }
-    }
-  }
+  "combats_page_title": "Combates",
+  "groups_page_title": "Grupos",
+  "settings_page_title": "Configurações"
 }
