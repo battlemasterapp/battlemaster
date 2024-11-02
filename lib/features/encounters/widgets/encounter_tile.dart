@@ -19,75 +19,55 @@ class EncounterGridTile extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     var borderRadius = BorderRadius.circular(10);
-    return ClipRect(
-      clipBehavior: Clip.antiAliasWithSaveLayer,
-      child: ClipRRect(
-        borderRadius: borderRadius,
-        clipBehavior: Clip.hardEdge,
-        child: Container(
-          decoration: BoxDecoration(
-            borderRadius: borderRadius,
-          ),
-          child: BackdropFilter(
-            filter: ImageFilter.blur(sigmaX: 2, sigmaY: 2),
-            child: Container(
-              decoration: BoxDecoration(
-                gradient: LinearGradient(
-                  begin: Alignment.topCenter,
-                  end: Alignment.bottomCenter,
-                  tileMode: TileMode.clamp,
-                  colors: [
-                    Theme.of(context).primaryColor.withOpacity(.65),
-                    Colors.black,
-                  ],
-                  stops: const [.6, 1],
-                ),
-                borderRadius: borderRadius,
-              ),
-              padding: const EdgeInsets.all(8),
-              child: InkWell(
-                onTap: () {
-                  Navigator.of(context).pushNamed(
-                    "/encounter",
-                    arguments: EncounterTrackerParams(encounter: encounter),
-                  );
-                },
-                child: Column(
-                  mainAxisAlignment: MainAxisAlignment.start,
-                  crossAxisAlignment: CrossAxisAlignment.center,
-                  children: [
-                    Align(
-                      alignment: Alignment.topRight,
-                      child: EncounterTileMenu(
-                        encounter: encounter,
-                        iconColor: Colors.white,
-                      ),
-                    ),
-                    const Spacer(),
-                    AutoSizeText(
-                      encounter.name,
-                      textAlign: TextAlign.center,
-                      maxFontSize: 26,
-                      minFontSize: 8,
-                      maxLines: 3,
-                      overflow: TextOverflow.ellipsis,
-                      style: Theme.of(context)
-                          .textTheme
-                          .titleLarge
-                          ?.copyWith(color: Colors.white),
-                    ),
-                    const Spacer(flex: 2),
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      mainAxisSize: MainAxisSize.max,
-                      children: [
-                        _GroupIndicator(count: encounter.combatants.length),
-                      ],
-                    ),
-                  ],
+    return ClipRRect(
+      borderRadius: borderRadius,
+      clipBehavior: Clip.hardEdge,
+      child: Container(
+        padding: const EdgeInsets.all(8),
+        decoration: BoxDecoration(
+          borderRadius: borderRadius,
+          color: Theme.of(context).primaryColor,
+        ),
+        child: InkWell(
+          onTap: () {
+            Navigator.of(context).pushNamed(
+              "/encounter",
+              arguments: EncounterTrackerParams(encounter: encounter),
+            );
+          },
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.start,
+            crossAxisAlignment: CrossAxisAlignment.center,
+            children: [
+              Align(
+                alignment: Alignment.topRight,
+                child: EncounterTileMenu(
+                  encounter: encounter,
+                  iconColor: Colors.white,
                 ),
               ),
-            ),
+              const Spacer(),
+              AutoSizeText(
+                encounter.name,
+                textAlign: TextAlign.center,
+                maxFontSize: 26,
+                minFontSize: 8,
+                maxLines: 3,
+                overflow: TextOverflow.ellipsis,
+                style: Theme.of(context)
+                    .textTheme
+                    .titleLarge
+                    ?.copyWith(color: Colors.white),
+              ),
+              const Spacer(flex: 2),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                mainAxisSize: MainAxisSize.max,
+                children: [
+                  _GroupIndicator(count: encounter.combatants.length),
+                ],
+              ),
+            ],
           ),
         ),
       ),
