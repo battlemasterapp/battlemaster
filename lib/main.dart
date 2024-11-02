@@ -4,7 +4,9 @@ import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'features/main_page/main_page.dart';
 import 'flavors/pf2e/pf2e_theme.dart';
 
-void main() {
+void main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+
   runApp(const BattlemasterApp());
 }
 
