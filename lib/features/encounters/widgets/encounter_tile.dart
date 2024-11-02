@@ -1,6 +1,7 @@
 import 'dart:ui';
 
 import 'package:auto_size_text/auto_size_text.dart';
+import 'package:battlemaster/features/encounter_tracker/encounter_tracker_page.dart';
 import 'package:flutter/material.dart';
 import 'package:icons_plus/icons_plus.dart';
 
@@ -45,7 +46,12 @@ class EncounterGridTile extends StatelessWidget {
               ),
               padding: const EdgeInsets.all(8),
               child: InkWell(
-                onTap: () {},
+                onTap: () {
+                  Navigator.of(context).pushNamed(
+                    "/encounter",
+                    arguments: EncounterTrackerParams(encounter: encounter),
+                  );
+                },
                 child: Column(
                   mainAxisAlignment: MainAxisAlignment.start,
                   crossAxisAlignment: CrossAxisAlignment.center,

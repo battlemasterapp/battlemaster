@@ -43,16 +43,38 @@ class AppDatabase extends _$AppDatabase {
   }
 
   Stream<List<Encounter>> watchAllEncounters() {
-    return select(encounterTable).watch().asyncMap(
-          (rows) =>
-              rows.map((row) => Encounter(
-                id: row.id,
-                name: row.name,
-                round: row.round,
-                type: row.type,
-                combatants: row.combatants,
-                engine: GameEngineType.values[row.engine],
-              )).toList(),
+    return (select(encounterTable)
+          ..where((e) => e.type.equals(EncounterType.encounter.index)))
+        .watch()
+        .asyncMap(
+          (rows) => rows
+              .map((row) => Encounter(
+                    id: row.id,
+                    name: row.name,
+                    round: row.round,
+                    type: row.type,
+                    combatants: row.combatants,
+                    engine: GameEngineType.values[row.engine],
+                  ))
+              .toList(),
+        );
+  }
+
+  Stream<List<Encounter>> watchAllGroups() {
+    return (select(encounterTable)
+          ..where((e) => e.type.equals(EncounterType.group.index)))
+        .watch()
+        .asyncMap(
+          (rows) => rows
+              .map((row) => Encounter(
+                    id: row.id,
+                    name: row.name,
+                    round: row.round,
+                    type: row.type,
+                    combatants: row.combatants,
+                    engine: GameEngineType.values[row.engine],
+                  ))
+              .toList(),
         );
   }
 }

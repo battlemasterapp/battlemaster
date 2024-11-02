@@ -8,6 +8,7 @@ import 'package:provider/provider.dart';
 import '../../combatant/models/combatant.dart';
 import '../../combatant/models/combatant_type.dart';
 import '../models/encounter.dart';
+import '../models/encounter_type.dart';
 import 'encounter_tile.dart';
 
 class EncountersGrid extends StatelessWidget {
@@ -15,10 +16,12 @@ class EncountersGrid extends StatelessWidget {
     super.key,
     this.encounters = const [],
     this.isLoading = false,
+    this.type = EncounterType.encounter,
   });
 
   final List<Encounter> encounters;
   final bool isLoading;
+  final EncounterType type;
 
   @override
   Widget build(BuildContext context) {
@@ -41,6 +44,7 @@ class EncountersGrid extends StatelessWidget {
               final encounter = Encounter(
                 name: "New Encounter",
                 round: 0,
+                type: type,
                 combatants: [
                   Combatant(
                     name: "Goblin",

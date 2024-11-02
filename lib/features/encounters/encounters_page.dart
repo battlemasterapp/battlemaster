@@ -1,5 +1,6 @@
 import 'package:battlemaster/database/database.dart';
 import 'package:battlemaster/features/encounters/models/encounter.dart';
+import 'package:battlemaster/features/encounters/models/encounter_type.dart';
 import 'package:battlemaster/features/encounters/widgets/encounters_grid.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
@@ -19,13 +20,13 @@ class CombatsPage extends StatelessWidget {
         }
 
         final encounters = snapshot.data ?? [];
-        print({snapshot});
 
         return Column(
           children: [
             Expanded(
               child: EncountersGrid(
                 encounters: encounters,
+                type: EncounterType.encounter,
               ),
             ),
           ],
