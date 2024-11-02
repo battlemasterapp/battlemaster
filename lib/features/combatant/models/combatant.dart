@@ -1,9 +1,14 @@
 import 'package:battlemaster/features/combatant/models/combatant_data.dart';
+import 'package:equatable/equatable.dart';
+import 'package:json_annotation/json_annotation.dart';
 
 import '../../engines/models/game_engine_type.dart';
 import 'combatant_type.dart';
 
-class Combatant {
+part 'combatant.g.dart';
+
+@JsonSerializable()
+class Combatant extends Equatable {
   final String name;
   final int currentHp;
   final int maxHp;
@@ -12,9 +17,10 @@ class Combatant {
   final int initiativeModifier;
   final CombatantType type;
   final GameEngineType engineType;
+
   final CombatantData? combatantData;
 
-  Combatant({
+  const Combatant({
     required this.name,
     required this.currentHp,
     required this.maxHp,
@@ -25,4 +31,22 @@ class Combatant {
     this.initiative = 0,
     this.combatantData,
   });
+
+  factory Combatant.fromJson(Map<String, dynamic> json) =>
+      _$CombatantFromJson(json);
+
+  Map<String, dynamic> toJson() => _$CombatantToJson(this);
+
+  @override
+  List<Object?> get props => [
+        name,
+        currentHp,
+        maxHp,
+        initiative,
+        armorClass,
+        initiativeModifier,
+        type,
+        engineType,
+        combatantData,
+      ];
 }

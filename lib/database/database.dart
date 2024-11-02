@@ -1,13 +1,15 @@
 import 'package:drift/drift.dart';
 import 'package:drift_flutter/drift_flutter.dart';
 
+import '../features/combatant/data/combatant_converter.dart';
+
 part 'database.g.dart';
 
 class EncounterTable extends Table {
   IntColumn get id => integer().autoIncrement()();
   TextColumn get name => text()();
   IntColumn get round => integer()();
-  TextColumn get combatants => text()();
+  TextColumn get combatants => text().map(const CombatantConverter())();
   IntColumn get engine => integer()();
 }
 
