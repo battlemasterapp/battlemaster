@@ -15,5 +15,17 @@
   "add_new_encounter": "Add new",
   "@add_new_encounter": {
     "description": "Button to add a new encounter."
+  },
+  "convert_to_group": "Convert to group",
+  "@convert_to_group": {
+    "description": "Button to convert an encounter to a group."
+  },
+  "convert_to_encounter": "Convert to encounter",
+  "@convert_to_encounter": {
+    "description": "Button to convert a group to an encounter."
+  },
+  "delete_encounter": "Delete",
+  "@delete_encounter": {
+    "description": "Button to delete an encounter."
   }
 }

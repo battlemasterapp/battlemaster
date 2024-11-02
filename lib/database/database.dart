@@ -58,4 +58,18 @@ class AppDatabase extends _$AppDatabase {
     ));
     return Encounter.fromJson(encounter.toJson()..['id'] = id);
   }
+
+  Future<void> updateEncounter(Encounter encounter) async {
+    await (update(encounterTable)..where((e) => e.id.equals(encounter.id)))
+        .write(
+      EncounterTableCompanion(
+        id: Value(encounter.id),
+        name: Value(encounter.name),
+        round: Value(encounter.round),
+        type: Value(encounter.type),
+        combatants: Value(encounter.combatants),
+        engine: Value(encounter.engine.index),
+      ),
+    );
+  }
 }

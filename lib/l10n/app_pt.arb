@@ -3,5 +3,8 @@
   "combats_page_title": "Combates",
   "groups_page_title": "Grupos",
   "settings_page_title": "Configurações",
-  "add_new_encounter": "Criar novo"
+  "add_new_encounter": "Criar novo",
+  "convert_to_group": "Converter para grupo",
+  "convert_to_encounter": "Converter para combate",
+  "delete_encounter": "Deletar"
 }

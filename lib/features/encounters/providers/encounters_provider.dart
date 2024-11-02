@@ -21,6 +21,16 @@ class EncountersProvider extends ChangeNotifier {
     return created;
   }
 
+  Future<void> convertEncounterType(Encounter encounter) async {
+    final updated = encounter.copyWith(
+      type: encounter.type == EncounterType.encounter
+          ? EncounterType.group
+          : EncounterType.encounter,
+    );
+    await _database.updateEncounter(updated);
+    notifyListeners();
+  }
+
   Future<void> removeEncounter(Encounter encounter) async {
     await (_database.delete(_database.encounterTable)
           ..where((e) => e.id.equals(encounter.id)))

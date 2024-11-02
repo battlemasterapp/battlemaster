@@ -1,9 +1,11 @@
+import 'package:battlemaster/features/encounters/providers/encounters_provider.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:icons_plus/icons_plus.dart';
+import 'package:provider/provider.dart';
 
 import '../models/encounter.dart';
 import '../models/encounter_type.dart';
-
 
 enum EncounterMenuOptions {
   deleteCombat,
@@ -37,8 +39,8 @@ class EncounterTileMenu extends StatelessWidget {
                 ),
                 const SizedBox(width: 4),
                 encounter.type == EncounterType.group
-                    ? const Text("Converter para combate")
-                    : const Text("Converter para grupo"),
+                    ? Text(AppLocalizations.of(context)!.convert_to_encounter)
+                    : Text(AppLocalizations.of(context)!.convert_to_group),
               ],
             ),
           ),
@@ -51,7 +53,7 @@ class EncounterTileMenu extends StatelessWidget {
                   color: Theme.of(context).textTheme.bodyMedium?.color,
                 ),
                 const SizedBox(width: 4),
-                const Text("Apagar combate"),
+                Text(AppLocalizations.of(context)!.delete_encounter),
               ],
             ),
           ),
@@ -59,10 +61,14 @@ class EncounterTileMenu extends StatelessWidget {
       },
       onSelected: (value) async {
         if (value == EncounterMenuOptions.deleteCombat) {
+          await context.read<EncountersProvider>().removeEncounter(encounter);
           return;
         }
 
         if (value == EncounterMenuOptions.convert) {
+          await context
+              .read<EncountersProvider>()
+              .convertEncounterType(encounter);
           return;
         }
       },

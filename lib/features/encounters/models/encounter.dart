@@ -25,6 +25,24 @@ class Encounter extends Equatable {
     this.round = 0,
   });
 
+  Encounter copyWith({
+    int? id,
+    String? name,
+    int? round,
+    EncounterType? type,
+    List<Combatant>? combatants,
+    GameEngineType? engine,
+  }) {
+    return Encounter(
+      id: id ?? this.id,
+      name: name ?? this.name,
+      round: round ?? this.round,
+      type: type ?? this.type,
+      combatants: combatants ?? this.combatants,
+      engine: engine ?? this.engine,
+    );
+  }
+
   factory Encounter.fromJson(Map<String, dynamic> json) =>
       _$EncounterFromJson(json);
 
