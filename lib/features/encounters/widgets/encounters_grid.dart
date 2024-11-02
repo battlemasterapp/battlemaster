@@ -1,5 +1,6 @@
 import 'package:battlemaster/database/database.dart';
 import 'package:battlemaster/features/encounter_tracker/encounter_tracker_page.dart';
+import 'package:battlemaster/features/encounters/providers/encounters_provider.dart';
 import 'package:battlemaster/features/engines/models/game_engine_type.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
@@ -40,7 +41,7 @@ class EncountersGrid extends StatelessWidget {
         if (index == 0) {
           return ElevatedButton.icon(
             onPressed: () async {
-              // FIXME: for now this is hardcoded, but we will change it later
+              // Fixme: hardcoded encounter
               final encounter = Encounter(
                 name: "New Encounter",
                 round: 0,
@@ -69,11 +70,14 @@ class EncountersGrid extends StatelessWidget {
                 ],
                 engine: GameEngineType.pf2e,
               );
-              final database = context.read<AppDatabase>();
-              final created = await database.insertEncounter(encounter);
+              final created = await context
+                  .read<EncountersProvider>()
+                  .addEncounter(encounter);
               // ignore: use_build_context_synchronously
-              Navigator.of(context).pushNamed("/encounter",
-                  arguments: EncounterTrackerParams(encounter: created));
+              Navigator.of(context).pushNamed(
+                "/encounter",
+                arguments: EncounterTrackerParams(encounter: created),
+              );
             },
             style: ElevatedButton.styleFrom(
               backgroundColor: Theme.of(context).colorScheme.secondary,

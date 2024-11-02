@@ -2,8 +2,8 @@ import 'package:battlemaster/features/encounters/models/encounter_type.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
-import '../../database/database.dart';
 import '../encounters/models/encounter.dart';
+import '../encounters/providers/encounters_provider.dart';
 import '../encounters/widgets/encounters_grid.dart';
 
 class GroupsPage extends StatelessWidget {
@@ -11,10 +11,9 @@ class GroupsPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    // FIXME: hardcoded for now. get all encounters from the database
-    final database = context.watch<AppDatabase>();
+    final encountersState = context.read<EncountersProvider>();
     return StreamBuilder<List<Encounter>>(
-      stream: database.watchAllGroups(),
+      stream: encountersState.watchGroups(),
       builder: (context, snapshot) {
         if (snapshot.connectionState == ConnectionState.waiting) {
           return const Center(child: CircularProgressIndicator());

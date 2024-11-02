@@ -1,4 +1,5 @@
 import 'package:battlemaster/database/database.dart';
+import 'package:battlemaster/features/encounters/providers/encounters_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:provider/provider.dart';
@@ -23,6 +24,10 @@ class BattlemasterApp extends StatelessWidget {
         Provider<AppDatabase>(
           create: (_) => AppDatabase(),
           dispose: (_, db) => db.close(),
+        ),
+        ChangeNotifierProxyProvider<AppDatabase, EncountersProvider>(
+          create: (context) => EncountersProvider(context.read<AppDatabase>()),
+          update: (_, __, provider) => provider!,
         ),
       ],
       child: MaterialApp(

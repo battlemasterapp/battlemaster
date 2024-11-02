@@ -31,6 +31,23 @@ class AppDatabase extends _$AppDatabase {
     return driftDatabase(name: 'battlemaster');
   }
 
+  Stream<List<Encounter>> watchEncounters(EncounterType type) {
+    return (select(encounterTable)..where((e) => e.type.equals(type.index)))
+        .watch()
+        .asyncMap(
+          (rows) => rows
+              .map((row) => Encounter(
+                    id: row.id,
+                    name: row.name,
+                    round: row.round,
+                    type: row.type,
+                    combatants: row.combatants,
+                    engine: GameEngineType.values[row.engine],
+                  ))
+              .toList(),
+        );
+  }
+
   Future<Encounter> insertEncounter(Encounter encounter) async {
     final id = await into(encounterTable).insert(EncounterTableCompanion.insert(
       name: encounter.name,
@@ -40,41 +57,5 @@ class AppDatabase extends _$AppDatabase {
       engine: encounter.engine.index,
     ));
     return Encounter.fromJson(encounter.toJson()..['id'] = id);
-  }
-
-  Stream<List<Encounter>> watchAllEncounters() {
-    return (select(encounterTable)
-          ..where((e) => e.type.equals(EncounterType.encounter.index)))
-        .watch()
-        .asyncMap(
-          (rows) => rows
-              .map((row) => Encounter(
-                    id: row.id,
-                    name: row.name,
-                    round: row.round,
-                    type: row.type,
-                    combatants: row.combatants,
-                    engine: GameEngineType.values[row.engine],
-                  ))
-              .toList(),
-        );
-  }
-
-  Stream<List<Encounter>> watchAllGroups() {
-    return (select(encounterTable)
-          ..where((e) => e.type.equals(EncounterType.group.index)))
-        .watch()
-        .asyncMap(
-          (rows) => rows
-              .map((row) => Encounter(
-                    id: row.id,
-                    name: row.name,
-                    round: row.round,
-                    type: row.type,
-                    combatants: row.combatants,
-                    engine: GameEngineType.values[row.engine],
-                  ))
-              .toList(),
-        );
   }
 }
