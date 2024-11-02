@@ -40,11 +40,15 @@ dependencies:
   intl: any
   icons_plus: ^5.0.0
   ionicons: ^0.2.2
+  drift: ^2.21.0
+  drift_flutter: ^0.2.1
 
 dev_dependencies:
   flutter_test:
     sdk: flutter
   flutter_lints: ^5.0.0
+  drift_dev: ^2.21.2
+  build_runner: ^2.4.13
 
 # For information on the generic Dart part of this file, see the
 # following page: https://dart.dev/tools/pub/pubspec
