@@ -9,11 +9,8 @@ class EncountersProvider extends ChangeNotifier {
 
   EncountersProvider(AppDatabase database):_database = database;
 
-  Stream<List<Encounter>> watchEncounters() =>
-      _database.watchEncounters(EncounterType.encounter);
-
-  Stream<List<Encounter>> watchGroups() =>
-      _database.watchEncounters(EncounterType.group);
+  Stream<List<Encounter>> watchEncounters(EncounterType type) =>
+      _database.watchEncounters(type);
 
   Future<Encounter> addEncounter(Encounter encounter) async {
     final created = await _database.insertEncounter(encounter);

@@ -1,4 +1,3 @@
-import 'package:battlemaster/database/database.dart';
 import 'package:battlemaster/features/encounter_tracker/encounter_tracker_page.dart';
 import 'package:battlemaster/features/encounters/providers/encounters_provider.dart';
 import 'package:battlemaster/features/engines/models/game_engine_type.dart';

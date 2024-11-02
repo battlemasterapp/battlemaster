@@ -7,13 +7,18 @@ import 'package:provider/provider.dart';
 import 'providers/encounters_provider.dart';
 
 class CombatsPage extends StatelessWidget {
-  const CombatsPage({super.key});
+  const CombatsPage({
+    super.key,
+    this.type = EncounterType.encounter,
+  });
+
+  final EncounterType type;
 
   @override
   Widget build(BuildContext context) {
     final encountersState = context.read<EncountersProvider>();
     return StreamBuilder<List<Encounter>>(
-      stream: encountersState.watchEncounters(),
+      stream: encountersState.watchEncounters(type),
       builder: (context, snapshot) {
         if (snapshot.connectionState == ConnectionState.waiting) {
           return const Center(child: CircularProgressIndicator());
@@ -21,15 +26,18 @@ class CombatsPage extends StatelessWidget {
 
         final encounters = snapshot.data ?? [];
 
-        return Column(
-          children: [
-            Expanded(
-              child: EncountersGrid(
-                encounters: encounters,
-                type: EncounterType.encounter,
+        return Padding(
+          padding: const EdgeInsets.only(top: 16),
+          child: Column(
+            children: [
+              Expanded(
+                child: EncountersGrid(
+                  encounters: encounters,
+                  type: EncounterType.encounter,
+                ),
               ),
-            ),
-          ],
+            ],
+          ),
         );
       },
     );
