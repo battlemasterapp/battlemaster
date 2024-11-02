@@ -15,10 +15,8 @@ Combatant _$CombatantFromJson(Map<String, dynamic> json) => Combatant(
       type: $enumDecode(_$CombatantTypeEnumMap, json['type']),
       engineType: $enumDecode(_$GameEngineTypeEnumMap, json['engineType']),
       initiative: (json['initiative'] as num?)?.toInt() ?? 0,
-      combatantData: json['combatantData'] == null
-          ? null
-          : CombatantData.fromJson(
-              json['combatantData'] as Map<String, dynamic>),
+      combatantData:
+          combatantDataFromJson(json['combatantData'] as Map<String, dynamic>),
     );
 
 Map<String, dynamic> _$CombatantToJson(Combatant instance) => <String, dynamic>{
@@ -30,7 +28,7 @@ Map<String, dynamic> _$CombatantToJson(Combatant instance) => <String, dynamic>{
       'initiativeModifier': instance.initiativeModifier,
       'type': _$CombatantTypeEnumMap[instance.type]!,
       'engineType': _$GameEngineTypeEnumMap[instance.engineType]!,
-      'combatantData': instance.combatantData,
+      'combatantData': combatantDataToJson(instance.combatantData),
     };
 
 const _$CombatantTypeEnumMap = {

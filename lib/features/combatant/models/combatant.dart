@@ -18,6 +18,10 @@ class Combatant extends Equatable {
   final CombatantType type;
   final GameEngineType engineType;
 
+  @JsonKey(
+    fromJson: combatantDataFromJson,
+    toJson: combatantDataToJson,
+  )
   final CombatantData? combatantData;
 
   const Combatant({
@@ -49,4 +53,12 @@ class Combatant extends Equatable {
         engineType,
         combatantData,
       ];
+}
+
+CombatantData? combatantDataFromJson(Map<String, dynamic> json) {
+  return null;
+}
+
+Map<String, dynamic> combatantDataToJson(CombatantData? instance) {
+  return {};
 }

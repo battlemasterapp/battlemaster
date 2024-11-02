@@ -31,9 +31,10 @@ class $EncounterTableTable extends EncounterTable
   static const VerificationMeta _combatantsMeta =
       const VerificationMeta('combatants');
   @override
-  late final GeneratedColumn<String> combatants = GeneratedColumn<String>(
-      'combatants', aliasedName, false,
-      type: DriftSqlType.string, requiredDuringInsert: true);
+  late final GeneratedColumnWithTypeConverter<Combatant, String> combatants =
+      GeneratedColumn<String>('combatants', aliasedName, false,
+              type: DriftSqlType.string, requiredDuringInsert: true)
+          .withConverter<Combatant>($EncounterTableTable.$convertercombatants);
   static const VerificationMeta _engineMeta = const VerificationMeta('engine');
   @override
   late final GeneratedColumn<int> engine = GeneratedColumn<int>(
@@ -66,14 +67,7 @@ class $EncounterTableTable extends EncounterTable
     } else if (isInserting) {
       context.missing(_roundMeta);
     }
-    if (data.containsKey('combatants')) {
-      context.handle(
-          _combatantsMeta,
-          combatants.isAcceptableOrUnknown(
-              data['combatants']!, _combatantsMeta));
-    } else if (isInserting) {
-      context.missing(_combatantsMeta);
-    }
+    context.handle(_combatantsMeta, const VerificationResult.success());
     if (data.containsKey('engine')) {
       context.handle(_engineMeta,
           engine.isAcceptableOrUnknown(data['engine']!, _engineMeta));
@@ -95,8 +89,9 @@ class $EncounterTableTable extends EncounterTable
           .read(DriftSqlType.string, data['${effectivePrefix}name'])!,
       round: attachedDatabase.typeMapping
           .read(DriftSqlType.int, data['${effectivePrefix}round'])!,
-      combatants: attachedDatabase.typeMapping
-          .read(DriftSqlType.string, data['${effectivePrefix}combatants'])!,
+      combatants: $EncounterTableTable.$convertercombatants.fromSql(
+          attachedDatabase.typeMapping.read(
+              DriftSqlType.string, data['${effectivePrefix}combatants'])!),
       engine: attachedDatabase.typeMapping
           .read(DriftSqlType.int, data['${effectivePrefix}engine'])!,
     );
@@ -106,6 +101,9 @@ class $EncounterTableTable extends EncounterTable
   $EncounterTableTable createAlias(String alias) {
     return $EncounterTableTable(attachedDatabase, alias);
   }
+
+  static JsonTypeConverter2<Combatant, String, String> $convertercombatants =
+      const CombatantConverter();
 }
 
 class EncounterTableData extends DataClass
@@ -113,7 +111,7 @@ class EncounterTableData extends DataClass
   final int id;
   final String name;
   final int round;
-  final String combatants;
+  final Combatant combatants;
   final int engine;
   const EncounterTableData(
       {required this.id,
@@ -127,7 +125,10 @@ class EncounterTableData extends DataClass
     map['id'] = Variable<int>(id);
     map['name'] = Variable<String>(name);
     map['round'] = Variable<int>(round);
-    map['combatants'] = Variable<String>(combatants);
+    {
+      map['combatants'] = Variable<String>(
+          $EncounterTableTable.$convertercombatants.toSql(combatants));
+    }
     map['engine'] = Variable<int>(engine);
     return map;
   }
@@ -149,7 +150,8 @@ class EncounterTableData extends DataClass
       id: serializer.fromJson<int>(json['id']),
       name: serializer.fromJson<String>(json['name']),
       round: serializer.fromJson<int>(json['round']),
-      combatants: serializer.fromJson<String>(json['combatants']),
+      combatants: $EncounterTableTable.$convertercombatants
+          .fromJson(serializer.fromJson<String>(json['combatants'])),
       engine: serializer.fromJson<int>(json['engine']),
     );
   }
@@ -160,7 +162,8 @@ class EncounterTableData extends DataClass
       'id': serializer.toJson<int>(id),
       'name': serializer.toJson<String>(name),
       'round': serializer.toJson<int>(round),
-      'combatants': serializer.toJson<String>(combatants),
+      'combatants': serializer.toJson<String>(
+          $EncounterTableTable.$convertercombatants.toJson(combatants)),
       'engine': serializer.toJson<int>(engine),
     };
   }
@@ -169,7 +172,7 @@ class EncounterTableData extends DataClass
           {int? id,
           String? name,
           int? round,
-          String? combatants,
+          Combatant? combatants,
           int? engine}) =>
       EncounterTableData(
         id: id ?? this.id,
@@ -218,7 +221,7 @@ class EncounterTableCompanion extends UpdateCompanion<EncounterTableData> {
   final Value<int> id;
   final Value<String> name;
   final Value<int> round;
-  final Value<String> combatants;
+  final Value<Combatant> combatants;
   final Value<int> engine;
   const EncounterTableCompanion({
     this.id = const Value.absent(),
@@ -231,7 +234,7 @@ class EncounterTableCompanion extends UpdateCompanion<EncounterTableData> {
     this.id = const Value.absent(),
     required String name,
     required int round,
-    required String combatants,
+    required Combatant combatants,
     required int engine,
   })  : name = Value(name),
         round = Value(round),
@@ -257,7 +260,7 @@ class EncounterTableCompanion extends UpdateCompanion<EncounterTableData> {
       {Value<int>? id,
       Value<String>? name,
       Value<int>? round,
-      Value<String>? combatants,
+      Value<Combatant>? combatants,
       Value<int>? engine}) {
     return EncounterTableCompanion(
       id: id ?? this.id,
@@ -281,7 +284,8 @@ class EncounterTableCompanion extends UpdateCompanion<EncounterTableData> {
       map['round'] = Variable<int>(round.value);
     }
     if (combatants.present) {
-      map['combatants'] = Variable<String>(combatants.value);
+      map['combatants'] = Variable<String>(
+          $EncounterTableTable.$convertercombatants.toSql(combatants.value));
     }
     if (engine.present) {
       map['engine'] = Variable<int>(engine.value);
@@ -318,7 +322,7 @@ typedef $$EncounterTableTableCreateCompanionBuilder = EncounterTableCompanion
   Value<int> id,
   required String name,
   required int round,
-  required String combatants,
+  required Combatant combatants,
   required int engine,
 });
 typedef $$EncounterTableTableUpdateCompanionBuilder = EncounterTableCompanion
@@ -326,7 +330,7 @@ typedef $$EncounterTableTableUpdateCompanionBuilder = EncounterTableCompanion
   Value<int> id,
   Value<String> name,
   Value<int> round,
-  Value<String> combatants,
+  Value<Combatant> combatants,
   Value<int> engine,
 });
 
@@ -348,8 +352,10 @@ class $$EncounterTableTableFilterComposer
   ColumnFilters<int> get round => $composableBuilder(
       column: $table.round, builder: (column) => ColumnFilters(column));
 
-  ColumnFilters<String> get combatants => $composableBuilder(
-      column: $table.combatants, builder: (column) => ColumnFilters(column));
+  ColumnWithTypeConverterFilters<Combatant, Combatant, String> get combatants =>
+      $composableBuilder(
+          column: $table.combatants,
+          builder: (column) => ColumnWithTypeConverterFilters(column));
 
   ColumnFilters<int> get engine => $composableBuilder(
       column: $table.engine, builder: (column) => ColumnFilters(column));
@@ -398,8 +404,9 @@ class $$EncounterTableTableAnnotationComposer
   GeneratedColumn<int> get round =>
       $composableBuilder(column: $table.round, builder: (column) => column);
 
-  GeneratedColumn<String> get combatants => $composableBuilder(
-      column: $table.combatants, builder: (column) => column);
+  GeneratedColumnWithTypeConverter<Combatant, String> get combatants =>
+      $composableBuilder(
+          column: $table.combatants, builder: (column) => column);
 
   GeneratedColumn<int> get engine =>
       $composableBuilder(column: $table.engine, builder: (column) => column);
@@ -435,7 +442,7 @@ class $$EncounterTableTableTableManager extends RootTableManager<
             Value<int> id = const Value.absent(),
             Value<String> name = const Value.absent(),
             Value<int> round = const Value.absent(),
-            Value<String> combatants = const Value.absent(),
+            Value<Combatant> combatants = const Value.absent(),
             Value<int> engine = const Value.absent(),
           }) =>
               EncounterTableCompanion(
@@ -449,7 +456,7 @@ class $$EncounterTableTableTableManager extends RootTableManager<
             Value<int> id = const Value.absent(),
             required String name,
             required int round,
-            required String combatants,
+            required Combatant combatants,
             required int engine,
           }) =>
               EncounterTableCompanion.insert(

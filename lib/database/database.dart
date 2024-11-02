@@ -2,6 +2,7 @@ import 'package:drift/drift.dart';
 import 'package:drift_flutter/drift_flutter.dart';
 
 import '../features/combatant/data/combatant_converter.dart';
+import '../features/combatant/models/combatant.dart';
 
 part 'database.g.dart';
 
