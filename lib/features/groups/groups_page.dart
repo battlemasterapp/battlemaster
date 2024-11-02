@@ -9,20 +9,9 @@ class GroupsPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: Text(AppLocalizations.of(context)!.groups_page_title),
-        leading: Builder(
-          builder: (context) {
-            return IconButton(
-              icon: const Icon(Icons.menu),
-              onPressed: () {
-                Scaffold.of(context).openDrawer();
-              },
-            );
-          },
-        ),
+      body: Center(
+        child: Text(AppLocalizations.of(context)!.groups_page_title),
       ),
-      drawer: const MainDrawer(),
     );
   }
 }

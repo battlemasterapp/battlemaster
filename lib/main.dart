@@ -1,3 +1,4 @@
+import 'package:battlemaster/features/main_page/main_page.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
@@ -23,7 +24,7 @@ class BattlemasterApp extends StatelessWidget {
       darkTheme: pf2eDarkTheme,
       themeMode: ThemeMode.system,
       routes: {
-        "/": (context) => const CombatsPage(),
+        "/": (context) => const MainPage(),
         "/groups": (context) => const GroupsPage(),
         "/settings": (context) => const SettingsPage(),
       },
