@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:icons_plus/icons_plus.dart';
 
-import '../combats/combats_page.dart';
+import '../encounters/encounters_page.dart';
 import '../groups/groups_page.dart';
 import '../settings/settings_page.dart';
 import '../widgets/main_drawer.dart';

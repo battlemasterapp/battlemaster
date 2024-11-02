@@ -1,8 +1,8 @@
 {
   "@@locale": "en",
-  "combats_page_title": "Combats",
+  "combats_page_title": "Encounters",
   "@combats_page_title": {
-    "description": "The page where you can see the combats."
+    "description": "The page where you can see the encounters."
   },
   "groups_page_title": "Groups",
   "@groups_page_title": {
