@@ -28,20 +28,28 @@ class $EncounterTableTable extends EncounterTable
   late final GeneratedColumn<int> round = GeneratedColumn<int>(
       'round', aliasedName, false,
       type: DriftSqlType.int, requiredDuringInsert: true);
+  static const VerificationMeta _typeMeta = const VerificationMeta('type');
+  @override
+  late final GeneratedColumnWithTypeConverter<EncounterType, int> type =
+      GeneratedColumn<int>('type', aliasedName, false,
+              type: DriftSqlType.int, requiredDuringInsert: true)
+          .withConverter<EncounterType>($EncounterTableTable.$convertertype);
   static const VerificationMeta _combatantsMeta =
       const VerificationMeta('combatants');
   @override
-  late final GeneratedColumnWithTypeConverter<Combatant, String> combatants =
-      GeneratedColumn<String>('combatants', aliasedName, false,
+  late final GeneratedColumnWithTypeConverter<List<Combatant>, String>
+      combatants = GeneratedColumn<String>('combatants', aliasedName, false,
               type: DriftSqlType.string, requiredDuringInsert: true)
-          .withConverter<Combatant>($EncounterTableTable.$convertercombatants);
+          .withConverter<List<Combatant>>(
+              $EncounterTableTable.$convertercombatants);
   static const VerificationMeta _engineMeta = const VerificationMeta('engine');
   @override
   late final GeneratedColumn<int> engine = GeneratedColumn<int>(
       'engine', aliasedName, false,
       type: DriftSqlType.int, requiredDuringInsert: true);
   @override
-  List<GeneratedColumn> get $columns => [id, name, round, combatants, engine];
+  List<GeneratedColumn> get $columns =>
+      [id, name, round, type, combatants, engine];
   @override
   String get aliasedName => _alias ?? actualTableName;
   @override
@@ -67,6 +75,7 @@ class $EncounterTableTable extends EncounterTable
     } else if (isInserting) {
       context.missing(_roundMeta);
     }
+    context.handle(_typeMeta, const VerificationResult.success());
     context.handle(_combatantsMeta, const VerificationResult.success());
     if (data.containsKey('engine')) {
       context.handle(_engineMeta,
@@ -89,6 +98,9 @@ class $EncounterTableTable extends EncounterTable
           .read(DriftSqlType.string, data['${effectivePrefix}name'])!,
       round: attachedDatabase.typeMapping
           .read(DriftSqlType.int, data['${effectivePrefix}round'])!,
+      type: $EncounterTableTable.$convertertype.fromSql(attachedDatabase
+          .typeMapping
+          .read(DriftSqlType.int, data['${effectivePrefix}type'])!),
       combatants: $EncounterTableTable.$convertercombatants.fromSql(
           attachedDatabase.typeMapping.read(
               DriftSqlType.string, data['${effectivePrefix}combatants'])!),
@@ -102,8 +114,10 @@ class $EncounterTableTable extends EncounterTable
     return $EncounterTableTable(attachedDatabase, alias);
   }
 
-  static JsonTypeConverter2<Combatant, String, String> $convertercombatants =
-      const CombatantConverter();
+  static JsonTypeConverter2<EncounterType, int, int> $convertertype =
+      const EnumIndexConverter<EncounterType>(EncounterType.values);
+  static JsonTypeConverter2<List<Combatant>, String, String>
+      $convertercombatants = const CombatantsConverter();
 }
 
 class EncounterTableData extends DataClass
@@ -111,12 +125,14 @@ class EncounterTableData extends DataClass
   final int id;
   final String name;
   final int round;
-  final Combatant combatants;
+  final EncounterType type;
+  final List<Combatant> combatants;
   final int engine;
   const EncounterTableData(
       {required this.id,
       required this.name,
       required this.round,
+      required this.type,
       required this.combatants,
       required this.engine});
   @override
@@ -125,6 +141,10 @@ class EncounterTableData extends DataClass
     map['id'] = Variable<int>(id);
     map['name'] = Variable<String>(name);
     map['round'] = Variable<int>(round);
+    {
+      map['type'] =
+          Variable<int>($EncounterTableTable.$convertertype.toSql(type));
+    }
     {
       map['combatants'] = Variable<String>(
           $EncounterTableTable.$convertercombatants.toSql(combatants));
@@ -138,6 +158,7 @@ class EncounterTableData extends DataClass
       id: Value(id),
       name: Value(name),
       round: Value(round),
+      type: Value(type),
       combatants: Value(combatants),
       engine: Value(engine),
     );
@@ -150,6 +171,8 @@ class EncounterTableData extends DataClass
       id: serializer.fromJson<int>(json['id']),
       name: serializer.fromJson<String>(json['name']),
       round: serializer.fromJson<int>(json['round']),
+      type: $EncounterTableTable.$convertertype
+          .fromJson(serializer.fromJson<int>(json['type'])),
       combatants: $EncounterTableTable.$convertercombatants
           .fromJson(serializer.fromJson<String>(json['combatants'])),
       engine: serializer.fromJson<int>(json['engine']),
@@ -162,6 +185,8 @@ class EncounterTableData extends DataClass
       'id': serializer.toJson<int>(id),
       'name': serializer.toJson<String>(name),
       'round': serializer.toJson<int>(round),
+      'type': serializer
+          .toJson<int>($EncounterTableTable.$convertertype.toJson(type)),
       'combatants': serializer.toJson<String>(
           $EncounterTableTable.$convertercombatants.toJson(combatants)),
       'engine': serializer.toJson<int>(engine),
@@ -172,12 +197,14 @@ class EncounterTableData extends DataClass
           {int? id,
           String? name,
           int? round,
-          Combatant? combatants,
+          EncounterType? type,
+          List<Combatant>? combatants,
           int? engine}) =>
       EncounterTableData(
         id: id ?? this.id,
         name: name ?? this.name,
         round: round ?? this.round,
+        type: type ?? this.type,
         combatants: combatants ?? this.combatants,
         engine: engine ?? this.engine,
       );
@@ -186,6 +213,7 @@ class EncounterTableData extends DataClass
       id: data.id.present ? data.id.value : this.id,
       name: data.name.present ? data.name.value : this.name,
       round: data.round.present ? data.round.value : this.round,
+      type: data.type.present ? data.type.value : this.type,
       combatants:
           data.combatants.present ? data.combatants.value : this.combatants,
       engine: data.engine.present ? data.engine.value : this.engine,
@@ -198,6 +226,7 @@ class EncounterTableData extends DataClass
           ..write('id: $id, ')
           ..write('name: $name, ')
           ..write('round: $round, ')
+          ..write('type: $type, ')
           ..write('combatants: $combatants, ')
           ..write('engine: $engine')
           ..write(')'))
@@ -205,7 +234,7 @@ class EncounterTableData extends DataClass
   }
 
   @override
-  int get hashCode => Object.hash(id, name, round, combatants, engine);
+  int get hashCode => Object.hash(id, name, round, type, combatants, engine);
   @override
   bool operator ==(Object other) =>
       identical(this, other) ||
@@ -213,6 +242,7 @@ class EncounterTableData extends DataClass
           other.id == this.id &&
           other.name == this.name &&
           other.round == this.round &&
+          other.type == this.type &&
           other.combatants == this.combatants &&
           other.engine == this.engine);
 }
@@ -221,12 +251,14 @@ class EncounterTableCompanion extends UpdateCompanion<EncounterTableData> {
   final Value<int> id;
   final Value<String> name;
   final Value<int> round;
-  final Value<Combatant> combatants;
+  final Value<EncounterType> type;
+  final Value<List<Combatant>> combatants;
   final Value<int> engine;
   const EncounterTableCompanion({
     this.id = const Value.absent(),
     this.name = const Value.absent(),
     this.round = const Value.absent(),
+    this.type = const Value.absent(),
     this.combatants = const Value.absent(),
     this.engine = const Value.absent(),
   });
@@ -234,16 +266,19 @@ class EncounterTableCompanion extends UpdateCompanion<EncounterTableData> {
     this.id = const Value.absent(),
     required String name,
     required int round,
-    required Combatant combatants,
+    required EncounterType type,
+    required List<Combatant> combatants,
     required int engine,
   })  : name = Value(name),
         round = Value(round),
+        type = Value(type),
         combatants = Value(combatants),
         engine = Value(engine);
   static Insertable<EncounterTableData> custom({
     Expression<int>? id,
     Expression<String>? name,
     Expression<int>? round,
+    Expression<int>? type,
     Expression<String>? combatants,
     Expression<int>? engine,
   }) {
@@ -251,6 +286,7 @@ class EncounterTableCompanion extends UpdateCompanion<EncounterTableData> {
       if (id != null) 'id': id,
       if (name != null) 'name': name,
       if (round != null) 'round': round,
+      if (type != null) 'type': type,
       if (combatants != null) 'combatants': combatants,
       if (engine != null) 'engine': engine,
     });
@@ -260,12 +296,14 @@ class EncounterTableCompanion extends UpdateCompanion<EncounterTableData> {
       {Value<int>? id,
       Value<String>? name,
       Value<int>? round,
-      Value<Combatant>? combatants,
+      Value<EncounterType>? type,
+      Value<List<Combatant>>? combatants,
       Value<int>? engine}) {
     return EncounterTableCompanion(
       id: id ?? this.id,
       name: name ?? this.name,
       round: round ?? this.round,
+      type: type ?? this.type,
       combatants: combatants ?? this.combatants,
       engine: engine ?? this.engine,
     );
@@ -283,6 +321,10 @@ class EncounterTableCompanion extends UpdateCompanion<EncounterTableData> {
     if (round.present) {
       map['round'] = Variable<int>(round.value);
     }
+    if (type.present) {
+      map['type'] =
+          Variable<int>($EncounterTableTable.$convertertype.toSql(type.value));
+    }
     if (combatants.present) {
       map['combatants'] = Variable<String>(
           $EncounterTableTable.$convertercombatants.toSql(combatants.value));
@@ -299,6 +341,7 @@ class EncounterTableCompanion extends UpdateCompanion<EncounterTableData> {
           ..write('id: $id, ')
           ..write('name: $name, ')
           ..write('round: $round, ')
+          ..write('type: $type, ')
           ..write('combatants: $combatants, ')
           ..write('engine: $engine')
           ..write(')'))
@@ -322,7 +365,8 @@ typedef $$EncounterTableTableCreateCompanionBuilder = EncounterTableCompanion
   Value<int> id,
   required String name,
   required int round,
-  required Combatant combatants,
+  required EncounterType type,
+  required List<Combatant> combatants,
   required int engine,
 });
 typedef $$EncounterTableTableUpdateCompanionBuilder = EncounterTableCompanion
@@ -330,7 +374,8 @@ typedef $$EncounterTableTableUpdateCompanionBuilder = EncounterTableCompanion
   Value<int> id,
   Value<String> name,
   Value<int> round,
-  Value<Combatant> combatants,
+  Value<EncounterType> type,
+  Value<List<Combatant>> combatants,
   Value<int> engine,
 });
 
@@ -352,8 +397,13 @@ class $$EncounterTableTableFilterComposer
   ColumnFilters<int> get round => $composableBuilder(
       column: $table.round, builder: (column) => ColumnFilters(column));
 
-  ColumnWithTypeConverterFilters<Combatant, Combatant, String> get combatants =>
+  ColumnWithTypeConverterFilters<EncounterType, EncounterType, int> get type =>
       $composableBuilder(
+          column: $table.type,
+          builder: (column) => ColumnWithTypeConverterFilters(column));
+
+  ColumnWithTypeConverterFilters<List<Combatant>, List<Combatant>, String>
+      get combatants => $composableBuilder(
           column: $table.combatants,
           builder: (column) => ColumnWithTypeConverterFilters(column));
 
@@ -378,6 +428,9 @@ class $$EncounterTableTableOrderingComposer
 
   ColumnOrderings<int> get round => $composableBuilder(
       column: $table.round, builder: (column) => ColumnOrderings(column));
+
+  ColumnOrderings<int> get type => $composableBuilder(
+      column: $table.type, builder: (column) => ColumnOrderings(column));
 
   ColumnOrderings<String> get combatants => $composableBuilder(
       column: $table.combatants, builder: (column) => ColumnOrderings(column));
@@ -404,7 +457,10 @@ class $$EncounterTableTableAnnotationComposer
   GeneratedColumn<int> get round =>
       $composableBuilder(column: $table.round, builder: (column) => column);
 
-  GeneratedColumnWithTypeConverter<Combatant, String> get combatants =>
+  GeneratedColumnWithTypeConverter<EncounterType, int> get type =>
+      $composableBuilder(column: $table.type, builder: (column) => column);
+
+  GeneratedColumnWithTypeConverter<List<Combatant>, String> get combatants =>
       $composableBuilder(
           column: $table.combatants, builder: (column) => column);
 
@@ -442,13 +498,15 @@ class $$EncounterTableTableTableManager extends RootTableManager<
             Value<int> id = const Value.absent(),
             Value<String> name = const Value.absent(),
             Value<int> round = const Value.absent(),
-            Value<Combatant> combatants = const Value.absent(),
+            Value<EncounterType> type = const Value.absent(),
+            Value<List<Combatant>> combatants = const Value.absent(),
             Value<int> engine = const Value.absent(),
           }) =>
               EncounterTableCompanion(
             id: id,
             name: name,
             round: round,
+            type: type,
             combatants: combatants,
             engine: engine,
           ),
@@ -456,13 +514,15 @@ class $$EncounterTableTableTableManager extends RootTableManager<
             Value<int> id = const Value.absent(),
             required String name,
             required int round,
-            required Combatant combatants,
+            required EncounterType type,
+            required List<Combatant> combatants,
             required int engine,
           }) =>
               EncounterTableCompanion.insert(
             id: id,
             name: name,
             round: round,
+            type: type,
             combatants: combatants,
             engine: engine,
           ),

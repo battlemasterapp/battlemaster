@@ -1,10 +1,10 @@
+import 'package:battlemaster/features/encounters/models/encounter_type.dart';
 import 'package:battlemaster/features/main_page/navigation_page.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:icons_plus/icons_plus.dart';
 
-import '../combats/combats_page.dart';
-import '../groups/groups_page.dart';
+import '../encounters/encounters_page.dart';
 import '../settings/settings_page.dart';
 import '../widgets/main_drawer.dart';
 
@@ -22,12 +22,12 @@ class _MainPageState extends State<MainPage> {
   Widget build(BuildContext context) {
     final pages = {
       "combats": NavigationPage(
-        page: CombatsPage(),
+        page: CombatsPage(type: EncounterType.encounter),
         title: AppLocalizations.of(context)!.combats_page_title,
         icon: LineAwesome.dragon_solid,
       ),
       "groups": NavigationPage(
-        page: GroupsPage(),
+        page: CombatsPage(type: EncounterType.group),
         title: AppLocalizations.of(context)!.groups_page_title,
         icon: LineAwesome.users_solid,
       ),
@@ -57,35 +57,38 @@ class _MainPageState extends State<MainPage> {
                   },
                 )
               : null,
-          body: Row(
-            children: [
-              if (orientation == Orientation.landscape)
-                Row(
-                  mainAxisSize: MainAxisSize.min,
-                  children: [
-                    NavigationRail(
-                      selectedIndex: pages.keys.toList().indexOf(_selectedPage),
-                      onDestinationSelected: (index) {
-                        setState(() {
-                          _selectedPage = pages.keys.toList()[index];
-                        });
-                      },
-                      labelType: NavigationRailLabelType.selected,
-                      destinations: [
-                        for (final page in pages.entries)
-                          NavigationRailDestination(
-                            icon: Icon(page.value.icon),
-                            label: Text(page.value.title),
-                          ),
-                      ],
-                    ),
-                    const VerticalDivider(thickness: 1, width: 1),
-                  ],
+          body: SafeArea(
+            child: Row(
+              children: [
+                if (orientation == Orientation.landscape)
+                  Row(
+                    mainAxisSize: MainAxisSize.min,
+                    children: [
+                      NavigationRail(
+                        selectedIndex:
+                            pages.keys.toList().indexOf(_selectedPage),
+                        onDestinationSelected: (index) {
+                          setState(() {
+                            _selectedPage = pages.keys.toList()[index];
+                          });
+                        },
+                        labelType: NavigationRailLabelType.selected,
+                        destinations: [
+                          for (final page in pages.entries)
+                            NavigationRailDestination(
+                              icon: Icon(page.value.icon),
+                              label: Text(page.value.title),
+                            ),
+                        ],
+                      ),
+                      const VerticalDivider(thickness: 1, width: 1),
+                    ],
+                  ),
+                Expanded(
+                  child: pages[_selectedPage]!.page,
                 ),
-              Expanded(
-                child: pages[_selectedPage]!.page,
-              ),
-            ],
+              ],
+            ),
           ),
         );
       },
