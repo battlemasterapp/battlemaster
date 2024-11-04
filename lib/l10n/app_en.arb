@@ -121,5 +121,33 @@
   "empty_combatants_list": "There's no combatants here. Try adding some!",
   "@empty_combatants_list": {
     "description": "The message to show when there are no combatants."
+  },
+  "encounter_settings_title": "Encounter Settings",
+  "@encounter_settings_title": {
+    "description": "The title of the encounter settings section."
+  },
+  "encounter_settings_description": "Settings for the encounter tracker",
+  "@encounter_settings_description": {
+    "description": "The description of the encounter settings section."
+  },
+  "initiative_roll_title": "Initiative Roll",
+  "@initiative_roll_title": {
+    "description": "The title of the initiative roll section."
+  },
+  "initiative_roll_description": "Select how the system rolls initiative: manual, monsters only, or all entries.",
+  "@initiative_roll_description": {
+    "description": "The description of the initiative roll section."
+  },
+  "initiative_roll_type_manual": "Manual",
+  "@initiative_roll_type_manual": {
+    "description": "The type of initiative roll: Manual."
+  },
+  "initiative_roll_type_monstersOnly": "Monsters only",
+  "@initiative_roll_type_monstersOnly": {
+    "description": "The type of initiative roll: Monsters only."
+  },
+  "initiative_roll_type_all": "All",
+  "@initiative_roll_type_all": {
+    "description": "The type of initiative roll: All."
   }
 }
