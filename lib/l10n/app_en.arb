@@ -117,5 +117,9 @@
   "initiative_modifier_label": "Initiative Modifier",
   "@initiative_modifier_label": {
     "description": "The label of the initiative modifier input."
+  },
+  "empty_combatants_list": "There's no combatants here. Try adding some!",
+  "@empty_combatants_list": {
+    "description": "The message to show when there are no combatants."
   }
 }

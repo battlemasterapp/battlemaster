@@ -32,7 +32,21 @@ class EncountersProvider extends ChangeNotifier {
   }
 
   Future<void> addCombatants(
-      Encounter encounter, List<Combatant> combatants) async {
+    Encounter encounter,
+    Map<Combatant, int> combatantsMap,
+  ) async {
+    if (combatantsMap.isEmpty) {
+      return;
+    }
+    final combatants = combatantsMap.entries.fold<List<Combatant>>(
+      [],
+      (combatants, mapEntry) {
+        return [
+          ...combatants,
+          ...List.generate(mapEntry.value, (index) => mapEntry.key),
+        ];
+      },
+    );
     final updated = encounter.copyWith(
       combatants: [...encounter.combatants, ...combatants],
     );

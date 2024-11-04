@@ -27,5 +27,6 @@
   "name_validation_text": "O nome é obrigatório",
   "hp_label": "Pontos de Vida (PV)",
   "ac_label": "Classe de Armadura (CA)",
-  "initiative_modifier_label": "Modificador de Iniciativa"
+  "initiative_modifier_label": "Modificador de Iniciativa",
+  "empty_combatants_list": "Não há combatentes aqui. Tente adicionar alguns!"
 }

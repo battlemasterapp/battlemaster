@@ -55,10 +55,10 @@ class EncounterTrackerPage extends StatelessWidget {
                               .read<EncountersProvider>()
                               .editEncounterName(encounter, title);
                         },
-                        onCombatantsAdded: (combatants) async {
+                        onCombatantsAdded: (combatantsMap) async {
                           await context
                               .read<EncountersProvider>()
-                              .addCombatants(encounter, combatants);
+                              .addCombatants(encounter, combatantsMap);
                         },
                       ),
                       Expanded(

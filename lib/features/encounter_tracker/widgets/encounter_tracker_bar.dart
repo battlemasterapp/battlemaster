@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
+import '../../../flavors/pf2e/pf2e_theme.dart';
 import '../../combatant/models/combatant.dart';
 import '../providers/encounter_tracker_notifier.dart';
 
@@ -10,11 +11,13 @@ class TrackerBar extends StatelessWidget {
     required this.title,
     this.onCombatantsAdded,
     this.onTitleChanged,
+    this.displayControls = true,
   });
 
-  final ValueChanged<List<Combatant>>? onCombatantsAdded;
+  final ValueChanged<Map<Combatant, int>>? onCombatantsAdded;
   final String title;
   final ValueChanged<String>? onTitleChanged;
+  final bool displayControls;
 
   @override
   Widget build(BuildContext context) {
@@ -24,15 +27,16 @@ class TrackerBar extends StatelessWidget {
       padding: const EdgeInsets.all(8),
       child: Row(
         children: [
-          IconButton.outlined(
-            onPressed: () {
-              trackerState.playStop();
-            },
-            icon: Icon(
-              trackerState.isPlaying ? Icons.stop : Icons.play_arrow,
-              color: Colors.white,
+          if (displayControls)
+            IconButton.outlined(
+              onPressed: () {
+                trackerState.playStop();
+              },
+              icon: Icon(
+                trackerState.isPlaying ? Icons.stop : Icons.play_arrow,
+                color: Colors.white,
+              ),
             ),
-          ),
           const Spacer(),
           _TrackerTitle(
             title: title,
@@ -54,17 +58,7 @@ class TrackerBar extends StatelessWidget {
               }
 
               onCombatantsAdded?.call(
-                (combatantsMap as Map<Combatant, int>)
-                    .entries
-                    .fold<List<Combatant>>(
-                  [],
-                  (combatants, mapEntry) {
-                    return [
-                      ...combatants,
-                      ...List.generate(mapEntry.value, (index) => mapEntry.key),
-                    ];
-                  },
-                ),
+                combatantsMap as Map<Combatant, int>,
               );
             },
             icon: Icon(Icons.add),
@@ -102,53 +96,65 @@ class _TrackerTitleState extends State<_TrackerTitle> {
   @override
   Widget build(BuildContext context) {
     if (_isEditing) {
-      return Expanded(
-        child: Row(
-          mainAxisSize: MainAxisSize.max,
-          children: [
-            Expanded(
-              child: TextField(
-                decoration: InputDecoration(
-                  border: UnderlineInputBorder(),
+      return Theme(
+        data: pf2eDarkTheme,
+        child: Expanded(
+          child: Row(
+            mainAxisSize: MainAxisSize.max,
+            children: [
+              Expanded(
+                child: TextField(
+                  decoration: InputDecoration(
+                    border: UnderlineInputBorder(),
+                  ),
+                  controller: _controller,
+                  onSubmitted: (value) {
+                    widget.onTitleChanged?.call(value);
+                    setState(() {
+                      _isEditing = false;
+                    });
+                  },
                 ),
-                controller: _controller,
-                onSubmitted: (value) {
-                  widget.onTitleChanged?.call(value);
+              ),
+              IconButton(
+                onPressed: () {
+                  widget.onTitleChanged?.call(_controller.text);
                   setState(() {
                     _isEditing = false;
                   });
                 },
-              ),
-            ),
-            IconButton(
-              onPressed: () {
-                widget.onTitleChanged?.call(_controller.text);
-                setState(() {
-                  _isEditing = false;
-                });
-              },
-              icon: Icon(Icons.check),
-            )
-          ],
+                icon: Icon(Icons.check),
+              )
+            ],
+          ),
         ),
       );
     }
 
-    return Row(
-      children: [
-        Text(
-          widget.title,
-          style: Theme.of(context).textTheme.headlineMedium,
-        ),
-        IconButton(
-          onPressed: () {
-            setState(() {
-              _isEditing = true;
-            });
-          },
-          icon: Icon(Icons.edit),
-        ),
-      ],
+    return Theme(
+      data: ThemeData.dark(),
+      child: Row(
+        children: [
+          Text(
+            widget.title,
+            style: Theme.of(context)
+                .textTheme
+                .headlineMedium
+                ?.copyWith(color: Colors.white),
+          ),
+          IconButton(
+            onPressed: () {
+              setState(() {
+                _isEditing = true;
+              });
+            },
+            icon: Icon(
+              Icons.edit,
+              color: Colors.white.withOpacity(.75),
+            ),
+          ),
+        ],
+      ),
     );
   }
 }
