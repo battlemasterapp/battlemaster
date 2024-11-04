@@ -38,6 +38,7 @@ class _AddCustomCombatantState extends State<AddCustomCombatant> {
             children: [
               Expanded(
                 child: TextFormField(
+                  keyboardType: TextInputType.name,
                   decoration: InputDecoration(
                       labelText: AppLocalizations.of(context)!.name_label),
                   onChanged: (value) {
@@ -54,6 +55,7 @@ class _AddCustomCombatantState extends State<AddCustomCombatant> {
               const SizedBox(width: 16),
               Expanded(
                 child: TextFormField(
+                  keyboardType: TextInputType.number,
                   onChanged: (value) {
                     final hp = int.tryParse(value);
                     combatant = combatant.copyWith(
@@ -72,6 +74,7 @@ class _AddCustomCombatantState extends State<AddCustomCombatant> {
             children: [
               Expanded(
                 child: TextFormField(
+                  keyboardType: TextInputType.number,
                   onChanged: (value) {
                     combatant =
                         combatant.copyWith(armorClass: int.tryParse(value));
@@ -83,6 +86,7 @@ class _AddCustomCombatantState extends State<AddCustomCombatant> {
               const SizedBox(width: 16),
               Expanded(
                 child: TextFormField(
+                  keyboardType: TextInputType.number,
                   onChanged: (value) {
                     combatant = combatant.copyWith(
                       initiativeModifier: int.tryParse(value),
