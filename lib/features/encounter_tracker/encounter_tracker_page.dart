@@ -1,5 +1,12 @@
+import 'package:battlemaster/features/encounter_tracker/widgets/combatant_tracker_list.dart';
+import 'package:battlemaster/features/encounter_tracker/widgets/encounter_tracker_controls.dart';
 import 'package:battlemaster/features/encounters/models/encounter.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
+
+import '../../database/database.dart';
+import 'providers/encounter_tracker_notifier.dart';
+import 'widgets/encounter_tracker_bar.dart';
 
 class EncounterTrackerParams {
   final Encounter encounter;
@@ -19,23 +26,38 @@ class EncounterTrackerPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final encounter = params.encounter;
-    return Scaffold(
-      appBar: AppBar(
-        title: Text(encounter.name),
+    return ChangeNotifierProvider(
+      create: (context) => EncounterTrackerNotifier(
+        database: context.read<AppDatabase>(),
+        encounterId: params.encounter.id,
       ),
-      body: SafeArea(
-        child: Column(
-          children: [
-            for (final combatant in encounter.combatants)
-              ListTile(
-                leading: Text(combatant.initiative.toString()),
-                title: Text(combatant.name),
-                trailing: Text("AC: ${combatant.armorClass}"),
-                subtitle: Text("${combatant.currentHp}/${combatant.maxHp}"),
-              ),
-          ],
-        ),
+      child: Builder(
+        builder: (context) {
+          return StreamBuilder<Encounter>(
+            stream: context.read<EncounterTrackerNotifier>().watchEncounter(),
+            builder: (context, snapshot) {
+              final encounter = snapshot.data ?? params.encounter;
+              return Scaffold(
+                appBar: AppBar(
+                  title: Text(encounter.name),
+                ),
+                body: SafeArea(
+                  child: Column(
+                    children: [
+                      const TrackerMasterBar(),
+                      Expanded(
+                        child: CombatantTrackerList(
+                          combatants: encounter.combatants,
+                        ),
+                      ),
+                      const EncounterTrackerControls(),
+                    ],
+                  ),
+                ),
+              );
+            },
+          );
+        },
       ),
     );
   }

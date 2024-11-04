@@ -43,7 +43,6 @@ class EncountersGrid extends StatelessWidget {
               // Fixme: hardcoded encounter
               final encounter = Encounter(
                 name: "New Encounter",
-                round: 0,
                 type: type,
                 combatants: [
                   Combatant(

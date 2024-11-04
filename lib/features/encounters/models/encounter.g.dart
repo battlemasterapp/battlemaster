@@ -15,13 +15,11 @@ Encounter _$EncounterFromJson(Map<String, dynamic> json) => Encounter(
       type: $enumDecodeNullable(_$EncounterTypeEnumMap, json['type']) ??
           EncounterType.encounter,
       id: (json['id'] as num?)?.toInt() ?? -1,
-      round: (json['round'] as num?)?.toInt() ?? 0,
     );
 
 Map<String, dynamic> _$EncounterToJson(Encounter instance) => <String, dynamic>{
       'id': instance.id,
       'name': instance.name,
-      'round': instance.round,
       'type': _$EncounterTypeEnumMap[instance.type]!,
       'combatants': instance.combatants.map((e) => e.toJson()).toList(),
       'engine': _$GameEngineTypeEnumMap[instance.engine]!,
