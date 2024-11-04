@@ -18,6 +18,9 @@ final pf2eLightTheme = ThemeData(
     backgroundColor: mainBlue,
     foregroundColor: Colors.white,
   ),
+  inputDecorationTheme: const InputDecorationTheme(
+    border: OutlineInputBorder(),
+  ),
 );
 
 final pf2eDarkTheme = ThemeData(
@@ -36,5 +39,8 @@ final pf2eDarkTheme = ThemeData(
   floatingActionButtonTheme: const FloatingActionButtonThemeData(
     backgroundColor: mainBlue,
     foregroundColor: Colors.white,
+  ),
+  inputDecorationTheme: const InputDecorationTheme(
+    border: OutlineInputBorder(),
   ),
 );

@@ -15,6 +15,7 @@ class Combatant extends Equatable {
   final int initiative;
   final int armorClass;
   final int initiativeModifier;
+  final int? level;
   final CombatantType type;
   final GameEngineType engineType;
 
@@ -34,12 +35,39 @@ class Combatant extends Equatable {
     required this.engineType,
     this.initiative = 0,
     this.combatantData,
+    this.level,
   });
 
   factory Combatant.fromJson(Map<String, dynamic> json) =>
       _$CombatantFromJson(json);
 
   Map<String, dynamic> toJson() => _$CombatantToJson(this);
+
+  Combatant copyWith({
+    String? name,
+    int? currentHp,
+    int? maxHp,
+    int? initiative,
+    int? armorClass,
+    int? initiativeModifier,
+    int? level,
+    CombatantType? type,
+    GameEngineType? engineType,
+    CombatantData? combatantData,
+  }) {
+    return Combatant(
+      name: name ?? this.name,
+      currentHp: currentHp ?? this.currentHp,
+      maxHp: maxHp ?? this.maxHp,
+      initiative: initiative ?? this.initiative,
+      armorClass: armorClass ?? this.armorClass,
+      initiativeModifier: initiativeModifier ?? this.initiativeModifier,
+      level: level ?? this.level,
+      type: type ?? this.type,
+      engineType: engineType ?? this.engineType,
+      combatantData: combatantData ?? this.combatantData,
+    );
+  }
 
   @override
   List<Object?> get props => [

@@ -1,6 +1,7 @@
 import 'package:battlemaster/features/encounter_tracker/widgets/combatant_tracker_list.dart';
 import 'package:battlemaster/features/encounter_tracker/widgets/encounter_tracker_controls.dart';
 import 'package:battlemaster/features/encounters/models/encounter.dart';
+import 'package:battlemaster/features/encounters/providers/encounters_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
@@ -45,7 +46,13 @@ class EncounterTrackerPage extends StatelessWidget {
                 body: SafeArea(
                   child: Column(
                     children: [
-                      const TrackerMasterBar(),
+                      TrackerBar(
+                        onCombatantsAdded: (combatants) async {
+                          await context
+                              .read<EncountersProvider>()
+                              .addCombatants(encounter, combatants);
+                        },
+                      ),
                       Expanded(
                         child: CombatantTrackerList(
                           combatants: encounter.combatants,
