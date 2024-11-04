@@ -33,7 +33,7 @@ class CombatsPage extends StatelessWidget {
               Expanded(
                 child: EncountersGrid(
                   encounters: encounters,
-                  type: EncounterType.encounter,
+                  type: type,
                 ),
               ),
             ],

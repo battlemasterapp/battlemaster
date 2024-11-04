@@ -27,5 +27,15 @@
   "delete_encounter": "Delete",
   "@delete_encounter": {
     "description": "Button to delete an encounter."
+  },
+  "round_counter": "Round {count}",
+  "@round_counter": {
+    "description": "The round counter.",
+    "placeholders": {
+      "count": {
+        "type": "int",
+        "example": "1"
+      }
+    }
   }
 }
