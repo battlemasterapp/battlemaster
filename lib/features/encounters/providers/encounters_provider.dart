@@ -2,6 +2,7 @@ import 'package:battlemaster/features/encounters/models/encounter_type.dart';
 import 'package:flutter/material.dart';
 
 import '../../../database/database.dart';
+import '../../combatant/models/combatant.dart';
 import '../models/encounter.dart';
 
 class EncountersProvider extends ChangeNotifier {
@@ -23,6 +24,14 @@ class EncountersProvider extends ChangeNotifier {
       type: encounter.type == EncounterType.encounter
           ? EncounterType.group
           : EncounterType.encounter,
+    );
+    await _database.updateEncounter(updated);
+    notifyListeners();
+  }
+
+  Future<void> addCombatants(Encounter encounter, List<Combatant> combatants) async {
+    final updated = encounter.copyWith(
+      combatants: [...encounter.combatants, ...combatants],
     );
     await _database.updateEncounter(updated);
     notifyListeners();

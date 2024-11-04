@@ -61,5 +61,13 @@
   "empty_groups_list": "No groups found",
   "@empty_groups_list": {
     "description": "The message to show when there are no groups."
+  },
+  "add_combatants_button": "Add",
+  "@add_combatants_button": {
+    "description": "The button to add combatants."
+  },
+  "cancel_button": "Cancel",
+  "@cancel_button": {
+    "description": "The button to cancel the action."
   }
 }

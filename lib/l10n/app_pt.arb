@@ -13,5 +13,7 @@
   "search_input": "Buscar",
   "groups_toggle_button": "Grupos",
   "custom_combatant_toggle_button": "Personalizado",
-  "empty_groups_list": "Nenhum grupo encontrado"
+  "empty_groups_list": "Nenhum grupo encontrado",
+  "add_combatants_button": "Adicionar",
+  "cancel_button": "Cancelar"
 }

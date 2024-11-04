@@ -43,7 +43,33 @@ class _AddCombatantPageState extends State<AddCombatantPage> {
             ),
             const VerticalDivider(),
             Expanded(
-              child: SelectedCombatants(combatants: _combatants),
+              child: Column(
+                children: [
+                  Expanded(child: SelectedCombatants(combatants: _combatants)),
+                  Row(
+                    children: [
+                      Spacer(),
+                      OutlinedButton(
+                        onPressed: () {
+                          Navigator.of(context).pop();
+                        },
+                        child:
+                            Text(AppLocalizations.of(context)!.cancel_button),
+                      ),
+                      const SizedBox(width: 16),
+                      ElevatedButton(
+                        onPressed: () {
+                          Navigator.of(context).pop(_combatants);
+                        },
+                        child: Text(AppLocalizations.of(context)!
+                            .add_combatants_button),
+                      ),
+                      const SizedBox(width: 8),
+                    ],
+                  ),
+                  const SizedBox(height: 8),
+                ],
+              ),
             ),
           ],
         ),
@@ -87,8 +113,8 @@ class _AddCombatantState extends State<_AddCombatant> {
               ),
               ButtonSegment(
                 value: _AddCombatantSource.custom,
-                label: Text(
-                    AppLocalizations.of(context)!.custom_combatant_toggle_button),
+                label: Text(AppLocalizations.of(context)!
+                    .custom_combatant_toggle_button),
                 icon: Icon(LineAwesome.edit_solid),
               ),
             ],
