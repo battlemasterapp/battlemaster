@@ -23,6 +23,22 @@ class TrackerMasterBar extends StatelessWidget {
               color: Colors.white,
             ),
           ),
+          const Spacer(),
+          IconButton.filled(
+            style: IconButton.styleFrom(
+              backgroundColor: Theme.of(context).colorScheme.secondary,
+            ),
+            color: Colors.white,
+            onPressed: () async {
+              final combatants =
+                  await Navigator.of(context).pushNamed("/combatant/add");
+
+              if (combatants == null) {
+                return;
+              }
+            },
+            icon: Icon(Icons.add),
+          ),
         ],
       ),
     );

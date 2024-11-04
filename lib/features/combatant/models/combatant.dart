@@ -15,6 +15,7 @@ class Combatant extends Equatable {
   final int initiative;
   final int armorClass;
   final int initiativeModifier;
+  final int? level;
   final CombatantType type;
   final GameEngineType engineType;
 
@@ -34,6 +35,7 @@ class Combatant extends Equatable {
     required this.engineType,
     this.initiative = 0,
     this.combatantData,
+    this.level,
   });
 
   factory Combatant.fromJson(Map<String, dynamic> json) =>

@@ -7,5 +7,11 @@
   "convert_to_group": "Converter para grupo",
   "convert_to_encounter": "Converter para combate",
   "delete_encounter": "Deletar",
-  "round_counter": "Rodada {count}"
+  "round_counter": "Rodada {count}",
+  "add_combatant_title": "Adicionar combatente",
+  "combatants_selected": "Combatentes selecionados",
+  "search_input": "Buscar",
+  "groups_toggle_button": "Grupos",
+  "custom_combatant_toggle_button": "Personalizado",
+  "empty_groups_list": "Nenhum grupo encontrado"
 }

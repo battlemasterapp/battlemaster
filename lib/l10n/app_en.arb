@@ -37,5 +37,29 @@
         "example": "1"
       }
     }
+  },
+  "add_combatant_title": "Add combatant",
+  "@add_combatant_title": {
+    "description": "The title of the dialog to add a combatant."
+  },
+  "combatants_selected": "Combatants selected",
+  "@combatants_selected": {
+    "description": "The number of combatants selected."
+  },
+  "search_input": "Search",
+  "@search_input": {
+    "description": "The label of the search input."
+  },
+  "groups_toggle_button": "Groups",
+  "@groups_toggle_button": {
+    "description": "The button to toggle the groups view."
+  },
+  "custom_combatant_toggle_button": "Custom",
+  "@custom_combatant_toggle_button": {
+    "description": "The button to toggle the custom combatant view."
+  },
+  "empty_groups_list": "No groups found",
+  "@empty_groups_list": {
+    "description": "The message to show when there are no groups."
   }
 }

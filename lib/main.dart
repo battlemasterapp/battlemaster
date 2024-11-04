@@ -1,10 +1,11 @@
 import 'package:battlemaster/database/database.dart';
-import 'package:battlemaster/features/encounters/providers/encounters_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:provider/provider.dart';
 
+import 'features/combatant/add_combatant_page.dart';
 import 'features/encounter_tracker/encounter_tracker_page.dart';
+import 'features/encounters/providers/encounters_provider.dart';
 import 'features/groups/group_detail_page.dart';
 import 'features/main_page/main_page.dart';
 import 'flavors/pf2e/pf2e_theme.dart';
@@ -48,6 +49,7 @@ class BattlemasterApp extends StatelessWidget {
                 params: ModalRoute.of(context)!.settings.arguments
                     as GroupDetailPageParams,
               ),
+          "/combatant/add": (context) => const AddCombatantPage(),
         },
         initialRoute: "/",
       ),
