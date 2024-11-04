@@ -15,5 +15,16 @@
   "custom_combatant_toggle_button": "Personalizado",
   "empty_groups_list": "Nenhum grupo encontrado",
   "add_combatants_button": "Adicionar",
-  "cancel_button": "Cancelar"
+  "cancel_button": "Cancelar",
+  "save_button": "Salvar",
+  "combatant_type_player": "Jogador/Aliado",
+  "combatant_type_monster": "Inimigo",
+  "combatant_type_hazard": "Armadilha",
+  "combatant_type_lair": "Lair",
+  "combatant_type_dropdown_label": "Tipo",
+  "name_label": "Nome",
+  "name_validation_text": "O nome é obrigatório",
+  "hp_label": "Pontos de Vida (PV)",
+  "ac_label": "Classe de Armadura (CA)",
+  "initiative_modifier_label": "Modificador de Iniciativa"
 }

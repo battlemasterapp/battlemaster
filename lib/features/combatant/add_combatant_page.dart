@@ -149,7 +149,11 @@ class _AddCombatantState extends State<_AddCombatant> {
         },
       );
     } else {
-      return AddCustomCombatant();
+      return AddCustomCombatant(
+        onCombatantAdded: (combatant) {
+          widget.onCombatantsAdded({combatant: 1});
+        },
+      );
     }
   }
 }
