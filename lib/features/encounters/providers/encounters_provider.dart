@@ -15,7 +15,6 @@ class EncountersProvider extends ChangeNotifier {
 
   Future<Encounter> addEncounter(Encounter encounter) async {
     final created = await _database.insertEncounter(encounter);
-    notifyListeners();
     return created;
   }
 
@@ -26,7 +25,10 @@ class EncountersProvider extends ChangeNotifier {
           : EncounterType.encounter,
     );
     await _database.updateEncounter(updated);
-    notifyListeners();
+  }
+
+  Future<void> editEncounterName(Encounter encounter, String name) async {
+    await _database.updateEncounter(encounter.copyWith(name: name));
   }
 
   Future<void> addCombatants(
@@ -35,13 +37,11 @@ class EncountersProvider extends ChangeNotifier {
       combatants: [...encounter.combatants, ...combatants],
     );
     await _database.updateEncounter(updated);
-    notifyListeners();
   }
 
   Future<void> removeEncounter(Encounter encounter) async {
     await (_database.delete(_database.encounterTable)
           ..where((e) => e.id.equals(encounter.id)))
         .go();
-    notifyListeners();
   }
 }

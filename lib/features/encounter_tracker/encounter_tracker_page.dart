@@ -3,6 +3,7 @@ import 'package:battlemaster/features/encounter_tracker/widgets/encounter_tracke
 import 'package:battlemaster/features/encounters/models/encounter.dart';
 import 'package:battlemaster/features/encounters/providers/encounters_provider.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:provider/provider.dart';
 
 import '../../database/database.dart';
@@ -41,12 +42,19 @@ class EncounterTrackerPage extends StatelessWidget {
               final encounter = snapshot.data ?? params.encounter;
               return Scaffold(
                 appBar: AppBar(
-                  title: Text(encounter.name),
+                  title: Text(AppLocalizations.of(context)!
+                      .encounter_tracker_page_title),
                 ),
                 body: SafeArea(
                   child: Column(
                     children: [
                       TrackerBar(
+                        title: encounter.name,
+                        onTitleChanged: (title) async {
+                          await context
+                              .read<EncountersProvider>()
+                              .editEncounterName(encounter, title);
+                        },
                         onCombatantsAdded: (combatants) async {
                           await context
                               .read<EncountersProvider>()

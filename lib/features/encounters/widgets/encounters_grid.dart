@@ -1,6 +1,7 @@
 import 'package:battlemaster/features/encounter_tracker/encounter_tracker_page.dart';
 import 'package:battlemaster/features/encounters/providers/encounters_provider.dart';
 import 'package:battlemaster/features/engines/models/game_engine_type.dart';
+import 'package:battlemaster/features/groups/group_detail_page.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:provider/provider.dart';
@@ -44,37 +45,25 @@ class EncountersGrid extends StatelessWidget {
               final encounter = Encounter(
                 name: "New Encounter",
                 type: type,
-                combatants: [
-                  Combatant(
-                    name: "Goblin",
-                    initiative: 15,
-                    currentHp: 6,
-                    maxHp: 6,
-                    armorClass: 15,
-                    initiativeModifier: 0,
-                    type: CombatantType.monster,
-                    engineType: GameEngineType.pf2e,
-                  ),
-                  Combatant(
-                    name: "Player",
-                    initiative: 10,
-                    currentHp: 10,
-                    maxHp: 10,
-                    armorClass: 10,
-                    initiativeModifier: 0,
-                    type: CombatantType.player,
-                    engineType: GameEngineType.pf2e,
-                  ),
-                ],
+                combatants: [],
                 engine: GameEngineType.pf2e,
               );
               final created = await context
                   .read<EncountersProvider>()
                   .addEncounter(encounter);
+
+              if (type == EncounterType.encounter) {
+                // ignore: use_build_context_synchronously
+                Navigator.of(context).pushNamed(
+                  "/encounter",
+                  arguments: EncounterTrackerParams(encounter: created),
+                );
+                return;
+              }
               // ignore: use_build_context_synchronously
               Navigator.of(context).pushNamed(
-                "/encounter",
-                arguments: EncounterTrackerParams(encounter: created),
+                "/group",
+                arguments: GroupDetailPageParams(encounter: created),
               );
             },
             style: ElevatedButton.styleFrom(

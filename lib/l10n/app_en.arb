@@ -4,6 +4,10 @@
   "@combats_page_title": {
     "description": "The page where you can see the encounters."
   },
+  "encounter_tracker_page_title": "Encounter Tracker",
+  "@encounter_tracker_page_title": {
+    "description": "The page where you can see the encounter tracker."
+  },
   "groups_page_title": "Groups",
   "@groups_page_title": {
     "description": "The page where you can see the groups."
