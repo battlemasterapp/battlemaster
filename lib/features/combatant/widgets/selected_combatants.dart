@@ -26,7 +26,7 @@ class SelectedCombatants extends StatelessWidget {
             itemBuilder: (context, index) {
               final combatant = combatants.keys.elementAt(index);
               final count = combatants.values.elementAt(index);
-          
+
               return ListTile(
                 title: Text(combatant.name),
                 subtitle: Text(

@@ -29,7 +29,8 @@ class EncountersProvider extends ChangeNotifier {
     notifyListeners();
   }
 
-  Future<void> addCombatants(Encounter encounter, List<Combatant> combatants) async {
+  Future<void> addCombatants(
+      Encounter encounter, List<Combatant> combatants) async {
     final updated = encounter.copyWith(
       combatants: [...encounter.combatants, ...combatants],
     );
