@@ -33,8 +33,9 @@ class EncounterTrackerPage extends StatelessWidget {
       ),
       child: Builder(
         builder: (context) {
+          final trackerState = context.watch<EncounterTrackerNotifier>();
           return StreamBuilder<Encounter>(
-            stream: context.read<EncounterTrackerNotifier>().watchEncounter(),
+            stream: trackerState.watchEncounter(),
             builder: (context, snapshot) {
               final encounter = snapshot.data ?? params.encounter;
               return Scaffold(
@@ -48,6 +49,9 @@ class EncounterTrackerPage extends StatelessWidget {
                       Expanded(
                         child: CombatantTrackerList(
                           combatants: encounter.combatants,
+                          selectedCombatantIndex: trackerState.isPlaying
+                              ? trackerState.activeCombatantIndex
+                              : null,
                         ),
                       ),
                       const EncounterTrackerControls(),

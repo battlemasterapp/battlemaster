@@ -5,6 +5,7 @@ import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:provider/provider.dart';
 
 import 'features/encounter_tracker/encounter_tracker_page.dart';
+import 'features/groups/group_detail_page.dart';
 import 'features/main_page/main_page.dart';
 import 'flavors/pf2e/pf2e_theme.dart';
 
@@ -42,6 +43,10 @@ class BattlemasterApp extends StatelessWidget {
           "/encounter": (context) => EncounterTrackerPage(
                 params: ModalRoute.of(context)!.settings.arguments
                     as EncounterTrackerParams,
+              ),
+          "/group": (context) => GroupDetailPage(
+                params: ModalRoute.of(context)!.settings.arguments
+                    as GroupDetailPageParams,
               ),
         },
         initialRoute: "/",

@@ -23,6 +23,10 @@ class Encounter extends Equatable {
     this.id = -1,
   });
 
+  bool get isEncounter => type == EncounterType.encounter;
+
+  bool get isGroup => type == EncounterType.group;
+
   Encounter copyWith({
     int? id,
     String? name,

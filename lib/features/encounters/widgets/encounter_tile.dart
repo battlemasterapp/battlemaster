@@ -1,8 +1,9 @@
 import 'package:auto_size_text/auto_size_text.dart';
-import 'package:battlemaster/features/encounter_tracker/encounter_tracker_page.dart';
 import 'package:flutter/material.dart';
 import 'package:icons_plus/icons_plus.dart';
 
+import '../../encounter_tracker/encounter_tracker_page.dart';
+import '../../groups/group_detail_page.dart';
 import '../models/encounter.dart';
 import 'encounter_tile_menu.dart';
 
@@ -28,9 +29,16 @@ class EncounterGridTile extends StatelessWidget {
         ),
         child: InkWell(
           onTap: () {
+            if (encounter.isEncounter) {
+              Navigator.of(context).pushNamed(
+                "/encounter",
+                arguments: EncounterTrackerParams(encounter: encounter),
+              );
+              return;
+            }
             Navigator.of(context).pushNamed(
-              "/encounter",
-              arguments: EncounterTrackerParams(encounter: encounter),
+              "/group",
+              arguments: GroupDetailPageParams(encounter: encounter),
             );
           },
           child: Column(
