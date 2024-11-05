@@ -1,0 +1,71 @@
+name: Minor release
+
+on:
+  workflow_dispatch:
+
+jobs:
+  build:
+    name: Minor release
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v4
+      
+      - name: Set Up Java
+        uses: actions/setup-java@v3.12.0
+        with:
+          distribution: 'oracle'
+          java-version: '17'
+          cache: 'gradle'
+
+      - name: Set Up Flutter
+        uses: subosito/flutter-action@v2
+        with:
+          flutter-version: '3.24.4'
+          channel: 'stable'
+          cache: true
+
+      - name: Install Dependencies
+        run: flutter pub get
+      
+      - name: Generate l10n
+        run: flutter gen-l10n
+
+      - name: Activate cider
+        run: flutter pub global activate cider
+
+      - name: Bump minor
+        run: cider bump minor
+
+      - name: Get version
+        id: get_version
+        run: |
+          version=$(cider version)
+          echo "VERSION=$version" >> $GITHUB_ENV
+
+      - name: Build APK
+        run: flutter build apk --release
+      
+      - name: Build WEB
+        run: flutter build web --release
+      
+      - name: Zip web
+        run: zip -r web-release.zip build/web
+
+      - name: Commit
+        uses: stefanzweifel/git-auto-commit-action@v5
+        with:
+          commit_message: "[no ci] Update release"
+
+      - name: Release
+        uses: softprops/action-gh-release@v2
+        with:
+          prerelease: true
+          name: v${{ env.VERSION }}
+          tag_name: v${{ env.VERSION }}
+          files: |
+            build/app/outputs/flutter-apk/app-release.apk
+            web-release.zip
