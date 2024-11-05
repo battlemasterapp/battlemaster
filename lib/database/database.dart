@@ -2,6 +2,7 @@ import 'package:battlemaster/features/encounters/models/encounter.dart';
 import 'package:battlemaster/features/engines/models/game_engine_type.dart';
 import 'package:drift/drift.dart';
 import 'package:drift_flutter/drift_flutter.dart';
+import 'package:flutter/foundation.dart';
 
 import '../features/combatant/data/combatant_converter.dart';
 import '../features/combatant/models/combatant.dart';
@@ -19,16 +20,25 @@ class EncounterTable extends Table {
 
 @DriftDatabase(tables: [EncounterTable])
 class AppDatabase extends _$AppDatabase {
-  AppDatabase() : super(_openConnection());
+  AppDatabase()
+      : super(
+          driftDatabase(
+            name: 'battlemaster',
+            web: DriftWebOptions(
+                sqlite3Wasm: Uri.parse('sqlite3.wasm'),
+                driftWorker: Uri.parse('drift_worker.js'),
+                onResult: (result) {
+                  if (result.missingFeatures.isNotEmpty) {
+                    debugPrint(
+                        'Using ${result.chosenImplementation} due to unsupported '
+                        'browser features: ${result.missingFeatures}');
+                  }
+                }),
+          ),
+        );
 
   @override
   int get schemaVersion => 1;
-
-  static QueryExecutor _openConnection() {
-    // driftDatabase from package:drift_flutter stores the database in
-    // getApplicationDocumentsDirectory().
-    return driftDatabase(name: 'battlemaster');
-  }
 
   Stream<List<Encounter>> watchEncounters(EncounterType type) {
     return (select(encounterTable)..where((e) => e.type.equals(type.index)))
