@@ -33,7 +33,7 @@ class _InitiativeDialogState extends State<InitiativeDialog> {
               labelText: AppLocalizations.of(context)!.initiative_input_label,
             ),
             onSubmitted: (value) {
-              Navigator.of(context).pop(int.tryParse(value));
+              Navigator.of(context).pop(double.tryParse(value));
             },
           ),
         ],
@@ -47,7 +47,7 @@ class _InitiativeDialogState extends State<InitiativeDialog> {
         ),
         ElevatedButton(
           onPressed: () {
-            Navigator.of(context).pop(int.tryParse(_controller.text));
+            Navigator.of(context).pop(double.tryParse(_controller.text));
           },
           child: Text(AppLocalizations.of(context)!.save_button),
         ),

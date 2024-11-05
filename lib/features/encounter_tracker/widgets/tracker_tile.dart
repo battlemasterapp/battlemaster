@@ -15,7 +15,7 @@ class TrackerTile extends StatelessWidget {
   final bool selected;
   final Combatant combatant;
   final int index;
-  final ValueChanged<int>? onInitiativeChanged;
+  final ValueChanged<double>? onInitiativeChanged;
 
   @override
   Widget build(BuildContext context) {
@@ -38,7 +38,7 @@ class TrackerTile extends StatelessWidget {
         children: [
           TextButton(
             onPressed: () async {
-              final value = await showDialog<int?>(
+              final value = await showDialog<double?>(
                 context: context,
                 builder: (context) => InitiativeDialog(combatant: combatant),
               );
@@ -47,7 +47,7 @@ class TrackerTile extends StatelessWidget {
                 onInitiativeChanged?.call(value);
               }
             },
-            child: Text(combatant.initiative.toString()),
+            child: Text(combatant.initiative.toStringAsFixed(1)),
           ),
           const SizedBox(width: 8),
           Text(combatant.name),
