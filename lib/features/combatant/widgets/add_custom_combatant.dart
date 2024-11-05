@@ -138,7 +138,7 @@ class _AddCustomCombatantState extends State<AddCustomCombatant> {
                   _formKey.currentState!.reset();
                   combatant = _getBaseCombatant();
                 },
-                child: Text(AppLocalizations.of(context)!.save_button),
+                child: Text(AppLocalizations.of(context)!.add_combatants_button),
               ),
             ],
           ),
