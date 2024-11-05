@@ -103,6 +103,7 @@ class _TrackerTitleState extends State<_TrackerTitle> {
             children: [
               Expanded(
                 child: TextField(
+                  autofocus: true,
                   decoration: InputDecoration(
                     border: UnderlineInputBorder(),
                   ),

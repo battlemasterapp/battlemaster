@@ -153,5 +153,23 @@
   "initiative_input_label": "Initiative",
   "@initiative_input_label": {
     "description": "The label of the initiative input."
+  },
+  "hp_dialog_title": "HP: {count}",
+  "@hp_dialog_title": {
+    "description": "The title of the HP dialog.",
+    "placeholders": {
+      "count": {
+        "type": "int",
+        "example": "10"
+      }
+    }
+  },
+  "hp_dialog_input": "Damage/Healing",
+  "@hp_dialog_input": {
+    "description": "The label of the HP dialog input."
+  },
+  "apply_button": "Apply",
+  "@apply_button": {
+    "description": "The button to apply the action."
   }
 }
