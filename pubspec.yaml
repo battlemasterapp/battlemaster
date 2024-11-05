@@ -51,6 +51,7 @@ dependencies:
   animated_flip_counter: ^0.3.4
   path_provider: ^2.1.5
   path: ^1.9.0
+  scrollview_observer: ^1.23.0
 
 dev_dependencies:
   flutter_test:

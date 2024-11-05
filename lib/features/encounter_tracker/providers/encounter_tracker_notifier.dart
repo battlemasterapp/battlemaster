@@ -1,3 +1,4 @@
+import 'dart:async';
 import 'dart:math';
 
 import 'package:battlemaster/features/settings/providers/system_settings_provider.dart';
@@ -18,6 +19,8 @@ class EncounterTrackerNotifier extends ChangeNotifier {
   final AppDatabase _database;
   final SystemSettings _settings;
   final int encounterId;
+  int _activeCombatantIndex = 0;
+  final _activeIndexController = StreamController<int>();
 
   EncounterTrackerNotifier({
     required AppDatabase database,
@@ -31,7 +34,6 @@ class EncounterTrackerNotifier extends ChangeNotifier {
     });
   }
 
-  int _activeCombatantIndex = 0;
   int _round = 1;
   late Encounter _encounter;
   EncounterTrackerStatus _status = EncounterTrackerStatus.stopped;
@@ -59,6 +61,13 @@ class EncounterTrackerNotifier extends ChangeNotifier {
         );
   }
 
+  Stream<int> get activeIndexStream => _activeIndexController.stream;
+
+  void _setActiveCombatantIndex(int index) {
+    _activeCombatantIndex = index;
+    _activeIndexController.add(_activeCombatantIndex);
+  }
+
   Future<void> playStop() async {
     if (_status == EncounterTrackerStatus.stopped) {
       _status = EncounterTrackerStatus.playing;
@@ -66,8 +75,8 @@ class EncounterTrackerNotifier extends ChangeNotifier {
     } else {
       _status = EncounterTrackerStatus.stopped;
     }
-    _activeCombatantIndex = 0;
     _round = 1;
+    _setActiveCombatantIndex(0);
     notifyListeners();
   }
 
@@ -106,7 +115,7 @@ class EncounterTrackerNotifier extends ChangeNotifier {
       return;
     }
     _round++;
-    _activeCombatantIndex = 0;
+    _setActiveCombatantIndex(0);
     notifyListeners();
   }
 
@@ -118,6 +127,7 @@ class EncounterTrackerNotifier extends ChangeNotifier {
       return;
     }
     _round--;
+    _setActiveCombatantIndex(_activeCombatantIndex);
     notifyListeners();
   }
 
@@ -129,6 +139,7 @@ class EncounterTrackerNotifier extends ChangeNotifier {
     if (_activeCombatantIndex >= _encounter.combatants.length) {
       return nextRound();
     }
+    _setActiveCombatantIndex(_activeCombatantIndex);
     notifyListeners();
   }
 
@@ -141,6 +152,7 @@ class EncounterTrackerNotifier extends ChangeNotifier {
       _activeCombatantIndex = _encounter.combatants.length - 1;
       return previousRound();
     }
+    _setActiveCombatantIndex(_activeCombatantIndex);
     notifyListeners();
   }
 }
