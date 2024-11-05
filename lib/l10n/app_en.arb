@@ -171,5 +171,27 @@
   "apply_button": "Apply",
   "@apply_button": {
     "description": "The button to apply the action."
+  },
+  "remove_combatant_dialog_title": "Remove Combatant",
+  "@remove_combatant_dialog_title": {
+    "description": "The title of the remove combatant dialog."
+  },
+  "remove_combatant_dialog_content": "Are you sure you want to remove {name}?",
+  "@remove_combatant_dialog_content": {
+    "description": "The content of the remove combatant dialog.",
+    "placeholders": {
+      "name": {
+        "type": "String",
+        "example": "Goblin"
+      }
+    }
+  },
+  "no_button": "No",
+  "@no_button": {
+    "description": "The button to decline the action."
+  },
+  "yes_button": "Yes",
+  "@yes_button": {
+    "description": "The button to accept the action."
   }
 }

@@ -3,6 +3,7 @@ import 'dart:math';
 import 'package:animated_flip_counter/animated_flip_counter.dart';
 import 'package:battlemaster/features/encounter_tracker/widgets/hp_dialog.dart';
 import 'package:battlemaster/features/encounter_tracker/widgets/initiative_dialog.dart';
+import 'package:battlemaster/features/encounter_tracker/widgets/remove_combatant_dialog.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_animate/flutter_animate.dart';
 import 'package:ionicons/ionicons.dart';
@@ -17,6 +18,7 @@ class TrackerTile extends StatelessWidget {
     this.selected = false,
     this.onInitiativeChanged,
     this.onHealthChanged,
+    this.onRemove,
   });
 
   final bool selected;
@@ -24,6 +26,7 @@ class TrackerTile extends StatelessWidget {
   final int index;
   final ValueChanged<double>? onInitiativeChanged;
   final ValueChanged<int>? onHealthChanged;
+  final VoidCallback? onRemove;
 
   @override
   Widget build(BuildContext context) {
@@ -68,6 +71,22 @@ class TrackerTile extends StatelessWidget {
           const Spacer(),
           _Armor(
             armorClass: combatant.armorClass,
+          ),
+          IconButton(
+            onPressed: () async {
+              final confirm = await showDialog(
+                context: context,
+                builder: (context) => RemoveCombatantDialog(
+                  name: combatant.name,
+                ),
+              );
+
+              if (confirm == null || !confirm) {
+                return;
+              }
+              onRemove?.call();
+            },
+            icon: Icon(Icons.delete),
           ),
           const SizedBox(width: 24),
         ],

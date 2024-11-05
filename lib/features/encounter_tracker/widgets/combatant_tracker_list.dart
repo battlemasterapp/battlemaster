@@ -57,6 +57,11 @@ class CombatantTrackerList extends StatelessWidget {
             combatant: combatant,
             selected: index == selectedCombatantIndex,
             index: index,
+            onRemove: () async {
+              await context
+                  .read<EncountersProvider>()
+                  .removeCombatant(encounter, combatant);
+            },
             onHealthChanged: (health) async {
               await context.read<EncountersProvider>().editCombatant(
                     encounter,
