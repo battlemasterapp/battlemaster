@@ -43,5 +43,6 @@
   "remove_combatant_dialog_title": "Remover combatente",
   "remove_combatant_dialog_content": "Tem certeza que deseja remover {name}?",
   "no_button": "Não",
-  "yes_button": "Sim"
+  "yes_button": "Sim",
+  "roll_initiative_button": "Rolar iniciativa"
 }

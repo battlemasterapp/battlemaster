@@ -1,4 +1,7 @@
+import 'package:battlemaster/features/settings/models/initiative_roll_type.dart';
+import 'package:battlemaster/features/settings/providers/system_settings_provider.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:provider/provider.dart';
 
 import '../../../flavors/pf2e/pf2e_theme.dart';
@@ -28,14 +31,20 @@ class TrackerBar extends StatelessWidget {
       child: Row(
         children: [
           if (displayControls)
-            IconButton.outlined(
-              onPressed: () {
-                trackerState.playStop();
-              },
-              icon: Icon(
-                trackerState.isPlaying ? Icons.stop : Icons.play_arrow,
-                color: Colors.white,
-              ),
+            Row(
+              children: [
+                IconButton.outlined(
+                  onPressed: () {
+                    trackerState.playStop();
+                  },
+                  icon: Icon(
+                    trackerState.isPlaying ? Icons.stop : Icons.play_arrow,
+                    color: Colors.white,
+                  ),
+                ),
+                const SizedBox(width: 16),
+                const _RollInitiativeButton(),
+              ],
             ),
           const Spacer(),
           _TrackerTitle(
@@ -155,6 +164,31 @@ class _TrackerTitleState extends State<_TrackerTitle> {
           ),
         ],
       ),
+    );
+  }
+}
+
+class _RollInitiativeButton extends StatelessWidget {
+  const _RollInitiativeButton();
+
+  @override
+  Widget build(BuildContext context) {
+    final rollType = context
+        .select<SystemSettings, InitiativeRollType>((state) => state.rollType);
+    if (rollType == InitiativeRollType.manual) {
+      return const SizedBox();
+    }
+
+    onPressed() async {
+      await context.read<EncounterTrackerNotifier>().rollInitiative();
+    }
+
+    // TODO: convert to icon button if orientation is portrait
+
+    return ElevatedButton.icon(
+      onPressed: onPressed,
+      icon: Icon(Icons.casino),
+      label: Text(AppLocalizations.of(context)!.roll_initiative_button),
     );
   }
 }
