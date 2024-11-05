@@ -17,17 +17,30 @@ class SettingsPage extends StatelessWidget {
               "Battlemaster",
               style: Theme.of(context).textTheme.headlineLarge,
             ),
-            subtitle: FutureBuilder<PackageInfo>(
-              future: PackageInfo.fromPlatform(),
-              builder: (context, snapshot) {
-                if (!snapshot.hasData) {
-                  return Container();
-                }
-                final info = snapshot.data;
-                return Text("v${info?.version}");
-              },
-            ),
           ),
+          FutureBuilder<PackageInfo>(
+          future: PackageInfo.fromPlatform(),
+          builder: (context, snapshot) {
+            if (!snapshot.hasData) {
+              return Container();
+            }
+            return AboutListTile(
+              applicationName: "Battlemaster",
+              applicationVersion:
+                  "v${snapshot.data?.version}",
+              applicationLegalese:
+                  "This app uses trademarks and/or copyrights owned by Paizo Inc., used under Paizo's Community Use Policy (paizo.com/communityuse). We are expressly prohibited from charging you to use or access this content. This app is not published, endorsed, or specifically approved by Paizo. For more information about Paizo Inc. and Paizo products, visit paizo.com.",
+              icon: const Icon(Icons.info),
+              applicationIcon: ClipRRect(
+                borderRadius: BorderRadius.circular(8),
+                child: Image.asset(
+                  'assets/icon/icon.png',
+                  width: 48,
+                ),
+              ),
+            );
+          },
+        ),
           const Divider(),
           const AppSettings(),
           const Divider(),
