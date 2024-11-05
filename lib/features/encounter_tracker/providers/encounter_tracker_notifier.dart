@@ -97,7 +97,8 @@ class EncounterTrackerNotifier extends ChangeNotifier {
     }
     final item = combatants.removeAt(oldIndex);
     combatants.insert(newIndex, item);
-    await _database.updateEncounter(_encounter.copyWith(combatants: combatants));
+    await _database
+        .updateEncounter(_encounter.copyWith(combatants: combatants));
   }
 
   void nextRound() {

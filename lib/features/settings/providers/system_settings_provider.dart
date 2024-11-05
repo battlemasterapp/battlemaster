@@ -3,8 +3,6 @@ import 'package:shared_preferences/shared_preferences.dart';
 
 import '../models/initiative_roll_type.dart';
 
-
-
 class SystemSettings extends ChangeNotifier {
   InitiativeRollType _rollType = InitiativeRollType.manual;
 
@@ -29,6 +27,5 @@ class SystemSettings extends ChangeNotifier {
     // Save settings to disk
     final preferences = await SharedPreferences.getInstance();
     await preferences.setInt('rollType', rollType.index);
-
   }
 }
