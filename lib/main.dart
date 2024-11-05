@@ -37,27 +37,30 @@ class BattlemasterApp extends StatelessWidget {
           update: (_, __, provider) => provider!,
         ),
       ],
-      child: MaterialApp(
-        title: 'BattleMaster',
-        localizationsDelegates: AppLocalizations.localizationsDelegates,
-        supportedLocales: AppLocalizations.supportedLocales,
-        theme: pf2eLightTheme,
-        darkTheme: pf2eDarkTheme,
-        themeMode: ThemeMode.system,
-        routes: {
-          "/": (context) => const MainPage(),
-          "/encounter": (context) => EncounterTrackerPage(
-                params: ModalRoute.of(context)!.settings.arguments
-                    as EncounterTrackerParams,
-              ),
-          "/group": (context) => GroupDetailPage(
-                params: ModalRoute.of(context)!.settings.arguments
-                    as GroupDetailPageParams,
-              ),
-          "/combatant/add": (context) => const AddCombatantPage(),
-        },
-        initialRoute: "/",
-      ),
+      child: Builder(builder: (context) {
+        return MaterialApp(
+          title: 'BattleMaster',
+          localizationsDelegates: AppLocalizations.localizationsDelegates,
+          supportedLocales: AppLocalizations.supportedLocales,
+          theme: pf2eLightTheme,
+          darkTheme: pf2eDarkTheme,
+          themeMode: context
+              .select<SystemSettings, ThemeMode>((state) => state.themeMode),
+          routes: {
+            "/": (context) => const MainPage(),
+            "/encounter": (context) => EncounterTrackerPage(
+                  params: ModalRoute.of(context)!.settings.arguments
+                      as EncounterTrackerParams,
+                ),
+            "/group": (context) => GroupDetailPage(
+                  params: ModalRoute.of(context)!.settings.arguments
+                      as GroupDetailPageParams,
+                ),
+            "/combatant/add": (context) => const AddCombatantPage(),
+          },
+          initialRoute: "/",
+        );
+      }),
     );
   }
 }

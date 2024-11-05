@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 
+import 'widgets/app_settings.dart';
 import 'widgets/encounter_settings.dart';
 
 class SettingsPage extends StatelessWidget {
@@ -16,6 +17,8 @@ class SettingsPage extends StatelessWidget {
               style: Theme.of(context).textTheme.headlineLarge,
             ),
           ),
+          const Divider(),
+          const AppSettings(),
           const Divider(),
           const EncounterSettings(),
         ],

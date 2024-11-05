@@ -44,5 +44,7 @@
   "remove_combatant_dialog_content": "Tem certeza que deseja remover {name}?",
   "no_button": "Não",
   "yes_button": "Sim",
-  "roll_initiative_button": "Rolar iniciativa"
+  "roll_initiative_button": "Rolar iniciativa",
+  "app_settings_title": "Configurações do aplicativo",
+  "dark_mode_toggle_label": "Modo escuro"
 }
