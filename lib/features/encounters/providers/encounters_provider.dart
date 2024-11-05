@@ -32,7 +32,10 @@ class EncountersProvider extends ChangeNotifier {
   }
 
   Future<void> editCombatant(
-      Encounter encounter, Combatant combatant, int index) async {
+    Encounter encounter,
+    Combatant combatant,
+    int index,
+  ) async {
     final combatants = encounter.combatants
       ..replaceRange(
         index,

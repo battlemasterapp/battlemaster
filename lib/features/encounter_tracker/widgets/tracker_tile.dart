@@ -57,6 +57,7 @@ class TrackerTile extends StatelessWidget {
           _Armor(
             armorClass: combatant.armorClass,
           ),
+          const SizedBox(width: 24),
         ],
       ),
     );

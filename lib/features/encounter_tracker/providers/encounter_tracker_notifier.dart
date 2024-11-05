@@ -90,6 +90,16 @@ class EncounterTrackerNotifier extends ChangeNotifier {
         .updateEncounter(_encounter.copyWith(combatants: combatants));
   }
 
+  Future<void> reorderCombatants(int oldIndex, int newIndex) async {
+    final combatants = _encounter.combatants;
+    if (oldIndex < newIndex) {
+      newIndex -= 1;
+    }
+    final item = combatants.removeAt(oldIndex);
+    combatants.insert(newIndex, item);
+    await _database.updateEncounter(_encounter.copyWith(combatants: combatants));
+  }
+
   void nextRound() {
     if (!isPlaying) {
       return;

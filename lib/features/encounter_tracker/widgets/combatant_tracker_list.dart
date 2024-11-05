@@ -1,3 +1,4 @@
+import 'package:battlemaster/features/encounter_tracker/providers/encounter_tracker_notifier.dart';
 import 'package:battlemaster/features/encounters/providers/encounters_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
@@ -46,25 +47,33 @@ class CombatantTrackerList extends StatelessWidget {
         ),
       );
     }
-    return ListView.separated(
-      padding: const EdgeInsets.symmetric(vertical: 16, horizontal: 8),
-      itemCount: combatants.length,
-      separatorBuilder: (_, __) => const SizedBox(height: 12),
+    return ReorderableListView.builder(
       itemBuilder: (context, index) {
         final combatant = combatants[index];
-        return TrackerTile(
-          combatant: combatant,
-          selected: index == selectedCombatantIndex,
-          index: index,
-          onInitiativeChanged: (initiative) async {
-            debugPrint(initiative.toString());
-            await context.read<EncountersProvider>().editCombatant(
-                  encounter,
-                  combatant.copyWith(initiative: initiative),
-                  index,
-                );
-          },
+        return Padding(
+          key: Key('$index'),
+          padding: const EdgeInsets.all(8.0),
+          child: TrackerTile(
+            combatant: combatant,
+            selected: index == selectedCombatantIndex,
+            index: index,
+            onInitiativeChanged: (initiative) async {
+              debugPrint(initiative.toString());
+              await context.read<EncountersProvider>().editCombatant(
+                    encounter,
+                    combatant.copyWith(initiative: initiative),
+                    index,
+                  );
+            },
+          ),
         );
+      },
+      itemCount: combatants.length,
+      onReorder: (oldIndex, newIndex) async {
+        await context.read<EncounterTrackerNotifier>().reorderCombatants(
+              oldIndex,
+              newIndex,
+            );
       },
     );
   }
