@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:package_info_plus/package_info_plus.dart';
 
 import 'widgets/app_settings.dart';
 import 'widgets/encounter_settings.dart';
@@ -15,6 +16,16 @@ class SettingsPage extends StatelessWidget {
             title: Text(
               "Battlemaster",
               style: Theme.of(context).textTheme.headlineLarge,
+            ),
+            subtitle: FutureBuilder<PackageInfo>(
+              future: PackageInfo.fromPlatform(),
+              builder: (context, snapshot) {
+                if (!snapshot.hasData) {
+                  return Container();
+                }
+                final info = snapshot.data;
+                return Text("v${info?.version}");
+              },
             ),
           ),
           const Divider(),
