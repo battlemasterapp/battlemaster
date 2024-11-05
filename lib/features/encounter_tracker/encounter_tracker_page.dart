@@ -7,6 +7,7 @@ import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:provider/provider.dart';
 
 import '../../database/database.dart';
+import '../settings/providers/system_settings_provider.dart';
 import 'providers/encounter_tracker_notifier.dart';
 import 'widgets/encounter_tracker_bar.dart';
 
@@ -31,6 +32,7 @@ class EncounterTrackerPage extends StatelessWidget {
     return ChangeNotifierProvider(
       create: (context) => EncounterTrackerNotifier(
         database: context.read<AppDatabase>(),
+        settings: context.read<SystemSettings>(),
         encounterId: params.encounter.id,
       ),
       child: Builder(

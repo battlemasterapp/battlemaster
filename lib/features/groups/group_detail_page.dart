@@ -7,6 +7,7 @@ import '../encounter_tracker/providers/encounter_tracker_notifier.dart';
 import '../encounter_tracker/widgets/combatant_tracker_list.dart';
 import '../encounter_tracker/widgets/encounter_tracker_bar.dart';
 import '../encounters/models/encounter.dart';
+import '../settings/providers/system_settings_provider.dart';
 
 class GroupDetailPageParams {
   final Encounter encounter;
@@ -29,6 +30,7 @@ class GroupDetailPage extends StatelessWidget {
     return ChangeNotifierProvider(
       create: (context) => EncounterTrackerNotifier(
         database: context.read<AppDatabase>(),
+        settings: context.read<SystemSettings>(),
         encounterId: params.encounter.id,
       ),
       child: Builder(builder: (context) {
