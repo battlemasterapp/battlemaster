@@ -72,6 +72,7 @@ class TrackerTile extends StatelessWidget {
           _Armor(
             armorClass: combatant.armorClass,
           ),
+          const SizedBox(width: 8),
           IconButton(
             onPressed: () async {
               final confirm = await showDialog(
@@ -88,7 +89,7 @@ class TrackerTile extends StatelessWidget {
             },
             icon: Icon(Icons.delete),
           ),
-          const SizedBox(width: 24),
+          const SizedBox(width: 16),
         ],
       ),
     );
@@ -104,7 +105,7 @@ class TrackerTile extends StatelessWidget {
   Color _getTileColor(BuildContext context, int index) {
     final theme = Theme.of(context);
     final opacity = index.isEven ? 0.15 : 0.05;
-    return theme.primaryColor.withOpacity(opacity);
+    return theme.colorScheme.primary.withOpacity(opacity);
   }
 }
 
