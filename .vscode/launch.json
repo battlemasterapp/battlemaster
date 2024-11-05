@@ -7,7 +7,8 @@
     {
       "name": "battlemaster",
       "request": "launch",
-      "type": "dart"
+      "type": "dart",
+      "args": ["-d", "linux"]
     },
     {
       "name": "battlemaster (profile mode)",

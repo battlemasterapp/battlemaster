@@ -63,10 +63,15 @@ class EncounterTrackerPage extends StatelessWidget {
                       ),
                       Expanded(
                         child: CombatantTrackerList(
-                          combatants: encounter.combatants,
+                          encounter: encounter,
                           selectedCombatantIndex: trackerState.isPlaying
                               ? trackerState.activeCombatantIndex
                               : null,
+                          onCombatantsAdded: (combatants) async {
+                            await context
+                                .read<EncountersProvider>()
+                                .addCombatants(encounter, combatants);
+                          },
                         ),
                       ),
                       const EncounterTrackerControls(),

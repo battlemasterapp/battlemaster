@@ -71,7 +71,6 @@ class TrackerBar extends StatelessWidget {
 
 class _TrackerTitle extends StatefulWidget {
   const _TrackerTitle({
-    super.key,
     required this.title,
     this.onTitleChanged,
   });

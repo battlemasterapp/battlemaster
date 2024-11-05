@@ -52,7 +52,7 @@ class GroupDetailPage extends StatelessWidget {
                       ),
                       Expanded(
                         child: CombatantTrackerList(
-                          combatants: encounter.combatants,
+                          encounter: encounter,
                           onCombatantsAdded: (combatants) async {
                             await context
                                 .read<EncountersProvider>()

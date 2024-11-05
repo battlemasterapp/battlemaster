@@ -35,5 +35,6 @@
   "initiative_roll_description": "Selecione como o sistema rola iniciativa: manual, apenas para monstros ou todos os combatentes",
   "initiative_roll_type_manual": "Manual",
   "initiative_roll_type_monstersOnly": "Apenas monstros",
-  "initiative_roll_type_all": "Todos"
+  "initiative_roll_type_all": "Todos",
+  "initiative_input_label": "Iniciativa"
 }

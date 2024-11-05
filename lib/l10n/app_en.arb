@@ -149,5 +149,9 @@
   "initiative_roll_type_all": "All",
   "@initiative_roll_type_all": {
     "description": "The type of initiative roll: All."
+  },
+  "initiative_input_label": "Initiative",
+  "@initiative_input_label": {
+    "description": "The label of the initiative input."
   }
 }
