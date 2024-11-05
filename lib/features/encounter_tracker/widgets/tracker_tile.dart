@@ -1,5 +1,11 @@
+import 'dart:math';
+
+import 'package:animated_flip_counter/animated_flip_counter.dart';
+import 'package:battlemaster/features/encounter_tracker/widgets/hp_dialog.dart';
 import 'package:battlemaster/features/encounter_tracker/widgets/initiative_dialog.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_animate/flutter_animate.dart';
+import 'package:ionicons/ionicons.dart';
 
 import '../../combatant/models/combatant.dart';
 
@@ -10,16 +16,19 @@ class TrackerTile extends StatelessWidget {
     required this.index,
     this.selected = false,
     this.onInitiativeChanged,
+    this.onHealthChanged,
   });
 
   final bool selected;
   final Combatant combatant;
   final int index;
   final ValueChanged<double>? onInitiativeChanged;
+  final ValueChanged<int>? onHealthChanged;
 
   @override
   Widget build(BuildContext context) {
     return Container(
+      padding: const EdgeInsets.all(8),
       decoration: BoxDecoration(
         color: _getTileColor(context, index),
         border: Border.symmetric(
@@ -52,7 +61,10 @@ class TrackerTile extends StatelessWidget {
           const SizedBox(width: 8),
           Text(combatant.name),
           const SizedBox(width: 8),
-          Text("${combatant.currentHp}/${combatant.maxHp}"),
+          _Health(
+            combatant: combatant,
+            onHealthChanged: onHealthChanged,
+          ),
           const Spacer(),
           _Armor(
             armorClass: combatant.armorClass,
@@ -65,13 +77,102 @@ class TrackerTile extends StatelessWidget {
 
   Color _getBorderColor(BuildContext context) {
     final theme = Theme.of(context);
-    return selected ? theme.colorScheme.secondary : theme.primaryColor;
+    return selected
+        ? theme.colorScheme.secondary
+        : theme.primaryColor.withOpacity(.5);
   }
 
   Color _getTileColor(BuildContext context, int index) {
     final theme = Theme.of(context);
     final opacity = index.isEven ? 0.15 : 0.05;
     return theme.primaryColor.withOpacity(opacity);
+  }
+}
+
+class _Health extends StatelessWidget {
+  const _Health({
+    required this.combatant,
+    this.onHealthChanged,
+  });
+
+  final ValueChanged<int>? onHealthChanged;
+  final Combatant combatant;
+
+  @override
+  Widget build(BuildContext context) {
+    var healthString = "";
+    if (combatant.maxHp > 0) {
+      healthString += "/${combatant.maxHp}";
+    }
+
+    final color = getColor();
+
+    return OutlinedButton.icon(
+      style: OutlinedButton.styleFrom(
+        side: BorderSide(
+          width: 2,
+          color: color,
+        ),
+      ),
+      onPressed: () async {
+        final health = await showDialog(
+          context: context,
+          builder: (context) => HpDialog(combatant: combatant),
+        );
+
+        if (health == null) {
+          return;
+        }
+        debugPrint({health}.toString());
+        onHealthChanged?.call(health);
+      },
+      icon: Icon(
+        getIcon(),
+        color: color,
+      ),
+      label: Row(
+        children: [
+          AnimatedFlipCounter(
+            value: combatant.currentHp,
+            duration: 500.ms,
+            curve: Curves.easeInOutExpo,
+            textStyle: TextStyle(color: color),
+          ),
+          Text(
+            healthString,
+            style: TextStyle(color: color),
+          ),
+        ],
+      ),
+    );
+  }
+
+  IconData getIcon() {
+    final currentHealth = combatant.currentHp;
+    final halfHealth = (currentHealth / max(combatant.maxHp, 1)) <= 0.5;
+
+    if (currentHealth == 0) {
+      return Ionicons.skull;
+    }
+
+    return halfHealth ? Icons.heart_broken : Icons.favorite;
+  }
+
+  Color getColor() {
+    const fullHealthColor = Colors.green;
+    const deadColor = Colors.red;
+
+    final currentHealth = combatant.currentHp;
+
+    if (currentHealth == 0) {
+      return deadColor;
+    }
+
+    return Color.lerp(
+      fullHealthColor,
+      deadColor,
+      1 - (currentHealth / max(combatant.maxHp, currentHealth)),
+    )!;
   }
 }
 

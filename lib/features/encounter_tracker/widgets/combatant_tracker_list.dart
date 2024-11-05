@@ -57,6 +57,13 @@ class CombatantTrackerList extends StatelessWidget {
             combatant: combatant,
             selected: index == selectedCombatantIndex,
             index: index,
+            onHealthChanged: (health) async {
+              await context.read<EncountersProvider>().editCombatant(
+                    encounter,
+                    combatant.copyWith(currentHp: health),
+                    index,
+                  );
+            },
             onInitiativeChanged: (initiative) async {
               debugPrint(initiative.toString());
               await context.read<EncountersProvider>().editCombatant(

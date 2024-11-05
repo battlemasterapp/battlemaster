@@ -36,5 +36,8 @@
   "initiative_roll_type_manual": "Manual",
   "initiative_roll_type_monstersOnly": "Apenas monstros",
   "initiative_roll_type_all": "Todos",
-  "initiative_input_label": "Iniciativa"
+  "initiative_input_label": "Iniciativa",
+  "hp_dialog_title": "PV: {count}",
+  "hp_dialog_input": "Dano/Cura",
+  "apply_button": "Aplicar"
 }
