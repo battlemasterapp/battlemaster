@@ -19,17 +19,19 @@ class BestiaryListTile extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return ListTile(
-      onTap: onTap,
-      tileColor: tileColor,
-      title: BestiaryTileTitle(combatant: combatant),
-      subtitle: BestiaryTileDetails(combatant: combatant),
-      trailing: combatant.level != null
-          ? Text(
-              combatant.level.toString(),
-              style: Theme.of(context).textTheme.labelLarge,
-            )
-          : null,
+    return Container(
+      color: tileColor,
+      child: ListTile(
+        onTap: onTap,
+        title: BestiaryTileTitle(combatant: combatant),
+        subtitle: BestiaryTileDetails(combatant: combatant),
+        trailing: combatant.level != null
+            ? Text(
+                combatant.level.toString(),
+                style: Theme.of(context).textTheme.labelLarge,
+              )
+            : null,
+      ),
     );
   }
 }

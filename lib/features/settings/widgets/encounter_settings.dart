@@ -22,7 +22,7 @@ class EncounterSettings extends StatelessWidget {
           title: Text(localization.initiative_roll_title),
           subtitle: Text(localization.initiative_roll_description),
           trailing: DropdownButton<InitiativeRollType>(
-            value: context.select<SystemSettings, InitiativeRollType>(
+            value: context.select<SystemSettingsProvider, InitiativeRollType>(
                 (state) => state.rollType),
             items: InitiativeRollType.values.map((type) {
               final textMap = {
@@ -39,7 +39,7 @@ class EncounterSettings extends StatelessWidget {
             }).toList(),
             onChanged: (value) async {
               await context
-                  .read<SystemSettings>()
+                  .read<SystemSettingsProvider>()
                   .setInitiativeRollType(value!);
             },
           ),

@@ -6,6 +6,7 @@ import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:icons_plus/icons_plus.dart';
 import 'package:provider/provider.dart';
 
+import '../settings/providers/system_settings_provider.dart';
 import 'models/combatant.dart';
 import 'widgets/add_group_combatants.dart';
 import 'widgets/selected_combatants.dart';
@@ -98,10 +99,22 @@ class _AddCombatant extends StatefulWidget {
 }
 
 class _AddCombatantState extends State<_AddCombatant> {
-  Set<_AddCombatantSource> _selected = {_AddCombatantSource.pf2e};
+  Set<_AddCombatantSource> _selected = {};
+
+  @override
+  void initState() {
+    super.initState();
+    final systemSettings = context.read<SystemSettingsProvider>();
+    if (systemSettings.pf2eSettings.enabled) {
+      _selected.add(_AddCombatantSource.pf2e);
+    } else {
+      _selected.add(_AddCombatantSource.group);
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
+    final systemSettings = context.watch<SystemSettingsProvider>();
     return Padding(
       padding: const EdgeInsets.all(8.0),
       child: Column(
@@ -109,11 +122,12 @@ class _AddCombatantState extends State<_AddCombatant> {
         children: [
           SegmentedButton<_AddCombatantSource>(
             segments: [
-              ButtonSegment(
-                value: _AddCombatantSource.pf2e,
-                label: Text(AppLocalizations.of(context)!.pf2e_toggle_button),
-                icon: Icon(LineAwesome.dragon_solid),
-              ),
+              if (systemSettings.pf2eSettings.enabled)
+                ButtonSegment(
+                  value: _AddCombatantSource.pf2e,
+                  label: Text(AppLocalizations.of(context)!.pf2e_toggle_button),
+                  icon: Icon(LineAwesome.dragon_solid),
+                ),
               ButtonSegment(
                 value: _AddCombatantSource.group,
                 label: Text(AppLocalizations.of(context)!.groups_toggle_button),

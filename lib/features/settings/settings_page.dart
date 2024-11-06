@@ -3,6 +3,7 @@ import 'package:package_info_plus/package_info_plus.dart';
 
 import 'widgets/app_settings.dart';
 import 'widgets/encounter_settings.dart';
+import 'widgets/pf2e_settings.dart';
 
 class SettingsPage extends StatelessWidget {
   const SettingsPage({super.key});
@@ -44,6 +45,8 @@ class SettingsPage extends StatelessWidget {
           const AppSettings(),
           const Divider(),
           const EncounterSettings(),
+          const Divider(),
+          const Pf2eSettingsWidget(),
         ],
       ),
     );

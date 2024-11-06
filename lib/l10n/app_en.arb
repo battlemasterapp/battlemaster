@@ -213,5 +213,13 @@
   "dark_mode_toggle_label": "Dark Mode",
   "@dark_mode_toggle_label": {
     "description": "The label of the dark mode toggle."
+  },
+  "pf2e_settings_title": "PF2e Settings",
+  "@pf2e_settings_title": {
+    "description": "The title of the PF2e settings section."
+  },
+  "pf2e_settings_bestiary_toggle": "Enable PF2e Bestiary",
+  "@pf2e_settings_bestiary_toggle": {
+    "description": "The toggle to enable the PF2e bestiary."
   }
 }
