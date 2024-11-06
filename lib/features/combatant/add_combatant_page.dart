@@ -1,7 +1,10 @@
+import 'package:battlemaster/api/services/pf2e_bestiary_service.dart';
 import 'package:battlemaster/features/combatant/widgets/add_custom_combatant.dart';
+import 'package:battlemaster/features/combatant/widgets/add_from_bestiary_list.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:icons_plus/icons_plus.dart';
+import 'package:provider/provider.dart';
 
 import 'models/combatant.dart';
 import 'widgets/add_group_combatants.dart';
@@ -78,6 +81,7 @@ class _AddCombatantPageState extends State<AddCombatantPage> {
 }
 
 enum _AddCombatantSource {
+  pf2e,
   group,
   custom,
 }
@@ -94,7 +98,7 @@ class _AddCombatant extends StatefulWidget {
 }
 
 class _AddCombatantState extends State<_AddCombatant> {
-  Set<_AddCombatantSource> _selected = {_AddCombatantSource.group};
+  Set<_AddCombatantSource> _selected = {_AddCombatantSource.pf2e};
 
   @override
   Widget build(BuildContext context) {
@@ -105,6 +109,11 @@ class _AddCombatantState extends State<_AddCombatant> {
         children: [
           SegmentedButton<_AddCombatantSource>(
             segments: [
+              ButtonSegment(
+                value: _AddCombatantSource.pf2e,
+                label: Text(AppLocalizations.of(context)!.pf2e_toggle_button),
+                icon: Icon(LineAwesome.dragon_solid),
+              ),
               ButtonSegment(
                 value: _AddCombatantSource.group,
                 label: Text(AppLocalizations.of(context)!.groups_toggle_button),
@@ -133,6 +142,11 @@ class _AddCombatantState extends State<_AddCombatant> {
   }
 
   Widget _getSelectedWidget() {
+    if (_selected.contains(_AddCombatantSource.pf2e)) {
+      return AddFromBestiaryList(
+        combatants: context.read<Pf2eBestiaryService>().bestiaryData,
+      );
+    }
     if (_selected.contains(_AddCombatantSource.group)) {
       return AddGroupCombatants(
         onGroupSelected: (combatants) {
@@ -147,12 +161,11 @@ class _AddCombatantState extends State<_AddCombatant> {
           );
         },
       );
-    } else {
-      return AddCustomCombatant(
-        onCombatantAdded: (combatant) {
-          widget.onCombatantsAdded({combatant: 1});
-        },
-      );
     }
+    return AddCustomCombatant(
+      onCombatantAdded: (combatant) {
+        widget.onCombatantsAdded({combatant: 1});
+      },
+    );
   }
 }

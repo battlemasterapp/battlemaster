@@ -12,6 +12,8 @@
   "add_combatant_title": "Adicionar combatente",
   "combatants_selected": "Combatentes selecionados",
   "search_input": "Buscar",
+  "dnd5e_toggle_button": "5e",
+  "pf2e_toggle_button": "PF2e",
   "groups_toggle_button": "Grupos",
   "custom_combatant_toggle_button": "Personalizado",
   "empty_groups_list": "Nenhum grupo encontrado",

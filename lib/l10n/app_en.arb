@@ -54,6 +54,14 @@
   "@search_input": {
     "description": "The label of the search input."
   },
+  "dnd5e_toggle_button": "5e",
+  "@dnd5e_toggle_button": {
+    "description": "The button to toggle the 5e view."
+  },
+  "pf2e_toggle_button": "PF2e",
+  "@pf2e_toggle_button": {
+    "description": "The button to toggle the PF2e view."
+  },
   "groups_toggle_button": "Groups",
   "@groups_toggle_button": {
     "description": "The button to toggle the groups view."
