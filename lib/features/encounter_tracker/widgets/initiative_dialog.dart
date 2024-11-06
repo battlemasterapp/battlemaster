@@ -26,7 +26,6 @@ class _InitiativeDialogState extends State<InitiativeDialog> {
         mainAxisSize: MainAxisSize.min,
         children: [
           TextField(
-            autofocus: true,
             controller: _controller,
             keyboardType: TextInputType.number,
             decoration: InputDecoration(
