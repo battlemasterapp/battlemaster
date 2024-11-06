@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:provider/provider.dart';
 
+import 'api/services/pf2e_bestiary_service.dart';
 import 'features/combatant/add_combatant_page.dart';
 import 'features/encounter_tracker/encounter_tracker_page.dart';
 import 'features/encounters/providers/encounters_provider.dart';
@@ -35,6 +36,10 @@ class BattlemasterApp extends StatelessWidget {
         ChangeNotifierProxyProvider<AppDatabase, EncountersProvider>(
           create: (context) => EncountersProvider(context.read<AppDatabase>()),
           update: (_, __, provider) => provider!,
+        ),
+        Provider<Pf2eBestiaryService>(
+          create: (_) => Pf2eBestiaryService(),
+          lazy: false,
         ),
       ],
       child: Builder(builder: (context) {

@@ -28,6 +28,7 @@ Map<String, dynamic> _$EncounterToJson(Encounter instance) => <String, dynamic>{
 const _$GameEngineTypeEnumMap = {
   GameEngineType.pf2e: 'pf2e',
   GameEngineType.dnd5e: 'dnd5e',
+  GameEngineType.custom: 'custom',
 };
 
 const _$EncounterTypeEnumMap = {
