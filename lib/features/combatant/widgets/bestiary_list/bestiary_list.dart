@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
 import '../../models/combatant.dart';
-import 'bestiary_tile_details.dart';
+import 'bestiary_list_tile.dart';
 
 class BestiaryList extends StatelessWidget {
   const BestiaryList({
@@ -11,7 +11,7 @@ class BestiaryList extends StatelessWidget {
   });
 
   final List<Combatant> combatants;
-  final VoidCallback? onCombatantSelected;
+  final ValueChanged<Combatant>? onCombatantSelected;
 
   @override
   Widget build(BuildContext context) {
@@ -19,17 +19,10 @@ class BestiaryList extends StatelessWidget {
       itemCount: combatants.length,
       itemBuilder: (context, index) {
         final combatant = combatants[index];
-        return ListTile(
-          onTap: onCombatantSelected,
+        return BestiaryListTile(
+          onTap: () => onCombatantSelected?.call(combatant),
           tileColor: _getTileColor(context, index),
-          title: Text(combatant.name),
-          subtitle: BestiaryTileDetails(combatant: combatant),
-          trailing: combatant.level != null
-              ? Text(
-                  combatant.level.toString(),
-                  style: Theme.of(context).textTheme.labelLarge,
-                )
-              : null,
+          combatant: combatant,
         );
       },
     );

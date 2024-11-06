@@ -8,9 +8,11 @@ class AddFromBestiaryList extends StatefulWidget {
   const AddFromBestiaryList({
     super.key,
     this.combatants = const [],
+    this.onCombatantSelected,
   });
 
   final List<Combatant> combatants;
+  final ValueChanged<Combatant>? onCombatantSelected;
 
   @override
   State<AddFromBestiaryList> createState() => _AddFromBestiaryListState();
@@ -41,6 +43,7 @@ class _AddFromBestiaryListState extends State<AddFromBestiaryList> {
         Expanded(
           child: BestiaryList(
             combatants: filteredCombatants,
+            onCombatantSelected: widget.onCombatantSelected,
           ),
         ),
       ],

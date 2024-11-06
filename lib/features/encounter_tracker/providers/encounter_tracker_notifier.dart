@@ -148,7 +148,10 @@ class EncounterTrackerNotifier extends ChangeNotifier {
     _activeCombatantIndex--;
     if (_activeCombatantIndex < 0) {
       _activeCombatantIndex = _encounter.combatants.length - 1;
-      return previousRound();
+      if (round > 1) {
+        return previousRound();
+      }
+      _activeCombatantIndex = 0;
     }
     _setActiveCombatantIndex(_activeCombatantIndex);
     notifyListeners();

@@ -63,7 +63,13 @@ class EncountersProvider extends ChangeNotifier {
       (combatants, mapEntry) {
         return [
           ...combatants,
-          ...List.generate(mapEntry.value, (index) => mapEntry.key),
+          ...List.generate(
+              mapEntry.value,
+              (index) => mapEntry.key.copyWith(
+                    name: mapEntry.value > 1
+                        ? '${mapEntry.key.name} ${index + 1}'
+                        : null,
+                  )),
         ];
       },
     );

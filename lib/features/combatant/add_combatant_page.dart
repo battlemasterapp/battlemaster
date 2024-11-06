@@ -145,6 +145,9 @@ class _AddCombatantState extends State<_AddCombatant> {
     if (_selected.contains(_AddCombatantSource.pf2e)) {
       return AddFromBestiaryList(
         combatants: context.read<Pf2eBestiaryService>().bestiaryData,
+        onCombatantSelected: (combatant) {
+          widget.onCombatantsAdded({combatant: 1});
+        },
       );
     }
     if (_selected.contains(_AddCombatantSource.group)) {

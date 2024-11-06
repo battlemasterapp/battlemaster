@@ -15,7 +15,14 @@ class Pf2eBestiaryService extends Pf2eDataService<List<Combatant>> {
   List<Combatant> get bestiaryData => data;
 
   final List<String> _defaultSources = [
-    'pathfinder-monster-core',
+    "book-of-the-dead",
+    "npc-gallery",
+    "pathfinder-bestiary-2",
+    "pathfinder-bestiary-3",
+    "pathfinder-dark-archive",
+    "pathfinder-monster-core",
+    "pathfinder",
+    "rage-of-elements",
   ];
 
   final Map<String, String> _availableSources = {};

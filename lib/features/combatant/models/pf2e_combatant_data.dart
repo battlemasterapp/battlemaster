@@ -5,20 +5,20 @@ class Pf2eCombatantData extends CombatantData {
 
   String get name => rawData['name'] ?? "";
 
-  int get hp => rawData['system']['attributes']['hp']['max'] ?? 0;
+  int get hp => rawData['system']?['attributes']?['hp']?['max'] ?? 0;
 
-  int get ac => rawData['system']['attributes']['ac']['value'] ?? 0;
+  int get ac => rawData['system']?['attributes']?['ac']?['value'] ?? 0;
 
-  int get initiativeModifier => rawData['system']['perception']['mod'] ?? 0;
+  int get initiativeModifier => rawData['system']?['perception']?['mod'] ?? 0;
 
-  int get level => rawData['system']['details']['level']['value'] ?? 0;
+  int get level => rawData['system']?['details']?['level']?['value'] ?? 0;
 
   String get source =>
-      rawData['system']['details']['publication']['title'] ?? '';
+      rawData['system']?['details']?['publication']?['title'] ?? '';
 
   List<String> get traits {
-    final rarity = rawData['system']['traits']['rarity'];
-    String? size = rawData['system']['traits']['size']['value'];
+    final rarity = rawData['system']?['traits']?['rarity'];
+    String? size = rawData['system']?['traits']?['size']?['value'];
 
     final sizeMap = {
       'med': 'medium',
