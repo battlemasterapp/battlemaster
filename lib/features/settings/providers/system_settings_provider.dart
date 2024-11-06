@@ -1,44 +1,56 @@
+import 'dart:convert';
+
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 import '../models/initiative_roll_type.dart';
+import '../models/settings.dart';
 
-class SystemSettings extends ChangeNotifier {
-  InitiativeRollType _rollType = InitiativeRollType.manual;
-  ThemeMode _themeMode = ThemeMode.system;
+class SystemSettingsProvider extends ChangeNotifier {
+  Settings _settings = Settings();
+  final String _settingsKey = 'settings';
 
-  SystemSettings() {
+  SystemSettingsProvider() {
     _init();
   }
 
+  InitiativeRollType get rollType => _settings.rollType;
+
+  ThemeMode get themeMode => _settings.themeMode;
+
+  PF2eSettings get pf2eSettings => _settings.pf2eSettings;
+
   Future<void> _init() async {
-    // Load settings from disk
     final preferences = await SharedPreferences.getInstance();
-    _rollType = InitiativeRollType.values[preferences.getInt('rollType') ?? 0];
-    _themeMode = ThemeMode.values[preferences.getInt('themeMode') ?? 0];
+    final cache = jsonDecode(preferences.getString(_settingsKey) ?? '{}')
+        as Map<String, dynamic>;
+    if (cache.isNotEmpty) {
+      _settings = Settings.fromJson(cache);
+    }
 
     notifyListeners();
   }
 
-  InitiativeRollType get rollType => _rollType;
-
-  ThemeMode get themeMode => _themeMode;
+  Future<void> _saveSettings() async {
+    final preferences = await SharedPreferences.getInstance();
+    await preferences.setString(_settingsKey, jsonEncode(_settings.toJson()));
+  }
 
   Future<void> setInitiativeRollType(InitiativeRollType rollType) async {
-    _rollType = rollType;
+    _settings = _settings.copyWith(rollType: rollType);
     notifyListeners();
-
-    // Save settings to disk
-    final preferences = await SharedPreferences.getInstance();
-    await preferences.setInt('rollType', rollType.index);
+    await _saveSettings();
   }
 
   Future<void> setThemeMode(ThemeMode themeMode) async {
-    _themeMode = themeMode;
+    _settings = _settings.copyWith(themeMode: themeMode);
     notifyListeners();
+    await _saveSettings();
+  }
 
-    // Save settings to disk
-    final preferences = await SharedPreferences.getInstance();
-    await preferences.setInt('themeMode', _themeMode.index);
+  Future<void> setPF2eSettings(PF2eSettings pf2eSettings) async {
+    _settings = _settings.copyWith(pf2eSettings: pf2eSettings);
+    notifyListeners();
+    await _saveSettings();
   }
 }

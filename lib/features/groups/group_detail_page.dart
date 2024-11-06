@@ -30,7 +30,7 @@ class GroupDetailPage extends StatelessWidget {
     return ChangeNotifierProvider(
       create: (context) => EncounterTrackerNotifier(
         database: context.read<AppDatabase>(),
-        settings: context.read<SystemSettings>(),
+        settings: context.read<SystemSettingsProvider>(),
         encounterId: params.encounter.id,
       ),
       child: Builder(builder: (context) {
