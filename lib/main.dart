@@ -49,8 +49,8 @@ class BattlemasterApp extends StatelessWidget {
           supportedLocales: AppLocalizations.supportedLocales,
           theme: pf2eLightTheme,
           darkTheme: pf2eDarkTheme,
-          themeMode: context
-              .select<SystemSettingsProvider, ThemeMode>((state) => state.themeMode),
+          themeMode: context.select<SystemSettingsProvider, ThemeMode>(
+              (state) => state.themeMode),
           routes: {
             "/": (context) => const MainPage(),
             "/encounter": (context) => EncounterTrackerPage(

@@ -22,7 +22,8 @@ class SystemSettingsProvider extends ChangeNotifier {
 
   Future<void> _init() async {
     final preferences = await SharedPreferences.getInstance();
-    final cache = jsonDecode(preferences.getString(_settingsKey) ?? '{}') as Map<String, dynamic>;
+    final cache = jsonDecode(preferences.getString(_settingsKey) ?? '{}')
+        as Map<String, dynamic>;
     if (cache.isNotEmpty) {
       _settings = Settings.fromJson(cache);
     }

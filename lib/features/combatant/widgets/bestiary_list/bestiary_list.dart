@@ -29,7 +29,7 @@ class BestiaryList extends StatelessWidget {
   }
 
   Color _getTileColor(BuildContext context, int index) {
-    final color = Theme.of(context)!.colorScheme.primary;
+    final color = Theme.of(context).colorScheme.primary;
     return index.isEven ? color.withOpacity(0.15) : color.withOpacity(0.05);
   }
 }

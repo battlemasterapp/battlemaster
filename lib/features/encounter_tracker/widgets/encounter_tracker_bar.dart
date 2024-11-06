@@ -173,8 +173,8 @@ class _RollInitiativeButton extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final rollType = context
-        .select<SystemSettingsProvider, InitiativeRollType>((state) => state.rollType);
+    final rollType = context.select<SystemSettingsProvider, InitiativeRollType>(
+        (state) => state.rollType);
     if (rollType == InitiativeRollType.manual) {
       return const SizedBox();
     }
