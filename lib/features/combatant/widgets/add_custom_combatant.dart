@@ -156,7 +156,7 @@ class _AddCustomCombatantState extends State<AddCustomCombatant> {
       armorClass: 0,
       initiativeModifier: 0,
       type: CombatantType.monster,
-      engineType: GameEngineType.pf2e,
+      engineType: GameEngineType.custom,
     );
   }
 }
