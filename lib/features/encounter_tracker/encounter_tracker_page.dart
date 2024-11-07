@@ -80,7 +80,6 @@ class EncounterTrackerPage extends StatelessWidget {
 
 class _TrackerPageContent extends StatelessWidget {
   const _TrackerPageContent({
-    super.key,
     required this.encounter,
     required this.trackerState,
   });
@@ -96,6 +95,9 @@ class _TrackerPageContent extends StatelessWidget {
       children: [
         CombatantTrackerList(
           encounter: encounter,
+          onCombatantTap: (combatant) {
+            debugPrint('Tapped $combatant');
+          },
           selectedCombatantIndex: trackerState.isPlaying
               ? trackerState.activeCombatantIndex
               : null,
