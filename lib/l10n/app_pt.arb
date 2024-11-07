@@ -62,5 +62,11 @@
   "climb_speed_ft": "Escalada {speed} ft.",
   "burrow_speed_ft": "Escavação {speed} ft.",
   "dnd5e_actions": "Ações",
-  "dnd5e_reactions": "Reações"
+  "dnd5e_reactions": "Reações",
+  "str_short": "For",
+  "dex_short": "Des",
+  "con_short": "Con",
+  "int_short": "Int",
+  "wis_short": "Sab",
+  "cha_short": "Car"
 }

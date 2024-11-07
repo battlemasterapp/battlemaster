@@ -299,5 +299,29 @@
   "dnd5e_reactions": "Reactions",
   "@dnd5e_reactions": {
     "description": "The label of the reactions."
+  },
+  "str_short": "Str",
+  "@str_short": {
+    "description": "The short label for Strength."
+  },
+  "dex_short": "Dex",
+  "@dex_short": {
+    "description": "The short label for Dexterity."
+  },
+  "con_short": "Con",
+  "@con_short": {
+    "description": "The short label for Constitution."
+  },
+  "int_short": "Int",
+  "@int_short": {
+    "description": "The short label for Intelligence."
+  },
+  "wis_short": "Wis",
+  "@wis_short": {
+    "description": "The short label for Wisdom."
+  },
+  "cha_short": "Cha",
+  "@cha_short": {
+    "description": "The short label for Charisma."
   }
 }

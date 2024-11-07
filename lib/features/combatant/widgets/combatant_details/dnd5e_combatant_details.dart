@@ -29,6 +29,8 @@ class Dnd5eCombatantDetails extends StatelessWidget {
         ),
         _CombatantSpeed(combatant: combatant),
         const Divider(),
+        _CombatantAttributes(combatant: combatant),
+        const Divider(),
         _SpecialAbilities(combatant: combatant),
         _Actions(combatant: combatant),
         _Reactions(combatant: combatant),
@@ -78,6 +80,46 @@ class _CombatantSpeed extends StatelessWidget {
         localization.climb_speed_ft(combatant.speed.climb),
     ].join(", ");
     return BasicAbility(boldText: '${localization.speed_label} ', text: speeds);
+  }
+}
+
+class _CombatantAttributes extends StatelessWidget {
+  const _CombatantAttributes({
+    required this.combatant,
+  });
+
+  final Dnd5eCombatantData combatant;
+
+  @override
+  Widget build(BuildContext context) {
+    final localization = AppLocalizations.of(context)!;
+    final attributes = {
+      localization.str_short: combatant.strength,
+      localization.dex_short: combatant.dexterity,
+      localization.con_short: combatant.constitution,
+      localization.int_short: combatant.intelligence,
+      localization.wis_short: combatant.wisdom,
+      localization.cha_short: combatant.charisma,
+    };
+    return Row(
+      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+      children: [
+        for (final entry in attributes.entries)
+          Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 4),
+            child: Column(
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                Text(
+                  entry.key.toUpperCase(),
+                  style: const TextStyle(fontWeight: FontWeight.bold),
+                ),
+                Text("${entry.value.attribute} (${entry.value.modifier})"),
+              ],
+            ),
+          ),
+      ],
+    );
   }
 }
 

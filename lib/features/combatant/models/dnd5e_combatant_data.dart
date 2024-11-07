@@ -44,6 +44,18 @@ class Dnd5eCombatantData extends CombatantData {
 
   Dnd5eCombatantSpeed get speed => Dnd5eCombatantSpeed(rawData['speed'] ?? {});
 
+  Dnd5eAttribute get strength => Dnd5eAttribute(rawData['strength'] ?? 0);
+
+  Dnd5eAttribute get dexterity => Dnd5eAttribute(rawData['dexterity'] ?? 0);
+
+  Dnd5eAttribute get constitution => Dnd5eAttribute(rawData['constitution'] ?? 0);
+
+  Dnd5eAttribute get intelligence => Dnd5eAttribute(rawData['intelligence'] ?? 0);
+
+  Dnd5eAttribute get wisdom => Dnd5eAttribute(rawData['wisdom'] ?? 0);
+
+  Dnd5eAttribute get charisma => Dnd5eAttribute(rawData['charisma'] ?? 0);
+
   List<Dnd5eActions> get actions =>
       (rawData['actions'] as List<dynamic>?)
           ?.map((e) => Dnd5eActions(e as Map<String, dynamic>))
@@ -77,6 +89,13 @@ class Dnd5eCombatantSpeed {
   int get fly => rawData['fly'] ?? 0;
 
   int get swim => rawData['swim'] ?? 0;
+}
+
+class Dnd5eAttribute {
+  final int attribute;
+  final int modifier;
+
+  Dnd5eAttribute(this.attribute) : modifier = ((attribute - 10) / 2).floor();
 }
 
 class Dnd5eAbility {
