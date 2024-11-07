@@ -1,7 +1,6 @@
 import 'package:battlemaster/features/settings/models/initiative_roll_type.dart';
 import 'package:battlemaster/features/settings/providers/system_settings_provider.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:provider/provider.dart';
 
 import '../../../flavors/pf2e/pf2e_theme.dart';

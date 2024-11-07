@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:package_info_plus/package_info_plus.dart';
 
+import 'legal/dnd5e_legal.dart';
+import 'legal/pf2e_legal.dart';
 import 'widgets/app_settings.dart';
 import 'widgets/dnd5e_settings.dart';
 import 'widgets/encounter_settings.dart';
@@ -29,8 +31,7 @@ class SettingsPage extends StatelessWidget {
               return AboutListTile(
                 applicationName: "Battlemaster",
                 applicationVersion: "v${snapshot.data?.version}",
-                applicationLegalese:
-                    "This app uses trademarks and/or copyrights owned by Paizo Inc., used under Paizo's Community Use Policy (paizo.com/communityuse). We are expressly prohibited from charging you to use or access this content. This app is not published, endorsed, or specifically approved by Paizo. For more information about Paizo Inc. and Paizo products, visit paizo.com.",
+                applicationLegalese: "$PF2eLegal\n\n$Dnd5eLegal\n\n$OGL",
                 icon: const Icon(Icons.info),
                 applicationIcon: ClipRRect(
                   borderRadius: BorderRadius.circular(8),
