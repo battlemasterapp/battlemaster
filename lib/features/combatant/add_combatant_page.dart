@@ -117,6 +117,7 @@ class _AddCombatantState extends State<_AddCombatant> {
   @override
   Widget build(BuildContext context) {
     final systemSettings = context.watch<SystemSettingsProvider>();
+    var localization = AppLocalizations.of(context)!;
     return Padding(
       padding: const EdgeInsets.all(8.0),
       child: Column(
@@ -126,23 +127,23 @@ class _AddCombatantState extends State<_AddCombatant> {
             segments: [
               ButtonSegment(
                 value: _AddCombatantSource.dnd5e,
-                label: Text('5e'),
+                label: Text(localization.dnd5e_toggle_button),
                 icon: Icon(LineAwesome.dragon_solid),
               ),
               if (systemSettings.pf2eSettings.enabled)
                 ButtonSegment(
                   value: _AddCombatantSource.pf2e,
-                  label: Text(AppLocalizations.of(context)!.pf2e_toggle_button),
+                  label: Text(localization.pf2e_toggle_button),
                   icon: Icon(LineAwesome.dragon_solid),
                 ),
               ButtonSegment(
                 value: _AddCombatantSource.group,
-                label: Text(AppLocalizations.of(context)!.groups_toggle_button),
+                label: Text(localization.groups_toggle_button),
                 icon: Icon(LineAwesome.users_solid),
               ),
               ButtonSegment(
                 value: _AddCombatantSource.custom,
-                label: Text(AppLocalizations.of(context)!
+                label: Text(localization
                     .custom_combatant_toggle_button),
                 icon: Icon(LineAwesome.edit_solid),
               ),

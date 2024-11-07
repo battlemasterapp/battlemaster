@@ -10,11 +10,13 @@ class Settings {
   final InitiativeRollType rollType;
   final ThemeMode themeMode;
   final PF2eSettings pf2eSettings;
+  final Dnd5eSettings dnd5eSettings;
 
   const Settings({
     this.rollType = InitiativeRollType.manual,
     this.themeMode = ThemeMode.light,
     this.pf2eSettings = const PF2eSettings(),
+    this.dnd5eSettings = const Dnd5eSettings(),
   });
 
   factory Settings.fromJson(Map<String, dynamic> json) =>
@@ -52,6 +54,28 @@ class PF2eSettings {
     bool? enabled,
   }) {
     return PF2eSettings(
+      enabled: enabled ?? this.enabled,
+    );
+  }
+}
+
+@JsonSerializable()
+class Dnd5eSettings {
+  final bool enabled;
+
+  const Dnd5eSettings({
+    this.enabled = true,
+  });
+
+  factory Dnd5eSettings.fromJson(Map<String, dynamic> json) =>
+      _$Dnd5eSettingsFromJson(json);
+
+  Map<String, dynamic> toJson() => _$Dnd5eSettingsToJson(this);
+
+  Dnd5eSettings copyWith({
+    bool? enabled,
+  }) {
+    return Dnd5eSettings(
       enabled: enabled ?? this.enabled,
     );
   }
