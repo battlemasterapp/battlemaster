@@ -114,9 +114,15 @@ class Combatant extends Equatable {
 }
 
 CombatantData? combatantDataFromJson(Map<String, dynamic> json) {
-  return null;
+  final engine = json['engine'] as String?;
+  if (engine == null) {
+    return null;
+  }
+  return engine == 'dnd5e'
+      ? Dnd5eCombatantData.fromJson(json)
+      : Pf2eCombatantData.fromJson(json);
 }
 
 Map<String, dynamic> combatantDataToJson(CombatantData? instance) {
-  return {};
+  return instance?.toJson() ?? {};
 }

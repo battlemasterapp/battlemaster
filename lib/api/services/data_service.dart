@@ -29,14 +29,14 @@ abstract class DataService<T> {
   Future<T?> fetchData({bool forceRefresh = false});
 
   @protected
-  T? decodeCache(String cache);
+  Future<T?> decodeCache(String cache);
 
   @protected
-  String encodeCache(T data);
+  Future<String> encodeCache(T data);
 
   @protected
   Future<void> cacheData() async {
     final prefs = await SharedPreferences.getInstance();
-    prefs.setString(cacheKey, encodeCache(data));
+    prefs.setString(cacheKey, await encodeCache(data));
   }
 }

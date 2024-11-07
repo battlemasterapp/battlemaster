@@ -1,4 +1,5 @@
 import 'dart:convert';
+import 'dart:isolate';
 
 import 'package:battlemaster/features/combatant/models/dnd5e_combatant_data.dart';
 import 'package:dio/dio.dart';
@@ -26,25 +27,30 @@ class Dnd5eBestiaryService extends DataService<List<Combatant>> {
   String get cacheKey => '5e_bestiary';
 
   @override
-  List<Combatant>? decodeCache(String cache) {
-    final cachedList = (jsonDecode(cache) as List).cast<Map<String, dynamic>>();
-    return cachedList.map((e) => Combatant.fromJson(e)).toList();
+  Future<List<Combatant>?> decodeCache(String cache) async {
+    return await Isolate.run(() async {
+      final cachedList =
+          (jsonDecode(cache) as List).cast<Map<String, dynamic>>();
+      return cachedList.map((e) => Combatant.fromJson(e)).toList();
+    });
   }
 
   @override
-  String encodeCache(List<Combatant> data) {
-    return jsonEncode(data.map((e) => e.toJson()).toList());
+  Future<String> encodeCache(List<Combatant> data) async {
+    return await Isolate.run(() async {
+      return jsonEncode(data.map((e) => e.toJson()).toList());
+    });
   }
 
   @override
-  Future<List<Combatant>?> fetchData({bool forceRefresh = true}) async {
+  Future<List<Combatant>?> fetchData({bool forceRefresh = false}) async {
     data.clear();
     final prefs = await SharedPreferences.getInstance();
     final cache = prefs.getString(cacheKey);
 
     if (cache != null && !forceRefresh) {
       logger.d('Using cached bestiary data');
-      data = decodeCache(cache) ?? [];
+      data = await decodeCache(cache) ?? [];
       return data;
     }
 

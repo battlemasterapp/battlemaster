@@ -1,7 +1,21 @@
 import 'package:battlemaster/features/combatant/models/combatant_data.dart';
+import 'package:battlemaster/features/engines/models/game_engine_type.dart';
+import 'package:json_annotation/json_annotation.dart';
 
+part 'dnd5e_combatant_data.g.dart';
+
+@JsonSerializable()
 class Dnd5eCombatantData extends CombatantData {
-  Dnd5eCombatantData({super.rawData});
+  Dnd5eCombatantData({
+    super.engine = GameEngineType.dnd5e,
+    super.rawData,
+  });
+
+  factory Dnd5eCombatantData.fromJson(Map<String, dynamic> json) =>
+      _$Dnd5eCombatantDataFromJson(json);
+
+  @override
+  Map<String, dynamic> toJson() => _$Dnd5eCombatantDataToJson(this);
 
   String get name => rawData['name'] ?? "";
 
