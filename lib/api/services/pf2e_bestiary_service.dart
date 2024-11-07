@@ -61,36 +61,39 @@ class Pf2eBestiaryService extends Pf2eDataService<List<Combatant>> {
 
     if (cache != null && !forceRefresh) {
       logger.d('Using cached bestiary data');
-      data = decodeCache(cache)!;
-    } else {
-      await _getAvailableSources();
-      for (final source in _defaultSources) {
-        logger.d('Fetching bestiary data for $source');
-        final sourceUri = _availableSources[source];
-        if (sourceUri == null) {
-          logger.e('Source $source not found');
-          continue;
-        }
-        try {
-          final bestiaryResponse = await client.get("/bestiaries/$sourceUri");
-          final bestiaryData = (jsonDecode(bestiaryResponse.data) as List)
-              .cast<Map<String, dynamic>>();
-          data.addAll(bestiaryData
-              .map(
-                (data) => Combatant.fromPf2eCombatantData(
-                  Pf2eCombatantData(
-                    rawData: data,
-                  ),
+      data = decodeCache(cache) ?? [];
+      return data;
+    }
+
+    await _getAvailableSources();
+    for (final source in _defaultSources) {
+      logger.d('Fetching bestiary data for $source');
+      final sourceUri = _availableSources[source];
+      if (sourceUri == null) {
+        logger.e('Source $source not found');
+        continue;
+      }
+      try {
+        final bestiaryResponse = await client.get("/bestiaries/$sourceUri");
+        final bestiaryData = (jsonDecode(bestiaryResponse.data) as List)
+            .cast<Map<String, dynamic>>();
+        data.addAll(bestiaryData
+            .map(
+              (data) => Combatant.fromPf2eCombatantData(
+                Pf2eCombatantData(
+                  rawData: data,
                 ),
-              )
-              .toList());
-        } on DioException catch (e) {
-          logger.e(e);
-        }
+              ),
+            )
+            .toList());
+      } on DioException catch (e) {
+        logger.e(e);
       }
     }
+
     data.sort((a, b) => a.name.compareTo(b.name));
     await cacheData();
+    logger.d('Fetched pf2e bestiary entries');
     return data;
   }
 }

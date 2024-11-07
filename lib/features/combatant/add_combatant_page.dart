@@ -1,3 +1,4 @@
+import 'package:battlemaster/api/services/dnd5e_data_service.dart';
 import 'package:battlemaster/api/services/pf2e_bestiary_service.dart';
 import 'package:battlemaster/features/combatant/widgets/add_custom_combatant.dart';
 import 'package:battlemaster/features/combatant/widgets/add_from_bestiary_list.dart';
@@ -82,6 +83,7 @@ class _AddCombatantPageState extends State<AddCombatantPage> {
 }
 
 enum _AddCombatantSource {
+  dnd5e,
   pf2e,
   group,
   custom,
@@ -122,6 +124,11 @@ class _AddCombatantState extends State<_AddCombatant> {
         children: [
           SegmentedButton<_AddCombatantSource>(
             segments: [
+              ButtonSegment(
+                value: _AddCombatantSource.dnd5e,
+                label: Text('5e'),
+                icon: Icon(LineAwesome.dragon_solid),
+              ),
               if (systemSettings.pf2eSettings.enabled)
                 ButtonSegment(
                   value: _AddCombatantSource.pf2e,
@@ -156,6 +163,14 @@ class _AddCombatantState extends State<_AddCombatant> {
   }
 
   Widget _getSelectedWidget() {
+    if (_selected.contains(_AddCombatantSource.dnd5e)) {
+      return AddFromBestiaryList(
+        combatants: context.read<Dnd5eBestiaryService>().bestiaryData,
+        onCombatantSelected: (combatant) {
+          widget.onCombatantsAdded({combatant: 1});
+        },
+      );
+    }
     if (_selected.contains(_AddCombatantSource.pf2e)) {
       return AddFromBestiaryList(
         combatants: context.read<Pf2eBestiaryService>().bestiaryData,

@@ -5,6 +5,7 @@ import 'package:json_annotation/json_annotation.dart';
 
 import '../../engines/models/game_engine_type.dart';
 import 'combatant_type.dart';
+import 'dnd5e_combatant_data.dart';
 
 part 'combatant.g.dart';
 
@@ -16,7 +17,7 @@ class Combatant extends Equatable {
   final double initiative;
   final int armorClass;
   final int initiativeModifier;
-  final int? level;
+  final double? level;
   final CombatantType type;
   final GameEngineType engineType;
 
@@ -47,9 +48,23 @@ class Combatant extends Equatable {
       armorClass: data.ac,
       initiativeModifier: data.initiativeModifier,
       combatantData: data,
-      level: data.level,
+      level: data.level.toDouble(),
       type: CombatantType.monster,
       engineType: GameEngineType.pf2e,
+    );
+  }
+
+  factory Combatant.from5eCombatantData(Dnd5eCombatantData data) {
+    return Combatant(
+      name: data.name,
+      currentHp: data.hp,
+      maxHp: data.hp,
+      armorClass: data.ac,
+      initiativeModifier: data.initiativeModifier,
+      combatantData: data,
+      level: data.level,
+      type: CombatantType.monster,
+      engineType: GameEngineType.dnd5e,
     );
   }
 
@@ -65,7 +80,7 @@ class Combatant extends Equatable {
     double? initiative,
     int? armorClass,
     int? initiativeModifier,
-    int? level,
+    double? level,
     CombatantType? type,
     GameEngineType? engineType,
     CombatantData? combatantData,
