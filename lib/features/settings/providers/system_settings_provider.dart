@@ -1,4 +1,5 @@
 import 'dart:convert';
+import 'dart:isolate';
 
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -32,8 +33,10 @@ class SystemSettingsProvider extends ChangeNotifier {
   }
 
   Future<void> _saveSettings() async {
-    final preferences = await SharedPreferences.getInstance();
-    await preferences.setString(_settingsKey, jsonEncode(_settings.toJson()));
+    await Isolate.run(() async {
+      final preferences = await SharedPreferences.getInstance();
+      await preferences.setString(_settingsKey, jsonEncode(_settings.toJson()));
+    });
   }
 
   Future<void> setInitiativeRollType(InitiativeRollType rollType) async {
@@ -50,6 +53,12 @@ class SystemSettingsProvider extends ChangeNotifier {
 
   Future<void> setPF2eSettings(PF2eSettings pf2eSettings) async {
     _settings = _settings.copyWith(pf2eSettings: pf2eSettings);
+    notifyListeners();
+    await _saveSettings();
+  }
+
+  Future<void> set5eSettings(Dnd5eSettings dnd5eSettings) async {
+    _settings = _settings.copyWith(dnd5eSettings: dnd5eSettings);
     notifyListeners();
     await _saveSettings();
   }

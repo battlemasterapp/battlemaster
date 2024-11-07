@@ -28,11 +28,13 @@ class Settings {
     InitiativeRollType? rollType,
     ThemeMode? themeMode,
     PF2eSettings? pf2eSettings,
+    Dnd5eSettings? dnd5eSettings,
   }) {
     return Settings(
       rollType: rollType ?? this.rollType,
       themeMode: themeMode ?? this.themeMode,
       pf2eSettings: pf2eSettings ?? this.pf2eSettings,
+      dnd5eSettings: dnd5eSettings ?? this.dnd5eSettings,
     );
   }
 }
