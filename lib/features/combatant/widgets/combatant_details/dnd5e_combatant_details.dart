@@ -1,3 +1,4 @@
+import 'package:battlemaster/extensions/int_extensions.dart';
 import 'package:battlemaster/features/combatant/models/dnd5e_combatant_data.dart';
 import 'package:battlemaster/features/combatant/widgets/combatant_details/basic_ability.dart';
 import 'package:flutter/material.dart';
@@ -31,6 +32,7 @@ class Dnd5eCombatantDetails extends StatelessWidget {
         const Divider(),
         _CombatantAttributes(combatant: combatant),
         const Divider(),
+        _CombatantSaves(combatant: combatant),
         if (combatant.damageVulnerabilities.isNotEmpty)
           BasicAbility(
             boldText: "${localization.dnd5e_damage_vulnerabilities} ",
@@ -109,6 +111,33 @@ class _CombatantSpeed extends StatelessWidget {
   }
 }
 
+class _CombatantSaves extends StatelessWidget {
+  const _CombatantSaves({required this.combatant});
+
+  final Dnd5eCombatantData combatant;
+
+  @override
+  Widget build(BuildContext context) {
+    final localization = AppLocalizations.of(context)!;
+    final saves = {
+      localization.str_short: combatant.strengthSave,
+      localization.dex_short: combatant.dexteritySave,
+      localization.con_short: combatant.constitutionSave,
+      localization.int_short: combatant.intelligenceSave,
+      localization.wis_short: combatant.wisdomSave,
+      localization.cha_short: combatant.charismaSave,
+    }..removeWhere((_, value) => value == null);
+    if (saves.isEmpty) {
+      return Container();
+    }
+    return BasicAbility(
+        boldText: "${localization.dnd5e_saving_throws} ",
+        text: saves.entries
+            .map((e) => "${e.key} ${e.value!.signString}")
+            .join(", "));
+  }
+}
+
 class _CombatantAttributes extends StatelessWidget {
   const _CombatantAttributes({
     required this.combatant,
@@ -140,7 +169,7 @@ class _CombatantAttributes extends StatelessWidget {
                   entry.key.toUpperCase(),
                   style: const TextStyle(fontWeight: FontWeight.bold),
                 ),
-                Text("${entry.value.attribute} (${entry.value.modifier})"),
+                Text("${entry.value.attribute} (${entry.value.modifier.signString})"),
               ],
             ),
           ),

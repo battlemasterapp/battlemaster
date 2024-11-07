@@ -343,5 +343,9 @@
   "dnd5e_senses": "Senses",
   "@dnd5e_senses": {
     "description": "The label of the senses."
+  },
+  "dnd5e_saving_throws": "Saving Throws",
+  "@dnd5e_saving_throws": {
+    "description": "The label of the saving throws."
   }
 }

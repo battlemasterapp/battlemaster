@@ -56,6 +56,18 @@ class Dnd5eCombatantData extends CombatantData {
 
   Dnd5eAttribute get charisma => Dnd5eAttribute(rawData['charisma'] ?? 0);
 
+  int? get strengthSave => rawData['strength_save'] as int?;
+
+  int? get dexteritySave => rawData['dexterity_save'] as int?;
+
+  int? get constitutionSave => rawData['constitution_save'] as int?;
+
+  int? get intelligenceSave => rawData['intelligence_save'] as int?;
+
+  int? get wisdomSave => rawData['wisdom_save'] as int?;
+
+  int? get charismaSave => rawData['charisma_save'] as int?;
+
   String get damageVulnerabilities => rawData['damage_vulnerabilities'] ?? '';
 
   String get damageResistances => rawData['damage_resistances'] ?? '';
