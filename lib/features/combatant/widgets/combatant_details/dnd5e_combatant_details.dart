@@ -65,9 +65,18 @@ class Dnd5eCombatantDetails extends StatelessWidget {
             text: combatant.languages,
           ),
         const Divider(),
-        _SpecialAbilities(combatant: combatant),
-        _Actions(combatant: combatant),
-        _Reactions(combatant: combatant),
+        _CombatantAbility(
+          abilities: combatant.specialAbilities,
+        ),
+        _CombatantAbility(
+          abilities: combatant.actions,
+          title: localization.dnd5e_actions,
+        ),
+        _CombatantAbility(
+          abilities: combatant.legendaryActions,
+          title: localization.dnd5e_legendary_actions,
+          description: combatant.legendaryDescription,
+        ),
       ],
     );
   }
@@ -207,106 +216,40 @@ class _CombatantAttributes extends StatelessWidget {
   }
 }
 
-class _SpecialAbilities extends StatelessWidget {
-  const _SpecialAbilities({
-    required this.combatant,
+class _CombatantAbility extends StatelessWidget {
+  const _CombatantAbility({
+    required this.abilities,
+    this.title,
+    this.description,
   });
 
-  final Dnd5eCombatantData combatant;
+  final List<Dnd5eAbility> abilities;
+  final String? title;
+  final String? description;
 
   @override
   Widget build(BuildContext context) {
-    final specialAbilities = combatant.specialAbilities;
-    if (specialAbilities.isEmpty) {
+    if (abilities.isEmpty) {
       return Container();
     }
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        for (final ability in specialAbilities)
+        if (title != null)
+          Text(
+            title!,
+            style: Theme.of(context)
+                .textTheme
+                .titleMedium
+                ?.copyWith(color: Colors.black),
+          ),
+        if (description != null) Text(description!),
+        for (final ability in abilities)
           Padding(
             padding: const EdgeInsets.symmetric(vertical: 4),
             child: BasicAbility(
               boldText: "${ability.name} ",
               text: ability.desc,
-            ),
-          ),
-        const Divider(),
-      ],
-    );
-  }
-}
-
-class _Actions extends StatelessWidget {
-  const _Actions({
-    required this.combatant,
-  });
-
-  final Dnd5eCombatantData combatant;
-
-  @override
-  Widget build(BuildContext context) {
-    final actions = combatant.actions;
-    final localization = AppLocalizations.of(context)!;
-    if (actions.isEmpty) {
-      return Container();
-    }
-
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: [
-        Text(
-          localization.dnd5e_actions,
-          style: Theme.of(context)
-              .textTheme
-              .titleMedium
-              ?.copyWith(color: Colors.black),
-        ),
-        for (final action in actions)
-          Padding(
-            padding: const EdgeInsets.symmetric(vertical: 4),
-            child: BasicAbility(
-              boldText: "${action.name} ",
-              text: action.desc,
-            ),
-          ),
-        const Divider(),
-      ],
-    );
-  }
-}
-
-class _Reactions extends StatelessWidget {
-  const _Reactions({
-    required this.combatant,
-  });
-
-  final Dnd5eCombatantData combatant;
-
-  @override
-  Widget build(BuildContext context) {
-    final reactions = combatant.reactions;
-    final localization = AppLocalizations.of(context)!;
-    if (reactions.isEmpty) {
-      return Container();
-    }
-
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: [
-        Text(
-          localization.dnd5e_reactions,
-          style: Theme.of(context)
-              .textTheme
-              .titleMedium
-              ?.copyWith(color: Colors.black),
-        ),
-        for (final reaction in reactions)
-          Padding(
-            padding: const EdgeInsets.symmetric(vertical: 4),
-            child: BasicAbility(
-              boldText: "${reaction.name} ",
-              text: reaction.desc,
             ),
           ),
         const Divider(),

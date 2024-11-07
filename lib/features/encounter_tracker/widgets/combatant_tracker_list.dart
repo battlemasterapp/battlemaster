@@ -12,7 +12,6 @@ import '../../combatant/models/combatant.dart';
 import '../../encounters/models/encounter.dart';
 import 'tracker_tile.dart';
 
-
 class CombatantTrackerList extends StatefulWidget {
   const CombatantTrackerList({
     super.key,

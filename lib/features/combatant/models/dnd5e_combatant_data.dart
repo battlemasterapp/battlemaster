@@ -82,6 +82,8 @@ class Dnd5eCombatantData extends CombatantData {
 
   String get languages => rawData['languages'] ?? '';
 
+  String get legendaryDescription => rawData['legendary_desc'] ?? '';
+
   List<Dnd5eSkill> get skills =>
       (rawData['skills'] as Map<String, dynamic>?)
           ?.cast<String, int>()
@@ -90,9 +92,9 @@ class Dnd5eCombatantData extends CombatantData {
           .toList() ??
       [];
 
-  List<Dnd5eActions> get actions =>
+  List<Dnd5eAbility> get actions =>
       (rawData['actions'] as List<dynamic>?)
-          ?.map((e) => Dnd5eActions(e as Map<String, dynamic>))
+          ?.map((e) => Dnd5eAbility(e as Map<String, dynamic>))
           .toList() ??
       [];
 
@@ -104,6 +106,12 @@ class Dnd5eCombatantData extends CombatantData {
 
   List<Dnd5eAbility> get specialAbilities =>
       (rawData['special_abilities'] as List<dynamic>?)
+          ?.map((e) => Dnd5eAbility(e as Map<String, dynamic>))
+          .toList() ??
+      [];
+
+  List<Dnd5eAbility> get legendaryActions =>
+      (rawData['legendary_actions'] as List<dynamic>?)
           ?.map((e) => Dnd5eAbility(e as Map<String, dynamic>))
           .toList() ??
       [];
@@ -147,18 +155,4 @@ class Dnd5eSkill {
   final int modifier;
 
   Dnd5eSkill(this.name, this.modifier);
-}
-
-class Dnd5eActions {
-  final Map<String, dynamic> rawData;
-
-  Dnd5eActions(this.rawData);
-
-  String get name => rawData['name'] ?? '';
-
-  String get desc => rawData['desc'] ?? '';
-
-  int? get attackBonus => rawData['attack_bonus'] as int?;
-
-  String get damageDice => rawData['damage_dice'] ?? '';
 }

@@ -355,5 +355,9 @@
   "dnd5e_languages": "Languages",
   "@dnd5e_languages": {
     "description": "The label of the languages."
+  },
+  "dnd5e_legendary_actions": "Legendary Actions",
+  "@dnd5e_legendary_actions": {
+    "description": "The label of the legendary actions."
   }
 }

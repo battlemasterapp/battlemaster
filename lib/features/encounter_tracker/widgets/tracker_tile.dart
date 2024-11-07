@@ -58,9 +58,10 @@ class TrackerTile extends StatelessWidget {
                 onPressed: () async {
                   final value = await showDialog<double?>(
                     context: context,
-                    builder: (context) => InitiativeDialog(combatant: combatant),
+                    builder: (context) =>
+                        InitiativeDialog(combatant: combatant),
                   );
-          
+
                   if (value != null) {
                     onInitiativeChanged?.call(value);
                   }
@@ -87,7 +88,7 @@ class TrackerTile extends StatelessWidget {
                       name: combatant.name,
                     ),
                   );
-          
+
                   if (confirm == null || !confirm) {
                     return;
                   }
