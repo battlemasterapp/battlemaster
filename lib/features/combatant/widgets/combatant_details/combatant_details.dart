@@ -23,6 +23,8 @@ class CombatantDetails extends StatelessWidget {
                 color: Colors.black,
               ),
         ),
+        // FIXME: engine type text display
+        Text(combatant.engineType.toString()),
         if (combatant.combatantData != null &&
             combatant.combatantData is Dnd5eCombatantData)
           Dnd5eCombatantDetails(
