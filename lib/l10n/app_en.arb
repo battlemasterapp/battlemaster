@@ -351,5 +351,9 @@
   "dnd5e_skills": "Skills",
   "@dnd5e_skills": {
     "description": "The label of the skills."
+  },
+  "dnd5e_languages": "Languages",
+  "@dnd5e_languages": {
+    "description": "The label of the languages."
   }
 }

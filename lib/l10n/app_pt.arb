@@ -75,5 +75,6 @@
   "dnd5e_condition_immunities": "Imunidade a Condição",
   "dnd5e_senses": "Sentidos",
   "dnd5e_saving_throws": "Testes de Resistência",
-  "dnd5e_skills": "Perícias"
+  "dnd5e_skills": "Perícias",
+  "dnd5e_languages": "Idiomas"
 }

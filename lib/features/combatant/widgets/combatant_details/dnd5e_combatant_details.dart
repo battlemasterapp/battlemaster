@@ -59,6 +59,11 @@ class Dnd5eCombatantDetails extends StatelessWidget {
             boldText: "${localization.dnd5e_senses} ",
             text: combatant.senses,
           ),
+        if (combatant.languages.isNotEmpty)
+          BasicAbility(
+            boldText: "${localization.dnd5e_languages} ",
+            text: combatant.languages,
+          ),
         const Divider(),
         _SpecialAbilities(combatant: combatant),
         _Actions(combatant: combatant),

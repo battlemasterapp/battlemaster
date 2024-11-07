@@ -80,10 +80,12 @@ class Dnd5eCombatantData extends CombatantData {
 
   String get senses => rawData['senses'] ?? '';
 
+  String get languages => rawData['languages'] ?? '';
+
   List<Dnd5eSkill> get skills =>
       (rawData['skills'] as Map<String, dynamic>?)
           ?.cast<String, int>()
-          ?.entries
+          .entries
           .map((e) => Dnd5eSkill(e.key, e.value))
           .toList() ??
       [];
