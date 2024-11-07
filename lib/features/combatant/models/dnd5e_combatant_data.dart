@@ -41,4 +41,22 @@ class Dnd5eCombatantData extends CombatantData {
   String get subtype => rawData['subtype'] ?? '';
 
   String get alignment => rawData['alignment'] ?? '';
+
+  Dnd5eCombatantSpeed get speed => Dnd5eCombatantSpeed(rawData['speed'] ?? {});
+}
+
+class Dnd5eCombatantSpeed {
+  final Map<String, dynamic> rawData;
+
+  Dnd5eCombatantSpeed(this.rawData);
+
+  int get walk => rawData['walk'] ?? 0;
+
+  int get burrow => rawData['burrow'] ?? 0;
+
+  int get climb => rawData['climb'] ?? 0;
+
+  int get fly => rawData['fly'] ?? 0;
+
+  int get swim => rawData['swim'] ?? 0;
 }

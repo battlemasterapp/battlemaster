@@ -52,5 +52,13 @@
   "pf2e_settings_title": "Configurações PF2e",
   "pf2e_settings_bestiary_toggle": "Ativar bestiário",
   "dnd5e_settings_title": "Configurações 5e",
-  "dnd5e_settings_bestiary_toggle": "Ativar bestiário"
+  "dnd5e_settings_bestiary_toggle": "Ativar bestiário",
+  "armor_class": "Classe de Armadura",
+  "hit_points": "Pontos de Vida",
+  "speed_label": "Deslocamento",
+  "speed_ft": "{speed} ft.",
+  "fly_speed_ft": "Voo {speed} ft.",
+  "swim_speed_ft": "Natação {speed} ft.",
+  "climb_speed_ft": "Escalada {speed} ft.",
+  "burrow_speed_ft": "Escavação {speed} ft."
 }

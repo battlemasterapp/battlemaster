@@ -7,8 +7,10 @@ import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:provider/provider.dart';
 
 import '../../database/database.dart';
+import '../combatant/models/combatant.dart';
 import '../settings/providers/system_settings_provider.dart';
 import 'providers/encounter_tracker_notifier.dart';
+import 'widgets/details_panel.dart';
 import 'widgets/encounter_tracker_bar.dart';
 
 class EncounterTrackerParams {
@@ -64,7 +66,8 @@ class EncounterTrackerPage extends StatelessWidget {
                         },
                       ),
                       Expanded(
-                        child: _TrackerPageContent(encounter: encounter, trackerState: trackerState),
+                        child: _TrackerPageContent(
+                            encounter: encounter, trackerState: trackerState),
                       ),
                     ],
                   ),
@@ -78,7 +81,7 @@ class EncounterTrackerPage extends StatelessWidget {
   }
 }
 
-class _TrackerPageContent extends StatelessWidget {
+class _TrackerPageContent extends StatefulWidget {
   const _TrackerPageContent({
     required this.encounter,
     required this.trackerState,
@@ -88,24 +91,45 @@ class _TrackerPageContent extends StatelessWidget {
   final EncounterTrackerNotifier trackerState;
 
   @override
+  State<_TrackerPageContent> createState() => _TrackerPageContentState();
+}
+
+class _TrackerPageContentState extends State<_TrackerPageContent> {
+  Combatant? combatant;
+  bool detailsOpen = false;
+
+  @override
   Widget build(BuildContext context) {
     return Stack(
       clipBehavior: Clip.none,
-        fit: StackFit.expand,
+      fit: StackFit.expand,
       children: [
         CombatantTrackerList(
-          encounter: encounter,
+          encounter: widget.encounter,
           onCombatantTap: (combatant) {
-            debugPrint('Tapped $combatant');
+            setState(() {
+              this.combatant = combatant;
+              detailsOpen = true;
+            });
           },
-          selectedCombatantIndex: trackerState.isPlaying
-              ? trackerState.activeCombatantIndex
+          selectedCombatantIndex: widget.trackerState.isPlaying
+              ? widget.trackerState.activeCombatantIndex
               : null,
           onCombatantsAdded: (combatants) async {
             await context
                 .read<EncountersProvider>()
-                .addCombatants(encounter, combatants);
+                .addCombatants(widget.encounter, combatants);
           },
+        ),
+        Align(
+          alignment: Alignment.topRight,
+          child: EncounterDetailsPanel(
+            combatant: combatant,
+            open: detailsOpen,
+            onClose: () => setState(() {
+              detailsOpen = false;
+            }),
+          ),
         ),
         Align(
           alignment: Alignment.bottomCenter,
