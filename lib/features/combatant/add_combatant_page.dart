@@ -109,7 +109,12 @@ class _AddCombatantState extends State<_AddCombatant> {
     final systemSettings = context.read<SystemSettingsProvider>();
     if (systemSettings.pf2eSettings.enabled) {
       _selected.add(_AddCombatantSource.pf2e);
-    } else {
+    }
+    if (systemSettings.dnd5eSettings.enabled) {
+      _selected.clear();
+      _selected.add(_AddCombatantSource.dnd5e);
+    }
+    if (_selected.isEmpty) {
       _selected.add(_AddCombatantSource.group);
     }
   }
@@ -125,11 +130,12 @@ class _AddCombatantState extends State<_AddCombatant> {
         children: [
           SegmentedButton<_AddCombatantSource>(
             segments: [
-              ButtonSegment(
-                value: _AddCombatantSource.dnd5e,
-                label: Text(localization.dnd5e_toggle_button),
-                icon: Icon(LineAwesome.dragon_solid),
-              ),
+              if (systemSettings.dnd5eSettings.enabled)
+                ButtonSegment(
+                  value: _AddCombatantSource.dnd5e,
+                  label: Text(localization.dnd5e_toggle_button),
+                  icon: Icon(LineAwesome.dragon_solid),
+                ),
               if (systemSettings.pf2eSettings.enabled)
                 ButtonSegment(
                   value: _AddCombatantSource.pf2e,
@@ -143,8 +149,7 @@ class _AddCombatantState extends State<_AddCombatant> {
               ),
               ButtonSegment(
                 value: _AddCombatantSource.custom,
-                label: Text(localization
-                    .custom_combatant_toggle_button),
+                label: Text(localization.custom_combatant_toggle_button),
                 icon: Icon(LineAwesome.edit_solid),
               ),
             ],

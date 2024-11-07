@@ -60,7 +60,6 @@ class TrackerBar extends StatelessWidget {
             onPressed: () async {
               final combatantsMap =
                   await Navigator.of(context).pushNamed("/combatant/add");
-              debugPrint(combatantsMap.toString());
 
               if (combatantsMap == null) {
                 return;
@@ -185,10 +184,10 @@ class _RollInitiativeButton extends StatelessWidget {
 
     // TODO: convert to icon button if orientation is portrait
 
-    return ElevatedButton.icon(
+    return IconButton(
       onPressed: onPressed,
       icon: Icon(Icons.casino),
-      label: Text(AppLocalizations.of(context)!.roll_initiative_button),
+      // label: Text(AppLocalizations.of(context)!.roll_initiative_button),
     );
   }
 }

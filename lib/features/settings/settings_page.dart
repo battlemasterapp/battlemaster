@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:package_info_plus/package_info_plus.dart';
 
 import 'widgets/app_settings.dart';
+import 'widgets/dnd5e_settings.dart';
 import 'widgets/encounter_settings.dart';
 import 'widgets/pf2e_settings.dart';
 
@@ -45,6 +46,8 @@ class SettingsPage extends StatelessWidget {
           const AppSettings(),
           const Divider(),
           const EncounterSettings(),
+          const Divider(),
+          const Dnd5eSettingsWidget(),
           const Divider(),
           const Pf2eSettingsWidget(),
         ],

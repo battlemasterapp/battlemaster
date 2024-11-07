@@ -143,7 +143,6 @@ class _Health extends StatelessWidget {
         if (health == null) {
           return;
         }
-        debugPrint({health}.toString());
         onHealthChanged?.call(health);
       },
       icon: Icon(

@@ -1,5 +1,4 @@
 import 'dart:convert';
-import 'dart:isolate';
 
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -21,6 +20,8 @@ class SystemSettingsProvider extends ChangeNotifier {
 
   PF2eSettings get pf2eSettings => _settings.pf2eSettings;
 
+  Dnd5eSettings get dnd5eSettings => _settings.dnd5eSettings;
+
   Future<void> _init() async {
     final preferences = await SharedPreferences.getInstance();
     final cache = jsonDecode(preferences.getString(_settingsKey) ?? '{}')
@@ -33,10 +34,11 @@ class SystemSettingsProvider extends ChangeNotifier {
   }
 
   Future<void> _saveSettings() async {
-    await Isolate.run(() async {
-      final preferences = await SharedPreferences.getInstance();
-      await preferences.setString(_settingsKey, jsonEncode(_settings.toJson()));
-    });
+    final preferences = await SharedPreferences.getInstance();
+    await preferences.setString(
+      _settingsKey,
+      jsonEncode(_settings.toJson()),
+    );
   }
 
   Future<void> setInitiativeRollType(InitiativeRollType rollType) async {
