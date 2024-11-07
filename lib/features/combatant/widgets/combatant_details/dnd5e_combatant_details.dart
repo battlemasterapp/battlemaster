@@ -51,6 +51,11 @@ class Dnd5eCombatantDetails extends StatelessWidget {
             boldText: "${localization.dnd5e_condition_immunities} ",
             text: combatant.conditionImmunities,
           ),
+        if (combatant.senses.isNotEmpty)
+          BasicAbility(
+            boldText: "${localization.dnd5e_senses} ",
+            text: combatant.senses,
+          ),
         const Divider(),
         _SpecialAbilities(combatant: combatant),
         _Actions(combatant: combatant),

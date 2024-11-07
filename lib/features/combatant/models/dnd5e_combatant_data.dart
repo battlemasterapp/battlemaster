@@ -64,6 +64,8 @@ class Dnd5eCombatantData extends CombatantData {
 
   String get conditionImmunities => rawData['condition_immunities'] ?? '';
 
+  String get senses => rawData['senses'] ?? '';
+
   List<Dnd5eActions> get actions =>
       (rawData['actions'] as List<dynamic>?)
           ?.map((e) => Dnd5eActions(e as Map<String, dynamic>))

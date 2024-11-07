@@ -339,5 +339,9 @@
   "dnd5e_condition_immunities": "Condition Immunities",
   "@dnd5e_condition_immunities": {
     "description": "The label of the condition immunities."
+  },
+  "dnd5e_senses": "Senses",
+  "@dnd5e_senses": {
+    "description": "The label of the senses."
   }
 }
