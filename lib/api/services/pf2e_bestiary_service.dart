@@ -1,19 +1,22 @@
 import 'dart:convert';
-import 'dart:isolate';
 
 import 'package:dio/dio.dart';
-import 'package:shared_preferences/shared_preferences.dart';
 
 import '../../features/combatant/models/combatant.dart';
 import '../../features/combatant/models/pf2e_combatant_data.dart';
-import 'pf2e_data_service.dart';
+import 'bestiary_service.dart';
 
-class Pf2eBestiaryService extends Pf2eDataService<List<Combatant>> {
-  Pf2eBestiaryService() : super(initialData: []) {
+const _baseUrl =
+    'https://raw.githubusercontent.com/VytorCalixto/pf2e-fvtt-bestiary/refs/heads/main';
+
+class Pf2eBestiaryService extends BestiaryService {
+  Pf2eBestiaryService()
+      : super(
+          initialData: [],
+          baseUrl: _baseUrl,
+        ) {
     fetchData();
   }
-
-  List<Combatant> get bestiaryData => data;
 
   final List<String> _defaultSources = [
     "book-of-the-dead",
@@ -31,22 +34,6 @@ class Pf2eBestiaryService extends Pf2eDataService<List<Combatant>> {
   @override
   String get cacheKey => 'pf2e_bestiary';
 
-  @override
-  Future<List<Combatant>?> decodeCache(String cache) async {
-    return await Isolate.run(() async {
-      final cachedList =
-          (jsonDecode(cache) as List).cast<Map<String, dynamic>>();
-      return cachedList.map((e) => Combatant.fromJson(e)).toList();
-    });
-  }
-
-  @override
-  Future<String> encodeCache(List<Combatant> data) async {
-    return await Isolate.run(() async {
-      return jsonEncode(data.map((e) => e.toJson()).toList());
-    });
-  }
-
   Future<Map<String, String>> _getAvailableSources() async {
     logger.d('Fetching available bestiary sources');
     final response = await client.get('/bestiaries/index.json');
@@ -62,8 +49,7 @@ class Pf2eBestiaryService extends Pf2eDataService<List<Combatant>> {
   @override
   Future<List<Combatant>?> fetchData({bool forceRefresh = false}) async {
     data.clear();
-    final prefs = await SharedPreferences.getInstance();
-    final cache = prefs.getString(cacheKey);
+    final cache = await getCache();
 
     if (cache != null && !forceRefresh) {
       logger.d('Using cached bestiary data');

@@ -1,6 +1,9 @@
+import 'dart:io';
+
 import 'package:dio/dio.dart';
-import 'package:flutter/material.dart';
+import 'package:flutter/foundation.dart';
 import 'package:logger/logger.dart';
+import 'package:path_provider/path_provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 abstract class DataService<T> {
@@ -35,8 +38,34 @@ abstract class DataService<T> {
   Future<String> encodeCache(T data);
 
   @protected
+  Future<String?> getCache() async {
+    if (kIsWeb) {
+      final prefs = await SharedPreferences.getInstance();
+      logger.d('Reading cache from shared prefs');
+      return prefs.getString(cacheKey);
+    }
+    final cacheDir = await getApplicationCacheDirectory();
+    final cacheFile = '${cacheDir.path}/$cacheKey.json';
+    final fileExists = await File(cacheFile).exists();
+    if (!fileExists) {
+      return null;
+    }
+    logger.d('Reading cache from $cacheFile');
+    return await File(cacheFile).readAsString();
+  }
+
+  @protected
   Future<void> cacheData() async {
-    final prefs = await SharedPreferences.getInstance();
-    prefs.setString(cacheKey, await encodeCache(data));
+    if (kIsWeb) {
+      // Cache on shared prefs
+      final prefs = await SharedPreferences.getInstance();
+      logger.d('Writing cache to shared prefs');
+      prefs.setString(cacheKey, await encodeCache(data));
+      return;
+    }
+    final cacheDir = await getApplicationCacheDirectory();
+    final cacheFile = '${cacheDir.path}/$cacheKey.json';
+    logger.d('Writing cache to $cacheFile');
+    await File(cacheFile).writeAsString(await encodeCache(data));
   }
 }
