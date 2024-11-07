@@ -17,7 +17,7 @@ Combatant _$CombatantFromJson(Map<String, dynamic> json) => Combatant(
       initiative: (json['initiative'] as num?)?.toDouble() ?? 0,
       combatantData:
           combatantDataFromJson(json['combatantData'] as Map<String, dynamic>),
-      level: (json['level'] as num?)?.toInt(),
+      level: (json['level'] as num?)?.toDouble(),
     );
 
 Map<String, dynamic> _$CombatantToJson(Combatant instance) => <String, dynamic>{

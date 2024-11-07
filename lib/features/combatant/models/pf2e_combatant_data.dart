@@ -1,7 +1,22 @@
+import 'package:json_annotation/json_annotation.dart';
+
+import '../../engines/models/game_engine_type.dart';
 import 'combatant_data.dart';
 
+part 'pf2e_combatant_data.g.dart';
+
+@JsonSerializable()
 class Pf2eCombatantData extends CombatantData {
-  Pf2eCombatantData({super.rawData});
+  Pf2eCombatantData({
+    super.engine = GameEngineType.pf2e,
+    super.rawData,
+  });
+
+  factory Pf2eCombatantData.fromJson(Map<String, dynamic> json) =>
+      _$Pf2eCombatantDataFromJson(json);
+
+  @override
+  Map<String, dynamic> toJson() => _$Pf2eCombatantDataToJson(this);
 
   String get name => rawData['name'] ?? "";
 
