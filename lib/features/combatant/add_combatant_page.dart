@@ -1,4 +1,4 @@
-import 'package:battlemaster/api/services/dnd5e_data_service.dart';
+import 'package:battlemaster/api/services/dnd5e_bestiary_service.dart';
 import 'package:battlemaster/api/services/pf2e_bestiary_service.dart';
 import 'package:battlemaster/features/combatant/widgets/add_custom_combatant.dart';
 import 'package:battlemaster/features/combatant/widgets/add_from_bestiary_list.dart';
