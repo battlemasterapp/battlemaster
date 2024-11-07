@@ -64,19 +64,8 @@ class EncounterTrackerPage extends StatelessWidget {
                         },
                       ),
                       Expanded(
-                        child: CombatantTrackerList(
-                          encounter: encounter,
-                          selectedCombatantIndex: trackerState.isPlaying
-                              ? trackerState.activeCombatantIndex
-                              : null,
-                          onCombatantsAdded: (combatants) async {
-                            await context
-                                .read<EncountersProvider>()
-                                .addCombatants(encounter, combatants);
-                          },
-                        ),
+                        child: _TrackerPageContent(encounter: encounter, trackerState: trackerState),
                       ),
-                      const EncounterTrackerControls(),
                     ],
                   ),
                 ),
@@ -85,6 +74,42 @@ class EncounterTrackerPage extends StatelessWidget {
           );
         },
       ),
+    );
+  }
+}
+
+class _TrackerPageContent extends StatelessWidget {
+  const _TrackerPageContent({
+    super.key,
+    required this.encounter,
+    required this.trackerState,
+  });
+
+  final Encounter encounter;
+  final EncounterTrackerNotifier trackerState;
+
+  @override
+  Widget build(BuildContext context) {
+    return Stack(
+      clipBehavior: Clip.none,
+        fit: StackFit.expand,
+      children: [
+        CombatantTrackerList(
+          encounter: encounter,
+          selectedCombatantIndex: trackerState.isPlaying
+              ? trackerState.activeCombatantIndex
+              : null,
+          onCombatantsAdded: (combatants) async {
+            await context
+                .read<EncountersProvider>()
+                .addCombatants(encounter, combatants);
+          },
+        ),
+        Align(
+          alignment: Alignment.bottomCenter,
+          child: const EncounterTrackerControls(),
+        ),
+      ],
     );
   }
 }

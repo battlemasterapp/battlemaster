@@ -31,13 +31,13 @@ class CombatantTrackerList extends StatefulWidget {
 class _CombatantTrackerListState extends State<CombatantTrackerList> {
   final _listController = ScrollController();
   late ListObserverController _observerController;
-  late StreamSubscription<int> _sub;
+  StreamSubscription<int>? _sub;
 
   @override
   void initState() {
     super.initState();
     _observerController = ListObserverController(controller: _listController);
-    _sub = context
+    _sub ??= context
         .read<EncounterTrackerNotifier>()
         .activeIndexStream
         .listen((index) {
@@ -45,6 +45,7 @@ class _CombatantTrackerListState extends State<CombatantTrackerList> {
         index: index,
         duration: 500.ms,
         curve: Curves.easeInOutQuad,
+        padding: EdgeInsets.only(bottom: 100),
       );
     });
   }
@@ -52,7 +53,7 @@ class _CombatantTrackerListState extends State<CombatantTrackerList> {
   @override
   void dispose() {
     _listController.dispose();
-    _sub.cancel();
+    _sub?.cancel();
     super.dispose();
   }
 
@@ -89,11 +90,12 @@ class _CombatantTrackerListState extends State<CombatantTrackerList> {
       child: ReorderableListView.builder(
         scrollController: _listController,
         physics: BouncingScrollPhysics(),
+        padding: const EdgeInsets.only(bottom: 100),
         itemBuilder: (context, index) {
           final combatant = combatants[index];
           return Padding(
             key: Key('$index'),
-            padding: const EdgeInsets.all(8.0),
+            padding: const EdgeInsets.all(8),
             child: TrackerTile(
               combatant: combatant,
               selected: index == widget.selectedCombatantIndex,
