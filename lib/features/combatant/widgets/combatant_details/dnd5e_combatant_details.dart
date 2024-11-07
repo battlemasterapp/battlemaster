@@ -31,6 +31,27 @@ class Dnd5eCombatantDetails extends StatelessWidget {
         const Divider(),
         _CombatantAttributes(combatant: combatant),
         const Divider(),
+        if (combatant.damageVulnerabilities.isNotEmpty)
+          BasicAbility(
+            boldText: "${localization.dnd5e_damage_vulnerabilities} ",
+            text: combatant.damageVulnerabilities,
+          ),
+        if (combatant.damageResistances.isNotEmpty)
+          BasicAbility(
+            boldText: "${localization.dnd5e_damage_resistances} ",
+            text: combatant.damageResistances,
+          ),
+        if (combatant.damageImmunities.isNotEmpty)
+          BasicAbility(
+            boldText: "${localization.dnd5e_damage_immunities} ",
+            text: combatant.damageImmunities,
+          ),
+        if (combatant.conditionImmunities.isNotEmpty)
+          BasicAbility(
+            boldText: "${localization.dnd5e_condition_immunities} ",
+            text: combatant.conditionImmunities,
+          ),
+        const Divider(),
         _SpecialAbilities(combatant: combatant),
         _Actions(combatant: combatant),
         _Reactions(combatant: combatant),

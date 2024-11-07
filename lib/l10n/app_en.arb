@@ -323,5 +323,21 @@
   "cha_short": "Cha",
   "@cha_short": {
     "description": "The short label for Charisma."
+  },
+  "dnd5e_damage_vulnerabilities": "Damage Vulnerabilities",
+  "@dnd5e_damage_vulnerabilities": {
+    "description": "The label of the damage vulnerabilities."
+  },
+  "dnd5e_damage_resistances": "Damage Resistances",
+  "@dnd5e_damage_resistances": {
+    "description": "The label of the damage resistances."
+  },
+  "dnd5e_damage_immunities": "Damage Immunities",
+  "@dnd5e_damage_immunities": {
+    "description": "The label of the damage immunities."
+  },
+  "dnd5e_condition_immunities": "Condition Immunities",
+  "@dnd5e_condition_immunities": {
+    "description": "The label of the condition immunities."
   }
 }

@@ -56,6 +56,14 @@ class Dnd5eCombatantData extends CombatantData {
 
   Dnd5eAttribute get charisma => Dnd5eAttribute(rawData['charisma'] ?? 0);
 
+  String get damageVulnerabilities => rawData['damage_vulnerabilities'] ?? '';
+
+  String get damageResistances => rawData['damage_resistances'] ?? '';
+
+  String get damageImmunities => rawData['damage_immunities'] ?? '';
+
+  String get conditionImmunities => rawData['condition_immunities'] ?? '';
+
   List<Dnd5eActions> get actions =>
       (rawData['actions'] as List<dynamic>?)
           ?.map((e) => Dnd5eActions(e as Map<String, dynamic>))

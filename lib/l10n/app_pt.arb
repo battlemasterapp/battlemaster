@@ -68,5 +68,9 @@
   "con_short": "Con",
   "int_short": "Int",
   "wis_short": "Sab",
-  "cha_short": "Car"
+  "cha_short": "Car",
+  "dnd5e_damage_vulnerabilities": "Vulnerabilidade a Dano",
+  "dnd5e_damage_resistances": "Resistência a Dano",
+  "dnd5e_damage_immunities": "Imunidade a Dano",
+  "dnd5e_condition_immunities": "Imunidade a Condição"
 }
