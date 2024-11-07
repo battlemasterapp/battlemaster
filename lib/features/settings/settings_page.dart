@@ -31,7 +31,7 @@ class SettingsPage extends StatelessWidget {
               return AboutListTile(
                 applicationName: "Battlemaster",
                 applicationVersion: "v${snapshot.data?.version}",
-                applicationLegalese: "$PF2eLegal\n\n$Dnd5eLegal\n\n$OGL",
+                applicationLegalese: "$pf2eLegal\n\n$dnd5eLegal\n\n$ogl",
                 icon: const Icon(Icons.info),
                 applicationIcon: ClipRRect(
                   borderRadius: BorderRadius.circular(8),

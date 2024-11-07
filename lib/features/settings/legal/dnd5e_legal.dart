@@ -1,4 +1,4 @@
-const Dnd5eLegal = """
+const dnd5eLegal = """
 Permission to copy, modify and distribute the files collectively known as Battlemaster is granted solely through the use of the Open Gaming License, Version 1.0a.
 
 This material is being released using the Open Gaming License Version 1.0a and you should read and understand the terms of that license before using this material.
@@ -10,7 +10,7 @@ All of the rest of open5e.com is Open Game Content as described in Section 1(d) 
 The terms of the Open Gaming License Version 1.0a are as follows:
 """;
 
-const OGL = """
+const ogl = """
 The following text is the property of Wizards of the Coast, Inc. and is Copyright 2000 Wizards of the Coast, Inc ("Wizards"). All Rights Reserved.
 
 Definitions:
