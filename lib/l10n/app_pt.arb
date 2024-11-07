@@ -60,5 +60,7 @@
   "fly_speed_ft": "Voo {speed} ft.",
   "swim_speed_ft": "Natação {speed} ft.",
   "climb_speed_ft": "Escalada {speed} ft.",
-  "burrow_speed_ft": "Escavação {speed} ft."
+  "burrow_speed_ft": "Escavação {speed} ft.",
+  "dnd5e_actions": "Ações",
+  "dnd5e_reactions": "Reações"
 }

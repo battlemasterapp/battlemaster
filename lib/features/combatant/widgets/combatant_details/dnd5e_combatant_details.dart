@@ -29,6 +29,9 @@ class Dnd5eCombatantDetails extends StatelessWidget {
         ),
         _CombatantSpeed(combatant: combatant),
         const Divider(),
+        _SpecialAbilities(combatant: combatant),
+        _Actions(combatant: combatant),
+        _Reactions(combatant: combatant),
       ],
     );
   }
@@ -75,5 +78,113 @@ class _CombatantSpeed extends StatelessWidget {
         localization.climb_speed_ft(combatant.speed.climb),
     ].join(", ");
     return BasicAbility(boldText: '${localization.speed_label} ', text: speeds);
+  }
+}
+
+class _SpecialAbilities extends StatelessWidget {
+  const _SpecialAbilities({
+    required this.combatant,
+  });
+
+  final Dnd5eCombatantData combatant;
+
+  @override
+  Widget build(BuildContext context) {
+    final specialAbilities = combatant.specialAbilities;
+    if (specialAbilities.isEmpty) {
+      return Container();
+    }
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        for (final ability in specialAbilities)
+          Padding(
+            padding: const EdgeInsets.symmetric(vertical: 4),
+            child: BasicAbility(
+              boldText: "${ability.name} ",
+              text: ability.desc,
+            ),
+          ),
+        const Divider(),
+      ],
+    );
+  }
+}
+
+class _Actions extends StatelessWidget {
+  const _Actions({
+    required this.combatant,
+  });
+
+  final Dnd5eCombatantData combatant;
+
+  @override
+  Widget build(BuildContext context) {
+    final actions = combatant.actions;
+    final localization = AppLocalizations.of(context)!;
+    if (actions.isEmpty) {
+      return Container();
+    }
+
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        Text(
+          localization.dnd5e_actions,
+          style: Theme.of(context)
+              .textTheme
+              .titleMedium
+              ?.copyWith(color: Colors.black),
+        ),
+        for (final action in actions)
+          Padding(
+            padding: const EdgeInsets.symmetric(vertical: 4),
+            child: BasicAbility(
+              boldText: "${action.name} ",
+              text: action.desc,
+            ),
+          ),
+        const Divider(),
+      ],
+    );
+  }
+}
+
+class _Reactions extends StatelessWidget {
+  const _Reactions({
+    required this.combatant,
+  });
+
+  final Dnd5eCombatantData combatant;
+
+  @override
+  Widget build(BuildContext context) {
+    final reactions = combatant.reactions;
+    final localization = AppLocalizations.of(context)!;
+    if (reactions.isEmpty) {
+      return Container();
+    }
+
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        Text(
+          localization.dnd5e_reactions,
+          style: Theme.of(context)
+              .textTheme
+              .titleMedium
+              ?.copyWith(color: Colors.black),
+        ),
+        for (final reaction in reactions)
+          Padding(
+            padding: const EdgeInsets.symmetric(vertical: 4),
+            child: BasicAbility(
+              boldText: "${reaction.name} ",
+              text: reaction.desc,
+            ),
+          ),
+        const Divider(),
+      ],
+    );
   }
 }

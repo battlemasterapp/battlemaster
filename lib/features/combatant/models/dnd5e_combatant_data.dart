@@ -43,6 +43,24 @@ class Dnd5eCombatantData extends CombatantData {
   String get alignment => rawData['alignment'] ?? '';
 
   Dnd5eCombatantSpeed get speed => Dnd5eCombatantSpeed(rawData['speed'] ?? {});
+
+  List<Dnd5eActions> get actions =>
+      (rawData['actions'] as List<dynamic>?)
+          ?.map((e) => Dnd5eActions(e as Map<String, dynamic>))
+          .toList() ??
+      [];
+
+  List<Dnd5eAbility> get reactions =>
+      (rawData['reactions'] as List<dynamic>?)
+          ?.map((e) => Dnd5eAbility(e as Map<String, dynamic>))
+          .toList() ??
+      [];
+
+  List<Dnd5eAbility> get specialAbilities =>
+      (rawData['special_abilities'] as List<dynamic>?)
+          ?.map((e) => Dnd5eAbility(e as Map<String, dynamic>))
+          .toList() ??
+      [];
 }
 
 class Dnd5eCombatantSpeed {
@@ -59,4 +77,28 @@ class Dnd5eCombatantSpeed {
   int get fly => rawData['fly'] ?? 0;
 
   int get swim => rawData['swim'] ?? 0;
+}
+
+class Dnd5eAbility {
+  final Map<String, dynamic> rawData;
+
+  Dnd5eAbility(this.rawData);
+
+  String get name => rawData['name'] ?? '';
+
+  String get desc => rawData['desc'] ?? '';
+}
+
+class Dnd5eActions {
+  final Map<String, dynamic> rawData;
+
+  Dnd5eActions(this.rawData);
+
+  String get name => rawData['name'] ?? '';
+
+  String get desc => rawData['desc'] ?? '';
+
+  int? get attackBonus => rawData['attack_bonus'] as int?;
+
+  String get damageDice => rawData['damage_dice'] ?? '';
 }

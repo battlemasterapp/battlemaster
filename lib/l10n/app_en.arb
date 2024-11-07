@@ -291,5 +291,13 @@
         "example": "30"
       }
     }
+  },
+  "dnd5e_actions": "Actions",
+  "@dnd5e_actions": {
+    "description": "The label of the actions."
+  },
+  "dnd5e_reactions": "Reactions",
+  "@dnd5e_reactions": {
+    "description": "The label of the reactions."
   }
 }
