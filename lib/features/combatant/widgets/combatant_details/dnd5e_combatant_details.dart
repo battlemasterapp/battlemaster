@@ -33,6 +33,7 @@ class Dnd5eCombatantDetails extends StatelessWidget {
         _CombatantAttributes(combatant: combatant),
         const Divider(),
         _CombatantSaves(combatant: combatant),
+        _CombatantSkill(combatant: combatant),
         if (combatant.damageVulnerabilities.isNotEmpty)
           BasicAbility(
             boldText: "${localization.dnd5e_damage_vulnerabilities} ",
@@ -138,6 +139,28 @@ class _CombatantSaves extends StatelessWidget {
   }
 }
 
+class _CombatantSkill extends StatelessWidget {
+  const _CombatantSkill({required this.combatant});
+
+  final Dnd5eCombatantData combatant;
+
+  @override
+  Widget build(BuildContext context) {
+    // FIXME: map for the localized skill names
+    final localzation = AppLocalizations.of(context)!;
+    final skills = combatant.skills;
+    if (skills.isEmpty) {
+      return Container();
+    }
+    return BasicAbility(
+      boldText: "${localzation.dnd5e_skills} ",
+      text: skills
+          .map((skill) => "${skill.name} ${skill.modifier.signString}")
+          .join(", "),
+    );
+  }
+}
+
 class _CombatantAttributes extends StatelessWidget {
   const _CombatantAttributes({
     required this.combatant,
@@ -169,7 +192,8 @@ class _CombatantAttributes extends StatelessWidget {
                   entry.key.toUpperCase(),
                   style: const TextStyle(fontWeight: FontWeight.bold),
                 ),
-                Text("${entry.value.attribute} (${entry.value.modifier.signString})"),
+                Text(
+                    "${entry.value.attribute} (${entry.value.modifier.signString})"),
               ],
             ),
           ),

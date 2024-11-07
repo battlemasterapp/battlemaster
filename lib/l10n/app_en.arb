@@ -347,5 +347,9 @@
   "dnd5e_saving_throws": "Saving Throws",
   "@dnd5e_saving_throws": {
     "description": "The label of the saving throws."
+  },
+  "dnd5e_skills": "Skills",
+  "@dnd5e_skills": {
+    "description": "The label of the skills."
   }
 }

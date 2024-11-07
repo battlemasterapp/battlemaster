@@ -48,9 +48,11 @@ class Dnd5eCombatantData extends CombatantData {
 
   Dnd5eAttribute get dexterity => Dnd5eAttribute(rawData['dexterity'] ?? 0);
 
-  Dnd5eAttribute get constitution => Dnd5eAttribute(rawData['constitution'] ?? 0);
+  Dnd5eAttribute get constitution =>
+      Dnd5eAttribute(rawData['constitution'] ?? 0);
 
-  Dnd5eAttribute get intelligence => Dnd5eAttribute(rawData['intelligence'] ?? 0);
+  Dnd5eAttribute get intelligence =>
+      Dnd5eAttribute(rawData['intelligence'] ?? 0);
 
   Dnd5eAttribute get wisdom => Dnd5eAttribute(rawData['wisdom'] ?? 0);
 
@@ -77,6 +79,14 @@ class Dnd5eCombatantData extends CombatantData {
   String get conditionImmunities => rawData['condition_immunities'] ?? '';
 
   String get senses => rawData['senses'] ?? '';
+
+  List<Dnd5eSkill> get skills =>
+      (rawData['skills'] as Map<String, dynamic>?)
+          ?.cast<String, int>()
+          ?.entries
+          .map((e) => Dnd5eSkill(e.key, e.value))
+          .toList() ??
+      [];
 
   List<Dnd5eActions> get actions =>
       (rawData['actions'] as List<dynamic>?)
@@ -128,6 +138,13 @@ class Dnd5eAbility {
   String get name => rawData['name'] ?? '';
 
   String get desc => rawData['desc'] ?? '';
+}
+
+class Dnd5eSkill {
+  final String name;
+  final int modifier;
+
+  Dnd5eSkill(this.name, this.modifier);
 }
 
 class Dnd5eActions {
