@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 import '../../models/dnd5e_combatant_data.dart';
+import 'custom_combatant_details.dart';
 import 'dnd5e_combatant_details.dart';
 
 class CombatantDetails extends StatelessWidget {
@@ -26,6 +27,8 @@ class CombatantDetails extends StatelessWidget {
               ),
         ),
         _CombatantGameEngine(engineType: combatant.engineType),
+        if (combatant.engineType == GameEngineType.custom)
+          CustomCombatantDetails(combatant: combatant),
         if (combatant.combatantData != null &&
             combatant.combatantData is Dnd5eCombatantData)
           Dnd5eCombatantDetails(

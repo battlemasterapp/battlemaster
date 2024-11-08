@@ -1,7 +1,6 @@
 import 'dart:math';
 
 import 'package:battlemaster/extensions/int_extensions.dart';
-import 'package:battlemaster/features/combatant/widgets/combatant_details/dnd5e_combatant_details.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:icons_plus/icons_plus.dart';
@@ -39,8 +38,8 @@ class _InitiativeDialogState extends State<InitiativeDialog> {
             },
             icon: Icon(FontAwesome.dice_d20_solid),
             label: Text(
-              AppLocalizations.of(context)!
-                  .roll_initiative_button(widget.combatant.initiativeModifier.signString),
+              AppLocalizations.of(context)!.roll_initiative_button(
+                  widget.combatant.initiativeModifier.signString),
             ),
           ),
           const SizedBox(height: 16),
