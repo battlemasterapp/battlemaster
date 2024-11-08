@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_widget_from_html_core/flutter_widget_from_html_core.dart';
+import 'package:markdown/markdown.dart' as md;
 
 class BasicAbility extends StatelessWidget {
   const BasicAbility({
@@ -14,24 +16,21 @@ class BasicAbility extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return RichText(
-      text: TextSpan(
-        children: [
-          TextSpan(
-            text: boldText,
-            style: TextStyle(
-              fontWeight: FontWeight.bold,
-              color: color,
-            ),
+    return Wrap(
+      crossAxisAlignment: WrapCrossAlignment.center,
+      direction: Axis.horizontal,
+      children: [
+        Text(
+          boldText,
+          style: TextStyle(
+            fontWeight: FontWeight.bold,
+            color: color,
           ),
-          TextSpan(
-            text: text,
-            style: TextStyle(
-              color: color,
-            ),
-          ),
-        ],
-      ),
+        ),
+        HtmlWidget(
+          md.markdownToHtml(text).replaceAll("<p>", "").replaceAll("</p>", ""),
+        ),
+      ],
     );
   }
 }

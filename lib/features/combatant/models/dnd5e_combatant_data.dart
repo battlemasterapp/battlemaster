@@ -23,6 +23,8 @@ class Dnd5eCombatantData extends CombatantData {
 
   int get ac => rawData['armor_class'] ?? 0;
 
+  String get armorDescription => rawData['armor_desc'] ?? '';
+
   int get initiativeModifier {
     final dex = rawData['dexterity'] as int? ?? 0;
     return ((dex - 10) / 2).floor();

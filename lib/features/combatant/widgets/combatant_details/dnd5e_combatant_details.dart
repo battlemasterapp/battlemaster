@@ -20,10 +20,7 @@ class Dnd5eCombatantDetails extends StatelessWidget {
       children: [
         _CombatantType(combatant: combatant),
         const Divider(),
-        BasicAbility(
-          boldText: "${localization.armor_class} ",
-          text: combatant.ac.toString(),
-        ),
+        _ArmorClass(combatant: combatant),
         BasicAbility(
           boldText: '${localization.hit_points} ',
           text: combatant.hp.toString(),
@@ -78,6 +75,31 @@ class Dnd5eCombatantDetails extends StatelessWidget {
           description: combatant.legendaryDescription,
         ),
       ],
+    );
+  }
+}
+
+class _ArmorClass extends StatelessWidget {
+  const _ArmorClass({
+    required this.combatant,
+  });
+
+  final Dnd5eCombatantData combatant;
+
+  @override
+  Widget build(BuildContext context) {
+    final localization = AppLocalizations.of(context)!;
+    final armorDescription = combatant.armorDescription;
+
+    var text = combatant.ac.toString();
+
+    if (armorDescription.isNotEmpty) {
+      text += " ($armorDescription)";
+    }
+
+    return BasicAbility(
+      boldText: "${localization.armor_class} ",
+      text: text,
     );
   }
 }
