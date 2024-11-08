@@ -19,6 +19,7 @@ class TrackerTile extends StatelessWidget {
     this.onInitiativeChanged,
     this.onHealthChanged,
     this.onRemove,
+    this.onTap,
   });
 
   final bool selected;
@@ -27,11 +28,11 @@ class TrackerTile extends StatelessWidget {
   final ValueChanged<double>? onInitiativeChanged;
   final ValueChanged<int>? onHealthChanged;
   final VoidCallback? onRemove;
+  final VoidCallback? onTap;
 
   @override
   Widget build(BuildContext context) {
     return Container(
-      padding: const EdgeInsets.all(8),
       decoration: BoxDecoration(
         color: _getTileColor(context, index),
         border: Border.symmetric(
@@ -46,51 +47,59 @@ class TrackerTile extends StatelessWidget {
         ),
         borderRadius: BorderRadius.circular(16),
       ),
-      child: Row(
-        children: [
-          TextButton(
-            onPressed: () async {
-              final value = await showDialog<double?>(
-                context: context,
-                builder: (context) => InitiativeDialog(combatant: combatant),
-              );
+      child: InkWell(
+        borderRadius: BorderRadius.circular(16),
+        onTap: onTap,
+        child: Padding(
+          padding: const EdgeInsets.all(8),
+          child: Row(
+            children: [
+              TextButton(
+                onPressed: () async {
+                  final value = await showDialog<double?>(
+                    context: context,
+                    builder: (context) =>
+                        InitiativeDialog(combatant: combatant),
+                  );
 
-              if (value != null) {
-                onInitiativeChanged?.call(value);
-              }
-            },
-            child: Text(combatant.initiative.toStringAsFixed(1)),
-          ),
-          const SizedBox(width: 8),
-          Text(combatant.name),
-          const SizedBox(width: 8),
-          _Health(
-            combatant: combatant,
-            onHealthChanged: onHealthChanged,
-          ),
-          const Spacer(),
-          _Armor(
-            armorClass: combatant.armorClass,
-          ),
-          const SizedBox(width: 8),
-          IconButton(
-            onPressed: () async {
-              final confirm = await showDialog(
-                context: context,
-                builder: (context) => RemoveCombatantDialog(
-                  name: combatant.name,
-                ),
-              );
+                  if (value != null) {
+                    onInitiativeChanged?.call(value);
+                  }
+                },
+                child: Text(combatant.initiative.toStringAsFixed(1)),
+              ),
+              const SizedBox(width: 8),
+              Text(combatant.name),
+              const SizedBox(width: 8),
+              _Health(
+                combatant: combatant,
+                onHealthChanged: onHealthChanged,
+              ),
+              const Spacer(),
+              _Armor(
+                armorClass: combatant.armorClass,
+              ),
+              const SizedBox(width: 8),
+              IconButton(
+                onPressed: () async {
+                  final confirm = await showDialog(
+                    context: context,
+                    builder: (context) => RemoveCombatantDialog(
+                      name: combatant.name,
+                    ),
+                  );
 
-              if (confirm == null || !confirm) {
-                return;
-              }
-              onRemove?.call();
-            },
-            icon: Icon(Icons.delete),
+                  if (confirm == null || !confirm) {
+                    return;
+                  }
+                  onRemove?.call();
+                },
+                icon: Icon(Icons.delete),
+              ),
+              const SizedBox(width: 16),
+            ],
           ),
-          const SizedBox(width: 16),
-        ],
+        ),
       ),
     );
   }

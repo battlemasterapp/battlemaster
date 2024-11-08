@@ -13,7 +13,7 @@ class Settings {
   final Dnd5eSettings dnd5eSettings;
 
   const Settings({
-    this.rollType = InitiativeRollType.manual,
+    this.rollType = InitiativeRollType.monstersOnly,
     this.themeMode = ThemeMode.light,
     this.pf2eSettings = const PF2eSettings(),
     this.dnd5eSettings = const Dnd5eSettings(),

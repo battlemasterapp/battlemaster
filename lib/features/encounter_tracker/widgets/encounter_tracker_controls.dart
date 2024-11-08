@@ -36,6 +36,7 @@ class _EncounterControls extends StatelessWidget {
     final trackerState = context.watch<EncounterTrackerNotifier>();
     return Material(
       elevation: 8,
+      color: Colors.transparent,
       child: Container(
         padding: EdgeInsets.symmetric(horizontal: 24, vertical: 16),
         margin: EdgeInsets.only(bottom: 8, left: 8, right: 8),

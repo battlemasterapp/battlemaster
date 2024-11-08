@@ -27,10 +27,12 @@ class EncounterTrackerNotifier extends ChangeNotifier {
     required SystemSettingsProvider settings,
     required this.encounterId,
   })  : _database = database,
-        _settings = settings {
-    watchEncounter().listen((encounter) {
-      _encounter = encounter;
-    });
+        _settings = settings;
+
+  @override
+  void dispose() {
+    _activeIndexController.close();
+    super.dispose();
   }
 
   int _round = 1;
@@ -50,14 +52,17 @@ class EncounterTrackerNotifier extends ChangeNotifier {
           ..where((e) => e.id.equals(encounterId)))
         .watchSingle()
         .asyncMap<Encounter>(
-          (row) => Encounter(
-            id: row.id,
-            name: row.name,
-            type: row.type,
-            combatants: row.combatants,
-            engine: GameEngineType.values[row.engine],
-          ),
+      (row) {
+        _encounter = Encounter(
+          id: row.id,
+          name: row.name,
+          type: row.type,
+          combatants: row.combatants,
+          engine: GameEngineType.values[row.engine],
         );
+        return _encounter;
+      },
+    );
   }
 
   Stream<int> get activeIndexStream => _activeIndexController.stream;

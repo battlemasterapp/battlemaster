@@ -229,5 +229,147 @@
   "dnd5e_settings_bestiary_toggle": "Enable 5e Bestiary",
   "@dnd5e_settings_bestiary_toggle": {
     "description": "The toggle to enable the 5e bestiary."
+  },
+  "armor_class": "Armor Class",
+  "@armor_class": {
+    "description": "The label of the armor class."
+  },
+  "hit_points": "Hit Points",
+  "@hit_points": {
+    "description": "The label of the hit points."
+  },
+  "speed_label": "Speed",
+  "@speed_label": {
+    "description": "The label of the speed."
+  },
+  "speed_ft": "{speed} ft.",
+  "@speed_ft": {
+    "description": "The label of the speed in feet.",
+    "placeholders": {
+      "speed": {
+        "type": "int",
+        "example": "30"
+      }
+    }
+  },
+  "fly_speed_ft": "Fly {speed} ft.",
+  "@fly_speed_ft": {
+    "description": "The label of the fly speed in feet.",
+    "placeholders": {
+      "speed": {
+        "type": "int",
+        "example": "30"
+      }
+    }
+  },
+  "swim_speed_ft": "Swim {speed} ft.",
+  "@swim_speed_ft": {
+    "description": "The label of the swim speed in feet.",
+    "placeholders": {
+      "speed": {
+        "type": "int",
+        "example": "30"
+      }
+    }
+  },
+  "climb_speed_ft": "Climb {speed} ft.",
+  "@climb_speed_ft": {
+    "description": "The label of the climb speed in feet.",
+    "placeholders": {
+      "speed": {
+        "type": "int",
+        "example": "30"
+      }
+    }
+  },
+  "burrow_speed_ft": "Burrow {speed} ft.",
+  "@burrow_speed_ft": {
+    "description": "The label of the burrow speed in feet.",
+    "placeholders": {
+      "speed": {
+        "type": "int",
+        "example": "30"
+      }
+    }
+  },
+  "dnd5e_actions": "Actions",
+  "@dnd5e_actions": {
+    "description": "The label of the actions."
+  },
+  "dnd5e_reactions": "Reactions",
+  "@dnd5e_reactions": {
+    "description": "The label of the reactions."
+  },
+  "str_short": "Str",
+  "@str_short": {
+    "description": "The short label for Strength."
+  },
+  "dex_short": "Dex",
+  "@dex_short": {
+    "description": "The short label for Dexterity."
+  },
+  "con_short": "Con",
+  "@con_short": {
+    "description": "The short label for Constitution."
+  },
+  "int_short": "Int",
+  "@int_short": {
+    "description": "The short label for Intelligence."
+  },
+  "wis_short": "Wis",
+  "@wis_short": {
+    "description": "The short label for Wisdom."
+  },
+  "cha_short": "Cha",
+  "@cha_short": {
+    "description": "The short label for Charisma."
+  },
+  "dnd5e_damage_vulnerabilities": "Damage Vulnerabilities",
+  "@dnd5e_damage_vulnerabilities": {
+    "description": "The label of the damage vulnerabilities."
+  },
+  "dnd5e_damage_resistances": "Damage Resistances",
+  "@dnd5e_damage_resistances": {
+    "description": "The label of the damage resistances."
+  },
+  "dnd5e_damage_immunities": "Damage Immunities",
+  "@dnd5e_damage_immunities": {
+    "description": "The label of the damage immunities."
+  },
+  "dnd5e_condition_immunities": "Condition Immunities",
+  "@dnd5e_condition_immunities": {
+    "description": "The label of the condition immunities."
+  },
+  "dnd5e_senses": "Senses",
+  "@dnd5e_senses": {
+    "description": "The label of the senses."
+  },
+  "dnd5e_saving_throws": "Saving Throws",
+  "@dnd5e_saving_throws": {
+    "description": "The label of the saving throws."
+  },
+  "dnd5e_skills": "Skills",
+  "@dnd5e_skills": {
+    "description": "The label of the skills."
+  },
+  "dnd5e_languages": "Languages",
+  "@dnd5e_languages": {
+    "description": "The label of the languages."
+  },
+  "dnd5e_legendary_actions": "Legendary Actions",
+  "@dnd5e_legendary_actions": {
+    "description": "The label of the legendary actions."
+  },
+  "dnd5e_engine_name": "5e",
+  "@dnd5e_engine_name": {
+    "description": "The name of the 5e engine."
+  },
+  "pf2e_engine_name": "PF2e",
+  "@pf2e_engine_name": {
+    "description": "The name of the PF2e engine."
+  },
+  "custom_engine_name": "Custom",
+  "@custom_engine_name": {
+    "description": "The name of the custom engine."
   }
 }
