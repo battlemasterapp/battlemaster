@@ -77,5 +77,8 @@
   "dnd5e_saving_throws": "Testes de Resistência",
   "dnd5e_skills": "Perícias",
   "dnd5e_languages": "Idiomas",
-  "dnd5e_legendary_actions": "Ações Lendárias"
+  "dnd5e_legendary_actions": "Ações Lendárias",
+  "dnd5e_engine_name": "5e",
+  "pf2e_engine_name": "PF2e",
+  "custom_engine_name": "Personalizado"
 }
