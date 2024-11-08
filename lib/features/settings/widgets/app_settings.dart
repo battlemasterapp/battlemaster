@@ -41,7 +41,7 @@ class AppSettings extends StatelessWidget {
               'toggle_analytics',
               props: {'enabled': value.toString()},
             );
-            plausible.enabled = value;
+            plausible.isActive = value;
           },
           title: Text(localization.analytics_toggle_label),
         ),

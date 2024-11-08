@@ -23,9 +23,9 @@ class AnalyticsService {
     Map<String, String>? props,
   }) async {
     _logger.d('Logging event: $name');
-    await plausible.event(
-      name: name,
-      page: page,
+    await plausible.send(
+      event: name,
+      path: page,
       props: {
         ..._getAppProps(),
         ...?props,

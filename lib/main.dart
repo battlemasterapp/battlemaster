@@ -1,16 +1,16 @@
 import 'package:battlemaster/database/database.dart';
 import 'package:battlemaster/features/analytics/analytics_service.dart';
-import 'package:battlemaster/features/analytics/plausible.dart';
 import 'package:battlemaster/features/settings/providers/system_settings_provider.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
-import 'package:plausible_analytics/navigator_observer.dart';
 import 'package:provider/provider.dart';
 import 'package:sentry_flutter/sentry_flutter.dart';
 
 import 'api/services/dnd5e_bestiary_service.dart';
 import 'api/services/pf2e_bestiary_service.dart';
+import 'features/analytics/analytics_observer.dart';
+import 'features/analytics/plausible.dart';
 import 'features/combatant/add_combatant_page.dart';
 import 'features/encounter_tracker/encounter_tracker_page.dart';
 import 'features/encounters/providers/encounters_provider.dart';
@@ -69,7 +69,7 @@ class BattlemasterApp extends StatelessWidget {
         return MaterialApp(
           title: 'BattleMaster',
           navigatorObservers: [
-            PlausibleNavigatorObserver(plausible),
+            AnalyticsNavigatorObserver(plausible),
           ],
           localizationsDelegates: AppLocalizations.localizationsDelegates,
           supportedLocales: AppLocalizations.supportedLocales,
