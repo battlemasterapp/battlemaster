@@ -1,8 +1,10 @@
 import 'package:battlemaster/database/database.dart';
 import 'package:battlemaster/features/settings/providers/system_settings_provider.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:provider/provider.dart';
+import 'package:sentry_flutter/sentry_flutter.dart';
 
 import 'api/services/dnd5e_bestiary_service.dart';
 import 'api/services/pf2e_bestiary_service.dart';
@@ -16,7 +18,16 @@ import 'flavors/pf2e/pf2e_theme.dart';
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
 
-  runApp(const BattlemasterApp());
+  const sentryDsn = String.fromEnvironment('SENTRY_DSN');
+  debugPrint(sentryDsn);
+  await SentryFlutter.init(
+    (options) {
+      options.dsn = sentryDsn;
+      options.tracesSampleRate = kReleaseMode ? .5 : 1.0;
+      options.profilesSampleRate = kReleaseMode ? .5 : 1.0;
+    },
+    appRunner: () => runApp(const BattlemasterApp()),
+  );
 }
 
 class BattlemasterApp extends StatelessWidget {
