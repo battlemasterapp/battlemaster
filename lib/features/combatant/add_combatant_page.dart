@@ -1,5 +1,6 @@
 import 'package:battlemaster/api/services/dnd5e_bestiary_service.dart';
 import 'package:battlemaster/api/services/pf2e_bestiary_service.dart';
+import 'package:battlemaster/features/analytics/analytics_service.dart';
 import 'package:battlemaster/features/combatant/widgets/add_custom_combatant.dart';
 import 'package:battlemaster/features/combatant/widgets/add_from_bestiary_list.dart';
 import 'package:flutter/material.dart';
@@ -181,22 +182,24 @@ class _AddCombatantState extends State<_AddCombatant> {
     if (_selected.contains(_AddCombatantSource.dnd5e)) {
       return AddFromBestiaryList(
         combatants: context.read<Dnd5eBestiaryService>().bestiaryData,
-        onCombatantSelected: (combatant) {
+        onCombatantSelected: (combatant) async {
           widget.onCombatantsAdded({combatant: 1});
+          await context.read<AnalyticsService>().logEvent('add_5e_combatant');
         },
       );
     }
     if (_selected.contains(_AddCombatantSource.pf2e)) {
       return AddFromBestiaryList(
         combatants: context.read<Pf2eBestiaryService>().bestiaryData,
-        onCombatantSelected: (combatant) {
+        onCombatantSelected: (combatant) async {
           widget.onCombatantsAdded({combatant: 1});
+          await context.read<AnalyticsService>().logEvent('add_pf2e_combatant');
         },
       );
     }
     if (_selected.contains(_AddCombatantSource.group)) {
       return AddGroupCombatants(
-        onGroupSelected: (combatants) {
+        onGroupSelected: (combatants) async {
           widget.onCombatantsAdded(
             combatants.fold<Map<Combatant, int>>(
               {},
@@ -206,12 +209,16 @@ class _AddCombatantState extends State<_AddCombatant> {
               },
             ),
           );
+          await context
+              .read<AnalyticsService>()
+              .logEvent('add_group_combatants');
         },
       );
     }
     return AddCustomCombatant(
-      onCombatantAdded: (combatant) {
+      onCombatantAdded: (combatant) async {
         widget.onCombatantsAdded({combatant: 1});
+        await context.read<AnalyticsService>().logEvent('add_custom_combatant');
       },
     );
   }

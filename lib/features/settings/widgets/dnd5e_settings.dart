@@ -1,3 +1,4 @@
+import 'package:battlemaster/features/analytics/analytics_service.dart';
 import 'package:battlemaster/features/settings/models/settings.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
@@ -27,6 +28,11 @@ class Dnd5eSettingsWidget extends StatelessWidget {
           onChanged: (value) async {
             await systemSettings
                 .set5eSettings(gameSettings.copyWith(enabled: value));
+            // ignore: use_build_context_synchronously
+            await context.read<AnalyticsService>().logEvent(
+              'toggle_5e_bestiary',
+              props: {'enabled': value.toString()},
+            );
           },
           title: Text(localization.dnd5e_settings_bestiary_toggle),
         ),

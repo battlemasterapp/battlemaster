@@ -46,11 +46,17 @@ jobs:
           version=$(cider version)
           echo "VERSION=$version" >> $GITHUB_ENV
 
+      - name: Generate .env
+        run: |
+          echo "SENTRY_DSN=${{ secrets.SENTRY_DSN }}" >> .env
+          echo "PLAUSIBLE_SERVER=${{ secrets.PLAUSIBLE_SERVER }}" >> .env
+          echo "PLAUSIBLE_DOMAIN=${{ secrets.PLAUSIBLE_DOMAIN }}" >> .env
+
       - name: Build APK
-        run: flutter build apk --release
+        run: flutter build apk --release --dart-define-from-file=.env
       
       - name: Build WEB
-        run: flutter build web --release
+        run: flutter build web --release --dart-define-from-file=.env
       
       - name: Zip web
         run: zip -r web-release.zip build/web

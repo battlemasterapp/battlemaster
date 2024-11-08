@@ -20,6 +20,10 @@
   "@add_new_encounter": {
     "description": "Button to add a new encounter."
   },
+  "new_encounter_name": "New Encounter",
+  "@new_encounter_name": {
+    "description": "The default name for a new encounter."
+  },
   "convert_to_group": "Convert to group",
   "@convert_to_group": {
     "description": "Button to convert an encounter to a group."
@@ -213,6 +217,10 @@
   "dark_mode_toggle_label": "Dark Mode",
   "@dark_mode_toggle_label": {
     "description": "The label of the dark mode toggle."
+  },
+  "analytics_toggle_label": "Send anonymous usage data",
+  "@analytics_toggle_label": {
+    "description": "The label of the analytics toggle."
   },
   "pf2e_settings_title": "PF2e Settings",
   "@pf2e_settings_title": {
