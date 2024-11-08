@@ -28,7 +28,7 @@ class Dnd5eSettingsWidget extends StatelessWidget {
           onChanged: (value) async {
             await systemSettings
                 .set5eSettings(gameSettings.copyWith(enabled: value));
-                // ignore: use_build_context_synchronously
+            // ignore: use_build_context_synchronously
             await context.read<AnalyticsService>().logEvent(
               'toggle_5e_bestiary',
               props: {'enabled': value.toString()},
