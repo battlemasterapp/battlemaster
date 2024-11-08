@@ -1,8 +1,11 @@
 import 'package:battlemaster/database/database.dart';
+import 'package:battlemaster/features/analytics/analytics_service.dart';
+import 'package:battlemaster/features/analytics/plausible.dart';
 import 'package:battlemaster/features/settings/providers/system_settings_provider.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import 'package:plausible_analytics/navigator_observer.dart';
 import 'package:provider/provider.dart';
 import 'package:sentry_flutter/sentry_flutter.dart';
 
@@ -19,7 +22,6 @@ void main() async {
   WidgetsFlutterBinding.ensureInitialized();
 
   const sentryDsn = String.fromEnvironment('SENTRY_DSN');
-  debugPrint(sentryDsn);
   await SentryFlutter.init(
     (options) {
       options.dsn = sentryDsn;
@@ -31,7 +33,9 @@ void main() async {
 }
 
 class BattlemasterApp extends StatelessWidget {
-  const BattlemasterApp({super.key});
+  const BattlemasterApp({
+    super.key,
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -57,10 +61,16 @@ class BattlemasterApp extends StatelessWidget {
           create: (_) => Dnd5eBestiaryService(),
           lazy: false,
         ),
+        Provider<AnalyticsService>(
+          create: (_) => AnalyticsService(),
+        ),
       ],
       child: Builder(builder: (context) {
         return MaterialApp(
           title: 'BattleMaster',
+          navigatorObservers: [
+            PlausibleNavigatorObserver(plausible),
+          ],
           localizationsDelegates: AppLocalizations.localizationsDelegates,
           supportedLocales: AppLocalizations.supportedLocales,
           theme: pf2eLightTheme,

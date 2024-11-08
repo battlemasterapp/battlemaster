@@ -18,6 +18,10 @@ class SystemSettingsProvider extends ChangeNotifier {
 
   ThemeMode get themeMode => _settings.themeMode;
 
+  bool get analyticsEnabled => _settings.analyticsEnabled;
+
+  Settings get settings => _settings;
+
   PF2eSettings get pf2eSettings => _settings.pf2eSettings;
 
   Dnd5eSettings get dnd5eSettings => _settings.dnd5eSettings;
@@ -49,6 +53,12 @@ class SystemSettingsProvider extends ChangeNotifier {
 
   Future<void> setThemeMode(ThemeMode themeMode) async {
     _settings = _settings.copyWith(themeMode: themeMode);
+    notifyListeners();
+    await _saveSettings();
+  }
+
+  Future<void> setSettings(Settings settings) async {
+    _settings = settings;
     notifyListeners();
     await _saveSettings();
   }

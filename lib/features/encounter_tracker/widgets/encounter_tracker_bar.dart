@@ -1,3 +1,4 @@
+import 'package:battlemaster/features/analytics/analytics_service.dart';
 import 'package:battlemaster/features/settings/models/initiative_roll_type.dart';
 import 'package:battlemaster/features/settings/providers/system_settings_provider.dart';
 import 'package:flutter/material.dart';
@@ -35,8 +36,12 @@ class TrackerBar extends StatelessWidget {
                 IconButton.filled(
                   color: Theme.of(context).primaryColor,
                   style: IconButton.styleFrom(backgroundColor: Colors.white),
-                  onPressed: () {
+                  onPressed: () async {
                     trackerState.playStop();
+                    await context.read<AnalyticsService>().logEvent(
+                      'play_stop',
+                      props: {'is_playing': trackerState.isPlaying.toString()},
+                    );
                   },
                   icon: Icon(
                     trackerState.isPlaying ? Icons.stop : Icons.play_arrow,
@@ -180,13 +185,14 @@ class _RollInitiativeButton extends StatelessWidget {
 
     onPressed() async {
       await context.read<EncounterTrackerNotifier>().rollInitiative();
+      // ignore: use_build_context_synchronously
+      await context.read<AnalyticsService>().logEvent('roll_initiative');
     }
 
     return IconButton.outlined(
       onPressed: onPressed,
       color: Colors.white,
       icon: Icon(Icons.casino),
-      // label: Text(AppLocalizations.of(context)!.roll_initiative_button),
     );
   }
 }

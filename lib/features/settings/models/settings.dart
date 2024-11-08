@@ -9,12 +9,14 @@ part 'settings.g.dart';
 class Settings {
   final InitiativeRollType rollType;
   final ThemeMode themeMode;
+  final bool analyticsEnabled;
   final PF2eSettings pf2eSettings;
   final Dnd5eSettings dnd5eSettings;
 
   const Settings({
     this.rollType = InitiativeRollType.monstersOnly,
     this.themeMode = ThemeMode.light,
+    this.analyticsEnabled = true,
     this.pf2eSettings = const PF2eSettings(),
     this.dnd5eSettings = const Dnd5eSettings(),
   });
@@ -29,12 +31,14 @@ class Settings {
     ThemeMode? themeMode,
     PF2eSettings? pf2eSettings,
     Dnd5eSettings? dnd5eSettings,
+    bool? analyticsEnabled,
   }) {
     return Settings(
       rollType: rollType ?? this.rollType,
       themeMode: themeMode ?? this.themeMode,
       pf2eSettings: pf2eSettings ?? this.pf2eSettings,
       dnd5eSettings: dnd5eSettings ?? this.dnd5eSettings,
+      analyticsEnabled: analyticsEnabled ?? this.analyticsEnabled,
     );
   }
 }
