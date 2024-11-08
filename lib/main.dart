@@ -6,6 +6,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:provider/provider.dart';
 import 'package:sentry_flutter/sentry_flutter.dart';
+import 'package:wiredash/wiredash.dart';
 
 import 'api/services/dnd5e_bestiary_service.dart';
 import 'api/services/pf2e_bestiary_service.dart';
@@ -77,6 +78,24 @@ class BattlemasterApp extends StatelessWidget {
           darkTheme: pf2eDarkTheme,
           themeMode: context.select<SystemSettingsProvider, ThemeMode>(
               (state) => state.themeMode),
+          builder: (context, child) => Wiredash(
+            projectId: const String.fromEnvironment('WIREDASH_PROJECT'),
+            secret: const String.fromEnvironment('WIREDASH_SECRET'),
+            feedbackOptions: WiredashFeedbackOptions(
+              email: EmailPrompt.hidden,
+              labels: [
+                Label(
+                  id: 'label-0oezaz9t8j',
+                  title: AppLocalizations.of(context)!.feedback_label_bug,
+                ),
+                Label(
+                  id: 'label-ynr7f57jtv',
+                  title: AppLocalizations.of(context)!.feedback_label_feature,
+                ),
+              ],
+            ),
+            child: child!,
+          ),
           routes: {
             "/": (context) => const MainPage(),
             "/encounter": (context) => EncounterTrackerPage(
