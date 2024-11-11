@@ -146,7 +146,10 @@ class _Health extends StatelessWidget {
       onPressed: () async {
         final health = await showDialog(
           context: context,
-          builder: (context) => HpDialog(combatant: combatant),
+          builder: (context) => HpDialog(
+            currentHp: combatant.currentHp,
+            maxHp: combatant.maxHp,
+          ),
         );
 
         if (health == null) {

@@ -32,3 +32,5 @@ jobs:
         run: dart format --output=none --set-exit-if-changed .
       - name: Analyze project source
         run: flutter analyze --fatal-warnings
+      - name: Test
+        run: flutter test
