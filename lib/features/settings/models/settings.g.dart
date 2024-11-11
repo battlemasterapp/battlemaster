@@ -7,11 +7,13 @@ part of 'settings.dart';
 // **************************************************************************
 
 Settings _$SettingsFromJson(Map<String, dynamic> json) => Settings(
-      rollType:
-          $enumDecodeNullable(_$InitiativeRollTypeEnumMap, json['rollType']) ??
-              InitiativeRollType.manual,
       themeMode: $enumDecodeNullable(_$ThemeModeEnumMap, json['themeMode']) ??
           ThemeMode.light,
+      analyticsEnabled: json['analyticsEnabled'] as bool? ?? true,
+      encounterSettings: json['encounterSettings'] == null
+          ? const EncounterSettings()
+          : EncounterSettings.fromJson(
+              json['encounterSettings'] as Map<String, dynamic>),
       pf2eSettings: json['pf2eSettings'] == null
           ? const PF2eSettings()
           : PF2eSettings.fromJson(json['pf2eSettings'] as Map<String, dynamic>),
@@ -22,17 +24,12 @@ Settings _$SettingsFromJson(Map<String, dynamic> json) => Settings(
     );
 
 Map<String, dynamic> _$SettingsToJson(Settings instance) => <String, dynamic>{
-      'rollType': _$InitiativeRollTypeEnumMap[instance.rollType]!,
       'themeMode': _$ThemeModeEnumMap[instance.themeMode]!,
+      'analyticsEnabled': instance.analyticsEnabled,
       'pf2eSettings': instance.pf2eSettings,
       'dnd5eSettings': instance.dnd5eSettings,
+      'encounterSettings': instance.encounterSettings,
     };
-
-const _$InitiativeRollTypeEnumMap = {
-  InitiativeRollType.manual: 'manual',
-  InitiativeRollType.monstersOnly: 'monstersOnly',
-  InitiativeRollType.all: 'all',
-};
 
 const _$ThemeModeEnumMap = {
   ThemeMode.system: 'system',

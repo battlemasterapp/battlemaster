@@ -14,7 +14,7 @@ class SystemSettingsProvider extends ChangeNotifier {
     _init();
   }
 
-  InitiativeRollType get rollType => _settings.rollType;
+  InitiativeRollType get rollType => _settings.encounterSettings.rollType;
 
   ThemeMode get themeMode => _settings.themeMode;
 
@@ -46,7 +46,10 @@ class SystemSettingsProvider extends ChangeNotifier {
   }
 
   Future<void> setInitiativeRollType(InitiativeRollType rollType) async {
-    _settings = _settings.copyWith(rollType: rollType);
+    _settings = _settings.copyWith(
+      encounterSettings:
+          _settings.encounterSettings.copyWith(rollType: rollType),
+    );
     notifyListeners();
     await _saveSettings();
   }

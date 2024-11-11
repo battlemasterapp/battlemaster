@@ -1,22 +1,21 @@
+import 'package:battlemaster/features/settings/models/encounter_settings.dart';
 import 'package:flutter/material.dart';
 import 'package:json_annotation/json_annotation.dart';
-
-import 'initiative_roll_type.dart';
 
 part 'settings.g.dart';
 
 @JsonSerializable()
 class Settings {
-  final InitiativeRollType rollType;
   final ThemeMode themeMode;
   final bool analyticsEnabled;
   final PF2eSettings pf2eSettings;
   final Dnd5eSettings dnd5eSettings;
+  final EncounterSettings encounterSettings;
 
   const Settings({
-    this.rollType = InitiativeRollType.monstersOnly,
     this.themeMode = ThemeMode.light,
     this.analyticsEnabled = true,
+    this.encounterSettings = const EncounterSettings(),
     this.pf2eSettings = const PF2eSettings(),
     this.dnd5eSettings = const Dnd5eSettings(),
   });
@@ -27,18 +26,18 @@ class Settings {
   Map<String, dynamic> toJson() => _$SettingsToJson(this);
 
   Settings copyWith({
-    InitiativeRollType? rollType,
     ThemeMode? themeMode,
     PF2eSettings? pf2eSettings,
     Dnd5eSettings? dnd5eSettings,
+    EncounterSettings? encounterSettings,
     bool? analyticsEnabled,
   }) {
     return Settings(
-      rollType: rollType ?? this.rollType,
       themeMode: themeMode ?? this.themeMode,
       pf2eSettings: pf2eSettings ?? this.pf2eSettings,
       dnd5eSettings: dnd5eSettings ?? this.dnd5eSettings,
       analyticsEnabled: analyticsEnabled ?? this.analyticsEnabled,
+      encounterSettings: encounterSettings ?? this.encounterSettings,
     );
   }
 }

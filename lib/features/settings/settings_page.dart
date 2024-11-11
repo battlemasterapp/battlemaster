@@ -5,7 +5,7 @@ import 'legal/dnd5e_legal.dart';
 import 'legal/pf2e_legal.dart';
 import 'widgets/app_settings.dart';
 import 'widgets/dnd5e_settings.dart';
-import 'widgets/encounter_settings.dart';
+import 'widgets/encounter_settings_widget.dart';
 import 'widgets/pf2e_settings.dart';
 
 class SettingsPage extends StatelessWidget {
@@ -46,7 +46,7 @@ class SettingsPage extends StatelessWidget {
           const Divider(),
           const AppSettings(),
           const Divider(),
-          const EncounterSettings(),
+          const EncounterSettingsWidget(),
           const Divider(),
           const Dnd5eSettingsWidget(),
           const Divider(),

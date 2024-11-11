@@ -6,8 +6,8 @@ import 'package:provider/provider.dart';
 import '../models/initiative_roll_type.dart';
 import '../providers/system_settings_provider.dart';
 
-class EncounterSettings extends StatelessWidget {
-  const EncounterSettings({super.key});
+class EncounterSettingsWidget extends StatelessWidget {
+  const EncounterSettingsWidget({super.key});
 
   @override
   Widget build(BuildContext context) {
