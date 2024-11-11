@@ -61,7 +61,6 @@ dependencies:
   sentry_flutter: ^8.10.0
   plausible: ^1.0.0
   wiredash: ^2.3.0
-  ultimate_flutter_icons: ^1.2.0
 
 dev_dependencies:
   flutter_test:
