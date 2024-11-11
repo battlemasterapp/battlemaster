@@ -42,6 +42,8 @@ class Combatant extends Equatable {
 
   bool get isAlive => currentHp > 0;
 
+  bool get isPlayer => type == CombatantType.player;
+
   factory Combatant.fromPf2eCombatantData(Pf2eCombatantData data) {
     return Combatant(
       name: data.name,
