@@ -421,5 +421,25 @@
   "create_group_cta": "Create a group",
   "@create_group_cta": {
     "description": "The call-to-action to create a group."
+  },
+  "skip_dead_title": "Skip dead combatants",
+  "@skip_dead_title": {
+    "description": "The title of the skip dead combatants toggle."
+  },
+  "skip_dead_description": "Automatically skip dead combatants when advancing the round.",
+  "@skip_dead_description": {
+    "description": "The description of the skip dead combatants toggle."
+  },
+  "skip_dead_behavior_all": "All",
+  "@skip_dead_behavior_all": {
+    "description": "The behavior to skip all dead combatants."
+  },
+  "skip_dead_behavior_allButPlayers": "All but players",
+  "@skip_dead_behavior_allButPlayers": {
+    "description": "The behavior to skip all dead combatants except players."
+  },
+  "skip_dead_behavior_none": "None",
+  "@skip_dead_behavior_none": {
+    "description": "The behavior to skip no dead combatants."
   }
 }

@@ -1,6 +1,7 @@
 import 'dart:async';
 import 'dart:math';
 
+import 'package:battlemaster/features/settings/models/skip_dead_behavior.dart';
 import 'package:battlemaster/features/settings/providers/system_settings_provider.dart';
 import 'package:flutter/material.dart';
 
@@ -117,8 +118,19 @@ class EncounterTrackerNotifier extends ChangeNotifier {
     if (!isPlaying) {
       return;
     }
+
     _round++;
-    _setActiveCombatantIndex(0);
+    final skipDead = _settings.skipDeadBehavior;
+    final firstIndex = _encounter.combatants.indexWhere(
+      (c) => c.isAlive || !skipDead.shouldSkip(c),
+    );
+    if (firstIndex == -1) {
+      _setActiveCombatantIndex(0);
+      notifyListeners();
+      return;
+    }
+
+    _setActiveCombatantIndex(firstIndex);
     notifyListeners();
   }
 
@@ -138,27 +150,55 @@ class EncounterTrackerNotifier extends ChangeNotifier {
     if (!isPlaying) {
       return;
     }
+
     _activeCombatantIndex++;
     if (_activeCombatantIndex >= _encounter.combatants.length) {
       return nextRound();
     }
-    _setActiveCombatantIndex(_activeCombatantIndex);
-    notifyListeners();
+
+    final skipDeadBehavior = _settings.skipDeadBehavior;
+
+    while (_activeCombatantIndex < _encounter.combatants.length) {
+      final combatant = _encounter.combatants[_activeCombatantIndex];
+      final skipIfDead = skipDeadBehavior.shouldSkip(combatant);
+      if (combatant.isAlive || !skipIfDead) {
+        _setActiveCombatantIndex(_activeCombatantIndex);
+        notifyListeners();
+        return;
+      }
+      _activeCombatantIndex++;
+    }
+    // Reached the end of the list, go to the next round
+    return nextRound();
   }
 
   void previousTurn() {
     if (!isPlaying) {
       return;
     }
-    _activeCombatantIndex--;
-    if (_activeCombatantIndex < 0) {
-      _activeCombatantIndex = _encounter.combatants.length - 1;
-      if (round > 1) {
-        return previousRound();
+    int combatantIndex = _activeCombatantIndex;
+    combatantIndex--;
+
+    final skipDeadBehavior = _settings.skipDeadBehavior;
+    while (combatantIndex >= 0) {
+      final combatant = _encounter.combatants[combatantIndex];
+      final skipIfDead = skipDeadBehavior.shouldSkip(combatant);
+      if (combatant.isAlive || !skipIfDead) {
+        _setActiveCombatantIndex(combatantIndex);
+        notifyListeners();
+        return;
       }
-      _activeCombatantIndex = 0;
+      combatantIndex--;
     }
-    _setActiveCombatantIndex(_activeCombatantIndex);
-    notifyListeners();
+
+    // Reached the beginning of the list, go to the previous round
+    if (round > 1) {
+      final lastIndex = _encounter.combatants.lastIndexWhere(
+        (c) => c.isAlive || !skipDeadBehavior.shouldSkip(c),
+      );
+      _activeCombatantIndex =
+          lastIndex == -1 ? _encounter.combatants.length - 1 : lastIndex;
+      return previousRound();
+    }
   }
 }
