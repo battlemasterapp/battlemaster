@@ -91,5 +91,10 @@
   "feedback_label_bug": "Relatar um bug",
   "feedback_label_feature": "Solicitar uma funcionalidade",
   "create_group_reminder": "Criando vários combatentes? Crie um grupo para adicionar todos de uma vez!",
-  "create_group_cta": "Criar grupo"
+  "create_group_cta": "Criar grupo",
+  "skip_dead_title": "Pular combatentes mortos",
+  "skip_dead_description": "Pular combatentes mortos automaticamente ao avançar a rodada",
+  "skip_dead_behavior_all": "Todos",
+  "skip_dead_behavior_allButPlayers": "Todos menos jogadores",
+  "skip_dead_behavior_none": "Nenhum"
 }

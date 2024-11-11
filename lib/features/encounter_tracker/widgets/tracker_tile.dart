@@ -6,7 +6,7 @@ import 'package:battlemaster/features/encounter_tracker/widgets/initiative_dialo
 import 'package:battlemaster/features/encounter_tracker/widgets/remove_combatant_dialog.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_animate/flutter_animate.dart';
-import 'package:ionicons/ionicons.dart';
+import 'package:icons_plus/icons_plus.dart';
 
 import '../../combatant/models/combatant.dart';
 
@@ -183,7 +183,7 @@ class _Health extends StatelessWidget {
     final halfHealth = (currentHealth / max(combatant.maxHp, 1)) <= 0.5;
 
     if (currentHealth == 0) {
-      return Ionicons.skull;
+      return MingCute.skull_fill;
     }
 
     return halfHealth ? Icons.heart_broken : Icons.favorite;
