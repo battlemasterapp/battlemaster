@@ -186,7 +186,7 @@ class _Health extends StatelessWidget {
       return MingCute.skull_fill;
     }
 
-    return halfHealth ? Icons.heart_broken : Icons.favorite;
+    return halfHealth ? MingCute.heart_crack_fill : MingCute.heart_fill;
   }
 
   Color getColor() {
