@@ -1031,6 +1031,14 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "1.4.0"
+  ultimate_flutter_icons:
+    dependency: "direct main"
+    description:
+      name: ultimate_flutter_icons
+      sha256: a1656b9c3932470e8b1e9c0b1dd04cf50731bb5495d95a505a0d9b58a2e767d0
+      url: "https://pub.dev"
+    source: hosted
+    version: "1.2.0"
   universal_io:
     dependency: transitive
     description:
