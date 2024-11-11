@@ -2,6 +2,7 @@ import 'dart:math';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import 'package:icons_plus/icons_plus.dart';
 
 import '../../combatant/models/combatant.dart';
 
@@ -107,11 +108,26 @@ class _HpDialogState extends State<HpDialog> {
             const SizedBox(height: 16),
             Row(
               children: [
+                ElevatedButton.icon(
+                  style: ElevatedButton.styleFrom(
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(4),
+                    ),
+                  ),
+                  onPressed: () {
+                    final value = int.tryParse(_controller.text) ?? 0;
+                    applyModifier(value * -1);
+                    _controller.clear();
+                  },
+                  icon: Icon(MingCute.heart_crack_fill),
+                  label: Text(AppLocalizations.of(context)!.damage_button),
+                ),
+                const SizedBox(width: 8),
                 Expanded(
                   child: TextField(
                     controller: _controller,
                     decoration: InputDecoration(
-                      hintText: "-15",
+                      hintText: "15",
                       label:
                           Text(AppLocalizations.of(context)!.hp_dialog_input),
                     ),
@@ -126,7 +142,7 @@ class _HpDialogState extends State<HpDialog> {
                   ),
                 ),
                 const SizedBox(width: 8),
-                ElevatedButton(
+                ElevatedButton.icon(
                   style: ElevatedButton.styleFrom(
                     shape: RoundedRectangleBorder(
                       borderRadius: BorderRadius.circular(4),
@@ -136,7 +152,8 @@ class _HpDialogState extends State<HpDialog> {
                     applyModifier(int.tryParse(_controller.text) ?? 0);
                     _controller.clear();
                   },
-                  child: Text(AppLocalizations.of(context)!.apply_button),
+                  icon: Icon(MingCute.heart_fill),
+                  label: Text(AppLocalizations.of(context)!.heal_button),
                 ),
               ],
             ),
