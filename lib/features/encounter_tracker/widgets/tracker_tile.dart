@@ -1,12 +1,14 @@
 import 'dart:math';
 
 import 'package:animated_flip_counter/animated_flip_counter.dart';
+import 'package:battlemaster/features/combatant/models/combatant_type.dart';
 import 'package:battlemaster/features/encounter_tracker/widgets/hp_dialog.dart';
 import 'package:battlemaster/features/encounter_tracker/widgets/initiative_dialog.dart';
 import 'package:battlemaster/features/encounter_tracker/widgets/remove_combatant_dialog.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_animate/flutter_animate.dart';
 import 'package:icons_plus/icons_plus.dart';
+import 'package:ultimate_flutter_icons/flutter_icons.dart';
 
 import '../../combatant/models/combatant.dart';
 
@@ -67,6 +69,13 @@ class TrackerTile extends StatelessWidget {
                   }
                 },
                 child: Text(combatant.initiative.toStringAsFixed(1)),
+              ),
+              const SizedBox(width: 8),
+              FIcon(
+                combatant.type.icon,
+                color: Theme.of(context).iconTheme.color ??
+                    Theme.of(context).textTheme.bodyMedium?.color ??
+                    Colors.black,
               ),
               const SizedBox(width: 8),
               Text(combatant.name),
