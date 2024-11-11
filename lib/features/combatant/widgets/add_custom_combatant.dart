@@ -6,6 +6,7 @@ import 'package:battlemaster/features/groups/group_detail_page.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:provider/provider.dart';
+import 'package:ultimate_flutter_icons/flutter_icons.dart';
 
 import '../../engines/models/game_engine_type.dart';
 import '../models/combatant.dart';
@@ -124,7 +125,19 @@ class _AddCustomCombatantState extends State<AddCustomCombatant> {
                 };
                 return DropdownMenuItem(
                   value: type,
-                  child: Text(typeNames[type]!),
+                  child: Row(
+                    mainAxisSize: MainAxisSize.min,
+                    children: [
+                      FIcon(
+                        type.icon,
+                        color: Theme.of(context).iconTheme.color ??
+                            Theme.of(context).textTheme.bodyMedium?.color ??
+                            Colors.black,
+                      ),
+                      const SizedBox(width: 8),
+                      Text(typeNames[type]!),
+                    ],
+                  ),
                 );
               },
             ).toList(),
