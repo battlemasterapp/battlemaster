@@ -70,7 +70,8 @@ void main() {
     expect(find.text('HP: 100'), findsOneWidget);
   });
 
-  testWidgets('maxHp caps at 999 if not specified', (WidgetTester tester) async {
+  testWidgets('maxHp caps at 999 if not specified',
+      (WidgetTester tester) async {
     await tester.pumpWidget(buildWidgetTree(
       const HpDialog(
         currentHp: 990,
