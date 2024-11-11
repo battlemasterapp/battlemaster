@@ -1,5 +1,11 @@
+import 'package:battlemaster/features/analytics/analytics_service.dart';
+import 'package:battlemaster/features/encounters/models/encounter.dart';
+import 'package:battlemaster/features/encounters/models/encounter_type.dart';
+import 'package:battlemaster/features/encounters/providers/encounters_provider.dart';
+import 'package:battlemaster/features/groups/group_detail_page.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import 'package:provider/provider.dart';
 
 import '../../engines/models/game_engine_type.dart';
 import '../models/combatant.dart';
@@ -9,9 +15,11 @@ class AddCustomCombatant extends StatefulWidget {
   const AddCustomCombatant({
     super.key,
     this.onCombatantAdded,
+    this.showGroupReminder = false,
   });
 
   final ValueChanged<Combatant>? onCombatantAdded;
+  final bool showGroupReminder;
 
   @override
   State<AddCustomCombatant> createState() => _AddCustomCombatantState();
@@ -29,6 +37,7 @@ class _AddCustomCombatantState extends State<AddCustomCombatant> {
 
   @override
   Widget build(BuildContext context) {
+    final localization = AppLocalizations.of(context)!;
     return Form(
       key: _formKey,
       child: Column(
@@ -39,14 +48,14 @@ class _AddCustomCombatantState extends State<AddCustomCombatant> {
               Expanded(
                 child: TextFormField(
                   keyboardType: TextInputType.name,
-                  decoration: InputDecoration(
-                      labelText: AppLocalizations.of(context)!.name_label),
+                  decoration:
+                      InputDecoration(labelText: localization.name_label),
                   onChanged: (value) {
                     combatant = combatant.copyWith(name: value);
                   },
                   validator: (value) {
                     if (value == null || value.isEmpty) {
-                      return AppLocalizations.of(context)!.name_validation_text;
+                      return localization.name_validation_text;
                     }
                     return null;
                   },
@@ -63,8 +72,7 @@ class _AddCustomCombatantState extends State<AddCustomCombatant> {
                       currentHp: hp,
                     );
                   },
-                  decoration: InputDecoration(
-                      labelText: AppLocalizations.of(context)!.hp_label),
+                  decoration: InputDecoration(labelText: localization.hp_label),
                 ),
               ),
             ],
@@ -79,8 +87,7 @@ class _AddCustomCombatantState extends State<AddCustomCombatant> {
                     combatant =
                         combatant.copyWith(armorClass: int.tryParse(value));
                   },
-                  decoration: InputDecoration(
-                      labelText: AppLocalizations.of(context)!.ac_label),
+                  decoration: InputDecoration(labelText: localization.ac_label),
                 ),
               ),
               const SizedBox(width: 16),
@@ -93,16 +100,14 @@ class _AddCustomCombatantState extends State<AddCustomCombatant> {
                     );
                   },
                   decoration: InputDecoration(
-                      labelText: AppLocalizations.of(context)!
-                          .initiative_modifier_label),
+                      labelText: localization.initiative_modifier_label),
                 ),
               ),
             ],
           ),
           const SizedBox(height: 16),
           DropdownButton<CombatantType>(
-            hint: Text(
-                AppLocalizations.of(context)!.combatant_type_dropdown_label),
+            hint: Text(localization.combatant_type_dropdown_label),
             value: combatant.type,
             onChanged: (value) {
               setState(() {
@@ -111,7 +116,6 @@ class _AddCustomCombatantState extends State<AddCustomCombatant> {
             },
             items: CombatantType.values.map(
               (type) {
-                final localization = AppLocalizations.of(context)!;
                 final typeNames = {
                   CombatantType.monster: localization.combatant_type_monster,
                   CombatantType.player: localization.combatant_type_player,
@@ -138,11 +142,11 @@ class _AddCustomCombatantState extends State<AddCustomCombatant> {
                   _formKey.currentState!.reset();
                   combatant = _getBaseCombatant();
                 },
-                child:
-                    Text(AppLocalizations.of(context)!.add_combatants_button),
+                child: Text(localization.add_combatants_button),
               ),
             ],
           ),
+          if (widget.showGroupReminder) const _GroupReminder(),
         ],
       ),
     );
@@ -157,6 +161,49 @@ class _AddCustomCombatantState extends State<AddCustomCombatant> {
       initiativeModifier: 0,
       type: CombatantType.monster,
       engineType: GameEngineType.custom,
+    );
+  }
+}
+
+class _GroupReminder extends StatelessWidget {
+  const _GroupReminder();
+
+  @override
+  Widget build(BuildContext context) {
+    final localization = AppLocalizations.of(context)!;
+    return Column(
+      children: [
+        const Divider(),
+        Text(
+          localization.create_group_reminder,
+          style: Theme.of(context).textTheme.bodySmall,
+        ),
+        const SizedBox(height: 8),
+        OutlinedButton(
+          onPressed: () async {
+            final encounter = Encounter(
+              name: AppLocalizations.of(context)!.new_group_name,
+              type: EncounterType.group,
+              combatants: [],
+              engine: GameEngineType.pf2e,
+            );
+            final created = await context
+                .read<EncountersProvider>()
+                .addEncounter(encounter);
+            // ignore: use_build_context_synchronously
+            await context.read<AnalyticsService>().logEvent(
+              'create-encounter',
+              props: {'type': EncounterType.group.toString()},
+            );
+            // ignore: use_build_context_synchronously
+            Navigator.of(context).pushNamed(
+              "/group",
+              arguments: GroupDetailPageParams(encounter: created),
+            );
+          },
+          child: Text(localization.create_group_cta),
+        ),
+      ],
     );
   }
 }

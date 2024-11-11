@@ -1,4 +1,6 @@
 import 'package:battlemaster/features/analytics/analytics_service.dart';
+import 'package:battlemaster/features/combatant/add_combatant_page.dart';
+import 'package:battlemaster/features/encounters/models/encounter.dart';
 import 'package:battlemaster/features/settings/models/initiative_roll_type.dart';
 import 'package:battlemaster/features/settings/providers/system_settings_provider.dart';
 import 'package:flutter/material.dart';
@@ -12,16 +14,16 @@ import '../providers/encounter_tracker_notifier.dart';
 class TrackerBar extends StatelessWidget {
   const TrackerBar({
     super.key,
-    required this.title,
+    required this.encounter,
     this.onCombatantsAdded,
     this.onTitleChanged,
     this.displayControls = true,
   });
 
   final ValueChanged<Map<Combatant, int>>? onCombatantsAdded;
-  final String title;
   final ValueChanged<String>? onTitleChanged;
   final bool displayControls;
+  final Encounter encounter;
 
   @override
   Widget build(BuildContext context) {
@@ -54,7 +56,7 @@ class TrackerBar extends StatelessWidget {
             ),
           const Spacer(),
           _TrackerTitle(
-            title: title,
+            title: encounter.name,
             onTitleChanged: onTitleChanged,
           ),
           const Spacer(),
@@ -64,8 +66,12 @@ class TrackerBar extends StatelessWidget {
             ),
             color: Colors.white,
             onPressed: () async {
-              final combatantsMap =
-                  await Navigator.of(context).pushNamed("/combatant/add");
+              final combatantsMap = await Navigator.of(context).pushNamed(
+                "/combatant/add",
+                arguments: AddCombatantParams(
+                  encounterType: encounter.type,
+                ),
+              );
 
               if (combatantsMap == null) {
                 return;

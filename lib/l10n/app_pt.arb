@@ -6,6 +6,7 @@
   "settings_page_title": "Configurações",
   "add_new_encounter": "Criar novo",
   "new_encounter_name": "Novo combate",
+  "new_group_name": "Novo grupo",
   "convert_to_group": "Converter para grupo",
   "convert_to_encounter": "Converter para combate",
   "delete_encounter": "Deletar",
@@ -88,5 +89,7 @@
   "settings_feedback_title": "Envie seu feedback",
   "settings_feedback_description": "Se você tiver alguma sugestão, encontrou um bug ou deseja solicitar um recurso, envie seu feedback!",
   "feedback_label_bug": "Relatar um bug",
-  "feedback_label_feature": "Solicitar uma funcionalidade"
+  "feedback_label_feature": "Solicitar uma funcionalidade",
+  "create_group_reminder": "Criando vários combatentes? Crie um grupo para adicionar todos de uma vez!",
+  "create_group_cta": "Criar grupo"
 }
