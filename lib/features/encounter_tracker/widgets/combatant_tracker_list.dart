@@ -1,5 +1,6 @@
 import 'dart:async';
 
+import 'package:battlemaster/features/combatant/add_combatant_page.dart';
 import 'package:battlemaster/features/encounter_tracker/providers/encounter_tracker_notifier.dart';
 import 'package:battlemaster/features/encounters/providers/encounters_provider.dart';
 import 'package:flutter/material.dart';
@@ -72,8 +73,12 @@ class _CombatantTrackerListState extends State<CombatantTrackerList> {
             const SizedBox(height: 16),
             ElevatedButton.icon(
               onPressed: () async {
-                final combatants =
-                    await Navigator.of(context).pushNamed("/combatant/add");
+                final combatants = await Navigator.of(context).pushNamed(
+                  "/combatant/add",
+                  arguments: AddCombatantParams(
+                    encounterType: widget.encounter.type,
+                  ),
+                );
                 if (combatants == null) {
                   return;
                 }

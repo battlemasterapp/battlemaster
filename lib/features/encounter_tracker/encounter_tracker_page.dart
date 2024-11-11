@@ -53,7 +53,7 @@ class EncounterTrackerPage extends StatelessWidget {
                   child: Column(
                     children: [
                       TrackerBar(
-                        title: encounter.name,
+                        encounter: encounter,
                         onTitleChanged: (title) async {
                           await context
                               .read<EncountersProvider>()

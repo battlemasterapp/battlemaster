@@ -45,7 +45,7 @@ class GroupDetailPage extends StatelessWidget {
                     children: [
                       TrackerBar(
                         displayControls: false,
-                        title: encounter.name,
+                        encounter: encounter,
                         onCombatantsAdded: (value) async {
                           await context
                               .read<EncountersProvider>()

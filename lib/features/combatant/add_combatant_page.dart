@@ -3,6 +3,7 @@ import 'package:battlemaster/api/services/pf2e_bestiary_service.dart';
 import 'package:battlemaster/features/analytics/analytics_service.dart';
 import 'package:battlemaster/features/combatant/widgets/add_custom_combatant.dart';
 import 'package:battlemaster/features/combatant/widgets/add_from_bestiary_list.dart';
+import 'package:battlemaster/features/encounters/models/encounter_type.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:icons_plus/icons_plus.dart';
@@ -13,8 +14,21 @@ import 'models/combatant.dart';
 import 'widgets/add_group_combatants.dart';
 import 'widgets/selected_combatants.dart';
 
+class AddCombatantParams {
+  final EncounterType encounterType;
+
+  AddCombatantParams({
+    required this.encounterType,
+  });
+}
+
 class AddCombatantPage extends StatefulWidget {
-  const AddCombatantPage({super.key});
+  const AddCombatantPage({
+    super.key,
+    required this.params,
+  });
+
+  final AddCombatantParams params;
 
   @override
   State<AddCombatantPage> createState() => _AddCombatantPageState();
@@ -34,6 +48,8 @@ class _AddCombatantPageState extends State<AddCombatantPage> {
           children: [
             Expanded(
               child: _AddCombatant(
+                showGroupReminder:
+                    widget.params.encounterType == EncounterType.encounter,
                 onCombatantsAdded: (combatants) {
                   setState(() {
                     combatants.forEach((combatant, count) {
@@ -102,9 +118,11 @@ enum _AddCombatantSource {
 class _AddCombatant extends StatefulWidget {
   const _AddCombatant({
     required this.onCombatantsAdded,
+    this.showGroupReminder = false,
   });
 
   final ValueChanged<Map<Combatant, int>> onCombatantsAdded;
+  final bool showGroupReminder;
 
   @override
   State<_AddCombatant> createState() => _AddCombatantState();
@@ -216,6 +234,7 @@ class _AddCombatantState extends State<_AddCombatant> {
       );
     }
     return AddCustomCombatant(
+      showGroupReminder: widget.showGroupReminder,
       onCombatantAdded: (combatant) async {
         widget.onCombatantsAdded({combatant: 1});
         await context.read<AnalyticsService>().logEvent('add_custom_combatant');

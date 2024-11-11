@@ -106,7 +106,10 @@ class BattlemasterApp extends StatelessWidget {
                   params: ModalRoute.of(context)!.settings.arguments
                       as GroupDetailPageParams,
                 ),
-            "/combatant/add": (context) => const AddCombatantPage(),
+            "/combatant/add": (context) => AddCombatantPage(
+                  params: ModalRoute.of(context)!.settings.arguments
+                      as AddCombatantParams,
+                ),
           },
           initialRoute: "/",
         );
