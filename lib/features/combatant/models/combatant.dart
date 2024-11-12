@@ -1,5 +1,6 @@
 import 'package:battlemaster/features/combatant/models/combatant_data.dart';
 import 'package:battlemaster/features/combatant/models/pf2e_combatant_data.dart';
+import 'package:battlemaster/features/conditions/models/condition.dart';
 import 'package:equatable/equatable.dart';
 import 'package:json_annotation/json_annotation.dart';
 
@@ -20,6 +21,7 @@ class Combatant extends Equatable {
   final double? level;
   final CombatantType type;
   final GameEngineType engineType;
+  final List<Condition> conditions;
 
   @JsonKey(
     fromJson: combatantDataFromJson,
@@ -35,6 +37,7 @@ class Combatant extends Equatable {
     required this.initiativeModifier,
     required this.type,
     required this.engineType,
+    this.conditions = const [],
     this.initiative = 0,
     this.combatantData,
     this.level,
@@ -88,6 +91,7 @@ class Combatant extends Equatable {
     CombatantType? type,
     GameEngineType? engineType,
     CombatantData? combatantData,
+    List<Condition>? conditions,
   }) {
     return Combatant(
       name: name ?? this.name,
@@ -100,6 +104,7 @@ class Combatant extends Equatable {
       type: type ?? this.type,
       engineType: engineType ?? this.engineType,
       combatantData: combatantData ?? this.combatantData,
+      conditions: conditions ?? this.conditions,
     );
   }
 
@@ -114,6 +119,7 @@ class Combatant extends Equatable {
         type,
         engineType,
         combatantData,
+        conditions,
       ];
 }
 
