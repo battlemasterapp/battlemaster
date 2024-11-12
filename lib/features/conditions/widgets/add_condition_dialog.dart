@@ -30,7 +30,7 @@ class _AddConditionDialogState extends State<AddConditionDialog> {
   Widget build(BuildContext context) {
     final localization = AppLocalizations.of(context)!;
     final activeConditionsNames = _activeConditions.map((e) => e.name).toSet();
-    final _filteredConditions = _allConditions
+    final filteredConditions = _allConditions
         .where((e) => e.name.toLowerCase().contains(_search.toLowerCase()))
         .toList();
     return AlertDialog(
@@ -51,7 +51,7 @@ class _AddConditionDialogState extends State<AddConditionDialog> {
               child: SingleChildScrollView(
                 child: Column(
                   children: [
-                    for (final condition in _filteredConditions)
+                    for (final condition in filteredConditions)
                       CheckboxListTile(
                         value: activeConditionsNames.contains(condition.name),
                         onChanged: (value) {
