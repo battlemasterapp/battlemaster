@@ -19,6 +19,7 @@ class CustomCombatantDetails extends StatelessWidget {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
+        _CombatantType(combatant: combatant),
         BasicAbility(
           boldText: '${localization.hit_points} ',
           text: combatant.maxHp.toString(),
@@ -27,7 +28,6 @@ class CustomCombatantDetails extends StatelessWidget {
           boldText: '${localization.armor_class} ',
           text: combatant.armorClass.toString(),
         ),
-        _CombatantType(combatant: combatant),
       ],
     );
   }

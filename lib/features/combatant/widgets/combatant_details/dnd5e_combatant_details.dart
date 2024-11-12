@@ -182,7 +182,6 @@ class _CombatantSkill extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    // FIXME: map for the localized skill names
     final localzation = AppLocalizations.of(context)!;
     final skills = combatant.skills;
     if (skills.isEmpty) {
