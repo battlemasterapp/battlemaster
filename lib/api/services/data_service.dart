@@ -1,6 +1,7 @@
 import 'dart:io';
 
 import 'package:dio/dio.dart';
+import 'package:dio_cache_interceptor/dio_cache_interceptor.dart';
 import 'package:flutter/foundation.dart';
 import 'package:logger/logger.dart';
 import 'package:path_provider/path_provider.dart';
@@ -26,7 +27,9 @@ abstract class DataService<T> {
     required T initialData,
   }) {
     data = initialData;
-    client = Dio(BaseOptions(baseUrl: baseUrl));
+    client = Dio(BaseOptions(baseUrl: baseUrl))
+      ..interceptors.add(
+          DioCacheInterceptor(options: CacheOptions(store: MemCacheStore())));
   }
 
   Future<T?> fetchData({bool forceRefresh = false});
