@@ -457,5 +457,35 @@
   "selected_bestiaries": "Selected bestiaries:",
   "@selected_bestiaries": {
     "description": "The label of the selected bestiaries."
+  },
+  "reload_data_title": "Reload data",
+  "@reload_data_title": {
+    "description": "The title of the reload data button."
+  },
+  "reload_data_description": "Force a reload of all game data.",
+  "@reload_data_description": {
+    "description": "The description of the reload data button."
+  },
+  "reload_button": "Reload",
+  "@reload_button": {
+    "description": "The button to reload the data."
+  },
+  "add_condition_button": "Manage conditions",
+  "@add_condition_button": {
+    "description": "The button to add a condition."
+  },
+  "add_condition_title": "Manage conditions",
+  "@add_condition_title": {
+    "description": "The title of the add condition dialog."
+  },
+  "condition_duration_round": "({duration} rounds)",
+  "@condition_duration_round": {
+    "description": "The duration of the condition in rounds.",
+    "placeholders": {
+      "duration": {
+        "type": "int",
+        "example": "3"
+      }
+    }
   }
 }
