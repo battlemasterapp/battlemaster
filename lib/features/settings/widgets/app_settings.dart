@@ -2,6 +2,7 @@ import 'package:battlemaster/features/analytics/analytics_service.dart';
 import 'package:battlemaster/features/analytics/plausible.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import 'package:icons_plus/icons_plus.dart';
 import 'package:provider/provider.dart';
 import 'package:wiredash/wiredash.dart';
 
@@ -23,16 +24,16 @@ class AppSettings extends StatelessWidget {
           ),
         ),
         ListTile(
-          leading: Icon(Icons.feedback),
+          leading: Icon(MingCute.message_4_fill),
           title: Text(localization.settings_feedback_title),
           subtitle: Text(localization.settings_feedback_description),
           onTap: () {
             Wiredash.of(context).show(inheritMaterialTheme: true);
           },
-          trailing: Icon(Icons.chevron_right),
+          trailing: Icon(MingCute.right_fill),
         ),
         SwitchListTile.adaptive(
-          secondary: const Icon(Icons.dark_mode),
+          secondary: const Icon(MingCute.moon_fill),
           value: systemSettings.themeMode == ThemeMode.dark,
           onChanged: (value) async {
             await context.read<SystemSettingsProvider>().setThemeMode(
@@ -42,7 +43,7 @@ class AppSettings extends StatelessWidget {
           title: Text(localization.dark_mode_toggle_label),
         ),
         SwitchListTile.adaptive(
-          secondary: const Icon(Icons.analytics),
+          secondary: const Icon(MingCute.chart_vertical_fill),
           value: systemSettings.analyticsEnabled,
           onChanged: (value) async {
             await context.read<SystemSettingsProvider>().setSettings(
