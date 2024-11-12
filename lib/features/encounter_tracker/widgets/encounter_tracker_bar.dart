@@ -169,7 +169,7 @@ class _TrackerTitleState extends State<_TrackerTitle> {
               });
             },
             icon: Icon(
-              MingCute.edit_fill,
+              MingCute.pencil_fill,
               color: Colors.white.withOpacity(.75),
             ),
           ),
