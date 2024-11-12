@@ -441,5 +441,21 @@
   "skip_dead_behavior_none": "None",
   "@skip_dead_behavior_none": {
     "description": "The behavior to skip no dead combatants."
+  },
+  "bestiary_settings_title": "Bestiaries",
+  "@bestiary_settings_title": {
+    "description": "The title of the bestiaries section."
+  },
+  "bestiary_settings_description": "Select the bestiaries you want to enable.",
+  "@bestiary_settings_description": {
+    "description": "The description of the bestiaries section."
+  },
+  "select_bestiaries_title": "Select Bestiaries",
+  "@select_bestiaries_title": {
+    "description": "The title of the select bestiaries dialog."
+  },
+  "selected_bestiaries": "Selected bestiaries:",
+  "@selected_bestiaries": {
+    "description": "The label of the selected bestiaries."
   }
 }

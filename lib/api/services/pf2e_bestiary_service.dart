@@ -6,28 +6,17 @@ import '../../features/combatant/models/combatant.dart';
 import '../../features/combatant/models/pf2e_combatant_data.dart';
 import 'bestiary_service.dart';
 
-const _baseUrl =
-    'https://raw.githubusercontent.com/VytorCalixto/pf2e-fvtt-bestiary/refs/heads/main';
+const _baseUrl = String.fromEnvironment("PF2E_URI");
 
 class Pf2eBestiaryService extends BestiaryService {
-  Pf2eBestiaryService()
-      : super(
+  final Set<String> bestiarySources;
+
+  Pf2eBestiaryService({
+    this.bestiarySources = const {},
+  }) : super(
           initialData: [],
           baseUrl: _baseUrl,
-        ) {
-    fetchData();
-  }
-
-  final List<String> _defaultSources = [
-    "book-of-the-dead",
-    "npc-gallery",
-    "pathfinder-bestiary-2",
-    "pathfinder-bestiary-3",
-    "pathfinder-dark-archive",
-    "pathfinder-monster-core",
-    "pathfinder",
-    "rage-of-elements",
-  ];
+        );
 
   final Map<String, String> _availableSources = {};
 
@@ -58,7 +47,7 @@ class Pf2eBestiaryService extends BestiaryService {
     }
 
     await _getAvailableSources();
-    for (final source in _defaultSources) {
+    for (final source in bestiarySources) {
       logger.d('Fetching bestiary data for $source');
       final sourceUri = _availableSources[source];
       if (sourceUri == null) {

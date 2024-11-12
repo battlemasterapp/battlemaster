@@ -45,9 +45,15 @@ class Settings {
 @JsonSerializable()
 class PF2eSettings {
   final bool enabled;
+  final Set<String> bestiaries;
 
   const PF2eSettings({
-    this.enabled = true,
+    this.enabled = false,
+    this.bestiaries = const {
+      "npc-gallery",
+      "pathfinder-monster-core",
+      "rage-of-elements",
+    },
   });
 
   factory PF2eSettings.fromJson(Map<String, dynamic> json) =>
@@ -57,9 +63,11 @@ class PF2eSettings {
 
   PF2eSettings copyWith({
     bool? enabled,
+    Set<String>? bestiaries,
   }) {
     return PF2eSettings(
       enabled: enabled ?? this.enabled,
+      bestiaries: bestiaries ?? this.bestiaries,
     );
   }
 }

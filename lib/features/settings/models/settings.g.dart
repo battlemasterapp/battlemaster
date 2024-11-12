@@ -38,12 +38,17 @@ const _$ThemeModeEnumMap = {
 };
 
 PF2eSettings _$PF2eSettingsFromJson(Map<String, dynamic> json) => PF2eSettings(
-      enabled: json['enabled'] as bool? ?? true,
+      enabled: json['enabled'] as bool? ?? false,
+      bestiaries: (json['bestiaries'] as List<dynamic>?)
+              ?.map((e) => e as String)
+              .toSet() ??
+          const {"npc-gallery", "pathfinder-monster-core", "rage-of-elements"},
     );
 
 Map<String, dynamic> _$PF2eSettingsToJson(PF2eSettings instance) =>
     <String, dynamic>{
       'enabled': instance.enabled,
+      'bestiaries': instance.bestiaries.toList(),
     };
 
 Dnd5eSettings _$Dnd5eSettingsFromJson(Map<String, dynamic> json) =>
