@@ -8,7 +8,7 @@ class Dnd5eBestiaryService extends BestiaryService {
   Dnd5eBestiaryService()
       : super(
           initialData: [],
-          baseUrl: 'https://api.open5e.com',
+          baseUrl: const String.fromEnvironment('API_5E_URI'),
         );
 
   final List<String> _defaultSources = [
@@ -44,10 +44,15 @@ class Dnd5eBestiaryService extends BestiaryService {
 
       final results = (response.data?['results'] as List? ?? [])
           .cast<Map<String, dynamic>>();
-      data.addAll(results
-          .map<Combatant>((entry) =>
-              Combatant.from5eCombatantData(Dnd5eCombatantData(rawData: entry)))
-          .toList());
+      data.addAll(
+        results.map<Combatant>(
+          (entry) => Combatant.from5eCombatantData(
+            Dnd5eCombatantData(
+              rawData: entry,
+            ),
+          ),
+        ),
+      );
     } on DioException catch (e) {
       logger.e(e);
     }

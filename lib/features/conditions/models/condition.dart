@@ -17,6 +17,11 @@ class Condition extends Equatable {
     this.value,
   });
 
+  factory Condition.from5e(Map<String, dynamic> entry) => Condition(
+        name: entry['name'] as String,
+        description: entry['desc'] as String,
+      );
+
   factory Condition.fromJson(Map<String, dynamic> json) =>
       _$ConditionFromJson(json);
 
@@ -35,14 +40,12 @@ class Condition extends Equatable {
       value: value ?? this.value,
     );
   }
-  
+
   @override
   List<Object?> get props => [
-    name,
-    description,
-    durationRounds,
-    value,
-  ];
-
-
+        name,
+        description,
+        durationRounds,
+        value,
+      ];
 }
