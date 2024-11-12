@@ -73,7 +73,7 @@ class Pf2eBestiaryService extends BestiaryService {
     }
 
     data.sort((a, b) => a.name.compareTo(b.name));
-    if(data.isNotEmpty){
+    if (data.isNotEmpty) {
       logger.d('Caching bestiary data');
       await cacheData();
     }

@@ -47,7 +47,9 @@ class TrackerBar extends StatelessWidget {
                     );
                   },
                   icon: Icon(
-                    trackerState.isPlaying ? MingCute.stop_fill : MingCute.play_fill,
+                    trackerState.isPlaying
+                        ? MingCute.stop_fill
+                        : MingCute.play_fill,
                   ),
                 ),
                 const SizedBox(width: 16),

@@ -32,15 +32,15 @@ class Dnd5eBestiaryService extends BestiaryService {
     final sources = _defaultSources.join(',');
     // Get the first one just to get the count
     try {
-      final getCount = await client
-          .get<Map<String, dynamic>>('/v1/monsters/?limit=1&document__slug=$sources');
+      final getCount = await client.get<Map<String, dynamic>>(
+          '/v1/monsters/?limit=1&document__slug=$sources');
       final count = getCount.data?['count'] as int;
 
       logger.d('Found $count 5e bestiary entries for sources: $sources');
       logger.d('Fetching 5e bestiary data');
 
-      final response = await client
-          .get<Map<String, dynamic>>('/v1/monsters/?limit=$count&document__slug=$sources');
+      final response = await client.get<Map<String, dynamic>>(
+          '/v1/monsters/?limit=$count&document__slug=$sources');
 
       final results = (response.data?['results'] as List? ?? [])
           .cast<Map<String, dynamic>>();
