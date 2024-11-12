@@ -6,20 +6,17 @@ import '../../features/combatant/models/combatant.dart';
 import '../../features/combatant/models/pf2e_combatant_data.dart';
 import 'bestiary_service.dart';
 
-const _baseUrl =
-    'https://raw.githubusercontent.com/VytorCalixto/pf2e-fvtt-bestiary/refs/heads/main';
+const _baseUrl = String.fromEnvironment("PF2E_URI");
 
 class Pf2eBestiaryService extends BestiaryService {
-  final List<String> bestiarySources;
+  final Set<String> bestiarySources;
 
   Pf2eBestiaryService({
-    this.bestiarySources = const [],
+    this.bestiarySources = const {},
   }) : super(
           initialData: [],
           baseUrl: _baseUrl,
-        ) {
-    fetchData();
-  }
+        );
 
   final Map<String, String> _availableSources = {};
 

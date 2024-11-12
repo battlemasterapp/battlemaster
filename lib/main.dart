@@ -55,14 +55,19 @@ class BattlemasterApp extends StatelessWidget {
           update: (_, __, provider) => provider!,
         ),
         ProxyProvider<SystemSettingsProvider, Pf2eBestiaryService>(
-          create: (context) => Pf2eBestiaryService(
-            bestiarySources:
-                context.read<SystemSettingsProvider>().pf2eSettings.bestiaries,
-          ),
+          create: (context) {
+            final settings =
+                context.read<SystemSettingsProvider>().pf2eSettings;
+            return Pf2eBestiaryService(
+              bestiarySources: settings.enabled ? settings.bestiaries : {},
+            )..fetchData();
+          },
           update: (_, settings, service) {
             return Pf2eBestiaryService(
-              bestiarySources: settings.pf2eSettings.bestiaries,
-            );
+              bestiarySources: settings.pf2eSettings.enabled
+                  ? settings.pf2eSettings.bestiaries
+                  : {},
+            )..fetchData(forceRefresh: true);
           },
           lazy: false,
         ),
