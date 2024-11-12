@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:icons_plus/icons_plus.dart';
 import 'package:package_info_plus/package_info_plus.dart';
 
 import 'legal/dnd5e_legal.dart';
@@ -32,7 +33,7 @@ class SettingsPage extends StatelessWidget {
                 applicationName: "Battlemaster",
                 applicationVersion: "v${snapshot.data?.version}",
                 applicationLegalese: "$pf2eLegal\n\n$dnd5eLegal\n\n$ogl",
-                icon: const Icon(Icons.info),
+                icon: const Icon(MingCute.information_fill),
                 applicationIcon: ClipRRect(
                   borderRadius: BorderRadius.circular(8),
                   child: Image.asset(
