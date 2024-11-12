@@ -470,12 +470,22 @@
   "@reload_button": {
     "description": "The button to reload the data."
   },
-  "add_condition_button": "Add Condition",
+  "add_condition_button": "Manage conditions",
   "@add_condition_button": {
     "description": "The button to add a condition."
   },
-  "add_condition_title": "Add conditions",
+  "add_condition_title": "Manage conditions",
   "@add_condition_title": {
     "description": "The title of the add condition dialog."
+  },
+  "condition_duration_round": "({duration} rounds)",
+  "@condition_duration_round": {
+    "description": "The duration of the condition in rounds.",
+    "placeholders": {
+      "duration": {
+        "type": "int",
+        "example": "3"
+      }
+    }
   }
 }

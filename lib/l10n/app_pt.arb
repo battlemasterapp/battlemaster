@@ -104,6 +104,7 @@
   "reload_data_title": "Recarregar dados",
   "reload_data_description": "Recarregar todos os dados do sistema.",
   "reload_button": "Recarregar",
-  "add_condition_button": "Adicionar condição",
-  "add_condition_title": "Adicionar condições"
+  "add_condition_button": "Adicionar condições",
+  "add_condition_title": "Adicionar condições",
+  "condition_duration_round": "({duration} rodadas)"
 }
