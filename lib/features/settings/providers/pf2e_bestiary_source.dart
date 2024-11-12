@@ -1,6 +1,7 @@
 import 'dart:convert';
 
 import 'package:dio/dio.dart';
+import 'package:dio_cache_interceptor/dio_cache_interceptor.dart';
 import 'package:flutter/material.dart';
 
 enum Pf2eBestiarySourceStatus {
@@ -24,8 +25,10 @@ class Pf2eBestiarySource extends ChangeNotifier {
   Future<void> load() async {
     _status = Pf2eBestiarySourceStatus.loading;
     notifyListeners();
-    final dio =
-        Dio(BaseOptions(baseUrl: const String.fromEnvironment('PF2E_URI')));
+    final dio = Dio(
+        BaseOptions(baseUrl: const String.fromEnvironment('PF2E_URI')))
+      ..interceptors.add(
+          DioCacheInterceptor(options: CacheOptions(store: MemCacheStore())));
     final response = await dio.get('/bestiaries/index.json');
     final sources =
         (jsonDecode(response.data) as Map).keys.cast<String>().toSet();

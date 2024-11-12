@@ -62,6 +62,7 @@ dependencies:
   plausible: ^1.0.0
   wiredash: ^2.3.0
   ultimate_flutter_icons: ^1.2.0
+  dio_cache_interceptor: ^3.5.0
 
 dev_dependencies:
   flutter_test:
