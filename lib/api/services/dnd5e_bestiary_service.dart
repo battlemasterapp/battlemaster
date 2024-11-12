@@ -8,7 +8,7 @@ class Dnd5eBestiaryService extends BestiaryService {
   Dnd5eBestiaryService()
       : super(
           initialData: [],
-          baseUrl: 'https://api.open5e.com/monsters',
+          baseUrl: 'https://api.open5e.com',
         ) {
     fetchData();
   }
@@ -35,14 +35,14 @@ class Dnd5eBestiaryService extends BestiaryService {
     // Get the first one just to get the count
     try {
       final getCount = await client
-          .get<Map<String, dynamic>>('?limit=1&document__slug=$sources');
+          .get<Map<String, dynamic>>('/v1/monsters/?limit=1&document__slug=$sources');
       final count = getCount.data?['count'] as int;
 
       logger.d('Found $count 5e bestiary entries for sources: $sources');
       logger.d('Fetching 5e bestiary data');
 
       final response = await client
-          .get<Map<String, dynamic>>('?limit=$count&document__slug=$sources');
+          .get<Map<String, dynamic>>('/v1/monsters/?limit=$count&document__slug=$sources');
 
       final results = (response.data?['results'] as List? ?? [])
           .cast<Map<String, dynamic>>();
@@ -55,8 +55,11 @@ class Dnd5eBestiaryService extends BestiaryService {
     }
 
     data.sort((a, b) => a.name.compareTo(b.name));
-    await cacheData();
-    logger.d('5e bestiary data fetched and cached');
+    if (data.isNotEmpty) {
+      logger.d('Caching bestiary data');
+      await cacheData();
+    }
+    logger.d('5e bestiary data fetched');
     return data;
   }
 }
