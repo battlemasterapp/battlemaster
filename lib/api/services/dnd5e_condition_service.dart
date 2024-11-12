@@ -23,6 +23,8 @@ class Dnd5eConditionService extends DataService<List<Condition>> {
   @override
   String get cacheKey => '5e_conditions';
 
+  List<Condition> get conditions => data;
+
   @override
   Future<List<Condition>?> decodeCache(String cache) async {
     return await compute(
@@ -45,12 +47,13 @@ class Dnd5eConditionService extends DataService<List<Condition>> {
     final cache = await getCache();
 
     if (cache != null && !forceRefresh) {
-      logger.d('Using cached bestiary data');
+      logger.d('Using cached conditions data');
       data = await decodeCache(cache) ?? [];
       return data;
     }
 
     try {
+      logger.d('Fetching conditions');
       final response =
           await client.get<Map<String, dynamic>>('/v2/conditions/');
       final results = (response.data?['results'] as List? ?? [])

@@ -1,4 +1,5 @@
 import 'package:battlemaster/features/combatant/models/combatant.dart';
+import 'package:battlemaster/features/conditions/models/condition.dart';
 import 'package:flutter/foundation.dart';
 
 enum GameEngineProviderStatus {
@@ -14,6 +15,8 @@ abstract class GameEngineProvider extends ChangeNotifier {
   GameEngineProviderStatus get currentStatus => status;
 
   List<Combatant> get bestiary;
+
+  List<Condition> get conditions;
 
   Future<void> fetchData({bool forceRefresh = false});
 }
