@@ -1,3 +1,4 @@
+import 'package:battlemaster/api/providers/dnd5e_engine_provider.dart';
 import 'package:battlemaster/database/database.dart';
 import 'package:battlemaster/features/analytics/analytics_service.dart';
 import 'package:battlemaster/features/settings/providers/system_settings_provider.dart';
@@ -71,8 +72,8 @@ class BattlemasterApp extends StatelessWidget {
           },
           lazy: false,
         ),
-        Provider<Dnd5eBestiaryService>(
-          create: (_) => Dnd5eBestiaryService(),
+        ChangeNotifierProvider<Dnd5eEngineProvider>(
+          create: (_) => Dnd5eEngineProvider()..fetchData(),
           lazy: false,
         ),
         Provider<AnalyticsService>(

@@ -1,3 +1,4 @@
+import 'package:battlemaster/api/providers/dnd5e_engine_provider.dart';
 import 'package:battlemaster/api/services/dnd5e_bestiary_service.dart';
 import 'package:battlemaster/api/services/pf2e_bestiary_service.dart';
 import 'package:battlemaster/features/analytics/analytics_service.dart';
@@ -199,7 +200,7 @@ class _AddCombatantState extends State<_AddCombatant> {
   Widget _getSelectedWidget() {
     if (_selected.contains(_AddCombatantSource.dnd5e)) {
       return AddFromBestiaryList(
-        combatants: context.read<Dnd5eBestiaryService>().bestiaryData,
+        combatants: context.read<Dnd5eEngineProvider>().bestiary,
         onCombatantSelected: (combatant) async {
           widget.onCombatantsAdded({combatant: 1});
           await context.read<AnalyticsService>().logEvent('add_5e_combatant');

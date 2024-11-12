@@ -9,9 +9,7 @@ class Dnd5eBestiaryService extends BestiaryService {
       : super(
           initialData: [],
           baseUrl: 'https://api.open5e.com',
-        ) {
-    fetchData();
-  }
+        );
 
   final List<String> _defaultSources = [
     "wotc-srd",
