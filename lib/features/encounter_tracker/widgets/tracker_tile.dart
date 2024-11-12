@@ -103,7 +103,7 @@ class TrackerTile extends StatelessWidget {
                   }
                   onRemove?.call();
                 },
-                icon: Icon(Icons.delete),
+                icon: Icon(MingCute.delete_2_fill),
               ),
               const SizedBox(width: 16),
             ],
@@ -228,7 +228,7 @@ class _Armor extends StatelessWidget {
     return Stack(
       alignment: Alignment.center,
       children: [
-        Icon(Icons.shield, color: Colors.grey.shade700),
+        Icon(MingCute.shield_shape_fill, color: Colors.grey.shade700),
         Text(
           "$armorClass",
           style: TextStyle(color: Colors.white),

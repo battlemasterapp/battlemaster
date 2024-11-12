@@ -47,7 +47,7 @@ class TrackerBar extends StatelessWidget {
                     );
                   },
                   icon: Icon(
-                    trackerState.isPlaying ? Icons.stop : Icons.play_arrow,
+                    trackerState.isPlaying ? MingCute.stop_fill : MingCute.play_fill,
                   ),
                 ),
                 const SizedBox(width: 16),
@@ -81,7 +81,7 @@ class TrackerBar extends StatelessWidget {
                 combatantsMap as Map<Combatant, int>,
               );
             },
-            icon: Icon(Icons.add),
+            icon: Icon(MingCute.add_fill),
           ),
         ],
       ),
@@ -143,7 +143,7 @@ class _TrackerTitleState extends State<_TrackerTitle> {
                     _isEditing = false;
                   });
                 },
-                icon: Icon(Icons.check),
+                icon: Icon(MingCute.check_fill),
               )
             ],
           ),
@@ -169,7 +169,7 @@ class _TrackerTitleState extends State<_TrackerTitle> {
               });
             },
             icon: Icon(
-              Icons.edit,
+              MingCute.edit_fill,
               color: Colors.white.withOpacity(.75),
             ),
           ),

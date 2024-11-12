@@ -6,6 +6,7 @@ import 'package:battlemaster/features/encounters/providers/encounters_provider.d
 import 'package:flutter/material.dart';
 import 'package:flutter_animate/flutter_animate.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import 'package:icons_plus/icons_plus.dart';
 import 'package:provider/provider.dart';
 import 'package:scrollview_observer/scrollview_observer.dart';
 
@@ -85,7 +86,7 @@ class _CombatantTrackerListState extends State<CombatantTrackerList> {
                 widget.onCombatantsAdded
                     ?.call(combatants as Map<Combatant, int>);
               },
-              icon: Icon(Icons.add),
+              icon: Icon(MingCute.add_fill),
               label: Text(AppLocalizations.of(context)!.add_combatants_button),
             ),
           ],

@@ -1,5 +1,6 @@
 import 'package:battlemaster/features/encounters/providers/encounters_provider.dart';
 import 'package:flutter/material.dart';
+import 'package:icons_plus/icons_plus.dart';
 import 'package:provider/provider.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
@@ -30,7 +31,7 @@ class _AddGroupCombatantsState extends State<AddGroupCombatants> {
         TextField(
           decoration: InputDecoration(
             labelText: AppLocalizations.of(context)!.search_input,
-            prefixIcon: Icon(Icons.search),
+            prefixIcon: Icon(MingCute.search_fill),
           ),
           onChanged: (value) => setState(() => _search = value),
         ),

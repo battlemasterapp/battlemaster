@@ -5,6 +5,7 @@ import 'package:battlemaster/features/engines/models/game_engine_type.dart';
 import 'package:battlemaster/features/groups/group_detail_page.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import 'package:icons_plus/icons_plus.dart';
 import 'package:provider/provider.dart';
 
 import '../models/encounter.dart';
@@ -79,7 +80,7 @@ class EncountersGrid extends StatelessWidget {
                 borderRadius: BorderRadius.circular(10),
               ),
             ),
-            icon: const Icon(Icons.add),
+            icon: const Icon(MingCute.plus_fill),
             label: Text(
               localization.add_new_encounter,
               textAlign: TextAlign.center,
