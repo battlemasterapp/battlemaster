@@ -29,11 +29,13 @@ class CombatantDetails extends StatelessWidget {
                 color: Colors.black,
               ),
         ),
+        const SizedBox(height: 4),
         AddConditionButton(
           conditions: combatant.conditions,
           onConditionsAdded: (conditions) =>
               onConditionsAdded?.call(conditions),
         ),
+        const SizedBox(height: 8),
         if (combatant.engineType == GameEngineType.custom)
           CustomCombatantDetails(combatant: combatant),
         if (combatant.combatantData != null &&
