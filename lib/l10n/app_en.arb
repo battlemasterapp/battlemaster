@@ -457,5 +457,17 @@
   "selected_bestiaries": "Selected bestiaries:",
   "@selected_bestiaries": {
     "description": "The label of the selected bestiaries."
+  },
+  "reload_data_title": "Reload data",
+  "@reload_data_title": {
+    "description": "The title of the reload data button."
+  },
+  "reload_data_description": "Force a reload of all game data.",
+  "@reload_data_description": {
+    "description": "The description of the reload data button."
+  },
+  "reload_button": "Reload",
+  "@reload_button": {
+    "description": "The button to reload the data."
   }
 }

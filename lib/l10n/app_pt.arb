@@ -100,5 +100,8 @@
   "bestiary_settings_title": "Bestiários",
   "bestiary_settings_description": "Ative bestiários para adicionar monstros rapidamente aos combates",
   "select_bestiaries_title": "Selecionar bestiários",
-  "selected_bestiaries": "Bestiários selecionados:"
+  "selected_bestiaries": "Bestiários selecionados:",
+  "reload_data_title": "Recarregar dados",
+  "reload_data_description": "Recarregar todos os dados do sistema.",
+  "reload_button": "Recarregar"
 }

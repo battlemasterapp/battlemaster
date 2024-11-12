@@ -8,6 +8,7 @@ class Dnd5eEngineProvider extends GameEngineProvider {
   @override
   Future<void> fetchData({bool forceRefresh = false}) async {
     status = GameEngineProviderStatus.loading;
+    notifyListeners();
     await _bestiaryService.fetchData(forceRefresh: forceRefresh);
     status = GameEngineProviderStatus.loaded;
     notifyListeners();
