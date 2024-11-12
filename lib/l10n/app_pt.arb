@@ -103,5 +103,7 @@
   "selected_bestiaries": "Bestiários selecionados:",
   "reload_data_title": "Recarregar dados",
   "reload_data_description": "Recarregar todos os dados do sistema.",
-  "reload_button": "Recarregar"
+  "reload_button": "Recarregar",
+  "add_condition_button": "Adicionar condição",
+  "add_condition_title": "Adicionar condições"
 }

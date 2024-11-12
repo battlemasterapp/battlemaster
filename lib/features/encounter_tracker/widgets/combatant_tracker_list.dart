@@ -14,6 +14,8 @@ import '../../combatant/models/combatant.dart';
 import '../../encounters/models/encounter.dart';
 import 'tracker_tile.dart';
 
+typedef OnCombatantTap = void Function(Combatant combatant, int index);
+
 class CombatantTrackerList extends StatefulWidget {
   const CombatantTrackerList({
     super.key,
@@ -26,7 +28,7 @@ class CombatantTrackerList extends StatefulWidget {
   final Encounter encounter;
   final int? selectedCombatantIndex;
   final ValueChanged<Map<Combatant, int>>? onCombatantsAdded;
-  final ValueChanged<Combatant>? onCombatantTap;
+  final OnCombatantTap? onCombatantTap;
 
   @override
   State<CombatantTrackerList> createState() => _CombatantTrackerListState();
@@ -108,7 +110,7 @@ class _CombatantTrackerListState extends State<CombatantTrackerList> {
               combatant: combatant,
               selected: index == widget.selectedCombatantIndex,
               index: index,
-              onTap: () => widget.onCombatantTap?.call(combatant),
+              onTap: () => widget.onCombatantTap?.call(combatant, index),
               onRemove: () async {
                 await context
                     .read<EncountersProvider>()

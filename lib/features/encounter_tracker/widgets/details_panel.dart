@@ -1,4 +1,5 @@
 import 'package:battlemaster/features/combatant/widgets/combatant_details/combatant_details.dart';
+import 'package:battlemaster/features/conditions/models/condition.dart';
 import 'package:battlemaster/flavors/pf2e/pf2e_colors.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_animate/flutter_animate.dart';
@@ -12,11 +13,13 @@ class EncounterDetailsPanel extends StatelessWidget {
     this.combatant,
     this.open = false,
     this.onClose,
+    this.onConditionsAdded,
   });
 
   final bool open;
   final Combatant? combatant;
   final VoidCallback? onClose;
+  final ValueChanged<List<Condition>>? onConditionsAdded;
 
   @override
   Widget build(BuildContext context) {
@@ -67,7 +70,10 @@ class EncounterDetailsPanel extends StatelessWidget {
                               icon: Icon(MingCute.close_fill),
                             ),
                           ),
-                          CombatantDetails(combatant: combatant!),
+                          CombatantDetails(
+                            combatant: combatant!,
+                            onConditionsAdded: onConditionsAdded,
+                          ),
                           const SizedBox(height: 80),
                         ],
                       ),

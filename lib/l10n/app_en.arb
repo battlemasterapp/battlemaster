@@ -469,5 +469,13 @@
   "reload_button": "Reload",
   "@reload_button": {
     "description": "The button to reload the data."
+  },
+  "add_condition_button": "Add Condition",
+  "@add_condition_button": {
+    "description": "The button to add a condition."
+  },
+  "add_condition_title": "Add conditions",
+  "@add_condition_title": {
+    "description": "The title of the add condition dialog."
   }
 }

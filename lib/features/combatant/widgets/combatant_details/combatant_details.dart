@@ -1,4 +1,6 @@
 import 'package:battlemaster/features/combatant/models/combatant.dart';
+import 'package:battlemaster/features/conditions/models/condition.dart';
+import 'package:battlemaster/features/conditions/widgets/add_condition_button.dart';
 import 'package:battlemaster/features/engines/models/game_engine_type.dart';
 import 'package:flutter/material.dart';
 
@@ -10,9 +12,11 @@ class CombatantDetails extends StatelessWidget {
   const CombatantDetails({
     super.key,
     required this.combatant,
+    this.onConditionsAdded,
   });
 
   final Combatant combatant;
+  final ValueChanged<List<Condition>>? onConditionsAdded;
 
   @override
   Widget build(BuildContext context) {
@@ -24,6 +28,11 @@ class CombatantDetails extends StatelessWidget {
           style: Theme.of(context).textTheme.titleLarge?.copyWith(
                 color: Colors.black,
               ),
+        ),
+        AddConditionButton(
+          conditions: combatant.conditions,
+          onConditionsAdded: (conditions) =>
+              onConditionsAdded?.call(conditions),
         ),
         if (combatant.engineType == GameEngineType.custom)
           CustomCombatantDetails(combatant: combatant),
