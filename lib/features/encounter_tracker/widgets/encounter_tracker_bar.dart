@@ -58,8 +58,7 @@ class TrackerBar extends StatelessWidget {
                 const SizedBox(width: 8),
               ],
             ),
-          if (!displayControls)
-            const SizedBox.shrink(),
+          if (!displayControls) const SizedBox.shrink(),
           _TrackerTitle(
             title: encounter.name,
             onTitleChanged: onTitleChanged,
