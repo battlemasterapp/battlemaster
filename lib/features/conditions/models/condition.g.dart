@@ -9,7 +9,8 @@ part of 'condition.dart';
 Condition _$ConditionFromJson(Map<String, dynamic> json) => Condition(
       name: json['name'] as String,
       description: json['description'] as String,
-      engine: $enumDecode(_$GameEngineTypeEnumMap, json['engine']),
+      engine: $enumDecodeNullable(_$GameEngineTypeEnumMap, json['engine']) ??
+          GameEngineType.custom,
       durationRounds: (json['durationRounds'] as num?)?.toInt(),
       value: (json['value'] as num?)?.toInt(),
     );

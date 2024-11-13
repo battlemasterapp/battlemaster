@@ -96,7 +96,8 @@ class AppDatabase extends _$AppDatabase {
         engine: condition.engine,
       ),
     );
-    return CustomCondition.fromJson(condition.toJson()..['id'] = id);
+    return await (select(customConditions)..where((c) => c.id.equals(id)))
+        .getSingle();
   }
 
   Future<void> updateCondition(CustomCondition condtion) async {
@@ -112,7 +113,8 @@ class AppDatabase extends _$AppDatabase {
   }
 
   Future<int> deleteCondition(CustomCondition condition) async {
-    return await (delete(customConditions)..where((c) => c.id.equals(condition.id)))
+    return await (delete(customConditions)
+          ..where((c) => c.id.equals(condition.id)))
         .go();
   }
 

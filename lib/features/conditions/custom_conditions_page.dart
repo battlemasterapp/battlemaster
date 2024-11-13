@@ -1,4 +1,9 @@
+import 'package:battlemaster/database/database.dart';
+import 'package:battlemaster/features/conditions/models/condition.dart';
+import 'package:battlemaster/features/conditions/providers/conditions_provider.dart';
 import 'package:flutter/material.dart';
+import 'package:icons_plus/icons_plus.dart';
+import 'package:provider/provider.dart';
 
 class CustomConditionsPage extends StatelessWidget {
   const CustomConditionsPage({super.key});
@@ -10,10 +15,54 @@ class CustomConditionsPage extends StatelessWidget {
       appBar: AppBar(
         title: Text('Custom Conditions'),
       ),
+      floatingActionButton: FloatingActionButton(
+        child: Icon(MingCute.add_fill),
+        onPressed: () {
+          // TODO: open dialog to add new condition
+          context.read<ConditionsProvider>().addCondition(Condition(
+            name: 'teste',
+            description: 'teste de condição, ' * 20,
+          ));
+        },
+      ),
       body: SafeArea(
-        child: Center(
-          child: Text('Custom Conditions Page'),
-        ),
+        child: StreamBuilder<List<CustomCondition>>(
+            stream: context.read<ConditionsProvider>().watchConditions(),
+            builder: (context, snapshot) {
+              if (snapshot.connectionState == ConnectionState.waiting) {
+                return Center(
+                  child: CircularProgressIndicator(),
+                );
+              }
+              final conditions = snapshot.data ?? [];
+
+              if (conditions.isEmpty) {
+                return Center(
+                  child: Text('No custom conditions'),
+                );
+              }
+
+              return ListView.separated(
+                itemCount: conditions.length,
+                padding: const EdgeInsets.only(bottom: 60),
+                separatorBuilder: (_, __) => const Divider(),
+                itemBuilder: (context, index) {
+                  final condition = conditions[index];
+                  return ListTile(
+                    title: Text(condition.name),
+                    subtitle: Text(condition.description),
+                    trailing: IconButton(
+                      icon: Icon(MingCute.delete_2_fill),
+                      onPressed: () async {
+                        await context
+                            .read<ConditionsProvider>()
+                            .deleteCondition(condition);
+                      },
+                    ),
+                  );
+                },
+              );
+            }),
       ),
     );
   }

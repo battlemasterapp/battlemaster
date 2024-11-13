@@ -15,7 +15,7 @@ class ConditionsProvider extends ChangeNotifier {
     return Condition.fromCustomCondition(created);
   }
 
-  Future<void> removeCondition(CustomCondition condition) async {
+  Future<void> deleteCondition(CustomCondition condition) async {
     await _database.deleteCondition(condition);
   }
 }
