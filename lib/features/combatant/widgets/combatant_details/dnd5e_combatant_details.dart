@@ -214,8 +214,12 @@ class _CombatantAttributes extends StatelessWidget {
       localization.wis_short: combatant.wisdom,
       localization.cha_short: combatant.charisma,
     };
-    return Row(
-      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+    return Wrap(
+      runAlignment: WrapAlignment.start,
+      crossAxisAlignment: WrapCrossAlignment.center,
+      alignment: WrapAlignment.center,
+      spacing: 8,
+      runSpacing: 4,
       children: [
         for (final entry in attributes.entries)
           Padding(
