@@ -143,8 +143,7 @@ class TrackerTile extends StatelessWidget {
   Color _getTileColor(BuildContext context, int index) {
     final theme = Theme.of(context);
     final opacity = index.isEven ? 0.15 : 0.05;
-    final color = selected ? theme.colorScheme.secondary
-        : theme.primaryColor;
+    final color = selected ? theme.colorScheme.secondary : theme.primaryColor;
     return color.withOpacity(opacity);
   }
 }

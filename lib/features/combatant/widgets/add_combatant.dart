@@ -27,7 +27,6 @@ class AddCombatant extends StatefulWidget {
 
   final ValueChanged<Map<Combatant, int>> onCombatantsAdded;
   final bool showGroupReminder;
-  
 
   @override
   State<AddCombatant> createState() => _AddCombatantState();
