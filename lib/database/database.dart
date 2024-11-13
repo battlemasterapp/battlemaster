@@ -1,5 +1,6 @@
 import 'package:battlemaster/database/database.steps.dart';
 import 'package:battlemaster/database/tables.dart';
+import 'package:battlemaster/features/conditions/models/condition.dart';
 import 'package:battlemaster/features/encounters/models/encounter.dart';
 import 'package:battlemaster/features/engines/models/game_engine_type.dart';
 import 'package:drift/drift.dart';
@@ -38,10 +39,9 @@ class AppDatabase extends _$AppDatabase {
   @override
   MigrationStrategy get migration {
     return MigrationStrategy(
-      onUpgrade: stepByStep(
-        from1To2: (m, schema) async {
-          m.createTable(customConditions);
-        }),
+      onUpgrade: stepByStep(from1To2: (m, schema) async {
+        m.createTable(customConditions);
+      }),
     );
   }
 
@@ -84,7 +84,39 @@ class AppDatabase extends _$AppDatabase {
     );
   }
 
-  Future<void> eraseEncounters() async {
+  Stream<List<CustomCondition>> watchConditions() {
+    return select(customConditions).watch().map((rows) => rows.toList());
+  }
+
+  Future<CustomCondition> insertCondition(Condition condition) async {
+    final id = await into(customConditions).insert(
+      CustomConditionsCompanion.insert(
+        name: condition.name,
+        description: condition.description,
+        engine: condition.engine,
+      ),
+    );
+    return CustomCondition.fromJson(condition.toJson()..['id'] = id);
+  }
+
+  Future<void> updateCondition(CustomCondition condtion) async {
+    await (update(customConditions)..where((c) => c.id.equals(condtion.id)))
+        .write(
+      CustomConditionsCompanion(
+        id: Value(condtion.id),
+        name: Value(condtion.name),
+        description: Value(condtion.description),
+        engine: Value(condtion.engine),
+      ),
+    );
+  }
+
+  Future<int> deleteCondition(CustomCondition condition) async {
+    return await (delete(customConditions)..where((c) => c.id.equals(condition.id)))
+        .go();
+  }
+
+  Future<void> eraseDb() async {
     await delete(encounterTable).go();
     await delete(customConditions).go();
   }

@@ -87,7 +87,7 @@ class __EraseDataButtonState extends State<_EraseDataButton> {
           _loading = true;
         });
         await Future.wait([
-          context.read<AppDatabase>().eraseEncounters(),
+          context.read<AppDatabase>().eraseDb(),
           context.read<SystemSettingsProvider>().reset(),
         ]);
         setState(() {
