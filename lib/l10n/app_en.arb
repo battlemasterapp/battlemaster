@@ -507,5 +507,13 @@
   "delete_data_button": "Delete",
   "@delete_data_button": {
     "description": "Delete app data button"
+  },
+  "custom_conditions_settings_title": "Custom Conditions",
+  "@custom_conditions_settings_title": {
+    "description": "Custom conditions settings title"
+  },
+  "custom_conditions_settings_subtitle": "Create custom conditions to use in your encounters.",
+  "@custom_conditions_settings_subtitle": {
+    "description": "Custom conditions settings subtitle"
   }
 }

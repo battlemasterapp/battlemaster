@@ -111,5 +111,7 @@
   "danger_zone_settings_subtitle": "Configurações que podem afetar seus dados",
   "delete_data_title": "Apagar dados",
   "delete_data_subtitle": "Isso excluirá todos os dados do aplicativo",
-  "delete_data_button": "Apagar"
+  "delete_data_button": "Apagar",
+  "custom_conditions_settings_title": "Condições personalizadas",
+  "custom_conditions_settings_subtitle": "Adicione condições personalizadas para usar nos combates"
 }

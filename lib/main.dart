@@ -1,6 +1,7 @@
 import 'package:battlemaster/api/providers/dnd5e_engine_provider.dart';
 import 'package:battlemaster/database/database.dart';
 import 'package:battlemaster/features/analytics/analytics_service.dart';
+import 'package:battlemaster/features/conditions/custom_conditions_page.dart';
 import 'package:battlemaster/features/conditions/providers/conditions_provider.dart';
 import 'package:battlemaster/features/settings/providers/system_settings_provider.dart';
 import 'package:flutter/foundation.dart';
@@ -140,6 +141,7 @@ class BattlemasterApp extends StatelessWidget {
                   params: ModalRoute.of(context)!.settings.arguments
                       as AddCombatantParams,
                 ),
+            "/conditions": (context) => const CustomConditionsPage(),
           },
           initialRoute: "/",
         );
