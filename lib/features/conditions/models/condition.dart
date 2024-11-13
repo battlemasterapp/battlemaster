@@ -16,7 +16,7 @@ class Condition extends Equatable {
   const Condition({
     required this.name,
     required this.description,
-    required this.engine,
+    this.engine = GameEngineType.custom,
     this.durationRounds,
     this.value,
   });

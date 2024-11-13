@@ -31,4 +31,12 @@ class Dnd5eEngineProvider extends GameEngineProvider {
 
   @override
   List<Condition> get conditions => _conditionService.conditions;
+
+  @override
+  Future<void> clearData() async {
+    await Future.wait([
+      _conditionService.deleteCache(),
+      _bestiaryService.deleteCache(),
+    ]);
+  }
 }

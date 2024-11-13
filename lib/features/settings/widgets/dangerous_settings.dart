@@ -1,4 +1,5 @@
 import 'package:async/async.dart';
+import 'package:battlemaster/api/providers/dnd5e_engine_provider.dart';
 import 'package:battlemaster/database/database.dart';
 import 'package:battlemaster/features/settings/providers/system_settings_provider.dart';
 import 'package:flutter/material.dart';
@@ -89,6 +90,7 @@ class __EraseDataButtonState extends State<_EraseDataButton> {
         await Future.wait([
           context.read<AppDatabase>().eraseDb(),
           context.read<SystemSettingsProvider>().reset(),
+          context.read<Dnd5eEngineProvider>().clearData(),
         ]);
         setState(() {
           _loading = false;

@@ -71,4 +71,18 @@ abstract class DataService<T> {
     logger.d('Writing cache to $cacheFile');
     await File(cacheFile).writeAsString(await encodeCache(data));
   }
+
+  Future<void> deleteCache() async {
+    if (kIsWeb) {
+      final prefs = await SharedPreferences.getInstance();
+      logger.d('Deleting cache from shared prefs');
+      prefs.remove(cacheKey);
+      return;
+    }
+    final cacheDir = await getApplicationCacheDirectory();
+    final cacheFile = '${cacheDir.path}/$cacheKey.json';
+    logger.d('Deleting cache from $cacheFile');
+    await File(cacheFile).delete();
+  }
+
 }

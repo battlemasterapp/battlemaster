@@ -19,4 +19,6 @@ abstract class GameEngineProvider extends ChangeNotifier {
   List<Condition> get conditions;
 
   Future<void> fetchData({bool forceRefresh = false});
+
+  Future<void> clearData();
 }

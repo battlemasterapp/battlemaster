@@ -1,6 +1,7 @@
 import 'package:battlemaster/api/providers/dnd5e_engine_provider.dart';
 import 'package:battlemaster/database/database.dart';
 import 'package:battlemaster/features/analytics/analytics_service.dart';
+import 'package:battlemaster/features/conditions/providers/conditions_provider.dart';
 import 'package:battlemaster/features/settings/providers/system_settings_provider.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
@@ -81,6 +82,10 @@ class BattlemasterApp extends StatelessWidget {
         ),
         Provider<AnalyticsService>(
           create: (_) => AnalyticsService(),
+        ),
+        ChangeNotifierProxyProvider<AppDatabase, ConditionsProvider>(
+          create: (context) => ConditionsProvider(context.read<AppDatabase>()),
+          update: (_, __, provider) => provider!,
         ),
       ],
       child: Builder(builder: (context) {
