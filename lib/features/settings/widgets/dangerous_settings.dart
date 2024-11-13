@@ -31,6 +31,7 @@ class _DangerousSettingsState extends State<DangerousSettings> {
             localization.danger_zone_settings_title,
             style: Theme.of(context).textTheme.headlineSmall,
           ),
+          subtitle: Text(localization.danger_zone_settings_subtitle),
         ),
         AnimatedSwitcher(
           duration: 300.ms,
