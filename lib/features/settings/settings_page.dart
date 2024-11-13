@@ -1,3 +1,4 @@
+import 'package:battlemaster/features/settings/widgets/dangerous_settings.dart';
 import 'package:flutter/material.dart';
 import 'package:icons_plus/icons_plus.dart';
 import 'package:package_info_plus/package_info_plus.dart';
@@ -16,6 +17,7 @@ class SettingsPage extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       body: ListView(
+        padding: const EdgeInsets.only(bottom: 48),
         children: [
           ListTile(
             title: Text(
@@ -52,6 +54,8 @@ class SettingsPage extends StatelessWidget {
           const Dnd5eSettingsWidget(),
           const Divider(),
           const Pf2eSettingsWidget(),
+          const Divider(),
+          const DangerousSettings(),
         ],
       ),
     );

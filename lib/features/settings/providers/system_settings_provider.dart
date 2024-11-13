@@ -42,6 +42,12 @@ class SystemSettingsProvider extends ChangeNotifier {
     notifyListeners();
   }
 
+  Future<void> reset() async {
+    _settings = Settings();
+    notifyListeners();
+    await _saveSettings();
+  }
+
   Future<void> _saveSettings() async {
     final preferences = await SharedPreferences.getInstance();
     await preferences.setString(
