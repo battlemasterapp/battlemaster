@@ -43,7 +43,6 @@ class SelectedCombatants extends StatelessWidget {
                       combatant.name,
                       style: Theme.of(context).textTheme.bodyLarge,
                     ),
-                    Spacer(),
                     Expanded(
                       child: Row(
                         mainAxisAlignment: MainAxisAlignment.end,
