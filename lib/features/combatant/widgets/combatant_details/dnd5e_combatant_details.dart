@@ -220,6 +220,7 @@ class _CombatantAttributes extends StatelessWidget {
       alignment: WrapAlignment.center,
       spacing: 8,
       runSpacing: 4,
+      direction: Axis.horizontal,
       children: [
         for (final entry in attributes.entries)
           Padding(

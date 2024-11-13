@@ -72,34 +72,39 @@ class TrackerTile extends StatelessWidget {
                 child: Text(combatant.initiative.toStringAsFixed(1)),
               ),
               const SizedBox(width: 8),
-              Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Row(
-                    children: [
-                      FIcon(
-                        combatant.type.icon,
-                        color: Theme.of(context).iconTheme.color ??
-                            Theme.of(context).textTheme.bodyMedium?.color ??
-                            Colors.black,
-                      ),
-                      const SizedBox(width: 8),
-                      Text(combatant.name),
-                      const SizedBox(width: 8),
-                      _Health(
-                        combatant: combatant,
-                        onHealthChanged: onHealthChanged,
-                      ),
-                    ],
-                  ),
-                  if (combatant.conditions.isNotEmpty)
-                    Padding(
-                      padding: const EdgeInsets.symmetric(vertical: 4),
-                      child: ConditionsList(conditions: combatant.conditions),
+              Expanded(
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  mainAxisSize: MainAxisSize.min,
+                  children: [
+                    Wrap(
+                      alignment: WrapAlignment.start,
+                      crossAxisAlignment: WrapCrossAlignment.center,
+                      runSpacing: 4,
+                      children: [
+                        FIcon(
+                          combatant.type.icon,
+                          color: Theme.of(context).iconTheme.color ??
+                              Theme.of(context).textTheme.bodyMedium?.color ??
+                              Colors.black,
+                        ),
+                        const SizedBox(width: 8),
+                        Text(combatant.name),
+                        const SizedBox(width: 8),
+                        _Health(
+                          combatant: combatant,
+                          onHealthChanged: onHealthChanged,
+                        ),
+                      ],
                     ),
-                ],
+                    if (combatant.conditions.isNotEmpty)
+                      Padding(
+                        padding: const EdgeInsets.symmetric(vertical: 4),
+                        child: ConditionsList(conditions: combatant.conditions),
+                      ),
+                  ],
+                ),
               ),
-              const Spacer(),
               _Armor(
                 armorClass: combatant.armorClass,
               ),
@@ -186,6 +191,7 @@ class _Health extends StatelessWidget {
         color: color,
       ),
       label: Row(
+        mainAxisSize: MainAxisSize.min,
         children: [
           AnimatedFlipCounter(
             value: combatant.currentHp,
