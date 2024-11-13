@@ -137,8 +137,6 @@ class _TrackerPageContentState extends State<_TrackerPageContent> {
               await context.read<EncountersProvider>().editCombatant(
                     widget.encounter,
                     combatant.copyWith(conditions: conditions),
-                    widget.encounter.combatants
-                        .indexWhere((e) => e.name == combatant.name),
                   );
             },
           ),

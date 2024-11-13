@@ -7,6 +7,7 @@ part of 'combatant.dart';
 // **************************************************************************
 
 Combatant _$CombatantFromJson(Map<String, dynamic> json) => Combatant(
+      id: json['id'] as String? ?? "",
       name: json['name'] as String,
       currentHp: (json['currentHp'] as num).toInt(),
       maxHp: (json['maxHp'] as num).toInt(),
@@ -25,6 +26,7 @@ Combatant _$CombatantFromJson(Map<String, dynamic> json) => Combatant(
     );
 
 Map<String, dynamic> _$CombatantToJson(Combatant instance) => <String, dynamic>{
+      'id': instance.id,
       'name': instance.name,
       'currentHp': instance.currentHp,
       'maxHp': instance.maxHp,

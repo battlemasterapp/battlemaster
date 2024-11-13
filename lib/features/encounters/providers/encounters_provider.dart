@@ -1,5 +1,6 @@
 import 'package:battlemaster/features/encounters/models/encounter_type.dart';
 import 'package:flutter/material.dart';
+import 'package:nanoid2/nanoid2.dart';
 
 import '../../../database/database.dart';
 import '../../combatant/models/combatant.dart';
@@ -34,8 +35,9 @@ class EncountersProvider extends ChangeNotifier {
   Future<void> editCombatant(
     Encounter encounter,
     Combatant combatant,
-    int index,
   ) async {
+    final index = encounter.combatants.indexWhere((c) => c.id == combatant.id);
+    assert(index > -1);
     final combatants = encounter.combatants
       ..replaceRange(
         index,
@@ -66,6 +68,7 @@ class EncountersProvider extends ChangeNotifier {
           ...List.generate(
               mapEntry.value,
               (index) => mapEntry.key.copyWith(
+                    id: nanoid(),
                     name: mapEntry.value > 1
                         ? '${mapEntry.key.name} ${index + 1}'
                         : null,
@@ -81,7 +84,7 @@ class EncountersProvider extends ChangeNotifier {
 
   Future<void> removeCombatant(Encounter encounter, Combatant combatant) async {
     final combatants =
-        encounter.combatants.where((c) => c.name != combatant.name).toList();
+        encounter.combatants.where((c) => c.id != combatant.id).toList();
     final updated = encounter.copyWith(combatants: combatants);
     await _database.updateEncounter(updated);
   }

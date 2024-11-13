@@ -12,6 +12,7 @@ part 'combatant.g.dart';
 
 @JsonSerializable()
 class Combatant extends Equatable {
+  final String id;
   final String name;
   final int currentHp;
   final int maxHp;
@@ -30,6 +31,7 @@ class Combatant extends Equatable {
   final CombatantData? combatantData;
 
   const Combatant({
+    this.id = "",
     required this.name,
     required this.currentHp,
     required this.maxHp,
@@ -81,6 +83,7 @@ class Combatant extends Equatable {
   Map<String, dynamic> toJson() => _$CombatantToJson(this);
 
   Combatant copyWith({
+    String? id,
     String? name,
     int? currentHp,
     int? maxHp,
@@ -94,6 +97,7 @@ class Combatant extends Equatable {
     List<Condition>? conditions,
   }) {
     return Combatant(
+      id: id ?? this.id,
       name: name ?? this.name,
       currentHp: currentHp ?? this.currentHp,
       maxHp: maxHp ?? this.maxHp,
@@ -110,16 +114,10 @@ class Combatant extends Equatable {
 
   @override
   List<Object?> get props => [
+        id,
         name,
-        currentHp,
-        maxHp,
-        initiative,
-        armorClass,
-        initiativeModifier,
         type,
         engineType,
-        combatantData,
-        conditions,
       ];
 }
 

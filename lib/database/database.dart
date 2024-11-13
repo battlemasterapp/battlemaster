@@ -78,4 +78,8 @@ class AppDatabase extends _$AppDatabase {
       ),
     );
   }
+
+  Future<void> eraseEncounters() async {
+    await delete(encounterTable).go();
+  }
 }
