@@ -13,10 +13,10 @@ Color getHealthColor(int currentHp, {int maxHp = 0}) {
 
   if (maxHp == 0) {
     return Color.lerp(
-    fullHealthColor,
-    deadColor,
-    1 - (currentHp / (max(maxHp, currentHp))),
-  )!;
+      fullHealthColor,
+      deadColor,
+      1 - (currentHp / (max(maxHp, currentHp))),
+    )!;
   }
 
   final halfHealth = maxHp / 2;
