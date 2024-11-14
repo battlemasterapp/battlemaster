@@ -73,7 +73,9 @@ class _MainPageState extends State<MainPage> {
                     onDestinationSelected: (index) => _changePage(
                       pages.keys.toList()[index],
                     ),
-                    labelType: expanded ? NavigationRailLabelType.none: NavigationRailLabelType.all,
+                    labelType: expanded
+                        ? NavigationRailLabelType.none
+                        : NavigationRailLabelType.all,
                     indicatorColor: Theme.of(context).primaryColor,
                     unselectedIconTheme: IconThemeData(
                       color: Theme.of(context).iconTheme.color,
