@@ -87,6 +87,10 @@ class AppDatabase extends _$AppDatabase {
     return select(customConditions).watch().map((rows) => rows.toList());
   }
 
+  Future<List<CustomCondition>> getConditions() {
+    return select(customConditions).get();
+  }
+
   Future<CustomCondition> insertCondition(CustomCondition condition) async {
     final id = await into(customConditions).insert(
       CustomConditionsCompanion.insert(

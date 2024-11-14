@@ -10,6 +10,8 @@ class ConditionsProvider extends ChangeNotifier {
   Stream<List<CustomCondition>> watchConditions() =>
       _database.watchConditions();
 
+  Future<List<CustomCondition>> getConditions() => _database.getConditions();
+
   Future<Condition> addCondition(CustomCondition condition) async {
     final created = await _database.insertCondition(condition);
     return Condition.fromCustomCondition(created);
