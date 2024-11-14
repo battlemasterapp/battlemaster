@@ -1,6 +1,7 @@
 import 'package:battlemaster/features/conditions/models/condition.dart';
 import 'package:battlemaster/features/conditions/widgets/add_condition_dialog.dart';
 import 'package:battlemaster/features/conditions/widgets/conditions_list.dart';
+import 'package:battlemaster/features/engines/models/game_engine_type.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:icons_plus/icons_plus.dart';
@@ -8,12 +9,14 @@ import 'package:icons_plus/icons_plus.dart';
 class AddConditionButton extends StatelessWidget {
   const AddConditionButton({
     super.key,
+    required this.engine,
     this.onConditionsAdded,
     this.conditions = const [],
   });
 
   final ValueChanged<List<Condition>>? onConditionsAdded;
   final List<Condition> conditions;
+  final GameEngineType engine;
 
   @override
   Widget build(BuildContext context) {
@@ -36,7 +39,10 @@ class AddConditionButton extends StatelessWidget {
           onPressed: () async {
             final selectedConditions = await showDialog<List<Condition>?>(
               context: context,
-              builder: (context) => AddConditionDialog(conditions: conditions),
+              builder: (context) => AddConditionDialog(
+                conditions: conditions,
+                engine: engine,
+              ),
             );
 
             if (selectedConditions != null) {

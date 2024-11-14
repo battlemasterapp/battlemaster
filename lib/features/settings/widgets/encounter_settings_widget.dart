@@ -82,6 +82,15 @@ class EncounterSettingsWidget extends StatelessWidget {
             },
           ),
         ),
+        ListTile(
+          leading: Icon(MingCute.bling_fill),
+          title: Text(localization.custom_conditions_settings_title),
+          subtitle: Text(localization.custom_conditions_settings_subtitle),
+          trailing: Icon(MingCute.right_fill),
+          onTap: () {
+            Navigator.of(context).pushNamed('/conditions');
+          },
+        ),
       ],
     );
   }

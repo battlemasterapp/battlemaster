@@ -56,7 +56,7 @@ class _AddCustomCombatantState extends State<AddCustomCombatant> {
                   },
                   validator: (value) {
                     if (value == null || value.isEmpty) {
-                      return localization.name_validation_text;
+                      return localization.combatant_name_validation_text;
                     }
                     return null;
                   },
