@@ -19,7 +19,7 @@ class CustomConditionsPage extends StatelessWidget {
         child: Icon(MingCute.add_fill),
         onPressed: () async {
           // TODO: open dialog to add new condition
-          final condition = await showDialog(
+          final condition = await showDialog<CustomCondition?>(
             context: context,
             builder: (context) => const CreateConditionDialog(),
           );
@@ -27,6 +27,9 @@ class CustomConditionsPage extends StatelessWidget {
           if (condition == null) {
             return;
           }
+
+          // ignore: use_build_context_synchronously
+          await context.read<ConditionsProvider>().addCondition(condition);
         },
       ),
       body: SafeArea(

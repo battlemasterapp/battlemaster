@@ -1,6 +1,5 @@
 import 'package:battlemaster/database/database.steps.dart';
 import 'package:battlemaster/database/tables.dart';
-import 'package:battlemaster/features/conditions/models/condition.dart';
 import 'package:battlemaster/features/encounters/models/encounter.dart';
 import 'package:battlemaster/features/engines/models/game_engine_type.dart';
 import 'package:drift/drift.dart';
@@ -88,7 +87,7 @@ class AppDatabase extends _$AppDatabase {
     return select(customConditions).watch().map((rows) => rows.toList());
   }
 
-  Future<CustomCondition> insertCondition(Condition condition) async {
+  Future<CustomCondition> insertCondition(CustomCondition condition) async {
     final id = await into(customConditions).insert(
       CustomConditionsCompanion.insert(
         name: condition.name,
