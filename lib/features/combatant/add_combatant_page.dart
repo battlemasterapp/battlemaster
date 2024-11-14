@@ -3,6 +3,7 @@ import 'package:battlemaster/features/combatant/add_combatants_portrait.dart';
 import 'package:battlemaster/features/encounters/models/encounter_type.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import 'package:responsive_framework/responsive_framework.dart';
 
 import 'models/combatant.dart';
 
@@ -31,15 +32,37 @@ class _AddCombatantPageState extends State<AddCombatantPage> {
 
   @override
   Widget build(BuildContext context) {
+    final isMobile = ResponsiveBreakpoints.of(context).smallerThan(DESKTOP);
     return Scaffold(
       appBar: AppBar(
         title: Text(AppLocalizations.of(context)!.add_combatant_title),
       ),
       body: SafeArea(
-        child: OrientationBuilder(builder: (context, orientation) {
-          final isPortrait = orientation == Orientation.portrait;
-          if (isPortrait) {
-            return AddCombatantsPortraitPage(
+        child: Builder(
+          builder: (context) {
+            if (isMobile) {
+              return AddCombatantsPortraitPage(
+                combatants: _combatants,
+                showGroupReminder:
+                    widget.params.encounterType == EncounterType.encounter,
+                onCombatantsChanged: (combatants) => setState(() {
+                  _combatants = combatants;
+                }),
+                onCombatantsAdded: (combatants) {
+                  setState(() {
+                    combatants.forEach((combatant, count) {
+                      _combatants.update(
+                        combatant,
+                        (value) => value + count,
+                        ifAbsent: () => count,
+                      );
+                    });
+                  });
+                },
+              );
+            }
+
+            return AddCombatantPageLandscape(
               combatants: _combatants,
               showGroupReminder:
                   widget.params.encounterType == EncounterType.encounter,
@@ -58,28 +81,8 @@ class _AddCombatantPageState extends State<AddCombatantPage> {
                 });
               },
             );
-          }
-
-          return AddCombatantPageLandscape(
-            combatants: _combatants,
-            showGroupReminder:
-                widget.params.encounterType == EncounterType.encounter,
-            onCombatantsChanged: (combatants) => setState(() {
-              _combatants = combatants;
-            }),
-            onCombatantsAdded: (combatants) {
-              setState(() {
-                combatants.forEach((combatant, count) {
-                  _combatants.update(
-                    combatant,
-                    (value) => value + count,
-                    ifAbsent: () => count,
-                  );
-                });
-              });
-            },
-          );
-        }),
+          },
+        ),
       ),
     );
   }
