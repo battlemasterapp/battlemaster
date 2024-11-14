@@ -4,21 +4,21 @@ import 'package:battlemaster/features/conditions/widgets/create_condition_dialog
 import 'package:flutter/material.dart';
 import 'package:icons_plus/icons_plus.dart';
 import 'package:provider/provider.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class CustomConditionsPage extends StatelessWidget {
   const CustomConditionsPage({super.key});
 
   @override
   Widget build(BuildContext context) {
+    final localization = AppLocalizations.of(context)!;
     return Scaffold(
-      // FIXME: textos
       appBar: AppBar(
-        title: Text('Custom Conditions'),
+        title: Text(localization.custom_conditions_title),
       ),
       floatingActionButton: FloatingActionButton(
         child: Icon(MingCute.add_fill),
         onPressed: () async {
-          // TODO: open dialog to add new condition
           final condition = await showDialog<CustomCondition?>(
             context: context,
             builder: (context) => const CreateConditionDialog(),
@@ -45,7 +45,7 @@ class CustomConditionsPage extends StatelessWidget {
 
               if (conditions.isEmpty) {
                 return Center(
-                  child: Text('No custom conditions'),
+                  child: Text(localization.custom_conditions_empty_list),
                 );
               }
 

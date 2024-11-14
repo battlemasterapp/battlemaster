@@ -19,8 +19,7 @@ class _CreateConditionDialogState extends State<CreateConditionDialog> {
   Widget build(BuildContext context) {
     final localization = AppLocalizations.of(context)!;
     return AlertDialog(
-      // FIXME: textos
-      title: Text('Criar condição'),
+      title: Text(localization.create_condition_dialog_title),
       content: ConstrainedBox(
         constraints: BoxConstraints(maxWidth: 400),
         child: SingleChildScrollView(
@@ -29,10 +28,11 @@ class _CreateConditionDialogState extends State<CreateConditionDialog> {
             child: Column(
               children: [
                 TextFormField(
-                  decoration: InputDecoration(labelText: 'Nome'),
+                  decoration:
+                      InputDecoration(labelText: localization.name_label),
                   validator: (value) {
                     if (value == null || value.isEmpty) {
-                      return 'Nome é obrigatório';
+                      return localization.condition_name_validation_text;
                     }
                     return null;
                   },
@@ -40,11 +40,12 @@ class _CreateConditionDialogState extends State<CreateConditionDialog> {
                 ),
                 const SizedBox(height: 8),
                 TextFormField(
-                  decoration: InputDecoration(labelText: 'Descrição'),
+                  decoration: InputDecoration(
+                      labelText: localization.description_label),
                   maxLines: 2,
                   validator: (value) {
                     if (value == null || value.isEmpty) {
-                      return 'Descrição é obrigatória';
+                      return localization.condition_description_validation_text;
                     }
                     return null;
                   },

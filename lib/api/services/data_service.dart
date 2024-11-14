@@ -84,5 +84,4 @@ abstract class DataService<T> {
     logger.d('Deleting cache from $cacheFile');
     await File(cacheFile).delete();
   }
-
 }
