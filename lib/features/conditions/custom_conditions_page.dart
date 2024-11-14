@@ -1,6 +1,6 @@
 import 'package:battlemaster/database/database.dart';
-import 'package:battlemaster/features/conditions/models/condition.dart';
 import 'package:battlemaster/features/conditions/providers/conditions_provider.dart';
+import 'package:battlemaster/features/conditions/widgets/create_condition_dialog.dart';
 import 'package:flutter/material.dart';
 import 'package:icons_plus/icons_plus.dart';
 import 'package:provider/provider.dart';
@@ -17,12 +17,16 @@ class CustomConditionsPage extends StatelessWidget {
       ),
       floatingActionButton: FloatingActionButton(
         child: Icon(MingCute.add_fill),
-        onPressed: () {
+        onPressed: () async {
           // TODO: open dialog to add new condition
-          context.read<ConditionsProvider>().addCondition(Condition(
-            name: 'teste',
-            description: 'teste de condição, ' * 20,
-          ));
+          final condition = await showDialog(
+            context: context,
+            builder: (context) => const CreateConditionDialog(),
+          );
+
+          if (condition == null) {
+            return;
+          }
         },
       ),
       body: SafeArea(
