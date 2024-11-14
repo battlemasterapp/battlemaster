@@ -34,7 +34,7 @@ class CombatantDetails extends StatelessWidget {
           conditions: combatant.conditions,
           onConditionsAdded: (conditions) =>
               onConditionsAdded?.call(conditions),
-          engine: combatant.engineType ,
+          engine: combatant.engineType,
         ),
         const SizedBox(height: 8),
         if (combatant.engineType == GameEngineType.custom)
