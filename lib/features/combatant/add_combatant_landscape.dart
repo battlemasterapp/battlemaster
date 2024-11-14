@@ -8,12 +8,14 @@ class AddCombatantPageLandscape extends StatelessWidget {
   const AddCombatantPageLandscape({
     super.key,
     required this.onCombatantsAdded,
+    required this.onCombatantsChanged,
     this.showGroupReminder = false,
     this.combatants = const {},
   });
 
   final bool showGroupReminder;
   final ValueChanged<Map<Combatant, int>> onCombatantsAdded;
+  final ValueChanged<Map<Combatant, int>> onCombatantsChanged;
   final Map<Combatant, int> combatants;
 
   @override
@@ -34,7 +36,7 @@ class AddCombatantPageLandscape extends StatelessWidget {
               Expanded(
                 child: SelectedCombatants(
                   combatants: combatants,
-                  onCombatantsChanged: onCombatantsAdded,
+                  onCombatantsChanged: onCombatantsChanged,
                 ),
               ),
               Row(

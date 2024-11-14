@@ -64,6 +64,9 @@ class _AddCombatantPageState extends State<AddCombatantPage> {
             combatants: _combatants,
             showGroupReminder:
                 widget.params.encounterType == EncounterType.encounter,
+            onCombatantsChanged: (combatants) => setState(() {
+              _combatants = combatants;
+            }),
             onCombatantsAdded: (combatants) {
               setState(() {
                 combatants.forEach((combatant, count) {

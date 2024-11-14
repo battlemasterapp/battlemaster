@@ -8,7 +8,6 @@ import 'legal/pf2e_legal.dart';
 import 'widgets/app_settings.dart';
 import 'widgets/dnd5e_settings.dart';
 import 'widgets/encounter_settings_widget.dart';
-import 'widgets/pf2e_settings.dart';
 
 class SettingsPage extends StatelessWidget {
   const SettingsPage({super.key});
