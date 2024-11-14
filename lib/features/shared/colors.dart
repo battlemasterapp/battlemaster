@@ -4,7 +4,7 @@ import 'package:flutter/material.dart';
 
 Color getHealthColor(int currentHp, {int maxHp = 0}) {
   const fullHealthColor = Colors.green;
-  const halfHealthColor = Colors.yellow;
+  const halfHealthColor = Colors.orange;
   const deadColor = Colors.red;
 
   if (currentHp == 0) {
