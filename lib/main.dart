@@ -83,6 +83,7 @@ class BattlemasterApp extends StatelessWidget {
         ),
         Provider<AnalyticsService>(
           create: (_) => AnalyticsService(),
+          lazy: false,
         ),
         ChangeNotifierProxyProvider<AppDatabase, ConditionsProvider>(
           create: (context) => ConditionsProvider(context.read<AppDatabase>()),

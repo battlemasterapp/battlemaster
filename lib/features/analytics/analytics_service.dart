@@ -13,8 +13,8 @@ class AnalyticsService {
   }
 
   Future<void> init() async {
-    _packageInfo = await PackageInfo.fromPlatform();
     _logger.d('Initializing analytics');
+    _packageInfo = await PackageInfo.fromPlatform();
   }
 
   Future<void> logEvent(
@@ -23,13 +23,14 @@ class AnalyticsService {
     Map<String, String>? props,
   }) async {
     _logger.d('Logging event: $name');
+    final data = {
+      ..._getAppProps(),
+      ...?props,
+    };
     await plausible.send(
       event: name,
       path: page,
-      props: {
-        ..._getAppProps(),
-        ...?props,
-      },
+      props: data,
     );
   }
 

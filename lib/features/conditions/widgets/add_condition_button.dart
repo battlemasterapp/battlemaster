@@ -1,3 +1,4 @@
+import 'package:battlemaster/features/analytics/analytics_service.dart';
 import 'package:battlemaster/features/conditions/models/condition.dart';
 import 'package:battlemaster/features/conditions/widgets/add_condition_dialog.dart';
 import 'package:battlemaster/features/conditions/widgets/conditions_list.dart';
@@ -5,6 +6,7 @@ import 'package:battlemaster/features/engines/models/game_engine_type.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:icons_plus/icons_plus.dart';
+import 'package:provider/provider.dart';
 
 class AddConditionButton extends StatelessWidget {
   const AddConditionButton({
@@ -21,6 +23,7 @@ class AddConditionButton extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final localization = AppLocalizations.of(context)!;
+    final analytics = context.read<AnalyticsService>();
     return Wrap(
       spacing: 8,
       runSpacing: 8,
@@ -48,6 +51,12 @@ class AddConditionButton extends StatelessWidget {
 
             if (selectedConditions != null) {
               onConditionsAdded?.call(selectedConditions);
+              await analytics.logEvent(
+                'add_conditions',
+                props: {
+                  'conditions_count': selectedConditions.length.toString(),
+                },
+              );
             }
           },
           icon: Icon(MingCute.add_fill),
