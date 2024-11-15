@@ -101,7 +101,9 @@ class TrackerTile extends StatelessWidget {
                     if (combatant.conditions.isNotEmpty)
                       Padding(
                         padding: const EdgeInsets.symmetric(vertical: 4),
-                        child: ConditionsList(conditions: combatant.conditions),
+                        child: ConditionsList(
+                          conditions: combatant.conditions,
+                        ),
                       ),
                   ],
                 ),
