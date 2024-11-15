@@ -28,6 +28,7 @@ class AddConditionButton extends StatelessWidget {
         for (final condition in conditions)
           ConditionChip(
             condition: condition,
+            showDeleteIcon: true,
             onDeleted: () {
               onConditionsAdded?.call(conditions..remove(condition));
             },
