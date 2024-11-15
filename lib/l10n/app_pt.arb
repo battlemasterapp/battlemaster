@@ -119,5 +119,7 @@
   "create_condition_dialog_title": "Criar condição",
   "condition_name_validation_text": "O nome é obrigatório",
   "description_label": "Descrição",
-  "condition_description_validation_text": "A descrição é obrigatória"
+  "condition_description_validation_text": "A descrição é obrigatória",
+  "made_with_love": "Feito com ❤️ no 🇧🇷",
+  "copyright": "© Battlemaster 2024"
 }

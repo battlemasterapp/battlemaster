@@ -1,5 +1,6 @@
 import 'package:battlemaster/features/settings/widgets/dangerous_settings.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:icons_plus/icons_plus.dart';
 import 'package:package_info_plus/package_info_plus.dart';
 
@@ -14,9 +15,9 @@ class SettingsPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final localization = AppLocalizations.of(context)!;
     return Scaffold(
       body: ListView(
-        padding: const EdgeInsets.only(bottom: 48),
         children: [
           ListTile(
             title: Text(
@@ -55,6 +56,25 @@ class SettingsPage extends StatelessWidget {
           // const Pf2eSettingsWidget(),
           const Divider(),
           const DangerousSettings(),
+          const SizedBox(height: 24),
+          Container(
+            padding: const EdgeInsets.only(bottom: 24, top: 32),
+            color: Theme.of(context).primaryColor,
+            child: Center(
+              child: Column(
+                children: [
+                  Text(
+                    localization.made_with_love,
+                    style: TextStyle(color: Colors.white),
+                  ),
+                  Text(
+                    localization.copyright,
+                    style: TextStyle(color: Colors.white),
+                  ),
+                ],
+              ),
+            ),
+          ),
         ],
       ),
     );
