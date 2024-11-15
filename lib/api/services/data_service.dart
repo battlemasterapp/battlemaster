@@ -6,7 +6,6 @@ import 'package:flutter/foundation.dart';
 import 'package:logger/logger.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-import 'package:sentry_dio/sentry_dio.dart';
 
 
 abstract class DataService<T> {
@@ -32,7 +31,6 @@ abstract class DataService<T> {
     client = Dio(BaseOptions(baseUrl: baseUrl))
       ..interceptors.add(
           DioCacheInterceptor(options: CacheOptions(store: MemCacheStore())));
-    client.addSentry();
   }
 
   Future<T?> fetchData({bool forceRefresh = false});
