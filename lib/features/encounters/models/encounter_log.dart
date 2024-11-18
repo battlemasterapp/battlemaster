@@ -49,7 +49,7 @@ abstract class EncounterLog {
     }
   }
 
-  List<Combatant> combatantChange(List<Combatant> combatants);
+  List<Combatant> applyCombatantChange(List<Combatant> combatants);
 
   List<Combatant> undo(List<Combatant> combatants);
 }
@@ -62,9 +62,8 @@ class AddCombatantLog extends EncounterLog {
     required super.round,
     required super.turn,
     required this.combatant,
-  }) : super(
-          type: EncounterLogType.addCombatant,
-        );
+    super.type = EncounterLogType.addCombatant,
+  });
 
   factory AddCombatantLog.fromJson(Map<String, dynamic> json) =>
       _$AddCombatantLogFromJson(json);
@@ -73,7 +72,7 @@ class AddCombatantLog extends EncounterLog {
   Map<String, dynamic> toJson() => _$AddCombatantLogToJson(this);
 
   @override
-  List<Combatant> combatantChange(List<Combatant> combatants) {
+  List<Combatant> applyCombatantChange(List<Combatant> combatants) {
     return [...combatants, combatant];
   }
 
@@ -91,9 +90,8 @@ class RemoveCombatantLog extends EncounterLog {
     required super.round,
     required super.turn,
     required this.combatant,
-  }) : super(
-          type: EncounterLogType.removeCombatant,
-        );
+    super.type = EncounterLogType.removeCombatant,
+  });
 
   factory RemoveCombatantLog.fromJson(Map<String, dynamic> json) =>
       _$RemoveCombatantLogFromJson(json);
@@ -102,7 +100,7 @@ class RemoveCombatantLog extends EncounterLog {
   Map<String, dynamic> toJson() => _$RemoveCombatantLogToJson(this);
 
   @override
-  List<Combatant> combatantChange(List<Combatant> combatants) {
+  List<Combatant> applyCombatantChange(List<Combatant> combatants) {
     return combatants..remove(combatant);
   }
 
@@ -122,16 +120,15 @@ class DamageCombatantLog extends EncounterLog {
     required super.turn,
     required this.combatant,
     required this.damage,
-  }) : super(
-          type: EncounterLogType.damageCombatant,
-        );
+    super.type = EncounterLogType.damageCombatant,
+  });
 
   bool get isHeal => damage < 0;
 
   bool get isDamage => damage > 0;
 
   @override
-  List<Combatant> combatantChange(List<Combatant> combatants) {
+  List<Combatant> applyCombatantChange(List<Combatant> combatants) {
     return combatants.map((c) {
       if (c.id == combatant.id) {
         return c.copyWith(
@@ -171,12 +168,11 @@ class CombatantInitiativeLog extends EncounterLog {
     required super.turn,
     required this.combatant,
     required this.initiative,
-  }) : super(
-          type: EncounterLogType.combatantInitiative,
-        );
+    super.type = EncounterLogType.combatantInitiative,
+  });
 
   @override
-  List<Combatant> combatantChange(List<Combatant> combatants) {
+  List<Combatant> applyCombatantChange(List<Combatant> combatants) {
     return combatants.map((c) {
       if (c.id == combatant.id) {
         return c.copyWith(initiative: initiative);

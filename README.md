@@ -54,6 +54,7 @@ Combat has a game engine selected: 5e, pf2e or custom. The game engine defines t
 ```bash
 flutter gen-l10n
 dart run build_runner build
+dart run drift_dev make-migrations
 dart run flutter_launcher_icons
 dart run flutter_native_splash:create
 ```

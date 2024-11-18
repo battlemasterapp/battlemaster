@@ -11,26 +11,39 @@ AddCombatantLog _$AddCombatantLogFromJson(Map<String, dynamic> json) =>
       round: (json['round'] as num).toInt(),
       turn: (json['turn'] as num).toInt(),
       combatant: Combatant.fromJson(json['combatant'] as Map<String, dynamic>),
+      type: $enumDecodeNullable(_$EncounterLogTypeEnumMap, json['type']) ??
+          EncounterLogType.addCombatant,
     );
 
 Map<String, dynamic> _$AddCombatantLogToJson(AddCombatantLog instance) =>
     <String, dynamic>{
       'round': instance.round,
       'turn': instance.turn,
+      'type': _$EncounterLogTypeEnumMap[instance.type]!,
       'combatant': instance.combatant,
     };
+
+const _$EncounterLogTypeEnumMap = {
+  EncounterLogType.addCombatant: 'addCombatant',
+  EncounterLogType.removeCombatant: 'removeCombatant',
+  EncounterLogType.damageCombatant: 'damageCombatant',
+  EncounterLogType.combatantInitiative: 'combatantInitiative',
+};
 
 RemoveCombatantLog _$RemoveCombatantLogFromJson(Map<String, dynamic> json) =>
     RemoveCombatantLog(
       round: (json['round'] as num).toInt(),
       turn: (json['turn'] as num).toInt(),
       combatant: Combatant.fromJson(json['combatant'] as Map<String, dynamic>),
+      type: $enumDecodeNullable(_$EncounterLogTypeEnumMap, json['type']) ??
+          EncounterLogType.removeCombatant,
     );
 
 Map<String, dynamic> _$RemoveCombatantLogToJson(RemoveCombatantLog instance) =>
     <String, dynamic>{
       'round': instance.round,
       'turn': instance.turn,
+      'type': _$EncounterLogTypeEnumMap[instance.type]!,
       'combatant': instance.combatant,
     };
 
@@ -40,12 +53,15 @@ DamageCombatantLog _$DamageCombatantLogFromJson(Map<String, dynamic> json) =>
       turn: (json['turn'] as num).toInt(),
       combatant: Combatant.fromJson(json['combatant'] as Map<String, dynamic>),
       damage: (json['damage'] as num).toInt(),
+      type: $enumDecodeNullable(_$EncounterLogTypeEnumMap, json['type']) ??
+          EncounterLogType.damageCombatant,
     );
 
 Map<String, dynamic> _$DamageCombatantLogToJson(DamageCombatantLog instance) =>
     <String, dynamic>{
       'round': instance.round,
       'turn': instance.turn,
+      'type': _$EncounterLogTypeEnumMap[instance.type]!,
       'combatant': instance.combatant,
       'damage': instance.damage,
     };
@@ -57,6 +73,8 @@ CombatantInitiativeLog _$CombatantInitiativeLogFromJson(
       turn: (json['turn'] as num).toInt(),
       combatant: Combatant.fromJson(json['combatant'] as Map<String, dynamic>),
       initiative: (json['initiative'] as num).toDouble(),
+      type: $enumDecodeNullable(_$EncounterLogTypeEnumMap, json['type']) ??
+          EncounterLogType.combatantInitiative,
     );
 
 Map<String, dynamic> _$CombatantInitiativeLogToJson(
@@ -64,6 +82,7 @@ Map<String, dynamic> _$CombatantInitiativeLogToJson(
     <String, dynamic>{
       'round': instance.round,
       'turn': instance.turn,
+      'type': _$EncounterLogTypeEnumMap[instance.type]!,
       'combatant': instance.combatant,
       'initiative': instance.initiative,
     };

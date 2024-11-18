@@ -1,5 +1,6 @@
 import 'package:battlemaster/database/database.steps.dart';
 import 'package:battlemaster/database/tables.dart';
+import 'package:battlemaster/features/encounters/data/encounter_log_converter.dart';
 import 'package:battlemaster/features/encounters/models/encounter.dart';
 import 'package:battlemaster/features/engines/models/game_engine_type.dart';
 import 'package:drift/drift.dart';
@@ -8,6 +9,7 @@ import 'package:flutter/foundation.dart';
 
 import '../features/combatant/data/combatant_converter.dart';
 import '../features/combatant/models/combatant.dart';
+import '../features/encounters/models/encounter_log.dart';
 import '../features/encounters/models/encounter_type.dart';
 
 part 'database.g.dart';
@@ -33,14 +35,21 @@ class AppDatabase extends _$AppDatabase {
         );
 
   @override
-  int get schemaVersion => 2;
+  int get schemaVersion => 3;
 
   @override
   MigrationStrategy get migration {
     return MigrationStrategy(
-      onUpgrade: stepByStep(from1To2: (m, schema) async {
-        m.createTable(customConditions);
-      }),
+      onUpgrade: stepByStep(
+        from1To2: (m, schema) async {
+          await m.createTable(customConditions);
+        },
+        from2To3: (m, schema) async {
+          await m.addColumn(encounterTable, encounterTable.round);
+          await m.addColumn(encounterTable, encounterTable.turn);
+          await m.addColumn(encounterTable, encounterTable.logs);
+        }
+      ),
     );
   }
 
@@ -66,6 +75,9 @@ class AppDatabase extends _$AppDatabase {
       type: encounter.type,
       combatants: encounter.combatants,
       engine: encounter.engine.index,
+      round: Value(encounter.round),
+      turn: Value(encounter.turn),
+      logs: Value(encounter.logs),
     ));
     return Encounter.fromJson(encounter.toJson()..['id'] = id);
   }
