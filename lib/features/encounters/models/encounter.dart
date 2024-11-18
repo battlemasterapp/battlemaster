@@ -28,7 +28,8 @@ class Encounter extends Equatable {
     this.logs = const [],
     this.round = 1,
     this.turn = 0,
-  });
+  })  : assert(round > 0),
+        assert(turn >= 0);
 
   bool get isEncounter => type == EncounterType.encounter;
 
@@ -67,5 +68,7 @@ class Encounter extends Equatable {
         name,
         combatants,
         engine,
+        round,
+        turn,
       ];
 }

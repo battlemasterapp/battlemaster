@@ -79,8 +79,8 @@ class EncounterTrackerNotifier extends ChangeNotifier {
     } else {
       _status = EncounterTrackerStatus.stopped;
     }
-    _round = 1;
-    _setActiveCombatantIndex(0);
+    _round = _encounter.round;
+    _setActiveCombatantIndex(_encounter.turn);
     notifyListeners();
   }
 
