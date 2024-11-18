@@ -1,3 +1,4 @@
+import 'package:battlemaster/features/encounters/models/encounter_log.dart';
 import 'package:equatable/equatable.dart';
 import 'package:json_annotation/json_annotation.dart';
 
@@ -12,8 +13,11 @@ class Encounter extends Equatable {
   final int id;
   final String name;
   final EncounterType type;
+  final int round;
+  final int turn;
   final List<Combatant> combatants;
   final GameEngineType engine;
+  final List<EncounterLog> logs;
 
   const Encounter({
     required this.name,
@@ -21,6 +25,9 @@ class Encounter extends Equatable {
     required this.engine,
     this.type = EncounterType.encounter,
     this.id = -1,
+    this.logs = const [],
+    this.round = 1,
+    this.turn = 0,
   });
 
   bool get isEncounter => type == EncounterType.encounter;
@@ -31,9 +38,11 @@ class Encounter extends Equatable {
     int? id,
     String? name,
     int? round,
+    int? turn,
     EncounterType? type,
     List<Combatant>? combatants,
     GameEngineType? engine,
+    List<EncounterLog>? logs,
   }) {
     return Encounter(
       id: id ?? this.id,
@@ -41,6 +50,9 @@ class Encounter extends Equatable {
       type: type ?? this.type,
       combatants: combatants ?? this.combatants,
       engine: engine ?? this.engine,
+      logs: logs ?? this.logs,
+      round: round ?? this.round,
+      turn: turn ?? this.turn,
     );
   }
 
