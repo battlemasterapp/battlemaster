@@ -1,6 +1,7 @@
 import 'dart:async';
 import 'dart:math';
 
+import 'package:battlemaster/features/combatant/models/combatant.dart';
 import 'package:battlemaster/features/encounters/models/encounter_log.dart';
 import 'package:battlemaster/features/settings/models/skip_dead_behavior.dart';
 import 'package:battlemaster/features/settings/providers/system_settings_provider.dart';
@@ -121,16 +122,52 @@ class EncounterTrackerNotifier extends ChangeNotifier {
     );
   }
 
+  double _getReorderInitiative(int oldIndex, int newIndex) {
+    final combatants = List<Combatant>.from(_encounter.combatants);
+    combatants.removeAt(oldIndex);
+
+    if (newIndex == combatants.length) {
+      // We're at the end
+      return combatants.last.initiative - 0.5;
+    }
+
+    final beforeCombatant = newIndex - 1 >= 0 ? combatants[newIndex - 1] : null;
+    final afterCombatant = combatants[newIndex];
+
+    if (beforeCombatant == null) {
+      // We're at the top
+      return combatants.first.initiative + 0.5;
+    }
+
+    return (beforeCombatant.initiative + afterCombatant.initiative) / 2;
+  }
+
   Future<void> reorderCombatants(int oldIndex, int newIndex) async {
-    // TODO: should log a initiative reorder
     final combatants = _encounter.combatants;
     if (oldIndex < newIndex) {
       newIndex -= 1;
     }
+
+    final newInitiative = _getReorderInitiative(oldIndex, newIndex);
+
+    final log = CombatantInitiativeLog(
+      round: _encounter.round,
+      turn: _encounter.turn,
+      combatant: combatants[oldIndex],
+      initiative: newInitiative,
+    );
+
     final item = combatants.removeAt(oldIndex);
     combatants.insert(newIndex, item);
-    await _database
-        .updateEncounter(_encounter.copyWith(combatants: combatants));
+
+    final updated = log.apply(
+      _encounter.copyWith(
+        combatants: combatants,
+        logs: [..._encounter.logs, log],
+      ),
+    );
+
+    await _database.updateEncounter(updated);
   }
 
   Future<void> nextRound() async {

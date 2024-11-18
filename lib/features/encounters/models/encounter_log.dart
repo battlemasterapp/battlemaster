@@ -200,7 +200,10 @@ class CombatantInitiativeLog extends EncounterLog {
           return c.copyWith(initiative: initiative);
         }
         return c;
-      }).toList()..sort((a, b) => b.initiative.compareTo(a.initiative),),
+      }).toList()
+        ..sort(
+          (a, b) => b.initiative.compareTo(a.initiative),
+        ),
     );
   }
 
