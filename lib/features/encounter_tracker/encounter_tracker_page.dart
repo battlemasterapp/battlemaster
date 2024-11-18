@@ -135,9 +135,12 @@ class _TrackerPageContentState extends State<_TrackerPageContent> {
             }),
             onConditionsAdded: (conditions) async {
               final combatant = widget.encounter.combatants[combatantIndex!];
-              await context.read<EncountersProvider>().editCombatant(
+              await context
+                  .read<EncountersProvider>()
+                  .updateCombatantsConditions(
                     widget.encounter,
-                    combatant.copyWith(conditions: conditions),
+                    combatant,
+                    conditions,
                   );
             },
           ),

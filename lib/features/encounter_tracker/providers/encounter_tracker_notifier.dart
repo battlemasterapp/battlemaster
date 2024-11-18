@@ -1,6 +1,7 @@
 import 'dart:async';
 import 'dart:math';
 
+import 'package:battlemaster/features/encounters/models/encounter_log.dart';
 import 'package:battlemaster/features/settings/models/skip_dead_behavior.dart';
 import 'package:battlemaster/features/settings/providers/system_settings_provider.dart';
 import 'package:flutter/material.dart';
@@ -60,6 +61,9 @@ class EncounterTrackerNotifier extends ChangeNotifier {
           type: row.type,
           combatants: row.combatants,
           engine: GameEngineType.values[row.engine],
+          round: row.round,
+          turn: row.turn,
+          logs: row.logs,
         );
         return _encounter;
       },
@@ -89,21 +93,36 @@ class EncounterTrackerNotifier extends ChangeNotifier {
       return;
     }
 
-    final combatants = _encounter.combatants.map((c) {
+    final List<CombatantInitiativeLog> logs = _encounter.combatants.where((c) {
+      final monstersOnly =
+          _settings.rollType == InitiativeRollType.monstersOnly;
+      return !monstersOnly || c.type == CombatantType.monster;
+    }).map((c) {
       final roll = Random().nextInt(20) + 1 + c.initiativeModifier;
-      if (_settings.rollType == InitiativeRollType.monstersOnly) {
-        if (c.type != CombatantType.monster) {
-          return c;
-        }
-      }
-      return c.copyWith(initiative: roll.toDouble());
-    }).toList()
-      ..sort((a, b) => b.initiative.compareTo(a.initiative));
-    await _database
-        .updateEncounter(_encounter.copyWith(combatants: combatants));
+      return CombatantInitiativeLog(
+        round: _encounter.round,
+        turn: _encounter.turn,
+        combatant: c,
+        initiative: roll.toDouble(),
+      );
+    }).toList();
+
+    final updated = logs.fold<Encounter>(
+      _encounter,
+      (e, log) => log.apply(e),
+    );
+
+    await _database.updateEncounter(
+      updated.copyWith(
+        logs: [..._encounter.logs, ...logs],
+        combatants: updated.combatants
+          ..sort((a, b) => b.initiative.compareTo(a.initiative)),
+      ),
+    );
   }
 
   Future<void> reorderCombatants(int oldIndex, int newIndex) async {
+    // TODO: should log a initiative reorder
     final combatants = _encounter.combatants;
     if (oldIndex < newIndex) {
       newIndex -= 1;
@@ -114,7 +133,7 @@ class EncounterTrackerNotifier extends ChangeNotifier {
         .updateEncounter(_encounter.copyWith(combatants: combatants));
   }
 
-  void nextRound() {
+  Future<void> nextRound() async {
     if (!isPlaying) {
       return;
     }
@@ -127,14 +146,22 @@ class EncounterTrackerNotifier extends ChangeNotifier {
     if (firstIndex == -1) {
       _setActiveCombatantIndex(0);
       notifyListeners();
+      await _database.updateEncounter(_encounter.copyWith(
+        round: _round,
+        turn: _activeCombatantIndex,
+      ));
       return;
     }
 
     _setActiveCombatantIndex(firstIndex);
     notifyListeners();
+    await _database.updateEncounter(_encounter.copyWith(
+      round: _round,
+      turn: _activeCombatantIndex,
+    ));
   }
 
-  void previousRound() {
+  Future<void> previousRound() async {
     if (!isPlaying) {
       return;
     }
@@ -144,16 +171,20 @@ class EncounterTrackerNotifier extends ChangeNotifier {
     _round--;
     _setActiveCombatantIndex(_activeCombatantIndex);
     notifyListeners();
+    await _database.updateEncounter(_encounter.copyWith(
+      round: _round,
+      turn: _activeCombatantIndex,
+    ));
   }
 
-  void nextTurn() {
+  Future<void> nextTurn() async {
     if (!isPlaying) {
       return;
     }
 
     _activeCombatantIndex++;
     if (_activeCombatantIndex >= _encounter.combatants.length) {
-      return nextRound();
+      return await nextRound();
     }
 
     final skipDeadBehavior = _settings.skipDeadBehavior;
@@ -164,6 +195,10 @@ class EncounterTrackerNotifier extends ChangeNotifier {
       if (combatant.isAlive || !skipIfDead) {
         _setActiveCombatantIndex(_activeCombatantIndex);
         notifyListeners();
+        await _database.updateEncounter(_encounter.copyWith(
+          round: _round,
+          turn: _activeCombatantIndex,
+        ));
         return;
       }
       _activeCombatantIndex++;
@@ -172,7 +207,7 @@ class EncounterTrackerNotifier extends ChangeNotifier {
     return nextRound();
   }
 
-  void previousTurn() {
+  Future<void> previousTurn() async {
     if (!isPlaying) {
       return;
     }
@@ -186,6 +221,10 @@ class EncounterTrackerNotifier extends ChangeNotifier {
       if (combatant.isAlive || !skipIfDead) {
         _setActiveCombatantIndex(combatantIndex);
         notifyListeners();
+        await _database.updateEncounter(_encounter.copyWith(
+          round: _round,
+          turn: _activeCombatantIndex,
+        ));
         return;
       }
       combatantIndex--;

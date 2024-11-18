@@ -40,16 +40,13 @@ class AppDatabase extends _$AppDatabase {
   @override
   MigrationStrategy get migration {
     return MigrationStrategy(
-      onUpgrade: stepByStep(
-        from1To2: (m, schema) async {
-          await m.createTable(customConditions);
-        },
-        from2To3: (m, schema) async {
-          await m.addColumn(encounterTable, encounterTable.round);
-          await m.addColumn(encounterTable, encounterTable.turn);
-          await m.addColumn(encounterTable, encounterTable.logs);
-        }
-      ),
+      onUpgrade: stepByStep(from1To2: (m, schema) async {
+        await m.createTable(customConditions);
+      }, from2To3: (m, schema) async {
+        await m.addColumn(encounterTable, encounterTable.round);
+        await m.addColumn(encounterTable, encounterTable.turn);
+        await m.addColumn(encounterTable, encounterTable.logs);
+      }),
     );
   }
 
@@ -64,6 +61,9 @@ class AppDatabase extends _$AppDatabase {
                     type: row.type,
                     combatants: row.combatants,
                     engine: GameEngineType.values[row.engine],
+                    round: row.round,
+                    turn: row.turn,
+                    logs: row.logs,
                   ))
               .toList(),
         );
@@ -91,6 +91,9 @@ class AppDatabase extends _$AppDatabase {
         type: Value(encounter.type),
         combatants: Value(encounter.combatants),
         engine: Value(encounter.engine.index),
+        round: Value(encounter.round),
+        turn: Value(encounter.turn),
+        logs: Value(encounter.logs),
       ),
     );
   }

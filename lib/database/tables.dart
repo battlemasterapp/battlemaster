@@ -12,7 +12,9 @@ class EncounterTable extends Table {
   IntColumn get engine => integer()();
   IntColumn get round => integer().withDefault(const Constant(1))();
   IntColumn get turn => integer().withDefault(const Constant(0))();
-  TextColumn get logs => text().withDefault(const Constant('[]')).map(const EncounterLogConverter())();
+  TextColumn get logs => text()
+      .withDefault(const Constant('[]'))
+      .map(const EncounterLogConverter())();
 }
 
 class CustomConditions extends Table {

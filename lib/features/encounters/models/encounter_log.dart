@@ -1,4 +1,6 @@
 import 'package:battlemaster/features/combatant/models/combatant.dart';
+import 'package:battlemaster/features/conditions/models/condition.dart';
+import 'package:battlemaster/features/encounters/models/encounter.dart';
 import 'package:json_annotation/json_annotation.dart';
 
 part 'encounter_log.g.dart';
@@ -8,6 +10,7 @@ enum EncounterLogType {
   removeCombatant,
   damageCombatant,
   combatantInitiative,
+  addConditions,
 }
 
 abstract class EncounterLog {
@@ -31,6 +34,8 @@ abstract class EncounterLog {
         return DamageCombatantLog.fromJson(json);
       case 'combatantInitiative':
         return CombatantInitiativeLog.fromJson(json);
+      case 'addConditions':
+        return AddConditionsLog.fromJson(json);
       default:
         throw ArgumentError('Invalid EncounterLog type');
     }
@@ -46,12 +51,14 @@ abstract class EncounterLog {
         return (this as DamageCombatantLog).toJson();
       case EncounterLogType.combatantInitiative:
         return (this as CombatantInitiativeLog).toJson();
+      case EncounterLogType.addConditions:
+        return (this as AddConditionsLog).toJson();
     }
   }
 
-  List<Combatant> applyCombatantChange(List<Combatant> combatants);
+  Encounter apply(Encounter encounter);
 
-  List<Combatant> undo(List<Combatant> combatants);
+  Encounter undo(Encounter encounter);
 }
 
 @JsonSerializable()
@@ -72,13 +79,18 @@ class AddCombatantLog extends EncounterLog {
   Map<String, dynamic> toJson() => _$AddCombatantLogToJson(this);
 
   @override
-  List<Combatant> applyCombatantChange(List<Combatant> combatants) {
-    return [...combatants, combatant];
+  Encounter apply(Encounter encounter) {
+    return encounter.copyWith(
+      combatants: [...encounter.combatants, combatant],
+    );
   }
 
   @override
-  List<Combatant> undo(List<Combatant> combatants) {
-    return combatants..remove(combatant);
+  Encounter undo(Encounter encounter) {
+    return encounter.copyWith(
+      combatants:
+          encounter.combatants.where((c) => c.id != combatant.id).toList(),
+    );
   }
 }
 
@@ -100,13 +112,18 @@ class RemoveCombatantLog extends EncounterLog {
   Map<String, dynamic> toJson() => _$RemoveCombatantLogToJson(this);
 
   @override
-  List<Combatant> applyCombatantChange(List<Combatant> combatants) {
-    return combatants..remove(combatant);
+  Encounter apply(Encounter encounter) {
+    return encounter.copyWith(
+      combatants:
+          encounter.combatants.where((c) => c.id != combatant.id).toList(),
+    );
   }
 
   @override
-  List<Combatant> undo(List<Combatant> combatants) {
-    return [...combatants, combatant];
+  Encounter undo(Encounter encounter) {
+    return encounter.copyWith(
+      combatants: [...encounter.combatants, combatant],
+    );
   }
 }
 
@@ -128,27 +145,31 @@ class DamageCombatantLog extends EncounterLog {
   bool get isDamage => damage > 0;
 
   @override
-  List<Combatant> applyCombatantChange(List<Combatant> combatants) {
-    return combatants.map((c) {
-      if (c.id == combatant.id) {
-        return c.copyWith(
-          currentHp: c.currentHp - damage,
-        );
-      }
-      return c;
-    }).toList();
+  Encounter apply(Encounter encounter) {
+    return encounter.copyWith(
+      combatants: encounter.combatants.map((c) {
+        if (c.id == combatant.id) {
+          return c.copyWith(
+            currentHp: c.currentHp - damage,
+          );
+        }
+        return c;
+      }).toList(),
+    );
   }
 
   @override
-  List<Combatant> undo(List<Combatant> combatants) {
-    return combatants.map((c) {
-      if (c.id == combatant.id) {
-        return c.copyWith(
-          currentHp: c.currentHp + damage,
-        );
-      }
-      return c;
-    }).toList();
+  Encounter undo(Encounter encounter) {
+    return encounter.copyWith(
+      combatants: encounter.combatants.map((c) {
+        if (c.id == combatant.id) {
+          return c.copyWith(
+            currentHp: c.currentHp + damage,
+          );
+        }
+        return c;
+      }).toList(),
+    );
   }
 
   factory DamageCombatantLog.fromJson(Map<String, dynamic> json) =>
@@ -172,23 +193,27 @@ class CombatantInitiativeLog extends EncounterLog {
   });
 
   @override
-  List<Combatant> applyCombatantChange(List<Combatant> combatants) {
-    return combatants.map((c) {
-      if (c.id == combatant.id) {
-        return c.copyWith(initiative: initiative);
-      }
-      return c;
-    }).toList();
+  Encounter apply(Encounter encounter) {
+    return encounter.copyWith(
+      combatants: encounter.combatants.map((c) {
+        if (c.id == combatant.id) {
+          return c.copyWith(initiative: initiative);
+        }
+        return c;
+      }).toList()..sort((a, b) => b.initiative.compareTo(a.initiative),),
+    );
   }
 
   @override
-  List<Combatant> undo(List<Combatant> combatants) {
-    return combatants.map((c) {
-      if (c.id == combatant.id) {
-        return c.copyWith(initiative: c.initiative - initiative);
-      }
-      return c;
-    }).toList();
+  Encounter undo(Encounter encounter) {
+    return encounter.copyWith(
+      combatants: encounter.combatants.map((c) {
+        if (c.id == combatant.id) {
+          return c.copyWith(initiative: c.initiative - initiative);
+        }
+        return c;
+      }).toList(),
+    );
   }
 
   factory CombatantInitiativeLog.fromJson(Map<String, dynamic> json) =>
@@ -196,4 +221,50 @@ class CombatantInitiativeLog extends EncounterLog {
 
   @override
   Map<String, dynamic> toJson() => _$CombatantInitiativeLogToJson(this);
+}
+
+@JsonSerializable()
+class AddConditionsLog extends EncounterLog {
+  final Combatant combatant;
+  final List<Condition> conditions;
+
+  AddConditionsLog({
+    required super.round,
+    required super.turn,
+    required this.combatant,
+    required this.conditions,
+    super.type = EncounterLogType.addConditions,
+  });
+
+  @override
+  Encounter apply(Encounter encounter) {
+    return encounter.copyWith(
+      combatants: encounter.combatants.map((c) {
+        if (c.id == combatant.id) {
+          return c.copyWith(conditions: conditions);
+        }
+        return c;
+      }).toList(),
+    );
+  }
+
+  @override
+  Encounter undo(Encounter encounter) {
+    return encounter.copyWith(
+      combatants: encounter.combatants.map((c) {
+        if (c.id == combatant.id) {
+          return c.copyWith(
+            conditions: combatant.conditions,
+          );
+        }
+        return c;
+      }).toList(),
+    );
+  }
+
+  factory AddConditionsLog.fromJson(Map<String, dynamic> json) =>
+      _$AddConditionsLogFromJson(json);
+
+  @override
+  Map<String, dynamic> toJson() => _$AddConditionsLogToJson(this);
 }
