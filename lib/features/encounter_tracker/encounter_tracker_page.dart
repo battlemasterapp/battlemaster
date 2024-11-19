@@ -1,10 +1,13 @@
 import 'package:battlemaster/features/encounter_tracker/widgets/combatant_tracker_list.dart';
+import 'package:battlemaster/features/encounter_tracker/widgets/encounter_history/encounter_history.dart';
 import 'package:battlemaster/features/encounter_tracker/widgets/encounter_tracker_controls.dart';
 import 'package:battlemaster/features/encounters/models/encounter.dart';
 import 'package:battlemaster/features/encounters/providers/encounters_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import 'package:icons_plus/icons_plus.dart';
 import 'package:provider/provider.dart';
+import 'package:side_sheet/side_sheet.dart';
 
 import '../../database/database.dart';
 import '../settings/providers/system_settings_provider.dart';
@@ -47,6 +50,25 @@ class EncounterTrackerPage extends StatelessWidget {
                 appBar: AppBar(
                   title: Text(AppLocalizations.of(context)!
                       .encounter_tracker_page_title),
+                  actions: [
+                    IconButton(
+                      icon: Icon(MingCute.history_2_fill),
+                      onPressed: () {
+                        SideSheet.right(
+                          context: context,
+                          body: EncounterHistory(
+                            encounter: encounter,
+                            // TODO: 
+                            onDeleteHistory: () {},
+                            onUndo: (log) {
+                              debugPrint(log.toString());
+                            },
+                          ),
+                          sheetColor: Theme.of(context).canvasColor,
+                        );
+                      },
+                    ),
+                  ],
                 ),
                 body: SafeArea(
                   child: Column(

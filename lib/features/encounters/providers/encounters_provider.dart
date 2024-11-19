@@ -118,7 +118,7 @@ class EncountersProvider extends ChangeNotifier {
     );
 
     final updated = logs.fold<Encounter>(
-      encounter,
+      encounter.copyWith(logs: [...encounter.logs, ...logs]),
       (e, log) => log.apply(e),
     );
     await _database.updateEncounter(updated);
