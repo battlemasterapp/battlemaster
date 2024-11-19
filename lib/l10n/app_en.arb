@@ -547,5 +547,147 @@
   "copyright": "© Battlemaster 2024",
   "@copyright": {
     "description": "The message to show the app's copyright."
+  },
+  "log_type_add_combatant": "Combatant added",
+  "@log_type_add_combatant": {
+    "description": "The log type for adding a combatant."
+  },
+  "log_type_add_combatant_description": "{name} was added to the encounter.",
+  "@log_type_add_combatant_description": {
+    "description": "The log description for adding a combatant.",
+    "placeholders": {
+      "name": {
+        "type": "String",
+        "example": "Goblin"
+      }
+    }
+  },
+  "log_type_remove_combatant": "Combatant removed",
+  "@log_type_remove_combatant": {
+    "description": "The log type for removing a combatant."
+  },
+  "log_type_remove_combatant_description": "{name} was removed from the encounter.",
+  "@log_type_remove_combatant_description": {
+    "description": "The log description for removing a combatant.",
+    "placeholders": {
+      "name": {
+        "type": "String",
+        "example": "Goblin"
+      }
+    }
+  },
+  "log_type_damage_combatant": "Combatant damaged",
+  "@log_type_damage_combatant": {
+    "description": "The log type for damaging a combatant."
+  },
+  "log_type_damage_combatant_description": "{name} took {amount} damage.",
+  "@log_type_damage_combatant_description": {
+    "description": "The log description for damaging a combatant.",
+    "placeholders": {
+      "name": {
+        "type": "String",
+        "example": "Goblin"
+      },
+      "amount": {
+        "type": "int",
+        "example": "10"
+      }
+    }
+  },
+  "log_type_healed_combatant": "Combatant healed",
+  "@log_type_healed_combatant": {
+    "description": "The log type for healing a combatant."
+  },
+  "log_type_healed_combatant_description": "{name} was healed for {amount} HP.",
+  "@log_type_healed_combatant_description": {
+    "description": "The log description for healing a combatant.",
+    "placeholders": {
+      "name": {
+        "type": "String",
+        "example": "Goblin"
+      },
+      "amount": {
+        "type": "int",
+        "example": "10"
+      }
+    }
+  },
+  "log_type_combatant_initiative": "Combatant initiative",
+  "@log_type_combatant_initiative": {
+    "description": "The log type for a combatant's initiative."
+  },
+  "log_type_combatant_initiative_description": "{name} rolled {initiative} for initiative.",
+  "@log_type_combatant_initiative_description": {
+    "description": "The log description for a combatant's initiative.",
+    "placeholders": {
+      "name": {
+        "type": "String",
+        "example": "Goblin"
+      },
+      "initiative": {
+        "type": "double",
+        "example": "15"
+      }
+    }
+  },
+  "log_type_add_conditions": "Conditions added",
+  "@log_type_add_conditions": {
+    "description": "The log type for adding conditions."
+  },
+  "log_type_add_conditions_description": "{name} was affected by {conditions}.",
+  "@log_type_add_conditions_description": {
+    "description": "The log description for adding conditions.",
+    "placeholders": {
+      "name": {
+        "type": "String",
+        "example": "Goblin"
+      },
+      "conditions": {
+        "type": "String",
+        "example": "Poisoned, Blinded"
+      }
+    }
+  },
+  "encounter_history_round_turn": "Round {round} - Turn {turn}",
+  "@encounter_history_round_turn": {
+    "description": "The round and turn of the encounter history.",
+    "placeholders": {
+      "round": {
+        "type": "int",
+        "example": "1"
+      },
+      "turn": {
+        "type": "int",
+        "example": "1"
+      }
+    }
+  },
+  "encounter_history": "Encounter History",
+  "@encounter_history": {
+    "description": "The title of the encounter history section."
+  },
+  "delete_history_button": "Delete History",
+  "@delete_history_button": {
+    "description": "The button to delete the encounter history."
+  },
+  "show_more_similar_activities": "{count, plural, zero{} one{Show one similar activity} other{Show {count} similar activities}}",
+  "@show_more_similar_activities": {
+    "description": "The button to show more similar activities.",
+    "placeholders": {
+      "count": {
+        "type": "int",
+        "example": "3"
+      }
+    }
+  },
+  "hide_more_similar_activities": "{count, plural, zero{} one{Hide one similar activity} other{Hide {count} similar activities}}",
+  "@hide_more_similar_activities": {
+    "description": "The button to hide more similar activities.",
+    "placeholders": {
+      "count": {
+        "type": "int",
+        "example": "3"
+      }
+    }
   }
 }

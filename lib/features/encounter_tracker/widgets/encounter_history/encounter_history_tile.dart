@@ -2,6 +2,7 @@ import 'package:battlemaster/features/encounter_tracker/widgets/encounter_histor
 import 'package:battlemaster/features/encounters/models/encounter_log.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_animate/flutter_animate.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:icons_plus/icons_plus.dart';
 
 typedef UndoLogCallback = void Function(EncounterLog log);
@@ -35,7 +36,7 @@ class EncounterHistoryTile extends StatelessWidget {
               ),
               padding: const EdgeInsets.all(6),
               child: Icon(
-                MingCute.tag_chevron_fill,
+                group.logs.first.icon,
                 size: 20,
                 color: Colors.white,
               ),
@@ -55,8 +56,8 @@ class EncounterHistoryTile extends StatelessWidget {
             child: Padding(
               padding: const EdgeInsets.only(bottom: 8),
               child: group.logs.length == 1
-                ? _SingleLogTile(log: group.logs.first, onUndo: onUndo)
-                : _MultipleLogTile(group: group, onUndo: onUndo),
+                  ? _SingleLogTile(log: group.logs.first, onUndo: onUndo)
+                  : _MultipleLogTile(group: group, onUndo: onUndo),
             ),
           ),
         ),
@@ -95,13 +96,16 @@ class _SingleLogTile extends StatelessWidget {
   const _SingleLogTile({
     required this.log,
     this.onUndo,
+    this.showRound = true,
   });
 
   final EncounterLog log;
   final UndoLogCallback? onUndo;
+  final bool showRound;
 
   @override
   Widget build(BuildContext context) {
+    final localization = AppLocalizations.of(context)!;
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 16),
       child: Row(
@@ -111,15 +115,19 @@ class _SingleLogTile extends StatelessWidget {
             crossAxisAlignment: CrossAxisAlignment.start,
             mainAxisSize: MainAxisSize.min,
             children: [
+              if (showRound)
+                Text(
+                  localization.encounter_history_round_turn(
+                      log.round, log.turn + 1),
+                  style: Theme.of(context).textTheme.bodySmall,
+                ),
               Text(
-                'Rodada ${log.round} - Turno ${log.turn + 1}',
-                style: Theme.of(context).textTheme.bodySmall,
+                log.getTitle(localization),
+                style: Theme.of(context).textTheme.bodyLarge?.copyWith(
+                      fontWeight: FontWeight.bold,
+                    ),
               ),
-              Text(
-                'Ação: ${log.type.toString()}',
-                style: Theme.of(context).textTheme.bodyLarge,
-              ),
-              Text('subtítulo (chamar método no grupo)'),
+              Text(log.getDescription(localization)),
             ],
           ),
           IconButton(
@@ -150,7 +158,7 @@ class __MultipleLogTileState extends State<_MultipleLogTile> {
 
   @override
   Widget build(BuildContext context) {
-    // FIXME: textos
+    final localization = AppLocalizations.of(context)!;
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
@@ -181,12 +189,12 @@ class __MultipleLogTileState extends State<_MultipleLogTile> {
                 const SizedBox(width: 8),
                 if (!_expanded)
                   Text(
-                    'mostrar mais ${widget.group.logs.length - 1} ações similares',
+                    localization.show_more_similar_activities(widget.group.logs.length - 1),
                     style: TextStyle(fontWeight: FontWeight.bold),
                   ),
                 if (_expanded)
                   Text(
-                    'ocultar mais ${widget.group.logs.length - 1} ações similares',
+                    localization.hide_more_similar_activities(widget.group.logs.length - 1),
                     style: TextStyle(fontWeight: FontWeight.bold),
                   ),
               ],
@@ -199,10 +207,16 @@ class __MultipleLogTileState extends State<_MultipleLogTile> {
             child: Column(
               children: widget.group.logs
                   .skip(1)
-                  .map((log) => _SingleLogTile(
+                  .map(
+                    (log) => Padding(
+                      padding: const EdgeInsets.only(bottom: 8),
+                      child: _SingleLogTile(
                         log: log,
                         onUndo: widget.onUndo,
-                      ))
+                        showRound: false,
+                      ),
+                    ),
+                  )
                   .toList()
                   .animate(interval: 50.ms)
                   .fade(),

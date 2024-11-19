@@ -1,6 +1,9 @@
 import 'package:battlemaster/features/combatant/models/combatant.dart';
 import 'package:battlemaster/features/conditions/models/condition.dart';
 import 'package:battlemaster/features/encounters/models/encounter.dart';
+import 'package:flutter/material.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import 'package:icons_plus/icons_plus.dart';
 import 'package:json_annotation/json_annotation.dart';
 
 part 'encounter_log.g.dart';
@@ -59,6 +62,12 @@ abstract class EncounterLog {
   Encounter apply(Encounter encounter);
 
   Encounter undo(Encounter encounter);
+
+  String getTitle(AppLocalizations localizations);
+
+  String getDescription(AppLocalizations localizations);
+
+  IconData get icon;
 }
 
 @JsonSerializable()
@@ -92,6 +101,15 @@ class AddCombatantLog extends EncounterLog {
           encounter.combatants.where((c) => c.id != combatant.id).toList(),
     );
   }
+
+  @override
+  String getTitle(AppLocalizations localizations) => localizations.log_type_add_combatant;
+
+  @override
+  String getDescription(AppLocalizations localizations) => localizations.log_type_add_combatant_description(combatant.name);
+  
+  @override
+  IconData get icon => MingCute.user_add_2_fill;
 }
 
 @JsonSerializable()
@@ -125,6 +143,19 @@ class RemoveCombatantLog extends EncounterLog {
       combatants: [...encounter.combatants, combatant],
     );
   }
+  
+  @override
+  String getDescription(AppLocalizations localizations) {
+    return localizations.log_type_remove_combatant_description(combatant.name);
+  }
+  
+  @override
+  String getTitle(AppLocalizations localizations) {
+    return localizations.log_type_remove_combatant;
+  }
+  
+  @override
+  IconData get icon => MingCute.user_remove_2_fill;
 }
 
 @JsonSerializable()
@@ -177,6 +208,25 @@ class DamageCombatantLog extends EncounterLog {
 
   @override
   Map<String, dynamic> toJson() => _$DamageCombatantLogToJson(this);
+  
+  @override
+  String getDescription(AppLocalizations localizations) {
+    if (isHeal) {
+      return localizations.log_type_healed_combatant_description(combatant.name, -damage);
+    }
+    return localizations.log_type_damage_combatant_description(combatant.name, damage);
+  }
+  
+  @override
+  String getTitle(AppLocalizations localizations) {
+    if(isHeal) {
+      return localizations.log_type_healed_combatant;
+    }
+    return localizations.log_type_damage_combatant;
+  }
+  
+  @override
+  IconData get icon => isHeal ? MingCute.heart_fill : MingCute.heart_crack_fill;
 }
 
 @JsonSerializable()
@@ -224,6 +274,19 @@ class CombatantInitiativeLog extends EncounterLog {
 
   @override
   Map<String, dynamic> toJson() => _$CombatantInitiativeLogToJson(this);
+  
+  @override
+  String getDescription(AppLocalizations localizations) {
+    return localizations.log_type_combatant_initiative_description(combatant.name, initiative);
+  }
+  
+  @override
+  String getTitle(AppLocalizations localizations) {
+    return localizations.log_type_combatant_initiative;
+  }
+  
+  @override
+  IconData get icon => FontAwesome.dice_d20_solid;
 }
 
 @JsonSerializable()
@@ -270,4 +333,17 @@ class AddConditionsLog extends EncounterLog {
 
   @override
   Map<String, dynamic> toJson() => _$AddConditionsLogToJson(this);
+  
+  @override
+  String getDescription(AppLocalizations localizations) {
+    return localizations.log_type_add_conditions_description(combatant.name, conditions.map((c) => c.name).join(', '));
+  }
+  
+  @override
+  String getTitle(AppLocalizations localizations) {
+    return localizations.log_type_add_conditions;
+  }
+  
+  @override
+  IconData get icon => MingCute.tag_2_fill;
 }

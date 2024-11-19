@@ -1,3 +1,4 @@
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:battlemaster/features/encounter_tracker/widgets/encounter_history/encounter_history_tile.dart';
 import 'package:battlemaster/features/encounters/models/encounter.dart';
 import 'package:battlemaster/features/encounters/models/encounter_log.dart';
@@ -53,8 +54,8 @@ class EncounterHistory extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final groupedLogs = groupLogs();
+    final localization = AppLocalizations.of(context)!;
 
-    // FIXME: textos
     return Padding(
       padding: const EdgeInsets.only(top: 16, left: 16, right: 16),
       child: Column(
@@ -64,18 +65,20 @@ class EncounterHistory extends StatelessWidget {
             children: [
               Expanded(
                 child: Text(
-                  'Histórico',
+                  localization.encounter_history,
                   style: Theme.of(context).textTheme.headlineMedium,
                 ),
               ),
               OutlinedButton.icon(
                 onPressed: onDeleteHistory,
-                label: Text('Apagar histórico'),
+                label: Text(localization.delete_history_button),
                 icon: Icon(MingCute.delete_2_fill),
               ),
             ],
           ),
-          const SizedBox(height: 16),
+          const SizedBox(height: 8),
+          const Divider(),
+          const SizedBox(height: 8),
           Expanded(
             child: _EncounterHistoryList(
               groups: groupedLogs,
@@ -100,6 +103,7 @@ class _EncounterHistoryList extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return ListView.builder(
+      padding: const EdgeInsets.only(bottom: 16),
       itemCount: groups.length,
       itemBuilder: (context, index) {
         final group = groups[index];
