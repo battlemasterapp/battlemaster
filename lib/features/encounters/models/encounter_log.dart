@@ -98,16 +98,19 @@ class AddCombatantLog extends EncounterLog {
   Encounter undo(Encounter encounter) {
     return encounter.copyWith(
       combatants:
-          encounter.combatants.where((c) => c.id != combatant.id).toList(),
+          encounter.combatants.where((c) => c.id != combatant.id).toList()
+            ..sort((a, b) => b.initiative.compareTo(a.initiative)),
     );
   }
 
   @override
-  String getTitle(AppLocalizations localizations) => localizations.log_type_add_combatant;
+  String getTitle(AppLocalizations localizations) =>
+      localizations.log_type_add_combatant;
 
   @override
-  String getDescription(AppLocalizations localizations) => localizations.log_type_add_combatant_description(combatant.name);
-  
+  String getDescription(AppLocalizations localizations) =>
+      localizations.log_type_add_combatant_description(combatant.name);
+
   @override
   IconData get icon => MingCute.user_add_2_fill;
 }
@@ -140,20 +143,21 @@ class RemoveCombatantLog extends EncounterLog {
   @override
   Encounter undo(Encounter encounter) {
     return encounter.copyWith(
-      combatants: [...encounter.combatants, combatant],
+      combatants: [...encounter.combatants, combatant]
+        ..sort((a, b) => b.initiative.compareTo(a.initiative)),
     );
   }
-  
+
   @override
   String getDescription(AppLocalizations localizations) {
     return localizations.log_type_remove_combatant_description(combatant.name);
   }
-  
+
   @override
   String getTitle(AppLocalizations localizations) {
     return localizations.log_type_remove_combatant;
   }
-  
+
   @override
   IconData get icon => MingCute.user_remove_2_fill;
 }
@@ -208,23 +212,25 @@ class DamageCombatantLog extends EncounterLog {
 
   @override
   Map<String, dynamic> toJson() => _$DamageCombatantLogToJson(this);
-  
+
   @override
   String getDescription(AppLocalizations localizations) {
     if (isHeal) {
-      return localizations.log_type_healed_combatant_description(combatant.name, -damage);
+      return localizations.log_type_healed_combatant_description(
+          combatant.name, -damage);
     }
-    return localizations.log_type_damage_combatant_description(combatant.name, damage);
+    return localizations.log_type_damage_combatant_description(
+        combatant.name, damage);
   }
-  
+
   @override
   String getTitle(AppLocalizations localizations) {
-    if(isHeal) {
+    if (isHeal) {
       return localizations.log_type_healed_combatant;
     }
     return localizations.log_type_damage_combatant;
   }
-  
+
   @override
   IconData get icon => isHeal ? MingCute.heart_fill : MingCute.heart_crack_fill;
 }
@@ -265,7 +271,8 @@ class CombatantInitiativeLog extends EncounterLog {
           return c.copyWith(initiative: c.initiative - initiative);
         }
         return c;
-      }).toList(),
+      }).toList()
+        ..sort((a, b) => b.initiative.compareTo(a.initiative)),
     );
   }
 
@@ -274,17 +281,18 @@ class CombatantInitiativeLog extends EncounterLog {
 
   @override
   Map<String, dynamic> toJson() => _$CombatantInitiativeLogToJson(this);
-  
+
   @override
   String getDescription(AppLocalizations localizations) {
-    return localizations.log_type_combatant_initiative_description(combatant.name, initiative);
+    return localizations.log_type_combatant_initiative_description(
+        combatant.name, initiative);
   }
-  
+
   @override
   String getTitle(AppLocalizations localizations) {
     return localizations.log_type_combatant_initiative;
   }
-  
+
   @override
   IconData get icon => FontAwesome.dice_d20_solid;
 }
@@ -333,17 +341,18 @@ class AddConditionsLog extends EncounterLog {
 
   @override
   Map<String, dynamic> toJson() => _$AddConditionsLogToJson(this);
-  
+
   @override
   String getDescription(AppLocalizations localizations) {
-    return localizations.log_type_add_conditions_description(combatant.name, conditions.map((c) => c.name).join(', '));
+    return localizations.log_type_add_conditions_description(
+        combatant.name, conditions.map((c) => c.name).join(', '));
   }
-  
+
   @override
   String getTitle(AppLocalizations localizations) {
     return localizations.log_type_add_conditions;
   }
-  
+
   @override
   IconData get icon => MingCute.tag_2_fill;
 }

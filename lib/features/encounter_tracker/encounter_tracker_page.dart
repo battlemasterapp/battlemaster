@@ -33,6 +33,7 @@ class EncounterTrackerPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final encountersProvider = context.read<EncountersProvider>();
     return ChangeNotifierProvider(
       create: (context) => EncounterTrackerNotifier(
         database: context.read<AppDatabase>(),
@@ -58,10 +59,11 @@ class EncounterTrackerPage extends StatelessWidget {
                           context: context,
                           body: EncounterHistory(
                             encounter: encounter,
-                            // TODO: 
-                            onDeleteHistory: () {},
-                            onUndo: (log) {
-                              debugPrint(log.toString());
+                            onDeleteHistory: () async {
+                              await encountersProvider.deleteHistory(encounter);
+                            },
+                            onUndo: (log) async {
+                              await encountersProvider.undoLog(encounter, log);
                             },
                           ),
                           sheetColor: Theme.of(context).canvasColor,

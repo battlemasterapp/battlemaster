@@ -1,8 +1,8 @@
-import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:battlemaster/features/encounter_tracker/widgets/encounter_history/encounter_history_tile.dart';
 import 'package:battlemaster/features/encounters/models/encounter.dart';
 import 'package:battlemaster/features/encounters/models/encounter_log.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:icons_plus/icons_plus.dart';
 
 class LogGroup {
@@ -70,7 +70,10 @@ class EncounterHistory extends StatelessWidget {
                 ),
               ),
               OutlinedButton.icon(
-                onPressed: onDeleteHistory,
+                onPressed: () {
+                  onDeleteHistory?.call();
+                  Navigator.of(context).pop();
+                },
                 label: Text(localization.delete_history_button),
                 icon: Icon(MingCute.delete_2_fill),
               ),
@@ -82,7 +85,10 @@ class EncounterHistory extends StatelessWidget {
           Expanded(
             child: _EncounterHistoryList(
               groups: groupedLogs,
-              onUndo: onUndo,
+              onUndo: (log) {
+                onUndo?.call(log);
+                Navigator.of(context).pop();
+              },
             ),
           ),
         ],

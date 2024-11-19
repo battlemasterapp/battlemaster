@@ -141,4 +141,16 @@ class EncountersProvider extends ChangeNotifier {
           ..where((e) => e.id.equals(encounter.id)))
         .go();
   }
+
+  Future<void> deleteHistory(Encounter encounter) async {
+    final updated = encounter.copyWith(logs: []);
+    await _database.updateEncounter(updated);
+  }
+
+  Future<void> undoLog(Encounter encounter, EncounterLog log) async {
+    final updated = log.undo(encounter).copyWith(
+      logs: encounter.logs..remove(log),
+    );
+    await _database.updateEncounter(updated);
+  }
 }
