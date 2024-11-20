@@ -65,11 +65,13 @@ class EncounterTrackerPage extends StatelessWidget {
                             encounter: encounter,
                             onDeleteHistory: () async {
                               await encountersProvider.deleteHistory(encounter);
-                              await analytics.logEvent('delete_encounter_history');
+                              await analytics
+                                  .logEvent('delete_encounter_history');
                             },
                             onUndo: (log) async {
                               await encountersProvider.undoLog(encounter, log);
-                              await analytics.logEvent('undo_encounter_log', props: {
+                              await analytics
+                                  .logEvent('undo_encounter_log', props: {
                                 'log': log.type.toString(),
                               });
                             },

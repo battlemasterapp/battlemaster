@@ -102,7 +102,7 @@ void main() {
 
   test('Combatant initiative', () {
     final topCombatant = Combatant(
-      id:'top',
+      id: 'top',
       name: 'Top',
       initiative: 10,
       maxHp: 10,
@@ -125,7 +125,6 @@ void main() {
     final updateEncounter = encounterLog.apply(encounter);
     expect(updateEncounter.combatants.first, combatant);
     expect(updateEncounter.combatants.last, topCombatant);
-
 
     final undoEncounter = encounterLog.undo(updateEncounter);
     expect(undoEncounter.combatants.first, topCombatant);

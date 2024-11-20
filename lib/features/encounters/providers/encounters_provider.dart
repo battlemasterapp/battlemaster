@@ -141,8 +141,8 @@ class EncountersProvider extends ChangeNotifier {
 
   Future<void> undoLog(Encounter encounter, EncounterLog log) async {
     final updated = log.undo(encounter).copyWith(
-      logs: encounter.logs..remove(log),
-    );
+          logs: encounter.logs..remove(log),
+        );
     await _database.updateEncounter(updated);
   }
 }

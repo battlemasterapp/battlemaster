@@ -189,12 +189,14 @@ class __MultipleLogTileState extends State<_MultipleLogTile> {
                 const SizedBox(width: 8),
                 if (!_expanded)
                   Text(
-                    localization.show_more_similar_activities(widget.group.logs.length - 1),
+                    localization.show_more_similar_activities(
+                        widget.group.logs.length - 1),
                     style: TextStyle(fontWeight: FontWeight.bold),
                   ),
                 if (_expanded)
                   Text(
-                    localization.hide_more_similar_activities(widget.group.logs.length - 1),
+                    localization.hide_more_similar_activities(
+                        widget.group.logs.length - 1),
                     style: TextStyle(fontWeight: FontWeight.bold),
                   ),
               ],
