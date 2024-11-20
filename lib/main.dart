@@ -98,6 +98,7 @@ class BattlemasterApp extends StatelessWidget {
           ],
           localizationsDelegates: AppLocalizations.localizationsDelegates,
           supportedLocales: AppLocalizations.supportedLocales,
+          locale: const Locale('pt'),
           theme: pf2eLightTheme,
           darkTheme: pf2eDarkTheme,
           themeMode: context.select<SystemSettingsProvider, ThemeMode>(
