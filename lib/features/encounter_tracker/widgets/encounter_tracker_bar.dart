@@ -127,20 +127,18 @@ class _TrackerTitleState extends State<_TrackerTitle> {
             children: [
               ConstrainedBox(
                 constraints: BoxConstraints(maxWidth: 400),
-                child: Expanded(
-                  child: TextField(
-                    autofocus: true,
-                    decoration: InputDecoration(
-                      border: UnderlineInputBorder(),
-                    ),
-                    controller: _controller,
-                    onSubmitted: (value) {
-                      widget.onTitleChanged?.call(value);
-                      setState(() {
-                        _isEditing = false;
-                      });
-                    },
+                child: TextField(
+                  autofocus: true,
+                  decoration: InputDecoration(
+                    border: UnderlineInputBorder(),
                   ),
+                  controller: _controller,
+                  onSubmitted: (value) {
+                    widget.onTitleChanged?.call(value);
+                    setState(() {
+                      _isEditing = false;
+                    });
+                  },
                 ),
               ),
               IconButton(

@@ -1,3 +1,5 @@
+import 'package:battlemaster/features/conditions/models/condition.dart';
+import 'package:battlemaster/features/encounters/models/encounter_log.dart';
 import 'package:battlemaster/features/encounters/models/encounter_type.dart';
 import 'package:flutter/material.dart';
 import 'package:nanoid2/nanoid2.dart';
@@ -32,24 +34,51 @@ class EncountersProvider extends ChangeNotifier {
     await _database.updateEncounter(encounter.copyWith(name: name));
   }
 
-  Future<void> editCombatant(
+  Future<void> updateCombatantInitiative(
     Encounter encounter,
     Combatant combatant,
+    double initiative,
   ) async {
-    final index = encounter.combatants.indexWhere((c) => c.id == combatant.id);
-    assert(index > -1);
-    final combatants = encounter.combatants
-      ..replaceRange(
-        index,
-        index + 1,
-        [combatant],
-      );
-    final updated = encounter.copyWith(
-      combatants: combatants
-        ..sort(
-          (a, b) => b.initiative.compareTo(a.initiative),
-        ),
+    final log = CombatantInitiativeLog(
+      round: encounter.round,
+      turn: encounter.turn,
+      combatant: combatant,
+      initiative: initiative,
     );
+
+    final updated = log.apply(encounter);
+    await _database.updateEncounter(updated);
+  }
+
+  Future<void> updateCombatantHealth(
+    Encounter encounter,
+    Combatant combatant,
+    int health,
+  ) async {
+    final log = DamageCombatantLog(
+      round: encounter.round,
+      turn: encounter.turn,
+      combatant: combatant,
+      damage: combatant.currentHp - health,
+    );
+
+    final updated = log.apply(encounter);
+    await _database.updateEncounter(updated);
+  }
+
+  Future<void> updateCombatantsConditions(
+    Encounter encounter,
+    Combatant combatant,
+    List<Condition> conditions,
+  ) async {
+    final log = AddConditionsLog(
+      round: encounter.round,
+      turn: encounter.turn,
+      combatant: combatant,
+      conditions: conditions,
+    );
+
+    final updated = log.apply(encounter);
     await _database.updateEncounter(updated);
   }
 
@@ -60,32 +89,42 @@ class EncountersProvider extends ChangeNotifier {
     if (combatantsMap.isEmpty) {
       return;
     }
-    final combatants = combatantsMap.entries.fold<List<Combatant>>(
+    final logs = combatantsMap.entries.fold<List<AddCombatantLog>>(
       [],
       (combatants, mapEntry) {
         return [
           ...combatants,
           ...List.generate(
-              mapEntry.value,
-              (index) => mapEntry.key.copyWith(
-                    id: nanoid(),
-                    name: mapEntry.value > 1
-                        ? '${mapEntry.key.name} ${index + 1}'
-                        : null,
-                  )),
+            mapEntry.value,
+            (index) => AddCombatantLog(
+              round: encounter.round,
+              turn: encounter.turn,
+              combatant: mapEntry.key.copyWith(
+                id: nanoid(),
+                name: mapEntry.value > 1
+                    ? '${mapEntry.key.name} ${index + 1}'
+                    : null,
+              ),
+            ),
+          ),
         ];
       },
     );
-    final updated = encounter.copyWith(
-      combatants: [...encounter.combatants, ...combatants],
+
+    final updated = logs.fold<Encounter>(
+      encounter,
+      (e, log) => log.apply(e),
     );
     await _database.updateEncounter(updated);
   }
 
   Future<void> removeCombatant(Encounter encounter, Combatant combatant) async {
-    final combatants =
-        encounter.combatants.where((c) => c.id != combatant.id).toList();
-    final updated = encounter.copyWith(combatants: combatants);
+    final removeLog = RemoveCombatantLog(
+      round: encounter.round,
+      turn: encounter.turn,
+      combatant: combatant,
+    );
+    final updated = removeLog.apply(encounter);
     await _database.updateEncounter(updated);
   }
 
@@ -93,5 +132,17 @@ class EncountersProvider extends ChangeNotifier {
     await (_database.delete(_database.encounterTable)
           ..where((e) => e.id.equals(encounter.id)))
         .go();
+  }
+
+  Future<void> deleteHistory(Encounter encounter) async {
+    final updated = encounter.copyWith(logs: []);
+    await _database.updateEncounter(updated);
+  }
+
+  Future<void> undoLog(Encounter encounter, EncounterLog log) async {
+    final updated = log.undo(encounter).copyWith(
+          logs: encounter.logs..remove(log),
+        );
+    await _database.updateEncounter(updated);
   }
 }

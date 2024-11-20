@@ -58,7 +58,5 @@ class Condition extends Equatable {
   List<Object?> get props => [
         name,
         description,
-        durationRounds,
-        value,
       ];
 }

@@ -121,5 +121,22 @@
   "description_label": "Descrição",
   "condition_description_validation_text": "A descrição é obrigatória",
   "made_with_love": "Feito com ❤️ no 🇧🇷",
-  "copyright": "© Battlemaster 2024"
+  "copyright": "© Battlemaster 2024",
+  "log_type_add_combatant": "Combatente adicionado",
+  "log_type_add_combatant_description": "{name} foi adicionado ao combate",
+  "log_type_remove_combatant": "Combatente removido",
+  "log_type_remove_combatant_description": "{name} foi removido do combate",
+  "log_type_damage_combatant": "Dano aplicado",
+  "log_type_damage_combatant_description": "{name} sofreu {amount} de dano",
+  "log_type_healed_combatant": "Cura aplicada",
+  "log_type_healed_combatant_description": "{name} foi curado em {amount} pontos de vida",
+  "log_type_combatant_initiative": "Iniciativa rolada",
+  "log_type_combatant_initiative_description": "{name} rolou {initiative} de iniciativa",
+  "log_type_add_conditions": "Condições aplicadas",
+  "log_type_add_conditions_description": "{conditions} foram aplicadas a {name}",
+  "encounter_history_round_turn": "Rodada {round} - Turno {turn}",
+  "encounter_history": "Histórico do combate",
+  "delete_history_button": "Apagar histórico",
+  "show_more_similar_activities": "{count, plural, zero{} one{Mostrar mais uma ação similar} other{Mostrar mais {count} ações similares}}",
+  "hide_more_similar_activities": "{count, plural, zero{} one{Esconder uma ação similar} other{Esconder {count} ações similares}}"
 }
