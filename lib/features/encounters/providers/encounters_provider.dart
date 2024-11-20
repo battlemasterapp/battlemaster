@@ -46,9 +46,7 @@ class EncountersProvider extends ChangeNotifier {
       initiative: initiative,
     );
 
-    final updated = log.apply(encounter).copyWith(
-      logs: [...encounter.logs, log],
-    );
+    final updated = log.apply(encounter);
     await _database.updateEncounter(updated);
   }
 
@@ -64,9 +62,7 @@ class EncountersProvider extends ChangeNotifier {
       damage: combatant.currentHp - health,
     );
 
-    final updated = log.apply(encounter).copyWith(
-      logs: [...encounter.logs, log],
-    );
+    final updated = log.apply(encounter);
     await _database.updateEncounter(updated);
   }
 
@@ -82,9 +78,7 @@ class EncountersProvider extends ChangeNotifier {
       conditions: conditions,
     );
 
-    final updated = log.apply(encounter).copyWith(
-      logs: [...encounter.logs, log],
-    );
+    final updated = log.apply(encounter);
     await _database.updateEncounter(updated);
   }
 
@@ -118,7 +112,7 @@ class EncountersProvider extends ChangeNotifier {
     );
 
     final updated = logs.fold<Encounter>(
-      encounter.copyWith(logs: [...encounter.logs, ...logs]),
+      encounter,
       (e, log) => log.apply(e),
     );
     await _database.updateEncounter(updated);
@@ -130,9 +124,7 @@ class EncountersProvider extends ChangeNotifier {
       turn: encounter.turn,
       combatant: combatant,
     );
-    final updated = removeLog.apply(encounter).copyWith(
-      logs: [...encounter.logs, removeLog],
-    );
+    final updated = removeLog.apply(encounter);
     await _database.updateEncounter(updated);
   }
 

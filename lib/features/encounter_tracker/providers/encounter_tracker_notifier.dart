@@ -115,7 +115,6 @@ class EncounterTrackerNotifier extends ChangeNotifier {
 
     await _database.updateEncounter(
       updated.copyWith(
-        logs: [..._encounter.logs, ...logs],
         combatants: updated.combatants
           ..sort((a, b) => b.initiative.compareTo(a.initiative)),
       ),
@@ -163,7 +162,6 @@ class EncounterTrackerNotifier extends ChangeNotifier {
     final updated = log.apply(
       _encounter.copyWith(
         combatants: combatants,
-        logs: [..._encounter.logs, log],
       ),
     );
 

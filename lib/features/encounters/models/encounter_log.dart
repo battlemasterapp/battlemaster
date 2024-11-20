@@ -1,10 +1,12 @@
 import 'package:battlemaster/features/combatant/models/combatant.dart';
 import 'package:battlemaster/features/conditions/models/condition.dart';
 import 'package:battlemaster/features/encounters/models/encounter.dart';
+import 'package:equatable/equatable.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:icons_plus/icons_plus.dart';
 import 'package:json_annotation/json_annotation.dart';
+import 'package:nanoid2/nanoid2.dart';
 
 part 'encounter_log.g.dart';
 
@@ -16,7 +18,8 @@ enum EncounterLogType {
   addConditions,
 }
 
-abstract class EncounterLog {
+abstract class EncounterLog extends Equatable {
+  final String id;
   final int round;
   final int turn;
   final EncounterLogType type;
@@ -25,7 +28,8 @@ abstract class EncounterLog {
     required this.round,
     required this.turn,
     required this.type,
-  });
+    String? id,
+  }) : id = id ?? nanoid();
 
   factory EncounterLog.fromJson(Map<String, dynamic> json) {
     switch (json['type']) {
@@ -68,6 +72,9 @@ abstract class EncounterLog {
   String getDescription(AppLocalizations localizations);
 
   IconData get icon;
+
+  @override
+  List<Object?> get props => [id, round, turn, type];
 }
 
 @JsonSerializable()
@@ -79,6 +86,7 @@ class AddCombatantLog extends EncounterLog {
     required super.turn,
     required this.combatant,
     super.type = EncounterLogType.addCombatant,
+    super.id,
   });
 
   factory AddCombatantLog.fromJson(Map<String, dynamic> json) =>
@@ -91,6 +99,7 @@ class AddCombatantLog extends EncounterLog {
   Encounter apply(Encounter encounter) {
     return encounter.copyWith(
       combatants: [...encounter.combatants, combatant],
+      logs: [...encounter.logs, this],
     );
   }
 
@@ -100,6 +109,7 @@ class AddCombatantLog extends EncounterLog {
       combatants:
           encounter.combatants.where((c) => c.id != combatant.id).toList()
             ..sort((a, b) => b.initiative.compareTo(a.initiative)),
+      logs: encounter.logs.where((l) => l != this).toList(),
     );
   }
 
@@ -124,6 +134,7 @@ class RemoveCombatantLog extends EncounterLog {
     required super.turn,
     required this.combatant,
     super.type = EncounterLogType.removeCombatant,
+    super.id,
   });
 
   factory RemoveCombatantLog.fromJson(Map<String, dynamic> json) =>
@@ -137,6 +148,7 @@ class RemoveCombatantLog extends EncounterLog {
     return encounter.copyWith(
       combatants:
           encounter.combatants.where((c) => c.id != combatant.id).toList(),
+      logs: [...encounter.logs, this],
     );
   }
 
@@ -145,6 +157,7 @@ class RemoveCombatantLog extends EncounterLog {
     return encounter.copyWith(
       combatants: [...encounter.combatants, combatant]
         ..sort((a, b) => b.initiative.compareTo(a.initiative)),
+      logs: encounter.logs.where((l) => l != this).toList(),
     );
   }
 
@@ -173,6 +186,7 @@ class DamageCombatantLog extends EncounterLog {
     required this.combatant,
     required this.damage,
     super.type = EncounterLogType.damageCombatant,
+    super.id,
   });
 
   bool get isHeal => damage < 0;
@@ -190,6 +204,7 @@ class DamageCombatantLog extends EncounterLog {
         }
         return c;
       }).toList(),
+      logs: [...encounter.logs, this],
     );
   }
 
@@ -204,6 +219,7 @@ class DamageCombatantLog extends EncounterLog {
         }
         return c;
       }).toList(),
+      logs: encounter.logs.where((l) => l != this).toList(),
     );
   }
 
@@ -246,6 +262,7 @@ class CombatantInitiativeLog extends EncounterLog {
     required this.combatant,
     required this.initiative,
     super.type = EncounterLogType.combatantInitiative,
+    super.id,
   });
 
   @override
@@ -260,6 +277,7 @@ class CombatantInitiativeLog extends EncounterLog {
         ..sort(
           (a, b) => b.initiative.compareTo(a.initiative),
         ),
+      logs: [...encounter.logs, this],
     );
   }
 
@@ -273,6 +291,7 @@ class CombatantInitiativeLog extends EncounterLog {
         return c;
       }).toList()
         ..sort((a, b) => b.initiative.compareTo(a.initiative)),
+      logs: encounter.logs.where((l) => l != this).toList(),
     );
   }
 
@@ -308,6 +327,7 @@ class AddConditionsLog extends EncounterLog {
     required this.combatant,
     required this.conditions,
     super.type = EncounterLogType.addConditions,
+    super.id,
   });
 
   @override
@@ -319,6 +339,7 @@ class AddConditionsLog extends EncounterLog {
         }
         return c;
       }).toList(),
+      logs: [...encounter.logs, this],
     );
   }
 
@@ -333,6 +354,7 @@ class AddConditionsLog extends EncounterLog {
         }
         return c;
       }).toList(),
+      logs: encounter.logs.where((l) => l != this).toList(),
     );
   }
 
