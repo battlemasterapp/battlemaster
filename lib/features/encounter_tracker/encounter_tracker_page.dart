@@ -1,3 +1,4 @@
+import 'package:battlemaster/features/analytics/analytics_service.dart';
 import 'package:battlemaster/features/encounter_tracker/widgets/combatant_tracker_list.dart';
 import 'package:battlemaster/features/encounter_tracker/widgets/encounter_history/encounter_history.dart';
 import 'package:battlemaster/features/encounter_tracker/widgets/encounter_tracker_controls.dart';
@@ -34,6 +35,7 @@ class EncounterTrackerPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final encountersProvider = context.read<EncountersProvider>();
+    final analytics = context.read<AnalyticsService>();
     return ChangeNotifierProvider(
       create: (context) => EncounterTrackerNotifier(
         database: context.read<AppDatabase>(),
@@ -54,18 +56,25 @@ class EncounterTrackerPage extends StatelessWidget {
                   actions: [
                     IconButton(
                       icon: Icon(MingCute.history_2_fill),
-                      onPressed: () {
+                      onPressed: () async {
+                        await analytics.logEvent('view_encounter_history');
                         SideSheet.right(
+                          // ignore: use_build_context_synchronously
                           context: context,
                           body: EncounterHistory(
                             encounter: encounter,
                             onDeleteHistory: () async {
                               await encountersProvider.deleteHistory(encounter);
+                              await analytics.logEvent('delete_encounter_history');
                             },
                             onUndo: (log) async {
                               await encountersProvider.undoLog(encounter, log);
+                              await analytics.logEvent('undo_encounter_log', props: {
+                                'log': log.type.toString(),
+                              });
                             },
                           ),
+                          // ignore: use_build_context_synchronously
                           sheetColor: Theme.of(context).canvasColor,
                         );
                       },

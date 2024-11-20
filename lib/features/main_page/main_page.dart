@@ -112,7 +112,8 @@ class _MainPageState extends State<MainPage> {
       _selectedPage = page;
     });
     context.read<AnalyticsService>().logEvent(
-      'change_page',
+      'pageview',
+      page: _selectedPage,
       props: {'page': _selectedPage},
     );
   }

@@ -59,7 +59,6 @@ dependencies:
   flutter_widget_from_html_core: ^0.15.2
   markdown: ^7.2.2
   sentry_flutter: ^8.10.0
-  plausible: ^1.0.0
   wiredash: ^2.3.0
   ultimate_flutter_icons: ^1.2.0
   dio_cache_interceptor: ^3.5.0
@@ -69,6 +68,7 @@ dependencies:
   responsive_framework: ^1.5.1
   badges: ^3.1.2
   side_sheet: ^1.0.4
+  http: ^1.2.2
 
 dev_dependencies:
   flutter_test:

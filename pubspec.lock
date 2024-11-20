@@ -475,7 +475,7 @@ packages:
     source: hosted
     version: "0.15.5"
   http:
-    dependency: transitive
+    dependency: "direct main"
     description:
       name: http
       sha256: b9c29a161230ee03d3ccf545097fccd9b87a5264228c5d348202e0f0c28f9010
@@ -778,14 +778,6 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "3.1.6"
-  plausible:
-    dependency: "direct main"
-    description:
-      name: plausible
-      sha256: "33497911106b0dce8a4ee70e08e27ba2a90be051b5d7c3a02bf1b9b22c87e599"
-      url: "https://pub.dev"
-    source: hosted
-    version: "1.0.0"
   plugin_platform_interface:
     dependency: transitive
     description:

@@ -1,4 +1,4 @@
-import 'package:plausible/plausible.dart';
+import 'package:battlemaster/features/analytics/plausible_base.dart';
 
 const _server = String.fromEnvironment("PLAUSIBLE_SERVER");
 const _domain = String.fromEnvironment("PLAUSIBLE_DOMAIN");
