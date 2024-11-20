@@ -55,11 +55,16 @@ class EncountersProvider extends ChangeNotifier {
     Combatant combatant,
     int health,
   ) async {
+    final damage = combatant.currentHp - health;
+    if (damage == 0) {
+      return;
+    }
+
     final log = DamageCombatantLog(
       round: encounter.round,
       turn: encounter.turn,
       combatant: combatant,
-      damage: combatant.currentHp - health,
+      damage: damage,
     );
 
     final updated = log.apply(encounter);
