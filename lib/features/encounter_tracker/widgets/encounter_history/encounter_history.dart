@@ -4,6 +4,7 @@ import 'package:battlemaster/features/encounters/models/encounter_log.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:icons_plus/icons_plus.dart';
+import 'package:responsive_framework/responsive_framework.dart';
 
 class LogGroup {
   final List<EncounterLog> logs;
@@ -55,30 +56,35 @@ class EncounterHistory extends StatelessWidget {
   Widget build(BuildContext context) {
     final groupedLogs = groupLogs();
     final localization = AppLocalizations.of(context)!;
+    final isMobile = ResponsiveBreakpoints.of(context).smallerThan(TABLET);
+
+    final titleChildren = [
+      Text(
+        localization.encounter_history,
+        style: Theme.of(context).textTheme.headlineMedium,
+      ),
+      OutlinedButton.icon(
+        onPressed: () {
+          onDeleteHistory?.call();
+          Navigator.of(context).pop();
+        },
+        label: Text(localization.delete_history_button),
+        icon: Icon(MingCute.delete_2_fill),
+      ),
+    ];
 
     return Padding(
       padding: const EdgeInsets.only(top: 16, left: 16, right: 16),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          Row(
-            children: [
-              Expanded(
-                child: Text(
-                  localization.encounter_history,
-                  style: Theme.of(context).textTheme.headlineMedium,
-                ),
-              ),
-              OutlinedButton.icon(
-                onPressed: () {
-                  onDeleteHistory?.call();
-                  Navigator.of(context).pop();
-                },
-                label: Text(localization.delete_history_button),
-                icon: Icon(MingCute.delete_2_fill),
-              ),
-            ],
-          ),
+          if (!isMobile) Row(mainAxisAlignment: MainAxisAlignment.spaceBetween, children: titleChildren),
+          if (isMobile)
+            Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              mainAxisSize: MainAxisSize.min,
+              children: titleChildren,
+            ),
           const SizedBox(height: 8),
           const Divider(),
           const SizedBox(height: 8),

@@ -1,9 +1,11 @@
+import 'package:auto_size_text/auto_size_text.dart';
 import 'package:battlemaster/features/encounter_tracker/widgets/encounter_history/encounter_history.dart';
 import 'package:battlemaster/features/encounters/models/encounter_log.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_animate/flutter_animate.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:icons_plus/icons_plus.dart';
+import 'package:responsive_framework/responsive_framework.dart';
 
 typedef UndoLogCallback = void Function(EncounterLog log);
 
@@ -106,36 +108,55 @@ class _SingleLogTile extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final localization = AppLocalizations.of(context)!;
-    return Padding(
-      padding: const EdgeInsets.symmetric(horizontal: 16),
-      child: Row(
-        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+    final isMobile = ResponsiveBreakpoints.of(context).smallerThan(TABLET);
+
+    final children = [
+      Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        mainAxisSize: MainAxisSize.min,
         children: [
-          Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            mainAxisSize: MainAxisSize.min,
-            children: [
-              if (showRound)
-                Text(
-                  localization.encounter_history_round_turn(
-                      log.round, log.turn + 1),
-                  style: Theme.of(context).textTheme.bodySmall,
+          if (showRound)
+            Text(
+              localization.encounter_history_round_turn(
+                  log.round, log.turn + 1),
+              style: Theme.of(context).textTheme.bodySmall,
+            ),
+          Text(
+            log.getTitle(localization),
+            style: Theme.of(context).textTheme.bodyLarge?.copyWith(
+                  fontWeight: FontWeight.bold,
                 ),
-              Text(
-                log.getTitle(localization),
-                style: Theme.of(context).textTheme.bodyLarge?.copyWith(
-                      fontWeight: FontWeight.bold,
-                    ),
-              ),
-              Text(log.getDescription(localization)),
-            ],
           ),
-          IconButton(
-            onPressed: () => onUndo?.call(log),
-            icon: Icon(MingCute.refresh_anticlockwise_1_fill),
+          AutoSizeText(
+            log.getDescription(localization),
+            maxLines: 3,
           ),
         ],
       ),
+      if (!isMobile)
+        IconButton(
+          onPressed: () => onUndo?.call(log),
+          icon: Icon(MingCute.refresh_anticlockwise_1_fill),
+        ),
+      if (isMobile)
+        OutlinedButton.icon(
+          onPressed: () => onUndo?.call(log),
+          label: Text(localization.undo_button),
+          icon: Icon(MingCute.refresh_anticlockwise_1_fill),
+        )
+    ];
+
+    return Padding(
+      padding: const EdgeInsets.symmetric(horizontal: 16),
+      child: isMobile
+          ? Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+              children: children,
+            )
+          : Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: children,
+            ),
     );
   }
 }
