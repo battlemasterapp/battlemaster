@@ -367,7 +367,10 @@ class AddConditionsLog extends EncounterLog {
   @override
   String getDescription(AppLocalizations localizations) {
     return localizations.log_type_add_conditions_description(
-        combatant.name, conditions.map((c) => c.name).join(', '));
+      combatant.name,
+      conditions.map((c) => c.name).join(', '),
+      conditions.length,
+    );
   }
 
   @override
