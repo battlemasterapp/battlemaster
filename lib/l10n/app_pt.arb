@@ -139,5 +139,6 @@
   "delete_history_button": "Apagar histórico",
   "show_more_similar_activities": "{count, plural, zero{} one{Mostrar mais uma ação similar} other{Mostrar mais {count} ações similares}}",
   "hide_more_similar_activities": "{count, plural, zero{} one{Esconder uma ação similar} other{Esconder {count} ações similares}}",
-  "undo_button": "Desfazer"
+  "undo_button": "Desfazer",
+  "no_results_search": "Nenhum resultado encontrado."
 }
