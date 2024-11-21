@@ -1,8 +1,11 @@
 import 'package:battlemaster/features/analytics/analytics_service.dart';
 import 'package:battlemaster/features/analytics/plausible.dart';
+import 'package:battlemaster/features/settings/legal/dnd5e_legal.dart';
+import 'package:battlemaster/features/settings/legal/pf2e_legal.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:icons_plus/icons_plus.dart';
+import 'package:package_info_plus/package_info_plus.dart';
 import 'package:provider/provider.dart';
 import 'package:wiredash/wiredash.dart';
 
@@ -57,6 +60,27 @@ class AppSettings extends StatelessWidget {
             plausible.isActive = value;
           },
           title: Text(localization.analytics_toggle_label),
+        ),
+        FutureBuilder<PackageInfo>(
+          future: PackageInfo.fromPlatform(),
+          builder: (context, snapshot) {
+            if (!snapshot.hasData) {
+              return Container();
+            }
+            return AboutListTile(
+              applicationName: "Battlemaster",
+              applicationVersion: "v${snapshot.data?.version}",
+              applicationLegalese: "$pf2eLegal\n\n$dnd5eLegal\n\n$ogl",
+              icon: const Icon(MingCute.information_fill),
+              applicationIcon: ClipRRect(
+                borderRadius: BorderRadius.circular(8),
+                child: Image.asset(
+                  'assets/icon/icon.png',
+                  width: 48,
+                ),
+              ),
+            );
+          },
         ),
       ],
     );
