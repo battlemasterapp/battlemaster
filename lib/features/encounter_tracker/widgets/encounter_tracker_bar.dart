@@ -42,14 +42,19 @@ class _TrackerBarState extends State<TrackerBar> {
         width: double.infinity,
         color: Theme.of(context).primaryColor,
         padding: const EdgeInsets.all(8),
-        child: _TitleEdit(
-          title: widget.encounter.name,
-          onTitleChanged: (value) {
-            widget.onTitleChanged?.call(value);
-            setState(() {
-              _editing = false;
-            });
-          },
+        child: Row(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            _TitleEdit(
+              title: widget.encounter.name,
+              onTitleChanged: (value) {
+                widget.onTitleChanged?.call(value);
+                setState(() {
+                  _editing = false;
+                });
+              },
+            ),
+          ],
         ),
       );
     }
@@ -114,7 +119,6 @@ class _TitleEditState extends State<_TitleEdit> {
       child: Expanded(
         child: Row(
           mainAxisAlignment: MainAxisAlignment.center,
-          mainAxisSize: MainAxisSize.min,
           children: [
             ConstrainedBox(
               constraints: BoxConstraints(maxWidth: min(400, width * .5)),
