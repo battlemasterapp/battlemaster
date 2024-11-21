@@ -14,7 +14,7 @@ import '../../../flavors/pf2e/pf2e_theme.dart';
 import '../../combatant/models/combatant.dart';
 import '../providers/encounter_tracker_notifier.dart';
 
-class TrackerBar extends StatelessWidget {
+class TrackerBar extends StatefulWidget {
   const TrackerBar({
     super.key,
     required this.encounter,
@@ -29,26 +29,114 @@ class TrackerBar extends StatelessWidget {
   final Encounter encounter;
 
   @override
+  State<TrackerBar> createState() => _TrackerBarState();
+}
+
+class _TrackerBarState extends State<TrackerBar> {
+  bool _editing = false;
+
+  @override
   Widget build(BuildContext context) {
+    if (_editing) {
+      return Container(
+        width: double.infinity,
+        color: Theme.of(context).primaryColor,
+        padding: const EdgeInsets.all(8),
+        child: _TitleEdit(
+          title: widget.encounter.name,
+          onTitleChanged: (value) {
+            widget.onTitleChanged?.call(value);
+            setState(() {
+              _editing = false;
+            });
+          },
+        ),
+      );
+    }
+
     return Container(
       color: Theme.of(context).primaryColor,
       padding: const EdgeInsets.all(8),
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
-          if (displayControls) const _BarControls(),
-          if (!displayControls) const SizedBox.shrink(),
+          if (widget.displayControls) const _BarControls(),
+          if (!widget.displayControls) const SizedBox.shrink(),
           Expanded(
             child: _TrackerTitle(
-              title: encounter.name,
-              onTitleChanged: onTitleChanged,
+              title: widget.encounter.name,
+              onEdit: () => setState(() => _editing = true),
             ),
           ),
           _AddCombatantButton(
-            encounter: encounter,
-            onCombatantsAdded: onCombatantsAdded,
+            encounter: widget.encounter,
+            onCombatantsAdded: widget.onCombatantsAdded,
           ),
         ],
+      ),
+    );
+  }
+}
+
+class _TitleEdit extends StatefulWidget {
+  const _TitleEdit({
+    required this.title,
+    this.onTitleChanged,
+  });
+
+  final String title;
+  final ValueChanged<String>? onTitleChanged;
+
+  @override
+  State<_TitleEdit> createState() => _TitleEditState();
+}
+
+class _TitleEditState extends State<_TitleEdit> {
+  late TextEditingController _controller;
+
+  @override
+  void initState() {
+    super.initState();
+    _controller = TextEditingController(text: widget.title);
+  }
+
+  @override
+  void dispose() {
+    _controller.dispose();
+    super.dispose();
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    final width = MediaQuery.of(context).size.width;
+    return Theme(
+      data: pf2eDarkTheme,
+      child: Expanded(
+        child: Row(
+          mainAxisAlignment: MainAxisAlignment.center,
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            ConstrainedBox(
+              constraints: BoxConstraints(maxWidth: min(400, width * .5)),
+              child: TextField(
+                autofocus: true,
+                decoration: InputDecoration(
+                  border: UnderlineInputBorder(),
+                ),
+                controller: _controller,
+                onSubmitted: (value) {
+                  widget.onTitleChanged?.call(value);
+                },
+              ),
+            ),
+            IconButton(
+              onPressed: () {
+                widget.onTitleChanged?.call(_controller.text);
+              },
+              icon: Icon(MingCute.check_fill),
+            )
+          ],
+        ),
       ),
     );
   }
@@ -121,71 +209,17 @@ class _AddCombatantButton extends StatelessWidget {
   }
 }
 
-class _TrackerTitle extends StatefulWidget {
+class _TrackerTitle extends StatelessWidget {
   const _TrackerTitle({
     required this.title,
-    this.onTitleChanged,
+    this.onEdit,
   });
 
   final String title;
-  final ValueChanged<String>? onTitleChanged;
-
-  @override
-  State<_TrackerTitle> createState() => _TrackerTitleState();
-}
-
-class _TrackerTitleState extends State<_TrackerTitle> {
-  bool _isEditing = false;
-  late TextEditingController _controller;
-
-  @override
-  void initState() {
-    super.initState();
-    _controller = TextEditingController(text: widget.title);
-  }
+  final VoidCallback? onEdit;
 
   @override
   Widget build(BuildContext context) {
-    final width = MediaQuery.of(context).size.width;
-    if (_isEditing) {
-      return Theme(
-        data: pf2eDarkTheme,
-        child: Expanded(
-          child: Row(
-            mainAxisAlignment: MainAxisAlignment.center,
-            mainAxisSize: MainAxisSize.min,
-            children: [
-              ConstrainedBox(
-                constraints: BoxConstraints(maxWidth: min(400, width * .5)),
-                child: TextField(
-                  autofocus: true,
-                  decoration: InputDecoration(
-                    border: UnderlineInputBorder(),
-                  ),
-                  controller: _controller,
-                  onSubmitted: (value) {
-                    widget.onTitleChanged?.call(value);
-                    setState(() {
-                      _isEditing = false;
-                    });
-                  },
-                ),
-              ),
-              IconButton(
-                onPressed: () {
-                  widget.onTitleChanged?.call(_controller.text);
-                  setState(() {
-                    _isEditing = false;
-                  });
-                },
-                icon: Icon(MingCute.check_fill),
-              )
-            ],
-          ),
-        ),
-      );
-    }
-
     return Theme(
       data: ThemeData.dark(),
       child: Row(
@@ -193,7 +227,7 @@ class _TrackerTitleState extends State<_TrackerTitle> {
         mainAxisSize: MainAxisSize.max,
         children: [
           AutoSizeText(
-            widget.title,
+            title,
             minFontSize: 18,
             maxLines: 1,
             overflow: TextOverflow.ellipsis,
@@ -204,11 +238,7 @@ class _TrackerTitleState extends State<_TrackerTitle> {
                 ?.copyWith(color: Colors.white),
           ),
           IconButton(
-            onPressed: () {
-              setState(() {
-                _isEditing = true;
-              });
-            },
+            onPressed: onEdit,
             icon: Icon(
               MingCute.pencil_fill,
               color: Colors.white.withOpacity(.75),
