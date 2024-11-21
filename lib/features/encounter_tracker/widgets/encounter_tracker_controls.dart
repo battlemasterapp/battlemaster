@@ -4,6 +4,7 @@ import 'package:flutter_animate/flutter_animate.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:icons_plus/icons_plus.dart';
 import 'package:provider/provider.dart';
+import 'package:responsive_framework/responsive_framework.dart';
 
 import '../providers/encounter_tracker_notifier.dart';
 
@@ -36,6 +37,8 @@ class _EncounterControls extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final trackerState = context.watch<EncounterTrackerNotifier>();
+    final isMobile = ResponsiveBreakpoints.of(context).isMobile;
+    final localization = AppLocalizations.of(context)!;
     return Material(
       elevation: 8,
       color: Colors.transparent,
@@ -48,17 +51,19 @@ class _EncounterControls extends StatelessWidget {
         ),
         child: Row(
           children: [
-            IconButton.filled(
-              style: IconButton.styleFrom(
-                backgroundColor: Colors.white,
+            if (!isMobile) ...[
+              IconButton.filled(
+                style: IconButton.styleFrom(
+                  backgroundColor: Colors.white,
+                ),
+                color: Theme.of(context).primaryColor,
+                icon: Icon(
+                  MingCute.skip_previous_fill,
+                ),
+                onPressed: trackerState.previousRound,
               ),
-              color: Theme.of(context).primaryColor,
-              icon: Icon(
-                MingCute.skip_previous_fill,
-              ),
-              onPressed: trackerState.previousRound,
-            ),
-            const SizedBox(width: 16),
+              const SizedBox(width: 16),
+            ],
             IconButton.filled(
               style: IconButton.styleFrom(
                 backgroundColor: Colors.white,
@@ -72,7 +77,7 @@ class _EncounterControls extends StatelessWidget {
             const Spacer(),
             Expanded(
               child: AutoSizeText(
-                AppLocalizations.of(context)!.round_counter(trackerState.round),
+                localization.round_counter(trackerState.round),
                 minFontSize: 14,
                 maxLines: 1,
                 textAlign: TextAlign.center,
@@ -92,17 +97,19 @@ class _EncounterControls extends StatelessWidget {
               ),
               onPressed: trackerState.nextTurn,
             ),
-            const SizedBox(width: 16),
-            IconButton.filled(
-              style: IconButton.styleFrom(
-                backgroundColor: Colors.white,
+            if (!isMobile) ...[
+              const SizedBox(width: 16),
+              IconButton.filled(
+                style: IconButton.styleFrom(
+                  backgroundColor: Colors.white,
+                ),
+                color: Theme.of(context).primaryColor,
+                icon: Icon(
+                  MingCute.skip_forward_fill,
+                ),
+                onPressed: trackerState.nextRound,
               ),
-              color: Theme.of(context).primaryColor,
-              icon: Icon(
-                MingCute.skip_forward_fill,
-              ),
-              onPressed: trackerState.nextRound,
-            ),
+            ]
           ],
         ),
       ),
