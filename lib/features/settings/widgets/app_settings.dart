@@ -2,6 +2,7 @@ import 'package:battlemaster/features/analytics/analytics_service.dart';
 import 'package:battlemaster/features/analytics/plausible.dart';
 import 'package:battlemaster/features/settings/legal/dnd5e_legal.dart';
 import 'package:battlemaster/features/settings/legal/pf2e_legal.dart';
+import 'package:battlemaster/features/settings/widgets/dangerous_settings.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:icons_plus/icons_plus.dart';
@@ -82,6 +83,8 @@ class AppSettings extends StatelessWidget {
             );
           },
         ),
+        const Divider(),
+        const DangerousSettings(),
       ],
     );
   }
