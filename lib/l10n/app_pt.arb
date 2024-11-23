@@ -140,5 +140,8 @@
   "show_more_similar_activities": "{count, plural, zero{} one{Mostrar mais uma ação similar} other{Mostrar mais {count} ações similares}}",
   "hide_more_similar_activities": "{count, plural, zero{} one{Esconder uma ação similar} other{Esconder {count} ações similares}}",
   "undo_button": "Desfazer",
-  "no_results_search": "Nenhum resultado encontrado."
+  "no_results_search": "Nenhum resultado encontrado.",
+  "game_engine_5e": "5e",
+  "game_engine_pf2e": "PF2e",
+  "game_engine_custom": "Personalizado"
 }

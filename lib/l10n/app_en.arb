@@ -701,5 +701,17 @@
   "no_results_search": "No results found.",
   "@no_results_search": {
     "description": "The message to show when there are no results for the search."
+  },
+  "game_engine_5e": "5e",
+  "@game_engine_5e": {
+    "description": "The game engine: 5e."
+  },
+  "game_engine_pf2e": "PF2e",
+  "@game_engine_pf2e": {
+    "description": "The game engine: PF2e."
+  },
+  "game_engine_custom": "Custom",
+  "@game_engine_custom": {
+    "description": "The game engine: Custom."
   }
 }

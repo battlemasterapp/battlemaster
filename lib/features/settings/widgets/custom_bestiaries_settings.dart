@@ -22,6 +22,7 @@ class CustomBestiariesSettings extends StatelessWidget {
         ListTile(
           leading: Icon(MingCute.file_new_fill),
           title: Text('Importar bestiário'),
+          subtitle: Text('Importe um arquivo CSV com os combatentes'),
           trailing: ElevatedButton(
             onPressed: () async {
               await showDialog(
@@ -36,6 +37,15 @@ class CustomBestiariesSettings extends StatelessWidget {
               );
             },
             child: Text('Importar'),
+          ),
+        ),
+        ListTile(
+          leading: Icon(MingCute.file_download_fill),
+          title: Text('Baixar modelos'),
+          subtitle: Text('Baixe os modelos CSV para criar seus bestiários'),
+          trailing: ElevatedButton(
+            onPressed: () {},
+            child: Text('Baixar'),
           ),
         ),
         const Divider(),
@@ -55,7 +65,8 @@ class CustomBestiariesSettings extends StatelessWidget {
                   return Card(
                     child: ListTile(
                       title: Text(bestiary.name),
-                      subtitle: Text('${bestiary.combatants.length} combatentes\n${bestiary.engine}'),
+                      subtitle: Text(
+                          '${bestiary.combatants.length} combatentes\n${bestiary.engine}'),
                       isThreeLine: true,
                       trailing: IconButton(
                         icon: Icon(MingCute.delete_2_fill),

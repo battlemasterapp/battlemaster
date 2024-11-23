@@ -2,9 +2,11 @@ import 'dart:io';
 
 import 'package:battlemaster/features/engines/models/game_engine_type.dart';
 import 'package:battlemaster/features/settings/models/custom_bestiary_file.dart';
+import 'package:battlemaster/features/settings/providers/system_settings_provider.dart';
 import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import 'package:provider/provider.dart';
 
 typedef BestiarySelectedCallback = void Function(
     CustomBestiaryFile customBestiaryFile);
@@ -33,6 +35,7 @@ class _ImportBestiaryDialogState extends State<ImportBestiaryDialog> {
   @override
   Widget build(BuildContext context) {
     final localization = AppLocalizations.of(context)!;
+    final settings = context.watch<SystemSettingsProvider>();
     // FIXME: textos
     return AlertDialog(
       title: Text("Importar bestiário personalizado"),
@@ -44,19 +47,20 @@ class _ImportBestiaryDialogState extends State<ImportBestiaryDialog> {
             children: [
               Text('Selecione um arquivo CSV para importar'),
               const SizedBox(height: 16),
-              Row(
-                children: [
-                  Expanded(
-                    child: TextField(
-                      decoration: InputDecoration(labelText: 'Nome'),
-                      onChanged: (value) {
-                        setState(() {
-                          _name = value;
-                        });
-                      },
-                    ),
+              TextField(
+                    decoration: InputDecoration(labelText: 'Nome'),
+                    onChanged: (value) {
+                      setState(() {
+                        _name = value;
+                      });
+                    },
                   ),
-                  const SizedBox(width: 16),
+              const SizedBox(height: 8),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  Text('Sistema do jogo:'),  
+                  const SizedBox(width: 8),
                   DropdownButton<GameEngineType>(
                     value: _engine,
                     onChanged: (value) {
@@ -67,19 +71,29 @@ class _ImportBestiaryDialogState extends State<ImportBestiaryDialog> {
                     items: GameEngineType.values
                         .map((e) => DropdownMenuItem(
                               value: e,
-                              child: Text(e.toString()),
+                              child: Text(e.translate(localization)),
                             ))
-                        .toList(),
+                        .where((e) {
+                      final excludeList = [
+                        if (!settings.pf2eSettings.enabled) GameEngineType.pf2e,
+                        if (!settings.dnd5eSettings.enabled)
+                          GameEngineType.dnd5e,
+                      ];
+
+                      return !excludeList.contains(e.value);
+                    }).toList(),
                   ),
                 ],
               ),
               const SizedBox(height: 8),
               Row(
+                mainAxisAlignment: MainAxisAlignment.end,
                 children: [
-                  if(_path.isNotEmpty) Padding(
-                    padding: const EdgeInsets.only(right: 8),
-                    child: Text(_path),
-                  ),
+                  if (_path.isNotEmpty)
+                    Padding(
+                      padding: const EdgeInsets.only(right: 8),
+                      child: Text(_path),
+                    ),
                   ElevatedButton(
                     onPressed: () async {
                       final file = await FilePicker.platform.pickFiles(
