@@ -70,6 +70,10 @@
   "@pf2e_toggle_button": {
     "description": "The button to toggle the PF2e view."
   },
+  "custom_bestiary_toggle_button": "Your bestiaries",
+  "@custom_bestiary_toggle_button": {
+    "description": "The button to toggle the custom bestiaries view."
+  },
   "groups_toggle_button": "Groups",
   "@groups_toggle_button": {
     "description": "The button to toggle the groups view."

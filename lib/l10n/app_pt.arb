@@ -16,6 +16,7 @@
   "search_input": "Buscar",
   "dnd5e_toggle_button": "5e",
   "pf2e_toggle_button": "PF2e",
+  "custom_bestiary_toggle_button": "Seus monstros",
   "groups_toggle_button": "Grupos",
   "custom_combatant_toggle_button": "Personalizado",
   "empty_groups_list": "Nenhum grupo encontrado",
