@@ -37,8 +37,10 @@ class CustomBestiaryProvider extends ChangeNotifier {
       throw Exception('No data found in the file');
     }
 
-    final combatants = CsvCombatantFactory.fromEngine(bestiaryFile.engine)
-        .createCombatants(data);
+    final combatants = CsvCombatantFactory.fromEngine(
+      bestiaryFile.engine,
+      bestiaryFile.name,
+    ).createCombatants(data);
 
     if (combatants.isEmpty) {
       throw Exception('No combatants found in the file');

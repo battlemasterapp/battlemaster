@@ -2,12 +2,10 @@ import 'dart:io';
 
 import 'package:battlemaster/features/engines/models/game_engine_type.dart';
 import 'package:battlemaster/features/settings/models/custom_bestiary_file.dart';
-import 'package:battlemaster/features/settings/providers/system_settings_provider.dart';
 import 'package:file_picker/file_picker.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
-import 'package:provider/provider.dart';
 
 typedef BestiarySelectedCallback = void Function(
     CustomBestiaryFile customBestiaryFile);
@@ -38,7 +36,6 @@ class _ImportBestiaryDialogState extends State<ImportBestiaryDialog> {
   @override
   Widget build(BuildContext context) {
     final localization = AppLocalizations.of(context)!;
-    final settings = context.watch<SystemSettingsProvider>();
     return AlertDialog(
       title: Text(localization.import_bestiary_dialog_title),
       content: ConstrainedBox(
@@ -76,10 +73,10 @@ class _ImportBestiaryDialogState extends State<ImportBestiaryDialog> {
                               child: Text(e.translate(localization)),
                             ))
                         .where((e) {
+                      // TODO: Remove this when we have support for more engines
                       final excludeList = [
-                        if (!settings.pf2eSettings.enabled) GameEngineType.pf2e,
-                        if (!settings.dnd5eSettings.enabled)
-                          GameEngineType.dnd5e,
+                        GameEngineType.pf2e,
+                        GameEngineType.dnd5e,
                       ];
 
                       return !excludeList.contains(e.value);
