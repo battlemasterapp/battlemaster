@@ -4,6 +4,7 @@ import 'package:battlemaster/features/engines/models/game_engine_type.dart';
 import 'package:battlemaster/features/settings/models/custom_bestiary_file.dart';
 import 'package:battlemaster/features/settings/providers/system_settings_provider.dart';
 import 'package:file_picker/file_picker.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:provider/provider.dart';
@@ -26,10 +27,12 @@ class ImportBestiaryDialog extends StatefulWidget {
 class _ImportBestiaryDialogState extends State<ImportBestiaryDialog> {
   GameEngineType _engine = GameEngineType.custom;
   String _name = '';
-  String _path = '';
+  File? _file = null;
+  Uint8List? _bytes = null;
+  String _fileName = '';
 
   bool get canImport {
-    return _name.isNotEmpty && _path.isNotEmpty;
+    return _name.isNotEmpty && _fileName.isNotEmpty;
   }
 
   @override
@@ -88,12 +91,15 @@ class _ImportBestiaryDialogState extends State<ImportBestiaryDialog> {
               const SizedBox(height: 8),
               Row(
                 mainAxisAlignment: MainAxisAlignment.end,
+                mainAxisSize: MainAxisSize.max,
                 children: [
-                  if (_path.isNotEmpty)
+                  if (_fileName.isNotEmpty) ...[
                     Padding(
                       padding: const EdgeInsets.only(right: 8),
-                      child: Text(_path),
+                      child: Text(_fileName),
                     ),
+                    const Spacer(),
+                  ],
                   ElevatedButton(
                     onPressed: () async {
                       final file = await FilePicker.platform.pickFiles(
@@ -104,7 +110,12 @@ class _ImportBestiaryDialogState extends State<ImportBestiaryDialog> {
                         return;
                       }
                       setState(() {
-                        _path = file.files.single.path!;
+                        _fileName = file.files.single.name;
+                        if (kIsWeb) {
+                          _bytes = file.files.single.bytes;
+                        } else {
+                          _file = File(file.files.single.path!);
+                        }
                       });
                     },
                     child: Text('Selecionar arquivo'),
@@ -128,7 +139,8 @@ class _ImportBestiaryDialogState extends State<ImportBestiaryDialog> {
                   widget.onFileSelected(
                     CustomBestiaryFile(
                       name: _name,
-                      file: File(_path),
+                      file: _file,
+                      bytes: _bytes,
                       engine: _engine,
                     ),
                   );

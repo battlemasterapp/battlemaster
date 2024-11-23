@@ -22,7 +22,15 @@ class CustomBestiaryProvider extends ChangeNotifier {
 
   Future<void> create(CustomBestiaryFile bestiaryFile) async {
     final file = bestiaryFile.file;
-    final csvData = await file.readAsString();
+
+    late String csvData;
+
+    if (file != null) {
+      csvData = await file.readAsString();
+    } else {
+      csvData = String.fromCharCodes(bestiaryFile.bytes!);
+    }
+
     final data = csv2json(csvData);
 
     if (data.isEmpty) {
