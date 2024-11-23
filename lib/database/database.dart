@@ -142,8 +142,13 @@ class AppDatabase extends _$AppDatabase {
         .go();
   }
 
+  Stream<List<CustomBestiary>> watchCustomBestiaries() {
+    return select(customBestiaries).watch();
+  }
+
   Future<void> eraseDb() async {
     await delete(encounterTable).go();
     await delete(customConditions).go();
+    await delete(customBestiaries).go();
   }
 }
