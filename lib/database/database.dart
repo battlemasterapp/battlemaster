@@ -156,6 +156,10 @@ class AppDatabase extends _$AppDatabase {
     );
   }
 
+  Future<void> deleteBestiary(int id) async {
+    await (delete(customBestiaries)..where((b) => b.id.equals(id))).go();
+  }
+
   Future<void> eraseDb() async {
     await delete(encounterTable).go();
     await delete(customConditions).go();

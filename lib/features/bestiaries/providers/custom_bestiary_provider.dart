@@ -38,4 +38,9 @@ class CustomBestiaryProvider extends ChangeNotifier {
     );
     notifyListeners();
   }
+
+  Future<void> delete(CustomBestiary bestiary) async {
+    await _database.deleteBestiary(bestiary.id);
+    notifyListeners();
+  }
 }

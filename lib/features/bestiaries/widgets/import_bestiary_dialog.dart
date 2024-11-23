@@ -118,6 +118,7 @@ class _ImportBestiaryDialogState extends State<ImportBestiaryDialog> {
                       engine: _engine,
                     ),
                   );
+                  Navigator.of(context).pop();
                 }
               : null,
           // FIXME: change to import button
