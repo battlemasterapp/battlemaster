@@ -164,6 +164,7 @@
   "download_bestiary_models_subtitle": "Baixe modelos de bestiários para preencher e importar",
   "bestiary_models_download_success": "Modelos baixados com sucesso!",
   "my_bestiaries_title": "Meus bestiários",
+  "my_bestiary_empty": "Você ainda não criou nenhum bestiário. Crie um para adicionar monstros rapidamente aos combates!",
   "bestiary_tile_description": "{count} combatentes\nSistema {engine}",
   "download_button": "Baixar"
 }

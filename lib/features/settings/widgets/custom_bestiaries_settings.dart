@@ -87,6 +87,13 @@ class CustomBestiariesSettings extends StatelessWidget {
             stream: context.read<CustomBestiaryProvider>().watchAll(),
             builder: (context, snapshot) {
               final bestiaries = snapshot.data ?? [];
+
+              if (bestiaries.isEmpty) {
+                return ListTile(
+                  title: Text(localization.my_bestiary_empty),
+                );
+              }
+
               return ListView.builder(
                 shrinkWrap: true,
                 itemCount: bestiaries.length,

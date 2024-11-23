@@ -794,6 +794,10 @@
   "@my_bestiaries_title": {
     "description": "The title of the my bestiaries section."
   },
+  "my_bestiary_empty": "No bestiaries found. Import one to get started!",
+  "@my_bestiary_empty": {
+    "description": "The message to show when there are no bestiaries."
+  },
   "bestiary_tile_description": "{count} combatants\n{engine} engine",
   "@bestiary_tile_description": {
     "description": "The description of the bestiary tile.",
