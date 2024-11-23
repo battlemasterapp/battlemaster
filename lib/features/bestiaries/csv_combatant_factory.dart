@@ -24,6 +24,20 @@ class CustomCsvCombatantFactory extends CsvCombatantFactory {
 
   @override
   List<Combatant> createCombatants(List<Map<String, String>> csvData) {
+    final requiredKeys = <String>{
+      'name',
+      'hp',
+      'armor_class',
+      'initiative_mod',
+      'level',
+      'type'
+    };
+    final csvKeys = csvData.first.keys.toSet();
+
+    if (!requiredKeys.every(csvKeys.contains)) {
+      throw Exception('CSV file does not contain all required keys');
+    }
+
     return csvData
         .map((entry) => Combatant(
               name: entry['name']!,

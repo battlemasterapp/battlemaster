@@ -11,6 +11,7 @@ import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:provider/provider.dart';
 import 'package:responsive_framework/responsive_framework.dart';
 import 'package:sentry_flutter/sentry_flutter.dart';
+import 'package:toastification/toastification.dart';
 import 'package:wiredash/wiredash.dart';
 
 import 'api/services/pf2e_bestiary_service.dart';
@@ -97,60 +98,63 @@ class BattlemasterApp extends StatelessWidget {
         )
       ],
       child: Builder(builder: (context) {
-        return MaterialApp(
-          title: 'BattleMaster',
-          navigatorObservers: [
-            AnalyticsNavigatorObserver(plausible),
-          ],
-          localizationsDelegates: AppLocalizations.localizationsDelegates,
-          supportedLocales: AppLocalizations.supportedLocales,
-          theme: pf2eLightTheme,
-          darkTheme: pf2eDarkTheme,
-          themeMode: context.select<SystemSettingsProvider, ThemeMode>(
-              (state) => state.themeMode),
-          builder: (context, child) => ResponsiveBreakpoints.builder(
-            breakpoints: [
-              const Breakpoint(start: 0, end: 500, name: MOBILE),
-              const Breakpoint(start: 501, end: 800, name: TABLET),
-              const Breakpoint(start: 801, end: 1920, name: DESKTOP),
-              const Breakpoint(start: 1921, end: double.infinity, name: '4K'),
+        return ToastificationWrapper(
+          child: MaterialApp(
+            title: 'BattleMaster',
+            navigatorObservers: [
+              AnalyticsNavigatorObserver(plausible),
             ],
-            child: Wiredash(
-              projectId: const String.fromEnvironment('WIREDASH_PROJECT'),
-              secret: const String.fromEnvironment('WIREDASH_SECRET'),
-              feedbackOptions: WiredashFeedbackOptions(
-                email: EmailPrompt.hidden,
-                labels: [
-                  Label(
-                    id: 'label-0oezaz9t8j',
-                    title: AppLocalizations.of(context)!.feedback_label_bug,
-                  ),
-                  Label(
-                    id: 'label-ynr7f57jtv',
-                    title: AppLocalizations.of(context)!.feedback_label_feature,
-                  ),
-                ],
+            localizationsDelegates: AppLocalizations.localizationsDelegates,
+            supportedLocales: AppLocalizations.supportedLocales,
+            theme: pf2eLightTheme,
+            darkTheme: pf2eDarkTheme,
+            themeMode: context.select<SystemSettingsProvider, ThemeMode>(
+                (state) => state.themeMode),
+            builder: (context, child) => ResponsiveBreakpoints.builder(
+              breakpoints: [
+                const Breakpoint(start: 0, end: 500, name: MOBILE),
+                const Breakpoint(start: 501, end: 800, name: TABLET),
+                const Breakpoint(start: 801, end: 1920, name: DESKTOP),
+                const Breakpoint(start: 1921, end: double.infinity, name: '4K'),
+              ],
+              child: Wiredash(
+                projectId: const String.fromEnvironment('WIREDASH_PROJECT'),
+                secret: const String.fromEnvironment('WIREDASH_SECRET'),
+                feedbackOptions: WiredashFeedbackOptions(
+                  email: EmailPrompt.hidden,
+                  labels: [
+                    Label(
+                      id: 'label-0oezaz9t8j',
+                      title: AppLocalizations.of(context)!.feedback_label_bug,
+                    ),
+                    Label(
+                      id: 'label-ynr7f57jtv',
+                      title:
+                          AppLocalizations.of(context)!.feedback_label_feature,
+                    ),
+                  ],
+                ),
+                child: child!,
               ),
-              child: child!,
             ),
+            routes: {
+              "/": (context) => const MainPage(),
+              "/encounter": (context) => EncounterTrackerPage(
+                    params: ModalRoute.of(context)!.settings.arguments
+                        as EncounterTrackerParams,
+                  ),
+              "/group": (context) => GroupDetailPage(
+                    params: ModalRoute.of(context)!.settings.arguments
+                        as GroupDetailPageParams,
+                  ),
+              "/combatant/add": (context) => AddCombatantPage(
+                    params: ModalRoute.of(context)!.settings.arguments
+                        as AddCombatantParams,
+                  ),
+              "/conditions": (context) => const CustomConditionsPage(),
+            },
+            initialRoute: "/",
           ),
-          routes: {
-            "/": (context) => const MainPage(),
-            "/encounter": (context) => EncounterTrackerPage(
-                  params: ModalRoute.of(context)!.settings.arguments
-                      as EncounterTrackerParams,
-                ),
-            "/group": (context) => GroupDetailPage(
-                  params: ModalRoute.of(context)!.settings.arguments
-                      as GroupDetailPageParams,
-                ),
-            "/combatant/add": (context) => AddCombatantPage(
-                  params: ModalRoute.of(context)!.settings.arguments
-                      as AddCombatantParams,
-                ),
-            "/conditions": (context) => const CustomConditionsPage(),
-          },
-          initialRoute: "/",
         );
       }),
     );

@@ -48,18 +48,18 @@ class _ImportBestiaryDialogState extends State<ImportBestiaryDialog> {
               Text('Selecione um arquivo CSV para importar'),
               const SizedBox(height: 16),
               TextField(
-                    decoration: InputDecoration(labelText: 'Nome'),
-                    onChanged: (value) {
-                      setState(() {
-                        _name = value;
-                      });
-                    },
-                  ),
+                decoration: InputDecoration(labelText: 'Nome'),
+                onChanged: (value) {
+                  setState(() {
+                    _name = value;
+                  });
+                },
+              ),
               const SizedBox(height: 8),
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
-                  Text('Sistema do jogo:'),  
+                  Text('Sistema do jogo:'),
                   const SizedBox(width: 8),
                   DropdownButton<GameEngineType>(
                     value: _engine,

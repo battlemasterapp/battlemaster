@@ -71,6 +71,7 @@ dependencies:
   http: ^1.2.2
   file_picker: ^8.1.4
   csv2json: ^0.0.3
+  toastification: ^2.3.0
 
 dev_dependencies:
   flutter_test:

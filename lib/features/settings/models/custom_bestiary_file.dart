@@ -2,7 +2,7 @@ import 'dart:io';
 
 import 'package:battlemaster/features/engines/models/game_engine_type.dart';
 
-class  CustomBestiaryFile {
+class CustomBestiaryFile {
   final String name;
   final File file;
   final GameEngineType engine;

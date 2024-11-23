@@ -25,8 +25,16 @@ class CustomBestiaryProvider extends ChangeNotifier {
     final csvData = await file.readAsString();
     final data = csv2json(csvData);
 
+    if (data.isEmpty) {
+      throw Exception('No data found in the file');
+    }
+
     final combatants = CsvCombatantFactory.fromEngine(bestiaryFile.engine)
         .createCombatants(data);
+
+    if (combatants.isEmpty) {
+      throw Exception('No combatants found in the file');
+    }
 
     await _database.insertBestiary(
       db.CustomBestiary(

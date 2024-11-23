@@ -2,8 +2,11 @@ import 'package:battlemaster/features/bestiaries/models/custom_bestiary.dart';
 import 'package:battlemaster/features/bestiaries/providers/custom_bestiary_provider.dart';
 import 'package:battlemaster/features/bestiaries/widgets/import_bestiary_dialog.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_animate/flutter_animate.dart';
 import 'package:icons_plus/icons_plus.dart';
+import 'package:logger/logger.dart';
 import 'package:provider/provider.dart';
+import 'package:toastification/toastification.dart';
 
 class CustomBestiariesSettings extends StatelessWidget {
   const CustomBestiariesSettings({super.key});
@@ -29,9 +32,29 @@ class CustomBestiariesSettings extends StatelessWidget {
                 context: context,
                 builder: (context) => ImportBestiaryDialog(
                   onFileSelected: (bestiaryFile) async {
-                    await context
-                        .read<CustomBestiaryProvider>()
-                        .create(bestiaryFile);
+                    try {
+                      await context
+                          .read<CustomBestiaryProvider>()
+                          .create(bestiaryFile);
+                      toastification.show(
+                        type: ToastificationType.success,
+                        style: ToastificationStyle.fillColored,
+                        showProgressBar: false,
+                        autoCloseDuration: 5.seconds,
+                        title: Text('Bestiário importado com sucesso'),
+                      );
+                    } on Exception catch (e) {
+                      Logger().e(e);
+                      toastification.show(
+                        type: ToastificationType.error,
+                        style: ToastificationStyle.fillColored,
+                        showProgressBar: false,
+                        autoCloseDuration: 5.seconds,
+                        title: Text('Erro ao importar bestiário'),
+                        description: Text(
+                            'Verifique se o arquivo está no formato correto.'),
+                      );
+                    }
                   },
                 ),
               );
