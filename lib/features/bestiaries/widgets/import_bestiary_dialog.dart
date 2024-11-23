@@ -27,8 +27,8 @@ class ImportBestiaryDialog extends StatefulWidget {
 class _ImportBestiaryDialogState extends State<ImportBestiaryDialog> {
   GameEngineType _engine = GameEngineType.custom;
   String _name = '';
-  File? _file = null;
-  Uint8List? _bytes = null;
+  File? _file;
+  Uint8List? _bytes;
   String _fileName = '';
 
   bool get canImport {
@@ -39,19 +39,18 @@ class _ImportBestiaryDialogState extends State<ImportBestiaryDialog> {
   Widget build(BuildContext context) {
     final localization = AppLocalizations.of(context)!;
     final settings = context.watch<SystemSettingsProvider>();
-    // FIXME: textos
     return AlertDialog(
-      title: Text("Importar bestiário personalizado"),
+      title: Text(localization.import_bestiary_dialog_title),
       content: ConstrainedBox(
         constraints: BoxConstraints(maxWidth: 600),
         child: SingleChildScrollView(
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              Text('Selecione um arquivo CSV para importar'),
+              Text(localization.import_bestiary_dialog_description),
               const SizedBox(height: 16),
               TextField(
-                decoration: InputDecoration(labelText: 'Nome'),
+                decoration: InputDecoration(labelText: localization.name_label),
                 onChanged: (value) {
                   setState(() {
                     _name = value;
@@ -62,7 +61,7 @@ class _ImportBestiaryDialogState extends State<ImportBestiaryDialog> {
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
-                  Text('Sistema do jogo:'),
+                  Text('${localization.game_system_label}:'),
                   const SizedBox(width: 8),
                   DropdownButton<GameEngineType>(
                     value: _engine,
@@ -118,7 +117,7 @@ class _ImportBestiaryDialogState extends State<ImportBestiaryDialog> {
                         }
                       });
                     },
-                    child: Text('Selecionar arquivo'),
+                    child: Text(localization.choose_file_button),
                   ),
                 ],
               ),
@@ -147,8 +146,7 @@ class _ImportBestiaryDialogState extends State<ImportBestiaryDialog> {
                   Navigator.of(context).pop();
                 }
               : null,
-          // FIXME: change to import button
-          child: Text(localization.save_button),
+          child: Text(localization.import_button),
         ),
       ],
     );

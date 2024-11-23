@@ -13,12 +13,14 @@ class SettingsPage extends StatelessWidget {
   Widget build(BuildContext context) {
     final localization = AppLocalizations.of(context)!;
 
-    // FIXME: textos
     final tabs = <Tab, Widget>{
-      Tab(child: Text('App')): const AppSettings(),
-      Tab(child: Text('Encounter')): const EncounterSettingsWidget(),
-      Tab(child: Text('5e')): const Dnd5eSettingsWidget(),
-      Tab(child: Text('Custom bestiaries')): const CustomBestiariesSettings(),
+      Tab(child: Text(localization.settings_tab_app)): const AppSettings(),
+      Tab(child: Text(localization.settings_tab_encounters)):
+          const EncounterSettingsWidget(),
+      Tab(child: Text(localization.settings_tab_custom_bestiaries)):
+          const CustomBestiariesSettings(),
+      Tab(child: Text(localization.settings_tab_5e)):
+          const Dnd5eSettingsWidget(),
     };
 
     return DefaultTabController(

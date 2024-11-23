@@ -2,9 +2,11 @@ import 'package:battlemaster/features/analytics/analytics_service.dart';
 import 'package:battlemaster/features/bestiaries/models/custom_bestiary.dart';
 import 'package:battlemaster/features/bestiaries/providers/custom_bestiary_provider.dart';
 import 'package:battlemaster/features/bestiaries/widgets/import_bestiary_dialog.dart';
+import 'package:battlemaster/features/engines/models/game_engine_type.dart';
 import 'package:file_saver/file_saver.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_animate/flutter_animate.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:icons_plus/icons_plus.dart';
 import 'package:logger/logger.dart';
 import 'package:provider/provider.dart';
@@ -15,20 +17,20 @@ class CustomBestiariesSettings extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final localization = AppLocalizations.of(context)!;
     final analytics = context.read<AnalyticsService>();
-    // FIXME: textos
     return Column(
       children: [
         ListTile(
           title: Text(
-            'Bestiários personalizados',
+            localization.settings_tab_custom_bestiaries,
             style: Theme.of(context).textTheme.headlineSmall,
           ),
         ),
         ListTile(
           leading: Icon(MingCute.file_new_fill),
-          title: Text('Importar bestiário'),
-          subtitle: Text('Importe um arquivo CSV com os combatentes'),
+          title: Text(localization.import_bestiary_dialog_title),
+          subtitle: Text(localization.import_bestiary_subtitle),
           trailing: ElevatedButton(
             onPressed: () async {
               await showDialog(
@@ -48,7 +50,7 @@ class CustomBestiariesSettings extends StatelessWidget {
                         style: ToastificationStyle.fillColored,
                         showProgressBar: false,
                         autoCloseDuration: 5.seconds,
-                        title: Text('Bestiário importado com sucesso'),
+                        title: Text(localization.bestiary_import_success),
                       );
                     } on Exception catch (e) {
                       Logger().e(e);
@@ -57,28 +59,29 @@ class CustomBestiariesSettings extends StatelessWidget {
                         style: ToastificationStyle.fillColored,
                         showProgressBar: false,
                         autoCloseDuration: 5.seconds,
-                        title: Text('Erro ao importar bestiário'),
+                        title: Text(localization.bestiary_import_fail),
                         description: Text(
-                            'Verifique se o arquivo está no formato correto.'),
+                          localization.bestiary_import_fail_description,
+                        ),
                       );
                     }
                   },
                 ),
               );
             },
-            child: Text('Importar'),
+            child: Text(localization.import_button),
           ),
         ),
         ListTile(
           leading: Icon(MingCute.file_download_fill),
-          title: Text('Baixar modelos'),
-          subtitle: Text('Baixe os modelos CSV para criar seus bestiários'),
+          title: Text(localization.download_bestiary_models_title),
+          subtitle: Text(localization.download_bestiary_models_subtitle),
           trailing: _DownloadTemplateButton(analytics: analytics),
         ),
         const Divider(),
         ListTile(
           leading: Icon(MingCute.book_5_fill),
-          title: Text('Meus bestiários'),
+          title: Text(localization.my_bestiaries_title),
         ),
         StreamBuilder<List<CustomBestiary>>(
             stream: context.read<CustomBestiaryProvider>().watchAll(),
@@ -93,7 +96,11 @@ class CustomBestiariesSettings extends StatelessWidget {
                     child: ListTile(
                       title: Text(bestiary.name),
                       subtitle: Text(
-                          '${bestiary.combatants.length} combatentes\n${bestiary.engine}'),
+                        localization.bestiary_tile_description(
+                          bestiary.combatants.length,
+                          bestiary.engine.translate(localization),
+                        ),
+                      ),
                       isThreeLine: true,
                       trailing: IconButton(
                         icon: Icon(MingCute.delete_2_fill),
@@ -116,7 +123,6 @@ class CustomBestiariesSettings extends StatelessWidget {
 
 class _DownloadTemplateButton extends StatefulWidget {
   const _DownloadTemplateButton({
-    super.key,
     required this.analytics,
   });
 
@@ -135,6 +141,8 @@ class _DownloadTemplateButtonState extends State<_DownloadTemplateButton> {
     if (_loading) {
       return CircularProgressIndicator.adaptive();
     }
+
+    final localization = AppLocalizations.of(context)!;
 
     return ElevatedButton(
       onPressed: () async {
@@ -156,11 +164,11 @@ class _DownloadTemplateButtonState extends State<_DownloadTemplateButton> {
           style: ToastificationStyle.fillColored,
           showProgressBar: false,
           autoCloseDuration: 5.seconds,
-          title: Text('Modelos baixados com sucesso'),
+          title: Text(localization.bestiary_models_download_success),
         );
         await widget.analytics.logEvent('bestiary_template_download');
       },
-      child: Text('Baixar'),
+      child: Text(localization.download_button),
     );
   }
 }
