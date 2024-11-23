@@ -1,3 +1,4 @@
+import 'package:battlemaster/features/combatant/models/combatant.dart';
 import 'package:battlemaster/features/engines/models/game_engine_type.dart';
 import 'package:json_annotation/json_annotation.dart';
 
@@ -7,7 +8,7 @@ part 'custom_bestiary.g.dart';
 class CustomBestiary {
   final int id;
   final String name;
-  final String combatants;
+  final List<Combatant> combatants;
   final GameEngineType engine;
 
   const CustomBestiary({

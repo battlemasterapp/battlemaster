@@ -1,3 +1,4 @@
+import 'package:battlemaster/features/settings/widgets/custom_bestiaries_settings.dart';
 import 'package:battlemaster/features/settings/widgets/dangerous_settings.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
@@ -13,10 +14,12 @@ class SettingsPage extends StatelessWidget {
   Widget build(BuildContext context) {
     final localization = AppLocalizations.of(context)!;
 
+    // FIXME: textos
     final tabs = <Tab, Widget>{
       Tab(child: Text('App')): const AppSettings(),
       Tab(child: Text('Encounter')): const EncounterSettingsWidget(),
       Tab(child: Text('5e')): const Dnd5eSettingsWidget(),
+      Tab(child: Text('Custom bestiaries')): const CustomBestiariesSettings(),
       Tab(child: Text('Danger zone')): const DangerousSettings(),
     };
 

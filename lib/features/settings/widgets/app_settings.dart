@@ -26,15 +26,6 @@ class AppSettings extends StatelessWidget {
             style: Theme.of(context).textTheme.headlineSmall,
           ),
         ),
-        ListTile(
-          leading: Icon(MingCute.message_4_fill),
-          title: Text(localization.settings_feedback_title),
-          subtitle: Text(localization.settings_feedback_description),
-          onTap: () {
-            Wiredash.of(context).show(inheritMaterialTheme: true);
-          },
-          trailing: Icon(MingCute.right_fill),
-        ),
         SwitchListTile.adaptive(
           secondary: const Icon(MingCute.moon_fill),
           value: systemSettings.themeMode == ThemeMode.dark,
@@ -60,6 +51,15 @@ class AppSettings extends StatelessWidget {
             plausible.isActive = value;
           },
           title: Text(localization.analytics_toggle_label),
+        ),
+        ListTile(
+          leading: Icon(MingCute.message_4_fill),
+          title: Text(localization.settings_feedback_title),
+          subtitle: Text(localization.settings_feedback_description),
+          onTap: () {
+            Wiredash.of(context).show(inheritMaterialTheme: true);
+          },
+          trailing: Icon(MingCute.right_fill),
         ),
         FutureBuilder<PackageInfo>(
           future: PackageInfo.fromPlatform(),

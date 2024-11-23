@@ -146,6 +146,16 @@ class AppDatabase extends _$AppDatabase {
     return select(customBestiaries).watch();
   }
 
+  Future<void> insertBestiary(CustomBestiary bestiary) async {
+    await into(customBestiaries).insert(
+      CustomBestiariesCompanion.insert(
+        name: bestiary.name,
+        combatants: bestiary.combatants,
+        engine: bestiary.engine,
+      ),
+    );
+  }
+
   Future<void> eraseDb() async {
     await delete(encounterTable).go();
     await delete(customConditions).go();
