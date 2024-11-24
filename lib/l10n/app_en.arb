@@ -722,9 +722,15 @@
   "@import_bestiary_dialog_title": {
     "description": "The title of the import bestiary dialog."
   },
-  "import_bestiary_dialog_description": "Choose a CSV file to import.",
+  "import_bestiary_dialog_description": "Choose a {type} file to import.",
   "@import_bestiary_dialog_description": {
-    "description": "The description of the import bestiary dialog."
+    "description": "The description of the import bestiary dialog.",
+    "placeholders": {
+      "type": {
+        "type": "String",
+        "example": "CSV"
+      }
+    }
   },
   "game_system_label": "Game System",
   "@game_system_label": {

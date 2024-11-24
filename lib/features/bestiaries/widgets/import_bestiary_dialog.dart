@@ -47,7 +47,11 @@ class _ImportBestiaryDialogState extends State<ImportBestiaryDialog> {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              Text(localization.import_bestiary_dialog_description),
+              Text(
+                localization.import_bestiary_dialog_description(
+                  CustomBestiaryFile.fileExtensions[_engine]!.toUpperCase(),
+                ),
+              ),
               const SizedBox(height: 16),
               TextField(
                 decoration: InputDecoration(labelText: localization.name_label),
@@ -121,7 +125,10 @@ class _ImportBestiaryDialogState extends State<ImportBestiaryDialog> {
                       });
                     },
                     child: Text(
-                      localization.choose_file_type_button(CustomBestiaryFile.fileExtensions[_engine]!.toUpperCase()),
+                      localization.choose_file_type_button(
+                        CustomBestiaryFile.fileExtensions[_engine]!
+                            .toUpperCase(),
+                      ),
                     ),
                   ),
                 ],

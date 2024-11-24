@@ -146,7 +146,7 @@
   "game_engine_pf2e": "PF2e",
   "game_engine_custom": "Personalizado",
   "import_bestiary_dialog_title": "Importar bestiário",
-  "import_bestiary_dialog_description": "Selecione um arquivo CSV para importar",
+  "import_bestiary_dialog_description": "Selecione um arquivo {type} para importar",
   "game_system_label": "Sistema de jogo",
   "choose_file_type_button": "Escolher arquivo {type}",
   "import_button": "Importar",
