@@ -52,7 +52,7 @@ class SelectedCombatants extends StatelessWidget {
                 itemBuilder: (context, index) {
                   final combatant = combatants.keys.elementAt(index);
                   final count = combatants.values.elementAt(index);
-      
+
                   return Row(
                     key: const Key('combatants-list-tile'),
                     mainAxisSize: MainAxisSize.max,

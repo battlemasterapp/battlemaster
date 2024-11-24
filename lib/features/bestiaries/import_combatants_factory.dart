@@ -12,7 +12,8 @@ abstract class ImportCombatantsFactory {
     required this.source,
   });
 
-  factory ImportCombatantsFactory.fromEngine(GameEngineType engine, String source) {
+  factory ImportCombatantsFactory.fromEngine(
+      GameEngineType engine, String source) {
     switch (engine) {
       case GameEngineType.custom:
         return CustomCsvCombatantFactory(source: source);
