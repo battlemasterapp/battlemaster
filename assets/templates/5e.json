@@ -1,0 +1,310 @@
+[
+  {
+    "slug": "ancient-bad-dragon",
+    "desc": "",
+    "name": "Ancient Bad Dragon",
+    "size": "Gargantuan",
+    "type": "Dragon",
+    "subtype": "",
+    "group": "Bad Dragon",
+    "alignment": "chaotic evil",
+    "armor_class": 22,
+    "armor_desc": "natural armor",
+    "hit_points": 546,
+    "hit_dice": "28d20+252",
+    "speed": {
+      "walk": 40,
+      "climb": 40,
+      "fly": 80
+    },
+    "strength": 30,
+    "dexterity": 10,
+    "constitution": 29,
+    "intelligence": 18,
+    "wisdom": 15,
+    "charisma": 23,
+    "strength_save": null,
+    "dexterity_save": 7,
+    "constitution_save": 16,
+    "intelligence_save": null,
+    "wisdom_save": 9,
+    "charisma_save": 13,
+    "perception": 16,
+    "skills": {
+      "perception": 16,
+      "stealth": 7
+    },
+    "damage_vulnerabilities": "",
+    "damage_resistances": "",
+    "damage_immunities": "fire",
+    "condition_immunities": "",
+    "senses": "blindsight 60 ft., darkvision 120 ft., passive Perception 26",
+    "languages": "Common, Draconic",
+    "challenge_rating": "24",
+    "cr": 24.0,
+    "actions": [
+      {
+        "name": "Multiattack",
+        "desc": "The dragon can use its Frightful Presence. It then makes three attacks: one with its bite and two with its claws."
+      },
+      {
+        "name": "Bite",
+        "desc": "Melee Weapon Attack: +17 to hit, reach 15 ft., one target. Hit: 21 (2d10 + 10) piercing damage plus 14 (4d6) fire damage.",
+        "attack_bonus": 17,
+        "damage_dice": "2d10+4d6",
+        "damage_bonus": 10
+      },
+      {
+        "name": "Claw",
+        "desc": "Melee Weapon Attack: +17 to hit, reach 10 ft., one target. Hit: 17 (2d6 + 10) slashing damage.",
+        "attack_bonus": 17,
+        "damage_dice": "2d6",
+        "damage_bonus": 10
+      },
+      {
+        "name": "Tail",
+        "desc": "Melee Weapon Attack: +17 to hit, reach 20 ft., one target. Hit: 19 (2d8 + 10) bludgeoning damage.",
+        "attack_bonus": 17,
+        "damage_dice": "2d8",
+        "damage_bonus": 10
+      },
+      {
+        "name": "Frightful Presence",
+        "desc": "Each creature of the dragon's choice that is within 120 feet of the dragon and aware of it must succeed on a DC 21 Wisdom saving throw or become frightened for 1 minute. A creature can repeat the saving throw at the end of each of its turns, ending the effect on itself on a success. If a creature's saving throw is successful or the effect ends for it, the creature is immune to the dragon's Frightful Presence for the next 24 hours."
+      },
+      {
+        "name": "Bad Breath (Recharge 5-6)",
+        "desc": "The dragon exhales fire in a 90-foot cone. Each creature in that area must make a DC 24 Dexterity saving throw, taking 91 (26d6) fire damage on a failed save, or half as much damage on a successful one.",
+        "attack_bonus": 0,
+        "damage_dice": "26d6"
+      }
+    ],
+    "bonus_actions": null,
+    "reactions": null,
+    "legendary_desc": "The dragon can take 3 legendary actions, choosing from the options below. Only one legendary action option can be used at a time and only at the end of another creature's turn. The dragon regains spent legendary actions at the start of its turn.",
+    "legendary_actions": [
+      {
+        "name": "Detect",
+        "desc": "The dragon makes a Wisdom (Perception) check."
+      },
+      {
+        "name": "Tail Attack",
+        "desc": "The dragon makes a tail attack."
+      },
+      {
+        "name": "Wing Attack (Costs 2 Actions)",
+        "desc": "The dragon beats its wings. Each creature within 15 ft. of the dragon must succeed on a DC 25 Dexterity saving throw or take 17 (2d6 + 10) bludgeoning damage and be knocked prone. The dragon can then fly up to half its flying speed."
+      }
+    ],
+    "special_abilities": [
+      {
+        "name": "Legendary Resistance (3/Day)",
+        "desc": "If the dragon fails a saving throw, it can choose to succeed instead."
+      }
+    ],
+    "spell_list": [],
+    "page_no": 286,
+    "environments": [
+      "Hill",
+      "Mountains",
+      "Mountain"
+    ],
+    "document__slug": "custom-bestiary",
+    "document__title": "Custom Bestiary"
+  },
+  {
+    "slug": "baboleth",
+    "desc": "",
+    "name": "Baboleth",
+    "size": "Large",
+    "type": "Baberration",
+    "subtype": "",
+    "group": null,
+    "alignment": "lawful evil",
+    "armor_class": 17,
+    "armor_desc": "natural armor",
+    "hit_points": 135,
+    "hit_dice": "18d10+36",
+    "speed": {
+      "walk": 10,
+      "swim": 40
+    },
+    "strength": 21,
+    "dexterity": 9,
+    "constitution": 15,
+    "intelligence": 18,
+    "wisdom": 15,
+    "charisma": 18,
+    "strength_save": null,
+    "dexterity_save": null,
+    "constitution_save": 6,
+    "intelligence_save": 8,
+    "wisdom_save": 6,
+    "charisma_save": null,
+    "perception": 10,
+    "skills": {
+      "history": 12,
+      "perception": 10
+    },
+    "damage_vulnerabilities": "",
+    "damage_resistances": "",
+    "damage_immunities": "",
+    "condition_immunities": "",
+    "senses": "darkvision 120 ft., passive Perception 20",
+    "languages": "Deep Speech, telepathy 120 ft.",
+    "challenge_rating": "10",
+    "cr": 10.0,
+    "actions": [
+      {
+        "name": "Multiattack",
+        "desc": "The baboleth makes three tentacle attacks."
+      },
+      {
+        "name": "Tentacle",
+        "desc": "Melee Weapon Attack: +9 to hit, reach 10 ft., one target. Hit: 12 (2d6 + 5) bludgeoning damage. If the target is a creature, it must succeed on a DC 14 Constitution saving throw or become diseased. The disease has no effect for 1 minute and can be removed by any magic that cures disease. After 1 minute, the diseased creature's skin becomes translucent and slimy, the creature can't regain hit points unless it is underwater, and the disease can be removed only by heal or another disease-curing spell of 6th level or higher. When the creature is outside a body of water, it takes 6 (1d12) acid damage every 10 minutes unless moisture is applied to the skin before 10 minutes have passed.",
+        "attack_bonus": 9,
+        "damage_dice": "2d6",
+        "damage_bonus": 5
+      },
+      {
+        "name": "Tail",
+        "desc": "Melee Weapon Attack: +9 to hit, reach 10 ft., one target. Hit: 15 (3d6 + 5) bludgeoning damage.",
+        "attack_bonus": 9,
+        "damage_dice": "3d6",
+        "damage_bonus": 5
+      },
+      {
+        "name": "Enslave (3/day)",
+        "desc": "The baboleth targets one creature it can see within 30 ft. of it. The target must succeed on a DC 14 Wisdom saving throw or be magically charmed by the baboleth until the baboleth dies or until it is on a different plane of existence from the target. The charmed target is under the baboleth's control and can't take reactions, and the baboleth and the target can communicate telepathically with each other over any distance.\nWhenever the charmed target takes damage, the target can repeat the saving throw. On a success, the effect ends. No more than once every 24 hours, the target can also repeat the saving throw when it is at least 1 mile away from the baboleth."
+      }
+    ],
+    "bonus_actions": null,
+    "reactions": null,
+    "legendary_desc": "The baboleth can take 3 legendary actions, choosing from the options below. Only one legendary action option can be used at a time and only at the end of another creature's turn. The baboleth regains spent legendary actions at the start of its turn.",
+    "legendary_actions": [
+      {
+        "name": "Detect",
+        "desc": "The baboleth makes a Wisdom (Perception) check."
+      },
+      {
+        "name": "Tail Swipe",
+        "desc": "The baboleth makes one tail attack."
+      },
+      {
+        "name": "Psychic Drain (Costs 2 Actions)",
+        "desc": "One creature charmed by the baboleth takes 10 (3d6) psychic damage, and the baboleth regains hit points equal to the damage the creature takes."
+      }
+    ],
+    "special_abilities": [
+      {
+        "name": "Amphibious",
+        "desc": "The baboleth can breathe air and water."
+      },
+      {
+        "name": "Mucous Cloud",
+        "desc": "While underwater, the baboleth is surrounded by transformative mucus. A creature that touches the baboleth or that hits it with a melee attack while within 5 ft. of it must make a DC 14 Constitution saving throw. On a failure, the creature is diseased for 1d4 hours. The diseased creature can breathe only underwater."
+      },
+      {
+        "name": "Probing Telepathy",
+        "desc": "If a creature communicates telepathically with the baboleth, the baboleth learns the creature's greatest desires if the baboleth can see the creature."
+      }
+    ],
+    "spell_list": [],
+    "environments": [
+      "Underdark",
+      "Sewer",
+      "Caverns",
+      "Plane Of Water",
+      "Water"
+    ],
+    "document__slug": "custom-bestiary",
+    "document__title": "Custom Bestiary"
+  },
+  {
+    "slug": "boblin",
+    "desc": "",
+    "name": "Boblin",
+    "size": "Small",
+    "type": "Humanoid",
+    "subtype": "boblinoid",
+    "group": null,
+    "alignment": "neutral evil",
+    "armor_class": 15,
+    "armor_desc": "leather armor, shield",
+    "hit_points": 7,
+    "hit_dice": "2d6",
+    "speed": {
+      "walk": 30
+    },
+    "strength": 8,
+    "dexterity": 14,
+    "constitution": 10,
+    "intelligence": 10,
+    "wisdom": 8,
+    "charisma": 8,
+    "strength_save": null,
+    "dexterity_save": null,
+    "constitution_save": null,
+    "intelligence_save": null,
+    "wisdom_save": null,
+    "charisma_save": null,
+    "perception": null,
+    "skills": {
+      "stealth": 6
+    },
+    "damage_vulnerabilities": "",
+    "damage_resistances": "",
+    "damage_immunities": "",
+    "condition_immunities": "",
+    "senses": "darkvision 60 ft., passive Perception 9",
+    "languages": "Common, Goblin",
+    "challenge_rating": "1/4",
+    "cr": 0.25,
+    "actions": [
+      {
+        "name": "Scimitar",
+        "desc": "Melee Weapon Attack: +4 to hit, reach 5 ft., one target. Hit: 5 (1d6 + 2) slashing damage.",
+        "attack_bonus": 4,
+        "damage_dice": "1d6",
+        "damage_bonus": 2
+      },
+      {
+        "name": "Shortbow",
+        "desc": "Ranged Weapon Attack: +4 to hit, range 80/320 ft., one target. Hit: 5 (1d6 + 2) piercing damage.",
+        "attack_bonus": 4,
+        "damage_dice": "1d6",
+        "damage_bonus": 2
+      }
+    ],
+    "bonus_actions": null,
+    "reactions": null,
+    "legendary_desc": "",
+    "legendary_actions": null,
+    "special_abilities": [
+      {
+        "name": "Nimble Escape",
+        "desc": "The goblin can take the Disengage or Hide action as a bonus action on each of its turns."
+      }
+    ],
+    "spell_list": [],
+    "environments": [
+      "Hill",
+      "Desert",
+      "Underdark",
+      "Mountains",
+      "Grassland",
+      "Tundra",
+      "Ruin",
+      "Feywild",
+      "Swamp",
+      "Settlement",
+      "Sewer",
+      "Forest",
+      "Jungle",
+      "Hills",
+      "Caverns"
+    ],
+    "document__slug": "custom-bestiary",
+    "document__title": "Custom Bestiary"
+  }
+]

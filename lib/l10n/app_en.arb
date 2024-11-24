@@ -730,9 +730,15 @@
   "@game_system_label": {
     "description": "The label of the game system dropdown."
   },
-  "choose_file_button": "Choose file",
-  "@choose_file_button": {
-    "description": "The button to choose a file."
+  "choose_file_type_button": "Choose {type} file",
+  "@choose_file_type_button": {
+    "description": "The button to choose a file.",
+    "placeholders": {
+      "type": {
+        "type": "String",
+        "example": "CSV"
+      }
+    }
   },
   "import_button": "Import",
   "@import_button": {

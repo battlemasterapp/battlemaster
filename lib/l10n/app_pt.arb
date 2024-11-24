@@ -148,7 +148,7 @@
   "import_bestiary_dialog_title": "Importar bestiário",
   "import_bestiary_dialog_description": "Selecione um arquivo CSV para importar",
   "game_system_label": "Sistema de jogo",
-  "choose_file_button": "Escolher arquivo",
+  "choose_file_type_button": "Escolher arquivo {type}",
   "import_button": "Importar",
   "settings_tab_app": "Aplicativo",
   "settings_tab_encounters": "Combates",

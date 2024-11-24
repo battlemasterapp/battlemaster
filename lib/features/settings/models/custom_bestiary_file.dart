@@ -15,4 +15,12 @@ class CustomBestiaryFile {
     this.bytes,
     required this.engine,
   }) : assert(file != null || bytes != null);
+
+  static Map<GameEngineType, String> get fileExtensions => {
+        GameEngineType.custom: 'csv',
+        GameEngineType.dnd5e: 'json',
+        GameEngineType.pf2e: 'json',
+      };
+
+  String get extension => fileExtensions[engine]!;
 }

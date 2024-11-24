@@ -1,9 +1,28 @@
+import 'dart:convert';
+
 import 'package:battlemaster/database/database.dart' as db;
-import 'package:battlemaster/features/bestiaries/csv_combatant_factory.dart';
+import 'package:battlemaster/features/bestiaries/import_combatants_factory.dart';
 import 'package:battlemaster/features/bestiaries/models/custom_bestiary.dart';
 import 'package:battlemaster/features/settings/models/custom_bestiary_file.dart';
 import 'package:csv2json/csv2json.dart';
-import 'package:flutter/material.dart';
+import 'package:flutter/foundation.dart';
+
+Future<List<Map<String, dynamic>>> _decodeFile(
+    CustomBestiaryFile bestiaryFile) async {
+  final file = bestiaryFile.file;
+  late String fileContent;
+
+  if (file != null) {
+    fileContent = await file.readAsString();
+  } else {
+    fileContent = String.fromCharCodes(bestiaryFile.bytes!);
+  }
+
+  final data = bestiaryFile.extension == 'csv'
+      ? csv2json(fileContent)
+      : jsonDecode(fileContent) as List;
+  return data.cast<Map<String, dynamic>>();
+}
 
 class CustomBestiaryProvider extends ChangeNotifier {
   final db.AppDatabase _database;
@@ -21,23 +40,13 @@ class CustomBestiaryProvider extends ChangeNotifier {
           .toList());
 
   Future<void> create(CustomBestiaryFile bestiaryFile) async {
-    final file = bestiaryFile.file;
-
-    late String csvData;
-
-    if (file != null) {
-      csvData = await file.readAsString();
-    } else {
-      csvData = String.fromCharCodes(bestiaryFile.bytes!);
-    }
-
-    final data = csv2json(csvData);
+    final data = await compute(_decodeFile, bestiaryFile);
 
     if (data.isEmpty) {
       throw Exception('No data found in the file');
     }
 
-    final combatants = CsvCombatantFactory.fromEngine(
+    final combatants = ImportCombatantsFactory.fromEngine(
       bestiaryFile.engine,
       bestiaryFile.name,
     ).createCombatants(data);
