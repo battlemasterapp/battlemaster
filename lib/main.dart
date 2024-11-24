@@ -72,11 +72,8 @@ class BattlemasterApp extends StatelessWidget {
             final providerSources = service?.bestiarySources ?? {};
             final hasChanged = !setEquals(settingsSources, providerSources);
             if (hasChanged) {
-              return Pf2eBestiaryService(
-                bestiarySources: settings.pf2eSettings.enabled
-                    ? settings.pf2eSettings.bestiaries
-                    : {},
-              )..fetchData(forceRefresh: true);
+              return Pf2eBestiaryService(bestiarySources: settingsSources)
+                ..fetchData(forceRefresh: true);
             }
             return service!;
           },

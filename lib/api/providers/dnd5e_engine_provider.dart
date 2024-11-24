@@ -13,7 +13,8 @@ class Dnd5eEngineProvider extends GameEngineProvider {
     required this.sources,
     Dnd5eBestiaryService? bestiaryService,
     Dnd5eConditionService? conditionsService,
-  })  : _bestiaryService = bestiaryService ?? Dnd5eBestiaryService(bestiarySources: sources),
+  })  : _bestiaryService =
+            bestiaryService ?? Dnd5eBestiaryService(bestiarySources: sources),
         _conditionService = conditionsService ?? Dnd5eConditionService();
 
   @override

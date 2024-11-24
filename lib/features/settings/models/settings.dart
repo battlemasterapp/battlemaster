@@ -81,9 +81,6 @@ class Dnd5eSettings {
     this.enabled = true,
     this.sources = const {
       "wotc-srd",
-      "tob",
-      "tob2",
-      "cc"
     },
   });
 

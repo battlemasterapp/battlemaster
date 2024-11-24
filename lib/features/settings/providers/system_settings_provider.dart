@@ -99,7 +99,7 @@ class SystemSettingsProvider extends ChangeNotifier {
 
   Future<void> set5eSettings(Dnd5eSettings dnd5eSettings) async {
     _settings = _settings.copyWith(dnd5eSettings: dnd5eSettings);
-    notifyListeners();
     await _saveSettings();
+    notifyListeners();
   }
 }
