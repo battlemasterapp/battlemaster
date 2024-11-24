@@ -696,18 +696,293 @@ class CustomConditionsCompanion extends UpdateCompanion<CustomCondition> {
   }
 }
 
+class $CustomBestiariesTable extends CustomBestiaries
+    with TableInfo<$CustomBestiariesTable, CustomBestiary> {
+  @override
+  final GeneratedDatabase attachedDatabase;
+  final String? _alias;
+  $CustomBestiariesTable(this.attachedDatabase, [this._alias]);
+  static const VerificationMeta _idMeta = const VerificationMeta('id');
+  @override
+  late final GeneratedColumn<int> id = GeneratedColumn<int>(
+      'id', aliasedName, false,
+      hasAutoIncrement: true,
+      type: DriftSqlType.int,
+      requiredDuringInsert: false,
+      defaultConstraints:
+          GeneratedColumn.constraintIsAlways('PRIMARY KEY AUTOINCREMENT'));
+  static const VerificationMeta _nameMeta = const VerificationMeta('name');
+  @override
+  late final GeneratedColumn<String> name = GeneratedColumn<String>(
+      'name', aliasedName, false,
+      type: DriftSqlType.string, requiredDuringInsert: true);
+  static const VerificationMeta _combatantsMeta =
+      const VerificationMeta('combatants');
+  @override
+  late final GeneratedColumnWithTypeConverter<List<Combatant>, String>
+      combatants = GeneratedColumn<String>('combatants', aliasedName, false,
+              type: DriftSqlType.string, requiredDuringInsert: true)
+          .withConverter<List<Combatant>>(
+              $CustomBestiariesTable.$convertercombatants);
+  static const VerificationMeta _engineMeta = const VerificationMeta('engine');
+  @override
+  late final GeneratedColumnWithTypeConverter<GameEngineType, int> engine =
+      GeneratedColumn<int>('engine', aliasedName, false,
+              type: DriftSqlType.int, requiredDuringInsert: true)
+          .withConverter<GameEngineType>(
+              $CustomBestiariesTable.$converterengine);
+  @override
+  List<GeneratedColumn> get $columns => [id, name, combatants, engine];
+  @override
+  String get aliasedName => _alias ?? actualTableName;
+  @override
+  String get actualTableName => $name;
+  static const String $name = 'custom_bestiaries';
+  @override
+  VerificationContext validateIntegrity(Insertable<CustomBestiary> instance,
+      {bool isInserting = false}) {
+    final context = VerificationContext();
+    final data = instance.toColumns(true);
+    if (data.containsKey('id')) {
+      context.handle(_idMeta, id.isAcceptableOrUnknown(data['id']!, _idMeta));
+    }
+    if (data.containsKey('name')) {
+      context.handle(
+          _nameMeta, name.isAcceptableOrUnknown(data['name']!, _nameMeta));
+    } else if (isInserting) {
+      context.missing(_nameMeta);
+    }
+    context.handle(_combatantsMeta, const VerificationResult.success());
+    context.handle(_engineMeta, const VerificationResult.success());
+    return context;
+  }
+
+  @override
+  Set<GeneratedColumn> get $primaryKey => {id};
+  @override
+  CustomBestiary map(Map<String, dynamic> data, {String? tablePrefix}) {
+    final effectivePrefix = tablePrefix != null ? '$tablePrefix.' : '';
+    return CustomBestiary(
+      id: attachedDatabase.typeMapping
+          .read(DriftSqlType.int, data['${effectivePrefix}id'])!,
+      name: attachedDatabase.typeMapping
+          .read(DriftSqlType.string, data['${effectivePrefix}name'])!,
+      combatants: $CustomBestiariesTable.$convertercombatants.fromSql(
+          attachedDatabase.typeMapping.read(
+              DriftSqlType.string, data['${effectivePrefix}combatants'])!),
+      engine: $CustomBestiariesTable.$converterengine.fromSql(attachedDatabase
+          .typeMapping
+          .read(DriftSqlType.int, data['${effectivePrefix}engine'])!),
+    );
+  }
+
+  @override
+  $CustomBestiariesTable createAlias(String alias) {
+    return $CustomBestiariesTable(attachedDatabase, alias);
+  }
+
+  static JsonTypeConverter2<List<Combatant>, String, String>
+      $convertercombatants = const CombatantsConverter();
+  static JsonTypeConverter2<GameEngineType, int, int> $converterengine =
+      const EnumIndexConverter<GameEngineType>(GameEngineType.values);
+}
+
+class CustomBestiary extends DataClass implements Insertable<CustomBestiary> {
+  final int id;
+  final String name;
+  final List<Combatant> combatants;
+  final GameEngineType engine;
+  const CustomBestiary(
+      {required this.id,
+      required this.name,
+      required this.combatants,
+      required this.engine});
+  @override
+  Map<String, Expression> toColumns(bool nullToAbsent) {
+    final map = <String, Expression>{};
+    map['id'] = Variable<int>(id);
+    map['name'] = Variable<String>(name);
+    {
+      map['combatants'] = Variable<String>(
+          $CustomBestiariesTable.$convertercombatants.toSql(combatants));
+    }
+    {
+      map['engine'] =
+          Variable<int>($CustomBestiariesTable.$converterengine.toSql(engine));
+    }
+    return map;
+  }
+
+  CustomBestiariesCompanion toCompanion(bool nullToAbsent) {
+    return CustomBestiariesCompanion(
+      id: Value(id),
+      name: Value(name),
+      combatants: Value(combatants),
+      engine: Value(engine),
+    );
+  }
+
+  factory CustomBestiary.fromJson(Map<String, dynamic> json,
+      {ValueSerializer? serializer}) {
+    serializer ??= driftRuntimeOptions.defaultSerializer;
+    return CustomBestiary(
+      id: serializer.fromJson<int>(json['id']),
+      name: serializer.fromJson<String>(json['name']),
+      combatants: $CustomBestiariesTable.$convertercombatants
+          .fromJson(serializer.fromJson<String>(json['combatants'])),
+      engine: $CustomBestiariesTable.$converterengine
+          .fromJson(serializer.fromJson<int>(json['engine'])),
+    );
+  }
+  @override
+  Map<String, dynamic> toJson({ValueSerializer? serializer}) {
+    serializer ??= driftRuntimeOptions.defaultSerializer;
+    return <String, dynamic>{
+      'id': serializer.toJson<int>(id),
+      'name': serializer.toJson<String>(name),
+      'combatants': serializer.toJson<String>(
+          $CustomBestiariesTable.$convertercombatants.toJson(combatants)),
+      'engine': serializer
+          .toJson<int>($CustomBestiariesTable.$converterengine.toJson(engine)),
+    };
+  }
+
+  CustomBestiary copyWith(
+          {int? id,
+          String? name,
+          List<Combatant>? combatants,
+          GameEngineType? engine}) =>
+      CustomBestiary(
+        id: id ?? this.id,
+        name: name ?? this.name,
+        combatants: combatants ?? this.combatants,
+        engine: engine ?? this.engine,
+      );
+  CustomBestiary copyWithCompanion(CustomBestiariesCompanion data) {
+    return CustomBestiary(
+      id: data.id.present ? data.id.value : this.id,
+      name: data.name.present ? data.name.value : this.name,
+      combatants:
+          data.combatants.present ? data.combatants.value : this.combatants,
+      engine: data.engine.present ? data.engine.value : this.engine,
+    );
+  }
+
+  @override
+  String toString() {
+    return (StringBuffer('CustomBestiary(')
+          ..write('id: $id, ')
+          ..write('name: $name, ')
+          ..write('combatants: $combatants, ')
+          ..write('engine: $engine')
+          ..write(')'))
+        .toString();
+  }
+
+  @override
+  int get hashCode => Object.hash(id, name, combatants, engine);
+  @override
+  bool operator ==(Object other) =>
+      identical(this, other) ||
+      (other is CustomBestiary &&
+          other.id == this.id &&
+          other.name == this.name &&
+          other.combatants == this.combatants &&
+          other.engine == this.engine);
+}
+
+class CustomBestiariesCompanion extends UpdateCompanion<CustomBestiary> {
+  final Value<int> id;
+  final Value<String> name;
+  final Value<List<Combatant>> combatants;
+  final Value<GameEngineType> engine;
+  const CustomBestiariesCompanion({
+    this.id = const Value.absent(),
+    this.name = const Value.absent(),
+    this.combatants = const Value.absent(),
+    this.engine = const Value.absent(),
+  });
+  CustomBestiariesCompanion.insert({
+    this.id = const Value.absent(),
+    required String name,
+    required List<Combatant> combatants,
+    required GameEngineType engine,
+  })  : name = Value(name),
+        combatants = Value(combatants),
+        engine = Value(engine);
+  static Insertable<CustomBestiary> custom({
+    Expression<int>? id,
+    Expression<String>? name,
+    Expression<String>? combatants,
+    Expression<int>? engine,
+  }) {
+    return RawValuesInsertable({
+      if (id != null) 'id': id,
+      if (name != null) 'name': name,
+      if (combatants != null) 'combatants': combatants,
+      if (engine != null) 'engine': engine,
+    });
+  }
+
+  CustomBestiariesCompanion copyWith(
+      {Value<int>? id,
+      Value<String>? name,
+      Value<List<Combatant>>? combatants,
+      Value<GameEngineType>? engine}) {
+    return CustomBestiariesCompanion(
+      id: id ?? this.id,
+      name: name ?? this.name,
+      combatants: combatants ?? this.combatants,
+      engine: engine ?? this.engine,
+    );
+  }
+
+  @override
+  Map<String, Expression> toColumns(bool nullToAbsent) {
+    final map = <String, Expression>{};
+    if (id.present) {
+      map['id'] = Variable<int>(id.value);
+    }
+    if (name.present) {
+      map['name'] = Variable<String>(name.value);
+    }
+    if (combatants.present) {
+      map['combatants'] = Variable<String>(
+          $CustomBestiariesTable.$convertercombatants.toSql(combatants.value));
+    }
+    if (engine.present) {
+      map['engine'] = Variable<int>(
+          $CustomBestiariesTable.$converterengine.toSql(engine.value));
+    }
+    return map;
+  }
+
+  @override
+  String toString() {
+    return (StringBuffer('CustomBestiariesCompanion(')
+          ..write('id: $id, ')
+          ..write('name: $name, ')
+          ..write('combatants: $combatants, ')
+          ..write('engine: $engine')
+          ..write(')'))
+        .toString();
+  }
+}
+
 abstract class _$AppDatabase extends GeneratedDatabase {
   _$AppDatabase(QueryExecutor e) : super(e);
   $AppDatabaseManager get managers => $AppDatabaseManager(this);
   late final $EncounterTableTable encounterTable = $EncounterTableTable(this);
   late final $CustomConditionsTable customConditions =
       $CustomConditionsTable(this);
+  late final $CustomBestiariesTable customBestiaries =
+      $CustomBestiariesTable(this);
   @override
   Iterable<TableInfo<Table, Object?>> get allTables =>
       allSchemaEntities.whereType<TableInfo<Table, Object?>>();
   @override
   List<DatabaseSchemaEntity> get allSchemaEntities =>
-      [encounterTable, customConditions];
+      [encounterTable, customConditions, customBestiaries];
 }
 
 typedef $$EncounterTableTableCreateCompanionBuilder = EncounterTableCompanion
@@ -1085,6 +1360,164 @@ typedef $$CustomConditionsTableProcessedTableManager = ProcessedTableManager<
     ),
     CustomCondition,
     PrefetchHooks Function()>;
+typedef $$CustomBestiariesTableCreateCompanionBuilder
+    = CustomBestiariesCompanion Function({
+  Value<int> id,
+  required String name,
+  required List<Combatant> combatants,
+  required GameEngineType engine,
+});
+typedef $$CustomBestiariesTableUpdateCompanionBuilder
+    = CustomBestiariesCompanion Function({
+  Value<int> id,
+  Value<String> name,
+  Value<List<Combatant>> combatants,
+  Value<GameEngineType> engine,
+});
+
+class $$CustomBestiariesTableFilterComposer
+    extends Composer<_$AppDatabase, $CustomBestiariesTable> {
+  $$CustomBestiariesTableFilterComposer({
+    required super.$db,
+    required super.$table,
+    super.joinBuilder,
+    super.$addJoinBuilderToRootComposer,
+    super.$removeJoinBuilderFromRootComposer,
+  });
+  ColumnFilters<int> get id => $composableBuilder(
+      column: $table.id, builder: (column) => ColumnFilters(column));
+
+  ColumnFilters<String> get name => $composableBuilder(
+      column: $table.name, builder: (column) => ColumnFilters(column));
+
+  ColumnWithTypeConverterFilters<List<Combatant>, List<Combatant>, String>
+      get combatants => $composableBuilder(
+          column: $table.combatants,
+          builder: (column) => ColumnWithTypeConverterFilters(column));
+
+  ColumnWithTypeConverterFilters<GameEngineType, GameEngineType, int>
+      get engine => $composableBuilder(
+          column: $table.engine,
+          builder: (column) => ColumnWithTypeConverterFilters(column));
+}
+
+class $$CustomBestiariesTableOrderingComposer
+    extends Composer<_$AppDatabase, $CustomBestiariesTable> {
+  $$CustomBestiariesTableOrderingComposer({
+    required super.$db,
+    required super.$table,
+    super.joinBuilder,
+    super.$addJoinBuilderToRootComposer,
+    super.$removeJoinBuilderFromRootComposer,
+  });
+  ColumnOrderings<int> get id => $composableBuilder(
+      column: $table.id, builder: (column) => ColumnOrderings(column));
+
+  ColumnOrderings<String> get name => $composableBuilder(
+      column: $table.name, builder: (column) => ColumnOrderings(column));
+
+  ColumnOrderings<String> get combatants => $composableBuilder(
+      column: $table.combatants, builder: (column) => ColumnOrderings(column));
+
+  ColumnOrderings<int> get engine => $composableBuilder(
+      column: $table.engine, builder: (column) => ColumnOrderings(column));
+}
+
+class $$CustomBestiariesTableAnnotationComposer
+    extends Composer<_$AppDatabase, $CustomBestiariesTable> {
+  $$CustomBestiariesTableAnnotationComposer({
+    required super.$db,
+    required super.$table,
+    super.joinBuilder,
+    super.$addJoinBuilderToRootComposer,
+    super.$removeJoinBuilderFromRootComposer,
+  });
+  GeneratedColumn<int> get id =>
+      $composableBuilder(column: $table.id, builder: (column) => column);
+
+  GeneratedColumn<String> get name =>
+      $composableBuilder(column: $table.name, builder: (column) => column);
+
+  GeneratedColumnWithTypeConverter<List<Combatant>, String> get combatants =>
+      $composableBuilder(
+          column: $table.combatants, builder: (column) => column);
+
+  GeneratedColumnWithTypeConverter<GameEngineType, int> get engine =>
+      $composableBuilder(column: $table.engine, builder: (column) => column);
+}
+
+class $$CustomBestiariesTableTableManager extends RootTableManager<
+    _$AppDatabase,
+    $CustomBestiariesTable,
+    CustomBestiary,
+    $$CustomBestiariesTableFilterComposer,
+    $$CustomBestiariesTableOrderingComposer,
+    $$CustomBestiariesTableAnnotationComposer,
+    $$CustomBestiariesTableCreateCompanionBuilder,
+    $$CustomBestiariesTableUpdateCompanionBuilder,
+    (
+      CustomBestiary,
+      BaseReferences<_$AppDatabase, $CustomBestiariesTable, CustomBestiary>
+    ),
+    CustomBestiary,
+    PrefetchHooks Function()> {
+  $$CustomBestiariesTableTableManager(
+      _$AppDatabase db, $CustomBestiariesTable table)
+      : super(TableManagerState(
+          db: db,
+          table: table,
+          createFilteringComposer: () =>
+              $$CustomBestiariesTableFilterComposer($db: db, $table: table),
+          createOrderingComposer: () =>
+              $$CustomBestiariesTableOrderingComposer($db: db, $table: table),
+          createComputedFieldComposer: () =>
+              $$CustomBestiariesTableAnnotationComposer($db: db, $table: table),
+          updateCompanionCallback: ({
+            Value<int> id = const Value.absent(),
+            Value<String> name = const Value.absent(),
+            Value<List<Combatant>> combatants = const Value.absent(),
+            Value<GameEngineType> engine = const Value.absent(),
+          }) =>
+              CustomBestiariesCompanion(
+            id: id,
+            name: name,
+            combatants: combatants,
+            engine: engine,
+          ),
+          createCompanionCallback: ({
+            Value<int> id = const Value.absent(),
+            required String name,
+            required List<Combatant> combatants,
+            required GameEngineType engine,
+          }) =>
+              CustomBestiariesCompanion.insert(
+            id: id,
+            name: name,
+            combatants: combatants,
+            engine: engine,
+          ),
+          withReferenceMapper: (p0) => p0
+              .map((e) => (e.readTable(table), BaseReferences(db, table, e)))
+              .toList(),
+          prefetchHooksCallback: null,
+        ));
+}
+
+typedef $$CustomBestiariesTableProcessedTableManager = ProcessedTableManager<
+    _$AppDatabase,
+    $CustomBestiariesTable,
+    CustomBestiary,
+    $$CustomBestiariesTableFilterComposer,
+    $$CustomBestiariesTableOrderingComposer,
+    $$CustomBestiariesTableAnnotationComposer,
+    $$CustomBestiariesTableCreateCompanionBuilder,
+    $$CustomBestiariesTableUpdateCompanionBuilder,
+    (
+      CustomBestiary,
+      BaseReferences<_$AppDatabase, $CustomBestiariesTable, CustomBestiary>
+    ),
+    CustomBestiary,
+    PrefetchHooks Function()>;
 
 class $AppDatabaseManager {
   final _$AppDatabase _db;
@@ -1093,4 +1526,6 @@ class $AppDatabaseManager {
       $$EncounterTableTableTableManager(_db, _db.encounterTable);
   $$CustomConditionsTableTableManager get customConditions =>
       $$CustomConditionsTableTableManager(_db, _db.customConditions);
+  $$CustomBestiariesTableTableManager get customBestiaries =>
+      $$CustomBestiariesTableTableManager(_db, _db.customBestiaries);
 }

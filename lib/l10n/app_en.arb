@@ -70,6 +70,10 @@
   "@pf2e_toggle_button": {
     "description": "The button to toggle the PF2e view."
   },
+  "custom_bestiary_toggle_button": "Your bestiaries",
+  "@custom_bestiary_toggle_button": {
+    "description": "The button to toggle the custom bestiaries view."
+  },
   "groups_toggle_button": "Groups",
   "@groups_toggle_button": {
     "description": "The button to toggle the groups view."
@@ -701,5 +705,127 @@
   "no_results_search": "No results found.",
   "@no_results_search": {
     "description": "The message to show when there are no results for the search."
+  },
+  "game_engine_5e": "5e",
+  "@game_engine_5e": {
+    "description": "The game engine: 5e."
+  },
+  "game_engine_pf2e": "PF2e",
+  "@game_engine_pf2e": {
+    "description": "The game engine: PF2e."
+  },
+  "game_engine_custom": "Custom",
+  "@game_engine_custom": {
+    "description": "The game engine: Custom."
+  },
+  "import_bestiary_dialog_title": "Import Bestiary",
+  "@import_bestiary_dialog_title": {
+    "description": "The title of the import bestiary dialog."
+  },
+  "import_bestiary_dialog_description": "Choose a {type} file to import.",
+  "@import_bestiary_dialog_description": {
+    "description": "The description of the import bestiary dialog.",
+    "placeholders": {
+      "type": {
+        "type": "String",
+        "example": "CSV"
+      }
+    }
+  },
+  "game_system_label": "Game System",
+  "@game_system_label": {
+    "description": "The label of the game system dropdown."
+  },
+  "choose_file_type_button": "Choose {type} file",
+  "@choose_file_type_button": {
+    "description": "The button to choose a file.",
+    "placeholders": {
+      "type": {
+        "type": "String",
+        "example": "CSV"
+      }
+    }
+  },
+  "import_button": "Import",
+  "@import_button": {
+    "description": "The button to import the file."
+  },
+  "settings_tab_app": "App",
+  "@settings_tab_app": {
+    "description": "The app settings tab."
+  },
+  "settings_tab_encounters": "Encounters",
+  "@settings_tab_encounters": {
+    "description": "The encounters settings tab."
+  },
+  "settings_tab_5e": "5e",
+  "@settings_tab_5e": {
+    "description": "The 5e settings tab."
+  },
+  "settings_tab_pf2e": "PF2e",
+  "@settings_tab_pf2e": {
+    "description": "The PF2e settings tab."
+  },
+  "settings_tab_custom_bestiaries": "Bestiaries",
+  "@settings_tab_custom_bestiaries": {
+    "description": "The custom bestiaries settings tab."
+  },
+  "import_bestiary_title": "Import Bestiary",
+  "@import_bestiary_title": {
+    "description": "The title of the import bestiary section."
+  },
+  "import_bestiary_subtitle": "Import a bestiary to use in your encounters.",
+  "@import_bestiary_subtitle": {
+    "description": "The subtitle of the import bestiary section."
+  },
+  "bestiary_import_success": "Bestiary imported successfully!",
+  "@bestiary_import_success": {
+    "description": "The message to show the bestiary was imported successfully."
+  },
+  "bestiary_import_fail": "Failed to import bestiary",
+  "@bestiary_import_fail": {
+    "description": "The message to show the bestiary failed to import."
+  },
+  "bestiary_import_fail_description": "Please check the file and try again.",
+  "@bestiary_import_fail_description": {
+    "description": "The description of the bestiary import fail message."
+  },
+  "download_bestiary_models_title": "Download models",
+  "@download_bestiary_models_title": {
+    "description": "The button to download the bestiary models."
+  },
+  "download_bestiary_models_subtitle": "Download the models to create your own bestiaries.",
+  "@download_bestiary_models_subtitle": {
+    "description": "The description of the download bestiary models button."
+  },
+  "bestiary_models_download_success": "Models downloaded successfully!",
+  "@bestiary_models_download_success": {
+    "description": "The message to show the models were downloaded successfully."
+  },
+  "my_bestiaries_title": "My Bestiaries",
+  "@my_bestiaries_title": {
+    "description": "The title of the my bestiaries section."
+  },
+  "my_bestiary_empty": "No bestiaries found. Import one to get started!",
+  "@my_bestiary_empty": {
+    "description": "The message to show when there are no bestiaries."
+  },
+  "bestiary_tile_description": "{count} combatants\n{engine} engine",
+  "@bestiary_tile_description": {
+    "description": "The description of the bestiary tile.",
+    "placeholders": {
+      "count": {
+        "type": "int",
+        "example": "10"
+      },
+      "engine": {
+        "type": "String",
+        "example": "5e"
+      }
+    }
+  },
+  "download_button": "Download",
+  "@download_button": {
+    "description": "The button to download the file."
   }
 }

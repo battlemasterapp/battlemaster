@@ -14,7 +14,7 @@ import '../features/encounters/models/encounter_type.dart';
 
 part 'database.g.dart';
 
-@DriftDatabase(tables: [EncounterTable, CustomConditions])
+@DriftDatabase(tables: [EncounterTable, CustomConditions, CustomBestiaries])
 class AppDatabase extends _$AppDatabase {
   AppDatabase({QueryExecutor? executor})
       : super(
@@ -35,18 +35,24 @@ class AppDatabase extends _$AppDatabase {
         );
 
   @override
-  int get schemaVersion => 3;
+  int get schemaVersion => 4;
 
   @override
   MigrationStrategy get migration {
     return MigrationStrategy(
-      onUpgrade: stepByStep(from1To2: (m, schema) async {
-        await m.createTable(customConditions);
-      }, from2To3: (m, schema) async {
-        await m.addColumn(encounterTable, encounterTable.round);
-        await m.addColumn(encounterTable, encounterTable.turn);
-        await m.addColumn(encounterTable, encounterTable.logs);
-      }),
+      onUpgrade: stepByStep(
+        from1To2: (m, schema) async {
+          await m.createTable(customConditions);
+        },
+        from2To3: (m, schema) async {
+          await m.addColumn(encounterTable, encounterTable.round);
+          await m.addColumn(encounterTable, encounterTable.turn);
+          await m.addColumn(encounterTable, encounterTable.logs);
+        },
+        from3To4: (m, schema) async {
+          await m.createTable(customBestiaries);
+        },
+      ),
     );
   }
 
@@ -136,8 +142,27 @@ class AppDatabase extends _$AppDatabase {
         .go();
   }
 
+  Stream<List<CustomBestiary>> watchCustomBestiaries() {
+    return select(customBestiaries).watch();
+  }
+
+  Future<void> insertBestiary(CustomBestiary bestiary) async {
+    await into(customBestiaries).insert(
+      CustomBestiariesCompanion.insert(
+        name: bestiary.name,
+        combatants: bestiary.combatants,
+        engine: bestiary.engine,
+      ),
+    );
+  }
+
+  Future<void> deleteBestiary(int id) async {
+    await (delete(customBestiaries)..where((b) => b.id.equals(id))).go();
+  }
+
   Future<void> eraseDb() async {
     await delete(encounterTable).go();
     await delete(customConditions).go();
+    await delete(customBestiaries).go();
   }
 }

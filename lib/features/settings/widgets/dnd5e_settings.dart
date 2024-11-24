@@ -6,6 +6,7 @@ import 'package:battlemaster/features/settings/models/settings.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_animate/flutter_animate.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import 'package:icons_plus/icons_plus.dart';
 import 'package:provider/provider.dart';
 
 import '../providers/system_settings_provider.dart';
@@ -64,6 +65,7 @@ class _Dnd5eSettings extends StatelessWidget {
       mainAxisSize: MainAxisSize.min,
       children: [
         ListTile(
+          leading: Icon(MingCute.refresh_2_fill),
           title: Text(localization.reload_data_title),
           subtitle: Text(localization.reload_data_description),
           trailing: loadingData

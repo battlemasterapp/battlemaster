@@ -23,3 +23,10 @@ class CustomConditions extends Table {
   TextColumn get description => text()();
   IntColumn get engine => intEnum<GameEngineType>()();
 }
+
+class CustomBestiaries extends Table {
+  IntColumn get id => integer().autoIncrement()();
+  TextColumn get name => text()();
+  TextColumn get combatants => text().map(const CombatantsConverter())();
+  IntColumn get engine => intEnum<GameEngineType>()();
+}

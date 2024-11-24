@@ -117,12 +117,6 @@ class _AddCustomCombatantState extends State<AddCustomCombatant> {
             },
             items: CombatantType.values.map(
               (type) {
-                final typeNames = {
-                  CombatantType.monster: localization.combatant_type_monster,
-                  CombatantType.player: localization.combatant_type_player,
-                  CombatantType.hazard: localization.combatant_type_hazard,
-                  CombatantType.lair: localization.combatant_type_lair,
-                };
                 return DropdownMenuItem(
                   value: type,
                   child: Row(
@@ -135,7 +129,7 @@ class _AddCustomCombatantState extends State<AddCustomCombatant> {
                             Colors.black,
                       ),
                       const SizedBox(width: 8),
-                      Text(typeNames[type]!),
+                      Text(type.translate(localization)),
                     ],
                   ),
                 );
