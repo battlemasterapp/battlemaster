@@ -38,7 +38,7 @@ class CustomBestiariesSettings extends StatelessWidget {
                 builder: (context) => ImportBestiaryDialog(
                   onFileSelected: (bestiaryFile) async {
                     try {
-                      await context
+                      final result = await context
                           .read<CustomBestiaryProvider>()
                           .create(bestiaryFile);
                       analytics.logEvent(
@@ -46,13 +46,21 @@ class CustomBestiariesSettings extends StatelessWidget {
                         props: {'engine': bestiaryFile.engine.toString()},
                       );
                       toastification.show(
-                        type: ToastificationType.success,
+                        type: result.hasFailed
+                            ? ToastificationType.warning
+                            : ToastificationType.success,
                         style: ToastificationStyle.fillColored,
                         showProgressBar: false,
                         autoCloseDuration: 5.seconds,
-                        title: Text(localization.bestiary_import_success),
+                        title: result.hasFailed
+                            ? Text(localization.bestiary_import_warning)
+                            : Text(localization.bestiary_import_success),
+                        description: result.hasFailed
+                            ? Text(localization
+                                .bestiary_import_warning_description)
+                            : null,
                       );
-                    } on Exception catch (e) {
+                    } catch (e) {
                       Logger().e(e);
                       toastification.show(
                         type: ToastificationType.error,
@@ -97,6 +105,7 @@ class CustomBestiariesSettings extends StatelessWidget {
               return ListView.builder(
                 shrinkWrap: true,
                 itemCount: bestiaries.length,
+                padding: const EdgeInsets.only(bottom: 24),
                 itemBuilder: (context, index) {
                   final bestiary = bestiaries[index];
                   return Card(

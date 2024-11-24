@@ -2,10 +2,38 @@ import 'package:battlemaster/features/combatant/models/combatant.dart';
 import 'package:battlemaster/features/combatant/models/combatant_type.dart';
 import 'package:battlemaster/features/combatant/models/dnd5e_combatant_data.dart';
 import 'package:battlemaster/features/engines/models/game_engine_type.dart';
+import 'package:flutter/foundation.dart';
+import 'package:logger/logger.dart';
+
+class ImportCombatantsResult {
+  final List<Combatant> combatants;
+  final int failedCount;
+
+  ImportCombatantsResult({
+    required this.combatants,
+    required this.failedCount,
+  });
+
+  factory ImportCombatantsResult.empty() {
+    return ImportCombatantsResult(
+      combatants: [],
+      failedCount: 0,
+    );
+  }
+
+  bool get isEmpty => combatants.isEmpty;
+
+  bool get isNotEmpty => combatants.isNotEmpty;
+
+  bool get hasFailed => failedCount > 0;
+}
 
 abstract class ImportCombatantsFactory {
   final GameEngineType engine;
   final String source;
+
+  @protected
+  final logger = Logger();
 
   ImportCombatantsFactory({
     required this.engine,
@@ -24,7 +52,7 @@ abstract class ImportCombatantsFactory {
     }
   }
 
-  List<Combatant> createCombatants(List<Map<String, dynamic>> data);
+  ImportCombatantsResult createCombatants(List<Map<String, dynamic>> data);
 }
 
 class CustomCsvCombatantFactory extends ImportCombatantsFactory {
@@ -34,11 +62,11 @@ class CustomCsvCombatantFactory extends ImportCombatantsFactory {
         );
 
   @override
-  List<Combatant> createCombatants(List<Map<String, dynamic>> data) {
-    data.cast<Map<String, String>>();
+  ImportCombatantsResult createCombatants(List<Map<String, dynamic>> data) {
+    data = data.cast<Map<String, String>>();
 
     if (data.isEmpty) {
-      return [];
+      return ImportCombatantsResult.empty();
     }
 
     final requiredKeys = <String>{
@@ -55,19 +83,31 @@ class CustomCsvCombatantFactory extends ImportCombatantsFactory {
       throw Exception('CSV file does not contain all required keys');
     }
 
-    return data
-        .map((entry) => Combatant(
-              name: entry['name']!,
-              currentHp: int.parse(entry['hp']!),
-              maxHp: int.parse(entry['hp']!),
-              initiative: 0,
-              armorClass: int.parse(entry['armor_class']!),
-              initiativeModifier: int.parse(entry['initiative_mod']!),
-              level: double.parse(entry['level']!),
-              type: CombatantType.values.byName(entry['type'] ?? ''),
-              engineType: GameEngineType.custom,
-            ))
-        .toList();
+    int failed = 0;
+
+    final combatants = data.map((entry) {
+      try {
+        return Combatant(
+          name: entry['name']!,
+          currentHp: int.parse(entry['hp']!),
+          maxHp: int.parse(entry['hp']!),
+          initiative: 0,
+          armorClass: int.parse(entry['armor_class']!),
+          initiativeModifier: int.parse(entry['initiative_mod']!),
+          level: double.parse(entry['level']!),
+          type: CombatantType.values.byName(entry['type'] ?? ''),
+          engineType: GameEngineType.custom,
+        );
+      } catch (e) {
+        logger.e(e);
+        failed++;
+      }
+    }).toList();
+
+    return ImportCombatantsResult(
+      combatants: combatants.nonNulls.toList(),
+      failedCount: failed,
+    );
   }
 }
 
@@ -78,17 +118,29 @@ class Dnd5eCombatantFactory extends ImportCombatantsFactory {
         );
 
   @override
-  List<Combatant> createCombatants(List<Map<String, dynamic>> data) {
+  ImportCombatantsResult createCombatants(List<Map<String, dynamic>> data) {
     if (data.isEmpty) {
-      return [];
+      return ImportCombatantsResult.empty();
     }
 
-    return data.map(
+    int failed = 0;
+
+    final combatants = data.map(
       (entry) {
-        return Combatant.from5eCombatantData(
-          Dnd5eCombatantData(rawData: entry),
-        );
+        try {
+          return Combatant.from5eCombatantData(
+            Dnd5eCombatantData(rawData: entry),
+          );
+        } catch (e) {
+          logger.e(e);
+          failed++;
+        }
       },
     ).toList();
+
+    return ImportCombatantsResult(
+      combatants: combatants.nonNulls.toList(),
+      failedCount: failed,
+    );
   }
 }

@@ -39,19 +39,23 @@ class CustomBestiaryProvider extends ChangeNotifier {
               ))
           .toList());
 
-  Future<void> create(CustomBestiaryFile bestiaryFile) async {
+  Future<ImportCombatantsResult> import(CustomBestiaryFile bestiaryFile) async {
     final data = await compute(_decodeFile, bestiaryFile);
 
     if (data.isEmpty) {
       throw Exception('No data found in the file');
     }
 
-    final combatants = ImportCombatantsFactory.fromEngine(
+    return ImportCombatantsFactory.fromEngine(
       bestiaryFile.engine,
       bestiaryFile.name,
     ).createCombatants(data);
+  }
 
-    if (combatants.isEmpty) {
+  Future<ImportCombatantsResult> create(CustomBestiaryFile bestiaryFile) async {
+    final importResult = await import(bestiaryFile);
+
+    if (importResult.isEmpty) {
       throw Exception('No combatants found in the file');
     }
 
@@ -59,11 +63,12 @@ class CustomBestiaryProvider extends ChangeNotifier {
       db.CustomBestiary(
         id: -1,
         name: bestiaryFile.name,
-        combatants: combatants,
+        combatants: importResult.combatants,
         engine: bestiaryFile.engine,
       ),
     );
     notifyListeners();
+    return importResult;
   }
 
   Future<void> delete(CustomBestiary bestiary) async {

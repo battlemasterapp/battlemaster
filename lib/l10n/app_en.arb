@@ -70,7 +70,7 @@
   "@pf2e_toggle_button": {
     "description": "The button to toggle the PF2e view."
   },
-  "custom_bestiary_toggle_button": "Your bestiaries",
+  "custom_bestiary_toggle_button": "My bestiaries",
   "@custom_bestiary_toggle_button": {
     "description": "The button to toggle the custom bestiaries view."
   },
@@ -766,7 +766,7 @@
   "@settings_tab_pf2e": {
     "description": "The PF2e settings tab."
   },
-  "settings_tab_custom_bestiaries": "Bestiaries",
+  "settings_tab_custom_bestiaries": "My Bestiaries",
   "@settings_tab_custom_bestiaries": {
     "description": "The custom bestiaries settings tab."
   },
@@ -789,6 +789,14 @@
   "bestiary_import_fail_description": "Please check the file and try again.",
   "@bestiary_import_fail_description": {
     "description": "The description of the bestiary import fail message."
+  },
+  "bestiary_import_warning": "Bestiary imported!",
+  "@bestiary_import_warning": {
+    "description": "The message to show the bestiary import warning."
+  },
+  "bestiary_import_warning_description": "Some combatants were not imported. Check the file and try again.",
+  "@bestiary_import_warning_description": {
+    "description": "The description of the bestiary import warning message."
   },
   "download_bestiary_models_title": "Download models",
   "@download_bestiary_models_title": {
