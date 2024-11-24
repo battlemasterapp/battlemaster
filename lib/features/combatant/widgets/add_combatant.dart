@@ -14,15 +14,7 @@ import 'package:icons_plus/icons_plus.dart';
 import 'package:provider/provider.dart';
 import 'package:responsive_framework/responsive_framework.dart';
 
-enum AddCombatantSource {
-  dnd5e,
-  pf2e,
-  customBestiary,
-  group,
-  custom,
-}
-
-class AddCombatant extends StatefulWidget {
+class AddCombatant extends StatelessWidget {
   const AddCombatant({
     super.key,
     required this.onCombatantsAdded,
@@ -31,16 +23,6 @@ class AddCombatant extends StatefulWidget {
 
   final ValueChanged<Map<Combatant, int>> onCombatantsAdded;
   final bool showGroupReminder;
-
-  @override
-  State<AddCombatant> createState() => _AddCombatantState();
-}
-
-class _AddCombatantState extends State<AddCombatant> {
-  @override
-  void initState() {
-    super.initState();
-  }
 
   @override
   Widget build(BuildContext context) {
@@ -56,7 +38,7 @@ class _AddCombatantState extends State<AddCombatant> {
         ): AddFromBestiaryList(
           combatants: context.read<Dnd5eEngineProvider>().bestiary,
           onCombatantSelected: (combatant) async {
-            widget.onCombatantsAdded({combatant: 1});
+            onCombatantsAdded({combatant: 1});
             await context.read<AnalyticsService>().logEvent('add_5e_combatant');
           },
         ),
@@ -67,7 +49,7 @@ class _AddCombatantState extends State<AddCombatant> {
         ): AddFromBestiaryList(
           combatants: context.read<Pf2eBestiaryService>().bestiaryData,
           onCombatantSelected: (combatant) async {
-            widget.onCombatantsAdded({combatant: 1});
+            onCombatantsAdded({combatant: 1});
             await context
                 .read<AnalyticsService>()
                 .logEvent('add_pf2e_combatant');
@@ -87,7 +69,7 @@ class _AddCombatantState extends State<AddCombatant> {
                     combatants..addAll(bestiary.combatants),
               )..sort((a, b) => a.name.compareTo(b.name)),
               onCombatantSelected: (combatant) async {
-                widget.onCombatantsAdded({combatant: 1});
+                onCombatantsAdded({combatant: 1});
                 await context
                     .read<AnalyticsService>()
                     .logEvent('add_custom_bestiary_combatant');
@@ -99,7 +81,7 @@ class _AddCombatantState extends State<AddCombatant> {
         icon: Icon(MingCute.group_fill),
       ): AddGroupCombatants(
         onGroupSelected: (combatants) async {
-          widget.onCombatantsAdded(
+          onCombatantsAdded(
             combatants.fold<Map<Combatant, int>>(
               {},
               (map, combatant) {
@@ -117,9 +99,9 @@ class _AddCombatantState extends State<AddCombatant> {
         text: localization.custom_combatant_toggle_button,
         icon: Icon(MingCute.edit_fill),
       ): AddCustomCombatant(
-        showGroupReminder: widget.showGroupReminder,
+        showGroupReminder: showGroupReminder,
         onCombatantAdded: (combatant) async {
-          widget.onCombatantsAdded({combatant: 1});
+          onCombatantsAdded({combatant: 1});
           await context
               .read<AnalyticsService>()
               .logEvent('add_custom_combatant');
