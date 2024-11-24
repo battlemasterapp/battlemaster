@@ -75,9 +75,16 @@ class PF2eSettings {
 @JsonSerializable()
 class Dnd5eSettings {
   final bool enabled;
+  final Set<String> sources;
 
   const Dnd5eSettings({
     this.enabled = true,
+    this.sources = const {
+      "wotc-srd",
+      "tob",
+      "tob2",
+      "cc"
+    },
   });
 
   factory Dnd5eSettings.fromJson(Map<String, dynamic> json) =>
@@ -87,9 +94,11 @@ class Dnd5eSettings {
 
   Dnd5eSettings copyWith({
     bool? enabled,
+    Set<String>? sources,
   }) {
     return Dnd5eSettings(
       enabled: enabled ?? this.enabled,
+      sources: sources ?? this.sources,
     );
   }
 }

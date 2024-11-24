@@ -68,7 +68,10 @@ class BattlemasterApp extends StatelessWidget {
             )..fetchData();
           },
           update: (_, settings, service) {
-            if (settings.pf2eSettings.bestiaries != service?.bestiarySources) {
+            final settingsSources = settings.pf2eSettings.bestiaries;
+            final providerSources = service?.bestiarySources ?? {};
+            final hasChanged = !setEquals(settingsSources, providerSources);
+            if (hasChanged) {
               return Pf2eBestiaryService(
                 bestiarySources: settings.pf2eSettings.enabled
                     ? settings.pf2eSettings.bestiaries
@@ -79,8 +82,24 @@ class BattlemasterApp extends StatelessWidget {
           },
           lazy: false,
         ),
-        ChangeNotifierProvider<Dnd5eEngineProvider>(
-          create: (_) => Dnd5eEngineProvider()..fetchData(),
+        ChangeNotifierProxyProvider<SystemSettingsProvider,
+            Dnd5eEngineProvider>(
+          create: (context) {
+            final settings =
+                context.read<SystemSettingsProvider>().dnd5eSettings;
+            return Dnd5eEngineProvider(sources: settings.sources)..fetchData();
+          },
+          update: (context, settings, provider) {
+            final settingsSources = settings.dnd5eSettings.sources;
+            final providerSources = provider?.sources ?? {};
+            final hasChanged = !setEquals(settingsSources, providerSources);
+            if (hasChanged) {
+              return Dnd5eEngineProvider(
+                sources: settings.dnd5eSettings.sources,
+              )..fetchData(forceRefresh: true);
+            }
+            return provider!;
+          },
           lazy: false,
         ),
         Provider<AnalyticsService>(

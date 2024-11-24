@@ -5,13 +5,15 @@ import 'package:battlemaster/features/combatant/models/combatant.dart';
 import 'package:battlemaster/features/conditions/models/condition.dart';
 
 class Dnd5eEngineProvider extends GameEngineProvider {
+  final Set<String> sources;
   final Dnd5eBestiaryService _bestiaryService;
   final Dnd5eConditionService _conditionService;
 
   Dnd5eEngineProvider({
+    required this.sources,
     Dnd5eBestiaryService? bestiaryService,
     Dnd5eConditionService? conditionsService,
-  })  : _bestiaryService = bestiaryService ?? Dnd5eBestiaryService(),
+  })  : _bestiaryService = bestiaryService ?? Dnd5eBestiaryService(bestiarySources: sources),
         _conditionService = conditionsService ?? Dnd5eConditionService();
 
   @override
