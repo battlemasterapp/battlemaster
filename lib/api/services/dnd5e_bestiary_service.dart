@@ -5,15 +5,14 @@ import '../../features/combatant/models/combatant.dart';
 import 'bestiary_service.dart';
 
 class Dnd5eBestiaryService extends BestiaryService {
-  Dnd5eBestiaryService()
-      : super(
+  final Set<String> bestiarySources;
+
+  Dnd5eBestiaryService({
+    this.bestiarySources = const {},
+  }) : super(
           initialData: [],
           baseUrl: const String.fromEnvironment('API_5E_URI'),
         );
-
-  final List<String> _defaultSources = [
-    "wotc-srd",
-  ];
 
   @override
   String get cacheKey => '5e_bestiary';
@@ -29,18 +28,18 @@ class Dnd5eBestiaryService extends BestiaryService {
       return data;
     }
 
-    final sources = _defaultSources.join(',');
-    // Get the first one just to get the count
+    final sources = bestiarySources.join(',');
     try {
+      // Get the first one just to get the count
       final getCount = await client.get<Map<String, dynamic>>(
-          '/v1/monsters/?limit=1&document__slug=$sources');
+          '/v1/monsters/?limit=1&document__slug__in=$sources');
       final count = getCount.data?['count'] as int;
 
       logger.d('Found $count 5e bestiary entries for sources: $sources');
       logger.d('Fetching 5e bestiary data');
 
       final response = await client.get<Map<String, dynamic>>(
-          '/v1/monsters/?limit=$count&document__slug=$sources');
+          '/v1/monsters/?limit=$count&document__slug__in=$sources');
 
       final results = (response.data?['results'] as List? ?? [])
           .cast<Map<String, dynamic>>();
