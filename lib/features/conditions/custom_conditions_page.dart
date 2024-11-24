@@ -1,3 +1,4 @@
+import 'package:battlemaster/common/widgets/confirm_dialog.dart';
 import 'package:battlemaster/database/database.dart';
 import 'package:battlemaster/features/analytics/analytics_service.dart';
 import 'package:battlemaster/features/conditions/providers/conditions_provider.dart';
@@ -83,6 +84,18 @@ class CustomConditionsPage extends StatelessWidget {
                                     child: IconButton(
                                       icon: Icon(MingCute.delete_2_fill),
                                       onPressed: () async {
+                                        final confirm = await showDialog<bool>(
+                                          context: context,
+                                          builder: (context) => ConfirmDialog(
+                                            title: localization
+                                                .delete_condition_dialog_title(
+                                              condition.name,
+                                            ),
+                                          ),
+                                        );
+                                        if (confirm == null || !confirm) {
+                                          return;
+                                        }
                                         await conditionsProvider
                                             .deleteCondition(condition);
                                       },
