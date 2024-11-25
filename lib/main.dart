@@ -8,6 +8,7 @@ import 'package:battlemaster/features/settings/providers/system_settings_provide
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import 'package:flutter_web_plugins/url_strategy.dart';
 import 'package:go_router/go_router.dart';
 import 'package:provider/provider.dart';
 import 'package:responsive_framework/responsive_framework.dart';
@@ -28,6 +29,7 @@ import 'flavors/pf2e/pf2e_theme.dart';
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
 
+  usePathUrlStrategy();
   const sentryDsn = String.fromEnvironment('SENTRY_DSN');
   await SentryFlutter.init(
     (options) {
