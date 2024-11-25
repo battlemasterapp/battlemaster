@@ -30,6 +30,7 @@ void main() async {
   WidgetsFlutterBinding.ensureInitialized();
 
   usePathUrlStrategy();
+  GoRouter.optionURLReflectsImperativeAPIs = true;
   const sentryDsn = String.fromEnvironment('SENTRY_DSN');
   await SentryFlutter.init(
     (options) {
