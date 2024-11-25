@@ -47,28 +47,33 @@ final _router = GoRouter(
   routes: [
     GoRoute(
       path: '/',
+      name: 'home',
       builder: (context, state) => const MainPage(),
     ),
     GoRoute(
       path: '/encounter/:encounterId',
+      name: 'encounter',
       builder: (context, state) => EncounterTrackerPage(
         params: state.extra as EncounterTrackerParams,
       ),
     ),
     GoRoute(
       path: '/group/:groupId',
+      name: 'group',
       builder: (context, state) => GroupDetailPage(
         params: state.extra as GroupDetailPageParams,
       ),
     ),
     GoRoute(
       path: '/encounter/:encounterId/combatant/add',
+      name: 'add-combatant',
       builder: (context, state) => AddCombatantPage(
         params: state.extra as AddCombatantParams,
       ),
     ),
     GoRoute(
       path: '/conditions',
+      name: 'conditions',
       builder: (context, state) => const CustomConditionsPage(),
     ),
   ],

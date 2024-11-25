@@ -1,6 +1,7 @@
 import 'package:battlemaster/features/settings/models/skip_dead_behavior.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import 'package:go_router/go_router.dart';
 import 'package:icons_plus/icons_plus.dart';
 import 'package:provider/provider.dart';
 
@@ -88,7 +89,7 @@ class EncounterSettingsWidget extends StatelessWidget {
           subtitle: Text(localization.custom_conditions_settings_subtitle),
           trailing: Icon(MingCute.right_fill),
           onTap: () {
-            Navigator.of(context).pushNamed('/conditions');
+            context.pushNamed('conditions');
           },
         ),
       ],

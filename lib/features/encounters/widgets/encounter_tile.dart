@@ -1,5 +1,6 @@
 import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
 import 'package:icons_plus/icons_plus.dart';
 
 import '../../encounter_tracker/encounter_tracker_page.dart';
@@ -30,15 +31,17 @@ class EncounterGridTile extends StatelessWidget {
         child: InkWell(
           onTap: () {
             if (encounter.isEncounter) {
-              Navigator.of(context).pushNamed(
-                "/encounter",
-                arguments: EncounterTrackerParams(encounter: encounter),
+              context.pushNamed(
+                "encounter",
+                pathParameters: {'encounterId': encounter.id.toString()},
+                extra: EncounterTrackerParams(encounter: encounter),
               );
               return;
             }
-            Navigator.of(context).pushNamed(
-              "/group",
-              arguments: GroupDetailPageParams(encounter: encounter),
+            context.pushNamed(
+              "group",
+              pathParameters: {'groupId': encounter.id.toString()},
+              extra: GroupDetailPageParams(encounter: encounter),
             );
           },
           child: Column(

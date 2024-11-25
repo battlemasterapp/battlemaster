@@ -5,6 +5,7 @@ import 'package:battlemaster/features/encounters/providers/encounters_provider.d
 import 'package:battlemaster/features/groups/group_detail_page.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import 'package:go_router/go_router.dart';
 import 'package:provider/provider.dart';
 import 'package:ultimate_flutter_icons/flutter_icons.dart';
 
@@ -203,9 +204,10 @@ class _GroupReminder extends StatelessWidget {
               props: {'type': EncounterType.group.toString()},
             );
             // ignore: use_build_context_synchronously
-            Navigator.of(context).pushNamed(
-              "/group",
-              arguments: GroupDetailPageParams(encounter: created),
+            context.pushNamed(
+              "group",
+              pathParameters: {"groupId": created.id.toString()},
+              extra: GroupDetailPageParams(encounter: created),
             );
           },
           child: Text(localization.create_group_cta),

@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import 'package:go_router/go_router.dart';
 
 class ConfirmDialog extends StatelessWidget {
   const ConfirmDialog({
@@ -26,11 +27,11 @@ class ConfirmDialog extends StatelessWidget {
       ),
       actions: [
         OutlinedButton(
-          onPressed: () => Navigator.of(context).pop(false),
+          onPressed: () => context.pop(false),
           child: Text(localization.no_button),
         ),
         ElevatedButton(
-          onPressed: () => Navigator.of(context).pop(true),
+          onPressed: () => context.pop(true),
           child: Text(localization.yes_button),
         ),
       ],

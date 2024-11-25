@@ -35,7 +35,7 @@ class MainDrawer extends StatelessWidget {
               selected: selectedPage == page.key,
               onTap: () {
                 onPageSelected?.call(page.key);
-                Navigator.pop(context);
+                Navigator.of(context).pop();
               },
             ),
         ],

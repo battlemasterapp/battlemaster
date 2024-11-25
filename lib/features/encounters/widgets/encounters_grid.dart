@@ -5,6 +5,7 @@ import 'package:battlemaster/features/engines/models/game_engine_type.dart';
 import 'package:battlemaster/features/groups/group_detail_page.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import 'package:go_router/go_router.dart';
 import 'package:icons_plus/icons_plus.dart';
 import 'package:provider/provider.dart';
 
@@ -61,16 +62,18 @@ class EncountersGrid extends StatelessWidget {
 
               if (type == EncounterType.encounter) {
                 // ignore: use_build_context_synchronously
-                Navigator.of(context).pushNamed(
-                  "/encounter",
-                  arguments: EncounterTrackerParams(encounter: created),
+                context.pushNamed(
+                  "encounter",
+                  pathParameters: {'encounterId': created.id.toString()},
+                  extra: EncounterTrackerParams(encounter: created),
                 );
                 return;
               }
               // ignore: use_build_context_synchronously
-              Navigator.of(context).pushNamed(
-                "/group",
-                arguments: GroupDetailPageParams(encounter: created),
+              context.pushNamed(
+                "group",
+                pathParameters: {'groupId': created.id.toString()},
+                extra: GroupDetailPageParams(encounter: created),
               );
             },
             style: ElevatedButton.styleFrom(

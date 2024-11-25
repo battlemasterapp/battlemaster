@@ -6,6 +6,7 @@ import 'package:battlemaster/features/encounters/providers/encounters_provider.d
 import 'package:flutter/material.dart';
 import 'package:flutter_animate/flutter_animate.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import 'package:go_router/go_router.dart';
 import 'package:icons_plus/icons_plus.dart';
 import 'package:provider/provider.dart';
 import 'package:scrollview_observer/scrollview_observer.dart';
@@ -76,9 +77,10 @@ class _CombatantTrackerListState extends State<CombatantTrackerList> {
             const SizedBox(height: 16),
             ElevatedButton.icon(
               onPressed: () async {
-                final combatants = await Navigator.of(context).pushNamed(
-                  "/combatant/add",
-                  arguments: AddCombatantParams(
+                final combatants = await context.pushNamed(
+                  "add-combatant",
+                  pathParameters: {'encounterId': widget.encounter.id.toString()},
+                  extra: AddCombatantParams(
                     encounterType: widget.encounter.type,
                   ),
                 );
