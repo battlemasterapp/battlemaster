@@ -3,8 +3,6 @@ import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:icons_plus/icons_plus.dart';
 
-import '../../encounter_tracker/encounter_tracker_page.dart';
-import '../../groups/group_detail_page.dart';
 import '../models/encounter.dart';
 import 'encounter_tile_menu.dart';
 
@@ -34,14 +32,12 @@ class EncounterGridTile extends StatelessWidget {
               context.pushNamed(
                 "encounter",
                 pathParameters: {'encounterId': encounter.id.toString()},
-                extra: EncounterTrackerParams(encounter: encounter),
               );
               return;
             }
             context.pushNamed(
               "group",
               pathParameters: {'groupId': encounter.id.toString()},
-              extra: GroupDetailPageParams(encounter: encounter),
             );
           },
           child: Column(

@@ -56,14 +56,14 @@ final _router = GoRouter(
       path: '/encounter/:encounterId',
       name: 'encounter',
       builder: (context, state) => EncounterTrackerPage(
-        params: state.extra as EncounterTrackerParams,
+        encounterId: int.parse(state.pathParameters['encounterId']!),
       ),
     ),
     GoRoute(
       path: '/group/:groupId',
       name: 'group',
       builder: (context, state) => GroupDetailPage(
-        params: state.extra as GroupDetailPageParams,
+        groupId: int.parse(state.pathParameters['groupId']!),
       ),
     ),
     GoRoute(

@@ -79,7 +79,9 @@ class _CombatantTrackerListState extends State<CombatantTrackerList> {
               onPressed: () async {
                 final combatants = await context.pushNamed(
                   "add-combatant",
-                  pathParameters: {'encounterId': widget.encounter.id.toString()},
+                  pathParameters: {
+                    'encounterId': widget.encounter.id.toString()
+                  },
                   extra: AddCombatantParams(
                     encounterType: widget.encounter.type,
                   ),

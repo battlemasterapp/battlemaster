@@ -88,7 +88,7 @@ class _HpDialogState extends State<HpDialog> {
             ),
             ElevatedButton(
               onPressed: () {
-                context.pop( health);
+                context.pop(health);
               },
               child: Text(AppLocalizations.of(context)!.save_button),
             ),

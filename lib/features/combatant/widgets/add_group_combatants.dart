@@ -1,7 +1,6 @@
 import 'package:battlemaster/features/analytics/analytics_service.dart';
 import 'package:battlemaster/features/encounters/providers/encounters_provider.dart';
 import 'package:battlemaster/features/engines/models/game_engine_type.dart';
-import 'package:battlemaster/features/groups/group_detail_page.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:go_router/go_router.dart';
@@ -101,7 +100,6 @@ class _EmptyState extends StatelessWidget {
             context.pushNamed(
               "group",
               pathParameters: {'groupId': created.id.toString()},
-              extra: GroupDetailPageParams(encounter: created),
             );
             // ignore: use_build_context_synchronously
             await context.read<AnalyticsService>().logEvent(

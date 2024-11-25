@@ -9,21 +9,13 @@ import '../encounter_tracker/widgets/encounter_tracker_bar.dart';
 import '../encounters/models/encounter.dart';
 import '../settings/providers/system_settings_provider.dart';
 
-class GroupDetailPageParams {
-  final Encounter encounter;
-
-  const GroupDetailPageParams({
-    required this.encounter,
-  });
-}
-
 class GroupDetailPage extends StatelessWidget {
   const GroupDetailPage({
     super.key,
-    required this.params,
+    required this.groupId,
   });
 
-  final GroupDetailPageParams params;
+  final int groupId;
 
   @override
   Widget build(BuildContext context) {
@@ -31,13 +23,23 @@ class GroupDetailPage extends StatelessWidget {
       create: (context) => EncounterTrackerNotifier(
         database: context.read<AppDatabase>(),
         settings: context.read<SystemSettingsProvider>(),
-        encounterId: params.encounter.id,
+        encounterId: groupId,
       ),
       child: Builder(builder: (context) {
         return StreamBuilder<Encounter>(
             stream: context.read<EncounterTrackerNotifier>().watchEncounter(),
             builder: (context, snapshot) {
-              final encounter = snapshot.data ?? params.encounter;
+              final encounter = snapshot.data;
+
+              if (encounter == null) {
+                return Scaffold(
+                  appBar: AppBar(),
+                  body: const Center(
+                    child: CircularProgressIndicator(),
+                  ),
+                );
+              }
+
               return Scaffold(
                 appBar: AppBar(),
                 body: SafeArea(
