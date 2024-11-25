@@ -15,7 +15,7 @@ Future<List<Map<String, dynamic>>> _decodeFile(
   if (file != null) {
     fileContent = await file.readAsString();
   } else {
-    fileContent = String.fromCharCodes(bestiaryFile.bytes!);
+    fileContent = utf8.decode(bestiaryFile.bytes!);
   }
 
   final data = bestiaryFile.extension == 'csv'
