@@ -8,6 +8,7 @@ import 'package:battlemaster/features/settings/providers/system_settings_provide
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import 'package:go_router/go_router.dart';
 import 'package:provider/provider.dart';
 import 'package:responsive_framework/responsive_framework.dart';
 import 'package:sentry_flutter/sentry_flutter.dart';
@@ -37,6 +38,41 @@ void main() async {
     appRunner: () => runApp(const BattlemasterApp()),
   );
 }
+
+final _router = GoRouter(
+  initialLocation: '/',
+  observers: [
+    AnalyticsNavigatorObserver(plausible),
+  ],
+  routes: [
+    GoRoute(
+      path: '/',
+      builder: (context, state) => const MainPage(),
+    ),
+    GoRoute(
+      path: '/encounter/:encounterId',
+      builder: (context, state) => EncounterTrackerPage(
+        params: state.extra as EncounterTrackerParams,
+      ),
+    ),
+    GoRoute(
+      path: '/group/:groupId',
+      builder: (context, state) => GroupDetailPage(
+        params: state.extra as GroupDetailPageParams,
+      ),
+    ),
+    GoRoute(
+      path: '/encounter/:encounterId/combatant/add',
+      builder: (context, state) => AddCombatantPage(
+        params: state.extra as AddCombatantParams,
+      ),
+    ),
+    GoRoute(
+      path: '/conditions',
+      builder: (context, state) => const CustomConditionsPage(),
+    ),
+  ],
+);
 
 class BattlemasterApp extends StatelessWidget {
   const BattlemasterApp({
@@ -115,11 +151,9 @@ class BattlemasterApp extends StatelessWidget {
       ],
       child: Builder(builder: (context) {
         return ToastificationWrapper(
-          child: MaterialApp(
+          child: MaterialApp.router(
+            routerConfig: _router,
             title: 'BattleMaster',
-            navigatorObservers: [
-              AnalyticsNavigatorObserver(plausible),
-            ],
             localizationsDelegates: AppLocalizations.localizationsDelegates,
             supportedLocales: AppLocalizations.supportedLocales,
             theme: pf2eLightTheme,
@@ -153,23 +187,6 @@ class BattlemasterApp extends StatelessWidget {
                 child: child!,
               ),
             ),
-            routes: {
-              "/": (context) => const MainPage(),
-              "/encounter": (context) => EncounterTrackerPage(
-                    params: ModalRoute.of(context)!.settings.arguments
-                        as EncounterTrackerParams,
-                  ),
-              "/group": (context) => GroupDetailPage(
-                    params: ModalRoute.of(context)!.settings.arguments
-                        as GroupDetailPageParams,
-                  ),
-              "/combatant/add": (context) => AddCombatantPage(
-                    params: ModalRoute.of(context)!.settings.arguments
-                        as AddCombatantParams,
-                  ),
-              "/conditions": (context) => const CustomConditionsPage(),
-            },
-            initialRoute: "/",
           ),
         );
       }),
