@@ -3,6 +3,7 @@ import 'dart:math';
 import 'package:battlemaster/features/shared/colors.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import 'package:go_router/go_router.dart';
 import 'package:icons_plus/icons_plus.dart';
 
 class HpDialog extends StatefulWidget {
@@ -42,7 +43,7 @@ class _HpDialogState extends State<HpDialog> {
         if (didPop) {
           return;
         }
-        Navigator.pop(context, health);
+        context.pop(health);
       },
       child: LayoutBuilder(builder: (context, constraints) {
         final portraitLayout = constraints.maxWidth < 520;
@@ -81,13 +82,13 @@ class _HpDialogState extends State<HpDialog> {
           actions: [
             TextButton(
               onPressed: () {
-                Navigator.pop(context, widget.currentHp);
+                context.pop(widget.currentHp);
               },
               child: Text(AppLocalizations.of(context)!.cancel_button),
             ),
             ElevatedButton(
               onPressed: () {
-                Navigator.pop(context, health);
+                context.pop(health);
               },
               child: Text(AppLocalizations.of(context)!.save_button),
             ),

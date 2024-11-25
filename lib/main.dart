@@ -8,6 +8,8 @@ import 'package:battlemaster/features/settings/providers/system_settings_provide
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import 'package:flutter_web_plugins/url_strategy.dart';
+import 'package:go_router/go_router.dart';
 import 'package:provider/provider.dart';
 import 'package:responsive_framework/responsive_framework.dart';
 import 'package:sentry_flutter/sentry_flutter.dart';
@@ -27,6 +29,7 @@ import 'flavors/pf2e/pf2e_theme.dart';
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
 
+  usePathUrlStrategy();
   const sentryDsn = String.fromEnvironment('SENTRY_DSN');
   await SentryFlutter.init(
     (options) {
@@ -37,6 +40,46 @@ void main() async {
     appRunner: () => runApp(const BattlemasterApp()),
   );
 }
+
+final _router = GoRouter(
+  initialLocation: '/',
+  observers: [
+    AnalyticsNavigatorObserver(plausible),
+  ],
+  routes: [
+    GoRoute(
+      path: '/',
+      name: 'home',
+      builder: (context, state) => const MainPage(),
+    ),
+    GoRoute(
+      path: '/encounter/:encounterId',
+      name: 'encounter',
+      builder: (context, state) => EncounterTrackerPage(
+        encounterId: int.parse(state.pathParameters['encounterId']!),
+      ),
+    ),
+    GoRoute(
+      path: '/group/:groupId',
+      name: 'group',
+      builder: (context, state) => GroupDetailPage(
+        groupId: int.parse(state.pathParameters['groupId']!),
+      ),
+    ),
+    GoRoute(
+      path: '/encounter/:encounterId/combatant/add',
+      name: 'add-combatant',
+      builder: (context, state) => AddCombatantPage(
+        params: state.extra as AddCombatantParams,
+      ),
+    ),
+    GoRoute(
+      path: '/conditions',
+      name: 'conditions',
+      builder: (context, state) => const CustomConditionsPage(),
+    ),
+  ],
+);
 
 class BattlemasterApp extends StatelessWidget {
   const BattlemasterApp({
@@ -115,11 +158,9 @@ class BattlemasterApp extends StatelessWidget {
       ],
       child: Builder(builder: (context) {
         return ToastificationWrapper(
-          child: MaterialApp(
+          child: MaterialApp.router(
+            routerConfig: _router,
             title: 'BattleMaster',
-            navigatorObservers: [
-              AnalyticsNavigatorObserver(plausible),
-            ],
             localizationsDelegates: AppLocalizations.localizationsDelegates,
             supportedLocales: AppLocalizations.supportedLocales,
             theme: pf2eLightTheme,
@@ -153,23 +194,6 @@ class BattlemasterApp extends StatelessWidget {
                 child: child!,
               ),
             ),
-            routes: {
-              "/": (context) => const MainPage(),
-              "/encounter": (context) => EncounterTrackerPage(
-                    params: ModalRoute.of(context)!.settings.arguments
-                        as EncounterTrackerParams,
-                  ),
-              "/group": (context) => GroupDetailPage(
-                    params: ModalRoute.of(context)!.settings.arguments
-                        as GroupDetailPageParams,
-                  ),
-              "/combatant/add": (context) => AddCombatantPage(
-                    params: ModalRoute.of(context)!.settings.arguments
-                        as AddCombatantParams,
-                  ),
-              "/conditions": (context) => const CustomConditionsPage(),
-            },
-            initialRoute: "/",
           ),
         );
       }),

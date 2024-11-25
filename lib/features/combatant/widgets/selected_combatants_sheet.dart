@@ -4,6 +4,7 @@ import 'package:draggable_bottom_sheet/draggable_bottom_sheet.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_animate/flutter_animate.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import 'package:go_router/go_router.dart';
 
 class SelectedCombatantsBottomSheet extends StatelessWidget {
   const SelectedCombatantsBottomSheet({
@@ -39,14 +40,14 @@ class SelectedCombatantsBottomSheet extends StatelessWidget {
                 Spacer(),
                 OutlinedButton(
                   onPressed: () {
-                    Navigator.of(context).pop();
+                    context.pop();
                   },
                   child: Text(localization.cancel_button),
                 ),
                 const SizedBox(width: 16),
                 ElevatedButton(
                   onPressed: () {
-                    Navigator.of(context).pop(combatants);
+                    context.pop(combatants);
                   },
                   child: Text(localization.save_button),
                 ),
