@@ -2,6 +2,7 @@ import 'package:battlemaster/features/analytics/analytics_service.dart';
 import 'package:battlemaster/features/auth/providers/auth_provider.dart';
 import 'package:battlemaster/features/encounter_tracker/providers/share_encounter_notifier.dart';
 import 'package:battlemaster/features/encounter_tracker/widgets/combatant_tracker_list.dart';
+import 'package:battlemaster/features/encounter_tracker/widgets/encounter_code_dialog.dart';
 import 'package:battlemaster/features/encounter_tracker/widgets/encounter_history/encounter_history.dart';
 import 'package:battlemaster/features/encounter_tracker/widgets/encounter_tracker_controls.dart';
 import 'package:battlemaster/features/encounter_tracker/widgets/go_live_button.dart';
@@ -53,6 +54,7 @@ class EncounterTrackerPage extends StatelessWidget {
       child: Builder(
         builder: (context) {
           final trackerState = context.watch<EncounterTrackerNotifier>();
+          final shareState = context.watch<ShareEncounterNotifier>();
           return StreamBuilder<Encounter>(
             stream: trackerState.watchEncounter(),
             builder: (context, snapshot) {
@@ -74,9 +76,19 @@ class EncounterTrackerPage extends StatelessWidget {
                   actions: [
                     GoLiveButton(
                       onPressed: () async {
-                        await context
-                            .read<ShareEncounterNotifier>()
-                            .toggleLive(encounter);
+                        final code = await shareState.toggleLive(encounter);
+                        if (code != null) {
+                          await showDialog(
+                            // ignore: use_build_context_synchronously
+                            context: context,
+                            builder: (context) =>
+                                EncounterCodeDialog(code: code),
+                          );
+                        }
+                        await analytics
+                            .logEvent('toggle_live_encounter', props: {
+                          'live': (!shareState.live).toString(),
+                        });
                       },
                     ),
                     IconButton(

@@ -10,6 +10,7 @@ class GoLiveButton extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    // FIXME: textos
     final live =
         context.select<ShareEncounterNotifier, bool>((state) => state.live);
     if (live) {

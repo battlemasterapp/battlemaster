@@ -42,11 +42,11 @@ class ShareEncounterNotifier extends ChangeNotifier {
     }
   }
 
-  Future<void> toggleLive(Encounter encounter) {
+  Future<String?> toggleLive(Encounter encounter) {
     return _live ? _stopLive() : _goLive(encounter);
   }
 
-  Future<void> _goLive(Encounter encounter) async {
+  Future<String?> _goLive(Encounter encounter) async {
     assert(_live == false);
     if (!authProvider.isAuthenticated) {
       await authProvider.anonymousAuth();
@@ -76,14 +76,16 @@ class ShareEncounterNotifier extends ChangeNotifier {
     _sharedEncounter = sharedEncounter;
     _live = true;
     notifyListeners();
+    return joinCode;
   }
 
-  Future<void> _stopLive() async {
+  Future<String?> _stopLive() async {
     assert(_live == true);
     await _pb.collection('live_encounters').delete(_sharedEncounter!.id);
     _sharedEncounter = null;
     _live = false;
     notifyListeners();
+    return null;
   }
 
   Future<void> updateEncounter(Encounter encounter) async {
