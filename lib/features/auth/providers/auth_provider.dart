@@ -17,6 +17,10 @@ class AuthProvider extends ChangeNotifier {
 
   bool get isAnonymous => _anonymousLogin;
 
+  String get userKey => _anonymousLogin ? 'anonymousId' : 'userId';
+
+  String get _userCollection => _anonymousLogin ? 'anonymous_users' : 'users';
+
   Future<bool> auth() async {
     throw UnimplementedError();
   }
@@ -41,8 +45,7 @@ class AuthProvider extends ChangeNotifier {
   }
 
   Future<void> refresh() async {
-    final collection = _anonymousLogin ? 'anonymous_users' : 'users';
-    await _pb.collection(collection).authRefresh();
+    await _pb.collection(_userCollection).authRefresh();
     notifyListeners();
   }
 

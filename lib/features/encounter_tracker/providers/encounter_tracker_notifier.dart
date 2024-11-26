@@ -3,6 +3,7 @@ import 'dart:math';
 
 import 'package:battlemaster/features/combatant/models/combatant.dart';
 import 'package:battlemaster/features/conditions/models/condition.dart';
+import 'package:battlemaster/features/encounter_tracker/providers/share_encounter_notifier.dart';
 import 'package:battlemaster/features/encounters/models/encounter_log.dart';
 import 'package:battlemaster/features/settings/models/skip_dead_behavior.dart';
 import 'package:battlemaster/features/settings/providers/system_settings_provider.dart';
@@ -26,11 +27,13 @@ class EncounterTrackerNotifier extends ChangeNotifier {
   final int encounterId;
   int _activeCombatantIndex = 0;
   final _activeIndexController = StreamController<int>();
+  ShareEncounterNotifier? shareEncounterNotifier;
 
   EncounterTrackerNotifier({
     required AppDatabase database,
     required SystemSettingsProvider settings,
     required this.encounterId,
+    this.shareEncounterNotifier,
   })  : _database = database,
         _settings = settings;
 
@@ -68,6 +71,7 @@ class EncounterTrackerNotifier extends ChangeNotifier {
           turn: row.turn,
           logs: row.logs,
         );
+        shareEncounterNotifier?.updateEncounter(_encounter);
         return _encounter;
       },
     );

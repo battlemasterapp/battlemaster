@@ -1,6 +1,7 @@
 import 'package:battlemaster/api/providers/dnd5e_engine_provider.dart';
 import 'package:battlemaster/database/database.dart';
 import 'package:battlemaster/features/analytics/analytics_service.dart';
+import 'package:battlemaster/features/auth/providers/auth_provider.dart';
 import 'package:battlemaster/features/bestiaries/providers/custom_bestiary_provider.dart';
 import 'package:battlemaster/features/conditions/custom_conditions_page.dart';
 import 'package:battlemaster/features/conditions/providers/conditions_provider.dart';
@@ -91,9 +92,8 @@ class BattlemasterApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MultiProvider(
       providers: [
-        ChangeNotifierProvider(
+        ChangeNotifierProvider<SystemSettingsProvider>(
           create: (_) => SystemSettingsProvider(),
-          lazy: false,
         ),
         Provider<AppDatabase>(
           create: (_) => AppDatabase(),
@@ -147,15 +147,16 @@ class BattlemasterApp extends StatelessWidget {
           create: (_) => AnalyticsService(),
           lazy: false,
         ),
-        ChangeNotifierProxyProvider<AppDatabase, ConditionsProvider>(
+        ChangeNotifierProvider<ConditionsProvider>(
           create: (context) => ConditionsProvider(context.read<AppDatabase>()),
-          update: (_, __, provider) => provider!,
         ),
         ChangeNotifierProvider<CustomBestiaryProvider>(
-          create: (context) => CustomBestiaryProvider(
-            context.read<AppDatabase>(),
-          ),
-        )
+          create: (context) =>
+              CustomBestiaryProvider(context.read<AppDatabase>()),
+        ),
+        ChangeNotifierProvider<AuthProvider>(
+          create: (context) => AuthProvider(),
+        ),
       ],
       child: Builder(builder: (context) {
         return ToastificationWrapper(

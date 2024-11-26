@@ -1,7 +1,10 @@
 import 'package:battlemaster/features/analytics/analytics_service.dart';
+import 'package:battlemaster/features/auth/providers/auth_provider.dart';
+import 'package:battlemaster/features/encounter_tracker/providers/share_encounter_notifier.dart';
 import 'package:battlemaster/features/encounter_tracker/widgets/combatant_tracker_list.dart';
 import 'package:battlemaster/features/encounter_tracker/widgets/encounter_history/encounter_history.dart';
 import 'package:battlemaster/features/encounter_tracker/widgets/encounter_tracker_controls.dart';
+import 'package:battlemaster/features/encounter_tracker/widgets/go_live_button.dart';
 import 'package:battlemaster/features/encounters/models/encounter.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
@@ -26,12 +29,27 @@ class EncounterTrackerPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final analytics = context.read<AnalyticsService>();
-    return ChangeNotifierProvider(
-      create: (context) => EncounterTrackerNotifier(
-        database: context.read<AppDatabase>(),
-        settings: context.read<SystemSettingsProvider>(),
-        encounterId: encounterId,
-      ),
+    return MultiProvider(
+      providers: [
+        ChangeNotifierProxyProvider<AuthProvider, ShareEncounterNotifier>(
+          create: (context) => ShareEncounterNotifier(
+            authProvider: context.read<AuthProvider>(),
+            encounterId: encounterId,
+          ),
+          update: (_, auth, notifier) => notifier!..authProvider = auth,
+        ),
+        ChangeNotifierProxyProvider<ShareEncounterNotifier,
+            EncounterTrackerNotifier>(
+          create: (context) => EncounterTrackerNotifier(
+            database: context.read<AppDatabase>(),
+            settings: context.read<SystemSettingsProvider>(),
+            encounterId: encounterId,
+            shareEncounterNotifier: context.read<ShareEncounterNotifier>(),
+          ),
+          update: (_, share, tracker) =>
+              tracker!..shareEncounterNotifier = share,
+        ),
+      ],
       child: Builder(
         builder: (context) {
           final trackerState = context.watch<EncounterTrackerNotifier>();
@@ -54,6 +72,13 @@ class EncounterTrackerPage extends StatelessWidget {
                   title: Text(AppLocalizations.of(context)!
                       .encounter_tracker_page_title),
                   actions: [
+                    GoLiveButton(
+                      onPressed: () async {
+                        await context
+                            .read<ShareEncounterNotifier>()
+                            .toggleLive(encounter);
+                      },
+                    ),
                     IconButton(
                       icon: Icon(MingCute.history_2_fill),
                       onPressed: () async {
