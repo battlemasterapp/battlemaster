@@ -82,6 +82,21 @@ class EncounterTrackerNotifier extends ChangeNotifier {
     await _database.updateEncounter(_encounter.copyWith(name: name));
   }
 
+  Future<void> updateCombatantInitiative(
+    Combatant combatant,
+    double initiative,
+  ) async {
+    final log = CombatantInitiativeLog(
+      round: _encounter.round,
+      turn: _encounter.turn,
+      combatant: combatant,
+      initiative: initiative,
+    );
+
+    final updated = log.apply(_encounter);
+    await _database.updateEncounter(updated);
+  }
+
   Future<void> playStop() async {
     if (_status == EncounterTrackerStatus.stopped) {
       _status = EncounterTrackerStatus.playing;

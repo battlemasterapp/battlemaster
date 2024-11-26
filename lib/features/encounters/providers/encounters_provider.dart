@@ -30,22 +30,6 @@ class EncountersProvider extends ChangeNotifier {
     await _database.updateEncounter(updated);
   }
 
-  Future<void> updateCombatantInitiative(
-    Encounter encounter,
-    Combatant combatant,
-    double initiative,
-  ) async {
-    final log = CombatantInitiativeLog(
-      round: encounter.round,
-      turn: encounter.turn,
-      combatant: combatant,
-      initiative: initiative,
-    );
-
-    final updated = log.apply(encounter);
-    await _database.updateEncounter(updated);
-  }
-
   Future<void> updateCombatantHealth(
     Encounter encounter,
     Combatant combatant,

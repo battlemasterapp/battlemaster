@@ -129,9 +129,8 @@ class _CombatantTrackerListState extends State<CombatantTrackerList> {
               },
               onInitiativeChanged: (initiative) async {
                 await context
-                    .read<EncountersProvider>()
+                    .read<EncounterTrackerNotifier>()
                     .updateCombatantInitiative(
-                      widget.encounter,
                       combatant,
                       initiative,
                     );
