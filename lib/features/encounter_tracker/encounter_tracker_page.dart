@@ -3,7 +3,6 @@ import 'package:battlemaster/features/encounter_tracker/widgets/combatant_tracke
 import 'package:battlemaster/features/encounter_tracker/widgets/encounter_history/encounter_history.dart';
 import 'package:battlemaster/features/encounter_tracker/widgets/encounter_tracker_controls.dart';
 import 'package:battlemaster/features/encounters/models/encounter.dart';
-import 'package:battlemaster/features/encounters/providers/encounters_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:icons_plus/icons_plus.dart';
@@ -26,7 +25,6 @@ class EncounterTrackerPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final encountersProvider = context.read<EncountersProvider>();
     final analytics = context.read<AnalyticsService>();
     return ChangeNotifierProvider(
       create: (context) => EncounterTrackerNotifier(
@@ -66,12 +64,12 @@ class EncounterTrackerPage extends StatelessWidget {
                           body: EncounterHistory(
                             encounter: encounter,
                             onDeleteHistory: () async {
-                              await encountersProvider.deleteHistory(encounter);
+                              await trackerState.deleteHistory();
                               await analytics
                                   .logEvent('delete_encounter_history');
                             },
                             onUndo: (log) async {
-                              await encountersProvider.undoLog(encounter, log);
+                              await trackerState.undoLog(log);
                               await analytics
                                   .logEvent('undo_encounter_log', props: {
                                 'log': log.type.toString(),
@@ -95,8 +93,8 @@ class EncounterTrackerPage extends StatelessWidget {
                         },
                         onCombatantsAdded: (combatantsMap) async {
                           await context
-                              .read<EncountersProvider>()
-                              .addCombatants(encounter, combatantsMap);
+                              .read<EncounterTrackerNotifier>()
+                              .addCombatants(combatantsMap);
                         },
                       ),
                       Expanded(
@@ -153,8 +151,8 @@ class _TrackerPageContentState extends State<_TrackerPageContent> {
               : null,
           onCombatantsAdded: (combatants) async {
             await context
-                .read<EncountersProvider>()
-                .addCombatants(widget.encounter, combatants);
+                .read<EncounterTrackerNotifier>()
+                .addCombatants(combatants);
           },
         ),
         Align(
@@ -171,9 +169,8 @@ class _TrackerPageContentState extends State<_TrackerPageContent> {
             onConditionsAdded: (conditions) async {
               final combatant = widget.encounter.combatants[combatantIndex!];
               await context
-                  .read<EncountersProvider>()
+                  .read<EncounterTrackerNotifier>()
                   .updateCombatantsConditions(
-                    widget.encounter,
                     combatant,
                     conditions,
                   );

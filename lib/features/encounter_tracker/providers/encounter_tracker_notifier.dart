@@ -2,10 +2,12 @@ import 'dart:async';
 import 'dart:math';
 
 import 'package:battlemaster/features/combatant/models/combatant.dart';
+import 'package:battlemaster/features/conditions/models/condition.dart';
 import 'package:battlemaster/features/encounters/models/encounter_log.dart';
 import 'package:battlemaster/features/settings/models/skip_dead_behavior.dart';
 import 'package:battlemaster/features/settings/providers/system_settings_provider.dart';
 import 'package:flutter/material.dart';
+import 'package:nanoid2/nanoid2.dart';
 
 import '../../../database/database.dart';
 import '../../combatant/models/combatant_type.dart';
@@ -94,6 +96,94 @@ class EncounterTrackerNotifier extends ChangeNotifier {
     );
 
     final updated = log.apply(_encounter);
+    await _database.updateEncounter(updated);
+  }
+
+  Future<void> updateCombatantHealth(
+    Combatant combatant,
+    int health,
+  ) async {
+    final damage = combatant.currentHp - health;
+    if (damage == 0) {
+      return;
+    }
+
+    final log = DamageCombatantLog(
+      round: _encounter.round,
+      turn: _encounter.turn,
+      combatant: combatant,
+      damage: damage,
+    );
+
+    final updated = log.apply(_encounter);
+    await _database.updateEncounter(updated);
+  }
+
+  Future<void> updateCombatantsConditions(
+    Combatant combatant,
+    List<Condition> conditions,
+  ) async {
+    final log = AddConditionsLog(
+      round: _encounter.round,
+      turn: _encounter.turn,
+      combatant: combatant,
+      conditions: conditions,
+    );
+
+    final updated = log.apply(_encounter);
+    await _database.updateEncounter(updated);
+  }
+
+  Future<void> addCombatants(Map<Combatant, int> combatantsMap) async {
+    if (combatantsMap.isEmpty) {
+      return;
+    }
+    final logs = combatantsMap.entries.fold<List<AddCombatantLog>>(
+      [],
+      (combatants, mapEntry) {
+        return [
+          ...combatants,
+          ...List.generate(
+            mapEntry.value,
+            (index) => AddCombatantLog(
+              round: _encounter.round,
+              turn: _encounter.turn,
+              combatant: mapEntry.key.copyWith(
+                id: nanoid(),
+                name: mapEntry.value > 1
+                    ? '${mapEntry.key.name} ${index + 1}'
+                    : null,
+              ),
+            ),
+          ),
+        ];
+      },
+    );
+
+    final updated = logs.fold<Encounter>(
+      _encounter,
+      (e, log) => log.apply(e),
+    );
+    await _database.updateEncounter(updated);
+  }
+
+  Future<void> removeCombatant(Combatant combatant) async {
+    final removeLog = RemoveCombatantLog(
+      round: _encounter.round,
+      turn: _encounter.turn,
+      combatant: combatant,
+    );
+    final updated = removeLog.apply(_encounter);
+    await _database.updateEncounter(updated);
+  }
+
+  Future<void> deleteHistory() async {
+    final updated = _encounter.copyWith(logs: []);
+    await _database.updateEncounter(updated);
+  }
+
+  Future<void> undoLog(EncounterLog log) async {
+    final updated = log.undo(_encounter);
     await _database.updateEncounter(updated);
   }
 
