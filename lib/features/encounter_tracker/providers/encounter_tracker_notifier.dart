@@ -60,7 +60,7 @@ class EncounterTrackerNotifier extends ChangeNotifier {
           ..where((e) => e.id.equals(encounterId)))
         .watchSingle()
         .asyncMap<Encounter>(
-      (row) {
+      (row) async {
         _encounter = Encounter(
           id: row.id,
           name: row.name,
@@ -71,7 +71,7 @@ class EncounterTrackerNotifier extends ChangeNotifier {
           turn: row.turn,
           logs: row.logs,
         );
-        shareEncounterNotifier?.updateEncounter(_encounter);
+        await shareEncounterNotifier?.updateEncounter(_encounter);
         return _encounter;
       },
     );
