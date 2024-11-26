@@ -55,8 +55,8 @@ class GroupDetailPage extends StatelessWidget {
                         },
                         onTitleChanged: (value) async {
                           await context
-                              .read<EncountersProvider>()
-                              .editEncounterName(encounter, value);
+                              .read<EncounterTrackerNotifier>()
+                              .editName(value);
                         },
                       ),
                       Expanded(

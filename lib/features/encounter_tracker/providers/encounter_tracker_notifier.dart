@@ -78,6 +78,10 @@ class EncounterTrackerNotifier extends ChangeNotifier {
     _activeIndexController.add(_activeCombatantIndex);
   }
 
+  Future<void> editName(String name) async {
+    await _database.updateEncounter(_encounter.copyWith(name: name));
+  }
+
   Future<void> playStop() async {
     if (_status == EncounterTrackerStatus.stopped) {
       _status = EncounterTrackerStatus.playing;

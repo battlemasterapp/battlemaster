@@ -91,9 +91,7 @@ class EncounterTrackerPage extends StatelessWidget {
                       TrackerBar(
                         encounter: encounter,
                         onTitleChanged: (title) async {
-                          await context
-                              .read<EncountersProvider>()
-                              .editEncounterName(encounter, title);
+                          await trackerState.editName(title);
                         },
                         onCombatantsAdded: (combatantsMap) async {
                           await context

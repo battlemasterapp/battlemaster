@@ -30,10 +30,6 @@ class EncountersProvider extends ChangeNotifier {
     await _database.updateEncounter(updated);
   }
 
-  Future<void> editEncounterName(Encounter encounter, String name) async {
-    await _database.updateEncounter(encounter.copyWith(name: name));
-  }
-
   Future<void> updateCombatantInitiative(
     Encounter encounter,
     Combatant combatant,
