@@ -390,6 +390,14 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "0.2.14"
+  fingerprint:
+    dependency: "direct main"
+    description:
+      name: fingerprint
+      sha256: da7aa53874de5601911f1caa9997e1536d3d945868e7e7f8735ef7f26bb1bc16
+      url: "https://pub.dev"
+    source: hosted
+    version: "0.1.0"
   fixnum:
     dependency: transitive
     description:
