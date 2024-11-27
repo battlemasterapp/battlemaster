@@ -8,6 +8,7 @@ import 'package:battlemaster/features/player_view/widgets/live_view_disconnected
 import 'package:battlemaster/features/player_view/widgets/live_view_error.dart';
 import 'package:battlemaster/features/player_view/widgets/live_view_loading.dart';
 import 'package:battlemaster/features/player_view/widgets/live_view_tile.dart';
+import 'package:battlemaster/features/settings/providers/system_settings_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_animate/flutter_animate.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';

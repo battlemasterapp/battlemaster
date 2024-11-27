@@ -57,7 +57,7 @@ Dnd5eSettings _$Dnd5eSettingsFromJson(Map<String, dynamic> json) =>
       sources: (json['sources'] as List<dynamic>?)
               ?.map((e) => e as String)
               .toSet() ??
-          const {"wotc-srd", "tob", "tob2", "cc"},
+          const {"wotc-srd"},
     );
 
 Map<String, dynamic> _$Dnd5eSettingsToJson(Dnd5eSettings instance) =>

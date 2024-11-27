@@ -30,6 +30,7 @@ class EncounterTrackerPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final analytics = context.read<AnalyticsService>();
+    final settings = context.read<SystemSettingsProvider>();
     return MultiProvider(
       providers: [
         ChangeNotifierProxyProvider<AuthProvider, ShareEncounterNotifier>(
@@ -74,23 +75,25 @@ class EncounterTrackerPage extends StatelessWidget {
                   title: Text(AppLocalizations.of(context)!
                       .encounter_tracker_page_title),
                   actions: [
-                    GoLiveButton(
-                      onPressed: () async {
-                        final code = await shareState.toggleLive(encounter);
-                        if (code != null) {
-                          await showDialog(
-                            // ignore: use_build_context_synchronously
-                            context: context,
-                            builder: (context) =>
-                                EncounterCodeDialog(code: code),
-                          );
-                        }
-                        await analytics
-                            .logEvent('toggle_live_encounter', props: {
-                          'live': (!shareState.live).toString(),
-                        });
-                      },
-                    ),
+                    if (settings
+                        .encounterSettings.liveEncounterSettings.enabled)
+                      GoLiveButton(
+                        onPressed: () async {
+                          final code = await shareState.toggleLive(encounter);
+                          if (code != null) {
+                            await showDialog(
+                              // ignore: use_build_context_synchronously
+                              context: context,
+                              builder: (context) =>
+                                  EncounterCodeDialog(code: code),
+                            );
+                          }
+                          await analytics
+                              .logEvent('toggle_live_encounter', props: {
+                            'live': (!shareState.live).toString(),
+                          });
+                        },
+                      ),
                     IconButton(
                       icon: Icon(MingCute.history_2_fill),
                       onPressed: () async {

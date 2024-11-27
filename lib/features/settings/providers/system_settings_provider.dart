@@ -31,6 +31,8 @@ class SystemSettingsProvider extends ChangeNotifier {
 
   Dnd5eSettings get dnd5eSettings => _settings.dnd5eSettings;
 
+  EncounterSettings get encounterSettings => _settings.encounterSettings;
+
   Future<void> _init() async {
     final preferences = await SharedPreferences.getInstance();
     final cache = jsonDecode(preferences.getString(_settingsKey) ?? '{}')
@@ -89,6 +91,17 @@ class SystemSettingsProvider extends ChangeNotifier {
 
   Future<void> setEncounterSettings(EncounterSettings encounterSettings) async {
     await setSettings(settings.copyWith(encounterSettings: encounterSettings));
+  }
+
+  Future<void> setLiveEncounterSettings(
+      LiveEncounterSettings liveEncounterSettings) async {
+    await setSettings(
+      settings.copyWith(
+        encounterSettings: encounterSettings.copyWith(
+          liveEncounterSettings: liveEncounterSettings,
+        ),
+      ),
+    );
   }
 
   Future<void> setPF2eSettings(PF2eSettings pf2eSettings) async {

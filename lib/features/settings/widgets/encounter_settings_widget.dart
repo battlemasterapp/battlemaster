@@ -1,4 +1,6 @@
+import 'package:battlemaster/features/settings/models/encounter_settings.dart';
 import 'package:battlemaster/features/settings/models/skip_dead_behavior.dart';
+import 'package:battlemaster/features/settings/widgets/live_encounter_settings.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:go_router/go_router.dart';
@@ -92,6 +94,7 @@ class EncounterSettingsWidget extends StatelessWidget {
             context.pushNamed('conditions');
           },
         ),
+        const LiveEncounterSettingsWidget(),
       ],
     );
   }
