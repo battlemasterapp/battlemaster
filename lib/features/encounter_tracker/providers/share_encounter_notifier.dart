@@ -26,10 +26,12 @@ class ShareEncounterNotifier extends ChangeNotifier {
   String? get joinCode => _sharedEncounter?.getStringValue('joinCode');
 
   Future<void> _reconnect() async {
+    if (!authProvider.isAuthenticated) {
+      return;
+    }
     try {
-      _sharedEncounter ??= await _pb
-          .collection('live_encounters')
-          .getFirstListItem('encounterId = $_encounterId');
+      _sharedEncounter ??= await _pb.collection('live_encounters').getFirstListItem(
+          'encounterId = $_encounterId && ${authProvider.userKey} = "${authProvider.userModel?.id}"');
     } on ClientException catch (e) {
       if (e.statusCode != 404) {
         rethrow;
@@ -48,17 +50,12 @@ class ShareEncounterNotifier extends ChangeNotifier {
 
   Future<String?> _goLive(Encounter encounter) async {
     assert(_live == false);
-    if (!authProvider.isAuthenticated) {
-      await authProvider.anonymousAuth();
-    } else {
-      await authProvider.refresh();
-    }
+    await authProvider.login();
 
     RecordModel? sharedEncounter;
     try {
-      sharedEncounter = await _pb
-          .collection('live_encounters')
-          .getFirstListItem('encounterId = ${encounter.id}');
+      sharedEncounter = await _pb.collection('live_encounters').getFirstListItem(
+          'encounterId = $_encounterId && ${authProvider.userKey} = "${authProvider.userModel!.id}"');
     } on ClientException catch (e) {
       if (e.statusCode != 404) {
         rethrow;

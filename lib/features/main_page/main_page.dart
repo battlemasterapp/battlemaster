@@ -1,6 +1,7 @@
 import 'package:battlemaster/features/analytics/analytics_service.dart';
 import 'package:battlemaster/features/encounters/models/encounter_type.dart';
 import 'package:battlemaster/features/main_page/navigation_page.dart';
+import 'package:battlemaster/features/player_view/player_view_page.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:icons_plus/icons_plus.dart';
@@ -33,6 +34,12 @@ class _MainPageState extends State<MainPage> {
         page: CombatsPage(type: EncounterType.group),
         title: AppLocalizations.of(context)!.groups_page_title,
         icon: MingCute.group_fill,
+      ),
+      // FIXME: textos
+      "live-view": NavigationPage(
+        page: const PlayerViewPage(),
+        title: 'Live View',
+        icon: MingCute.tv_2_fill,
       ),
       "settings": NavigationPage(
         page: SettingsPage(),
