@@ -17,7 +17,6 @@ import 'package:sentry_flutter/sentry_flutter.dart';
 import 'package:toastification/toastification.dart';
 import 'package:wiredash/wiredash.dart';
 
-import 'api/services/pf2e_bestiary_service.dart';
 import 'features/analytics/analytics_observer.dart';
 import 'features/analytics/plausible.dart';
 import 'features/combatant/add_combatant_page.dart';
@@ -103,26 +102,26 @@ class BattlemasterApp extends StatelessWidget {
           create: (context) => EncountersProvider(context.read<AppDatabase>()),
           update: (_, __, provider) => provider!,
         ),
-        ProxyProvider<SystemSettingsProvider, Pf2eBestiaryService>(
-          create: (context) {
-            final settings =
-                context.read<SystemSettingsProvider>().pf2eSettings;
-            return Pf2eBestiaryService(
-              bestiarySources: settings.enabled ? settings.bestiaries : {},
-            )..fetchData();
-          },
-          update: (_, settings, service) {
-            final settingsSources = settings.pf2eSettings.bestiaries;
-            final providerSources = service?.bestiarySources ?? {};
-            final hasChanged = !setEquals(settingsSources, providerSources);
-            if (hasChanged) {
-              return Pf2eBestiaryService(bestiarySources: settingsSources)
-                ..fetchData(forceRefresh: true);
-            }
-            return service!;
-          },
-          lazy: false,
-        ),
+        // ProxyProvider<SystemSettingsProvider, Pf2eBestiaryService>(
+        //   create: (context) {
+        //     final settings =
+        //         context.read<SystemSettingsProvider>().pf2eSettings;
+        //     return Pf2eBestiaryService(
+        //       bestiarySources: settings.enabled ? settings.bestiaries : {},
+        //     )..fetchData();
+        //   },
+        //   update: (_, settings, service) {
+        //     final settingsSources = settings.pf2eSettings.bestiaries;
+        //     final providerSources = service?.bestiarySources ?? {};
+        //     final hasChanged = !setEquals(settingsSources, providerSources);
+        //     if (hasChanged) {
+        //       return Pf2eBestiaryService(bestiarySources: settingsSources)
+        //         ..fetchData(forceRefresh: true);
+        //     }
+        //     return service!;
+        //   },
+        //   lazy: false,
+        // ),
         ChangeNotifierProxyProvider<SystemSettingsProvider,
             Dnd5eEngineProvider>(
           create: (context) {
