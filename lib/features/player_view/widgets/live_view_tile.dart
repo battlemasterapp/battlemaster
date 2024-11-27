@@ -140,10 +140,10 @@ class _CombatantHealth extends StatelessWidget {
 
     // FIXME: this should be in the system settings
     final thresholds = <double, String>{
-      0.75: 'Healthy',
-      0.5: 'Wounded',
-      0.25: 'Bloodied',
-      0: 'Critical',
+      0.75: 'Saudável',
+      0.5: 'Machucado',
+      0.25: 'Sangrando',
+      0: 'Crítico',
     };
 
     final healthThreshold = thresholds.entries.firstWhere(

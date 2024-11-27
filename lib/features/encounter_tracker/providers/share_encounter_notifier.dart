@@ -91,7 +91,7 @@ class ShareEncounterNotifier extends ChangeNotifier {
     }
 
     await _pb.collection('live_encounters').update(_sharedEncounter!.id, body: {
-      'combatants': encounter.combatants.map((c) => c.toJson()).toList(),
+      'combatants': encounter.combatants.map((c) => c.toShortJson()).toList(),
       'round': encounter.round,
       'turn': encounter.turn,
     });

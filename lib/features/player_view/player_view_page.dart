@@ -19,18 +19,22 @@ class _PlayerViewPageState extends State<PlayerViewPage> {
   Widget build(BuildContext context) {
     // FIXME: textos
     if (_code == null || _code!.length < 6) {
-      return Column(
-        mainAxisAlignment: MainAxisAlignment.center,
-        crossAxisAlignment: CrossAxisAlignment.center,
-        children: [
-          Text('Enter the code to join the game',
-              style: Theme.of(context).textTheme.titleLarge),
-          const SizedBox(height: 16),
-          Pinput(
-            length: 6,
-            onCompleted: (value) => setState(() => _code = value.toUpperCase()),
-          ),
-        ],
+      return Padding(
+        padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          crossAxisAlignment: CrossAxisAlignment.center,
+          children: [
+            Text('Enter the code to join the game',
+                style: Theme.of(context).textTheme.titleLarge),
+            const SizedBox(height: 16),
+            Pinput(
+              length: 6,
+              onCompleted: (value) =>
+                  setState(() => _code = value.toUpperCase()),
+            ),
+          ],
+        ),
       );
     }
 

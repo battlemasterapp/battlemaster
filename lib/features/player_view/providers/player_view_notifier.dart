@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:battlemaster/features/auth/pocketbase.dart';
 import 'package:battlemaster/features/auth/providers/auth_provider.dart';
 import 'package:battlemaster/features/player_view/models/encounter_view.dart';
@@ -12,6 +14,7 @@ class PlayerViewNotifier extends ChangeNotifier {
   PlayerViewState _state = PlayerViewState.loading;
   EncounterView? _encounter;
   AuthProvider auth;
+  final _activeIndexController = StreamController<int>();
 
   PlayerViewNotifier({
     required this.code,
@@ -22,6 +25,15 @@ class PlayerViewNotifier extends ChangeNotifier {
   PlayerViewState get state => _state;
 
   EncounterView? get encounter => _encounter;
+
+  Stream<int> get activeIndexStream => _activeIndexController.stream;
+
+  @override
+  void dispose() {
+    unsubscribe();
+    _activeIndexController.close();
+    super.dispose();
+  }
 
   Future<void> subscribe() async {
     await auth.login();
@@ -49,26 +61,31 @@ class PlayerViewNotifier extends ChangeNotifier {
       return;
     }
 
-    _pb.collection('live_encounters').subscribe(encounterRecord.id,
-        (data) async {
-      print(data.action);
-      if (data.action == 'delete') {
-        _state = PlayerViewState.disconnected;
-        notifyListeners();
-        return;
-      }
+    _pb.collection('live_encounters').subscribe(
+      encounterRecord.id,
+      (data) async {
+        if (data.action == 'delete') {
+          _state = PlayerViewState.disconnected;
+          notifyListeners();
+          return;
+        }
 
-      _encounter = EncounterView.fromRecord(data.record!.data);
-      if (_encounter == null) {
-        _state = PlayerViewState.error;
+        _encounter = EncounterView.fromRecord(data.record!.data);
+        if (_encounter == null) {
+          _state = PlayerViewState.error;
+          notifyListeners();
+          return;
+        }
+        _activeIndexController.add(_encounter!.turn);
+        _state = PlayerViewState.ready;
         notifyListeners();
-        return;
-      }
-      _state = PlayerViewState.ready;
-      notifyListeners();
-    });
+      },
+    );
 
     _encounter = EncounterView.fromRecord(encounterRecord.data);
+    if (_encounter != null) {
+      _activeIndexController.add(_encounter!.turn);
+    }
     _state = PlayerViewState.ready;
     notifyListeners();
   }
