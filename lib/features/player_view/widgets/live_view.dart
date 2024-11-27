@@ -80,7 +80,7 @@ class _LiveViewState extends State<LiveView> {
                   widget.onLeave?.call();
                 },
                 icon: Icon(MingCute.exit_fill),
-                label: Text('Leave'),
+                label: Text('Sair'),
               ),
             ],
           ),
