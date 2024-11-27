@@ -11,35 +11,48 @@ class LiveEncounterSettingsWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     // FIXME: textos
-    final settings =
-        context.select<SystemSettingsProvider, LiveEncounterSettings>(
-      (state) => state.encounterSettings.liveEncounterSettings,
-    );
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: [
-        const Divider(),
-        SwitchListTile.adaptive(
-          value: settings.enabled,
-          onChanged: (value) {
-            context
-                .read<SystemSettingsProvider>()
-                .setLiveEncounterSettings(settings.copyWith(enabled: value));
-          },
-          title: Text(
-            'Visão do jogador',
-            style: Theme.of(context).textTheme.headlineSmall,
-          ),
-        ),
-        AnimatedSwitcher(
-          duration: 300.ms,
-          switchInCurve: Curves.easeInOutCubic,
-          switchOutCurve: Curves.easeInOutCubic,
-          child: settings.enabled
-              ? const _LiveEncounterSettings()
-              : const SizedBox.shrink(),
-        ),
-      ],
+    final settings = context.read<SystemSettingsProvider>();
+
+    return FutureBuilder<bool>(
+      future: settings.isFeatureEnabled(LiveEncounterSettings.featureKey),
+      initialData: false,
+      builder: (context, snapshot) {
+        final featureEnabled = snapshot.data ?? false;
+
+        if (!featureEnabled) {
+          return const SizedBox.shrink();
+        }
+
+        final liveSettings =
+            context.select<SystemSettingsProvider, LiveEncounterSettings>(
+          (state) => state.encounterSettings.liveEncounterSettings,
+        );
+        return Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            const Divider(),
+            SwitchListTile.adaptive(
+              value: liveSettings.enabled,
+              onChanged: (value) {
+                context.read<SystemSettingsProvider>().setLiveEncounterSettings(
+                    liveSettings.copyWith(enabled: value));
+              },
+              title: Text(
+                'Visão do jogador',
+                style: Theme.of(context).textTheme.headlineSmall,
+              ),
+            ),
+            AnimatedSwitcher(
+              duration: 300.ms,
+              switchInCurve: Curves.easeInOutCubic,
+              switchOutCurve: Curves.easeInOutCubic,
+              child: liveSettings.enabled
+                  ? const _LiveEncounterSettings()
+                  : const SizedBox.shrink(),
+            ),
+          ],
+        );
+      },
     );
   }
 }

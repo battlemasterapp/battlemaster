@@ -37,6 +37,7 @@ class EncounterSettings {
 
 @JsonSerializable()
 class LiveEncounterSettings {
+  static const featureKey = 'live_view';
   final bool enabled;
   final bool autoStartStop;
 

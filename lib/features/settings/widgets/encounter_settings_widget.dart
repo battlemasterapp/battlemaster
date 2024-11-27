@@ -1,4 +1,3 @@
-import 'package:battlemaster/features/settings/models/encounter_settings.dart';
 import 'package:battlemaster/features/settings/models/skip_dead_behavior.dart';
 import 'package:battlemaster/features/settings/widgets/live_encounter_settings.dart';
 import 'package:flutter/material.dart';

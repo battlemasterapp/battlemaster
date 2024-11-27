@@ -2,6 +2,8 @@ import 'dart:convert';
 
 import 'package:battlemaster/features/settings/models/encounter_settings.dart';
 import 'package:battlemaster/features/settings/models/skip_dead_behavior.dart';
+import 'package:flagsmith/flagsmith.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
@@ -11,8 +13,19 @@ import '../models/settings.dart';
 class SystemSettingsProvider extends ChangeNotifier {
   Settings _settings = Settings();
   final String _settingsKey = 'settings';
+  final FlagsmithClient _flagsmithClient;
 
-  SystemSettingsProvider() {
+  SystemSettingsProvider({FlagsmithClient? flagsmithClient})
+      : _flagsmithClient = flagsmithClient ??
+            FlagsmithClient(
+              apiKey: const String.fromEnvironment('FLAGSMITH_API_KEY'),
+              config: FlagsmithConfig(
+                baseURI: const String.fromEnvironment('FLAGSMTIH_URI'),
+                isDebug: kDebugMode,
+                enableAnalytics: true,
+                enableRealtimeUpdates: true,
+              ),
+            ) {
     _init();
   }
 
@@ -42,12 +55,24 @@ class SystemSettingsProvider extends ChangeNotifier {
     }
 
     notifyListeners();
+    await _flagsmithClient.initialize();
+    await _flagsmithClient.getFeatureFlags(reload: true);
+  }
+
+  Future<bool> isFeatureEnabled(String featureKey) {
+    return _flagsmithClient.isFeatureFlagEnabled(featureKey);
+  }
+
+  Future<String?> getFeatureFlagValue(String featureKey) {
+    return _flagsmithClient.getFeatureFlagValue(featureKey);
   }
 
   Future<void> reset() async {
     _settings = Settings();
     notifyListeners();
     await _saveSettings();
+    await _flagsmithClient.clearStore();
+    await _flagsmithClient.getFeatureFlags(reload: true);
   }
 
   Future<void> _saveSettings() async {
