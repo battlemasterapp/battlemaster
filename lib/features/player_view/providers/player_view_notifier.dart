@@ -9,7 +9,7 @@ import 'package:pocketbase/pocketbase.dart';
 enum PlayerViewState { disconnected, loading, ready, error }
 
 class PlayerViewNotifier extends ChangeNotifier {
-  final String code;
+  String? _code;
   final PocketBase _pb;
   PlayerViewState _state = PlayerViewState.loading;
   EncounterView? _encounter;
@@ -17,7 +17,6 @@ class PlayerViewNotifier extends ChangeNotifier {
   final _activeIndexController = StreamController<int>();
 
   PlayerViewNotifier({
-    required this.code,
     required this.auth,
     PocketBase? pb,
   }) : _pb = pb ?? pocketbase;
@@ -28,6 +27,8 @@ class PlayerViewNotifier extends ChangeNotifier {
 
   Stream<int> get activeIndexStream => _activeIndexController.stream;
 
+  String? get code => _code;
+
   @override
   void dispose() {
     unsubscribe();
@@ -35,7 +36,12 @@ class PlayerViewNotifier extends ChangeNotifier {
     super.dispose();
   }
 
-  Future<void> subscribe() async {
+  Future<void> subscribe({String? code}) async {
+    if (code != null) {
+      _code = code;
+    }
+    assert(_code != null);
+
     await auth.login();
     _state = PlayerViewState.loading;
     notifyListeners();
@@ -92,5 +98,7 @@ class PlayerViewNotifier extends ChangeNotifier {
 
   Future<void> unsubscribe() async {
     await _pb.collection('live_encounters').unsubscribe();
+    _code = null;
+    notifyListeners();
   }
 }

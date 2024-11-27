@@ -62,7 +62,7 @@ class LiveView extends StatelessWidget {
             children: [
               const SizedBox(width: 32),
               Text(
-                localization.round_counter(encounter.round),
+                '${encounter.code} - ${localization.round_counter(encounter.round)}',
                 style: Theme.of(context)
                     .textTheme
                     .titleLarge
@@ -108,16 +108,18 @@ class __LiveViewListState extends State<_LiveViewList> {
   @override
   void initState() {
     super.initState();
-    _observerController = ListObserverController(controller: _listController);
-    _sub ??=
-        context.read<PlayerViewNotifier>().activeIndexStream.listen((index) {
-      _observerController.animateTo(
-        index: index,
-        duration: 500.ms,
-        curve: Curves.easeInOutQuad,
-        padding: EdgeInsets.symmetric(vertical: 16),
-      );
+    final liveState = context.read<PlayerViewNotifier>();
+    _sub?.cancel().then((_) {
+      _sub ??= liveState.activeIndexStream.listen((index) {
+        _observerController.animateTo(
+          index: index,
+          duration: 500.ms,
+          curve: Curves.easeInOutQuad,
+          padding: EdgeInsets.symmetric(vertical: 16),
+        );
+      });
     });
+    _observerController = ListObserverController(controller: _listController);
   }
 
   @override

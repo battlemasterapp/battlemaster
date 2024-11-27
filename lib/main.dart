@@ -5,6 +5,7 @@ import 'package:battlemaster/features/auth/providers/auth_provider.dart';
 import 'package:battlemaster/features/bestiaries/providers/custom_bestiary_provider.dart';
 import 'package:battlemaster/features/conditions/custom_conditions_page.dart';
 import 'package:battlemaster/features/conditions/providers/conditions_provider.dart';
+import 'package:battlemaster/features/player_view/providers/player_view_notifier.dart';
 import 'package:battlemaster/features/settings/providers/system_settings_provider.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
@@ -156,6 +157,12 @@ class BattlemasterApp extends StatelessWidget {
         ),
         ChangeNotifierProvider<AuthProvider>(
           create: (context) => AuthProvider(),
+        ),
+        ChangeNotifierProxyProvider<AuthProvider, PlayerViewNotifier>(
+          create: (context) => PlayerViewNotifier(
+            auth: context.read<AuthProvider>(),
+          ),
+          update: (_, auth, notifier) => notifier!..auth = auth,
         ),
       ],
       child: Builder(builder: (context) {

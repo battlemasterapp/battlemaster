@@ -4,6 +4,7 @@ class EncounterView {
   final int round;
   final int turn;
   final List<Combatant> combatants;
+  final String code;
   final bool showMonsterHealth;
   final bool hideFutureCombatants;
 
@@ -11,6 +12,7 @@ class EncounterView {
     required this.round,
     required this.turn,
     required this.combatants,
+    required this.code,
     this.showMonsterHealth = true,
     this.hideFutureCombatants = true,
   });
@@ -19,6 +21,7 @@ class EncounterView {
     return EncounterView(
       round: record['round'],
       turn: record['turn'],
+      code: record['joinCode'],
       combatants: (record['combatants'] as List)
           .map((e) => Combatant.fromJson(e))
           .toList(),
