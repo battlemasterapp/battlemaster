@@ -37,6 +37,7 @@ class EncounterTrackerPage extends StatelessWidget {
           create: (context) => ShareEncounterNotifier(
             authProvider: context.read<AuthProvider>(),
             encounterId: encounterId,
+            reconnect: settings.encounterSettings.liveEncounterSettings.enabled,
           ),
           update: (_, auth, notifier) => notifier!..authProvider = auth,
         ),

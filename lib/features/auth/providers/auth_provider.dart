@@ -6,6 +6,7 @@ import 'package:pocketbase/pocketbase.dart';
 class AuthProvider extends ChangeNotifier {
   final PocketBase _pb;
   bool _anonymousLogin = true;
+  Fingerprint? _fingerprint;
 
   AuthProvider({
     PocketBase? pb,
@@ -41,17 +42,16 @@ class AuthProvider extends ChangeNotifier {
   }
 
   Future<bool> _anonymousAuth() async {
-    // FIXME: save fingerprint to local storage/secure storage
-    final fingerprint = await Fingerprint.create();
+    _fingerprint ??= await Fingerprint.create();
 
     await _pb.send(
       '/api/anonymous-user',
       method: 'POST',
-      headers: {'X-FINGERPRINT': fingerprint.toString()},
+      headers: {'X-FINGERPRINT': _fingerprint.toString()},
     );
     await _pb.collection('anonymous_users').authWithPassword(
-          fingerprint.toString(),
-          fingerprint.toString(),
+          _fingerprint.toString(),
+          _fingerprint.toString(),
         );
 
     _anonymousLogin = true;
