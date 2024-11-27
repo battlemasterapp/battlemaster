@@ -1,5 +1,7 @@
+import 'package:battlemaster/database/database.dart';
 import 'package:battlemaster/features/analytics/analytics_service.dart';
 import 'package:battlemaster/features/conditions/models/condition.dart';
+import 'package:battlemaster/features/conditions/providers/conditions_provider.dart';
 import 'package:battlemaster/features/conditions/widgets/add_condition_dialog.dart';
 import 'package:battlemaster/features/conditions/widgets/conditions_list.dart';
 import 'package:battlemaster/features/engines/models/game_engine_type.dart';
@@ -43,9 +45,13 @@ class AddConditionButton extends StatelessWidget {
           onPressed: () async {
             final selectedConditions = await showDialog<List<Condition>?>(
               context: context,
-              builder: (context) => AddConditionDialog(
-                conditions: conditions,
-                engine: engine,
+              builder: (context) => ChangeNotifierProvider<ConditionsProvider>(
+                create: (context) =>
+                    ConditionsProvider(context.read<AppDatabase>()),
+                child: AddConditionDialog(
+                  conditions: conditions,
+                  engine: engine,
+                ),
               ),
             );
 
