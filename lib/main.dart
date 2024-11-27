@@ -2,7 +2,6 @@ import 'package:battlemaster/api/providers/dnd5e_engine_provider.dart';
 import 'package:battlemaster/database/database.dart';
 import 'package:battlemaster/features/analytics/analytics_service.dart';
 import 'package:battlemaster/features/auth/providers/auth_provider.dart';
-import 'package:battlemaster/features/bestiaries/providers/custom_bestiary_provider.dart';
 import 'package:battlemaster/features/conditions/custom_conditions_page.dart';
 import 'package:battlemaster/features/player_view/providers/player_view_notifier.dart';
 import 'package:battlemaster/features/settings/providers/system_settings_provider.dart';
@@ -145,10 +144,6 @@ class BattlemasterApp extends StatelessWidget {
         Provider<AnalyticsService>(
           create: (_) => AnalyticsService(),
           lazy: false,
-        ),
-        ChangeNotifierProvider<CustomBestiaryProvider>(
-          create: (context) =>
-              CustomBestiaryProvider(context.read<AppDatabase>()),
         ),
         ChangeNotifierProvider<AuthProvider>(
           create: (context) => AuthProvider(),
