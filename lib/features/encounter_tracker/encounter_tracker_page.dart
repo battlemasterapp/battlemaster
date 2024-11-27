@@ -79,7 +79,11 @@ class EncounterTrackerPage extends StatelessWidget {
                         .encounterSettings.liveEncounterSettings.enabled)
                       GoLiveButton(
                         onPressed: () async {
-                          final code = await shareState.toggleLive(encounter);
+                          final code = await shareState.toggleLive(
+                            encounter,
+                            flags: settings
+                                .encounterSettings.liveEncounterSettings.flags,
+                          );
                           if (code != null) {
                             await showDialog(
                               // ignore: use_build_context_synchronously

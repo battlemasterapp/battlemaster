@@ -20,7 +20,13 @@ class LiveViewDisconnected extends StatelessWidget {
         mainAxisAlignment: MainAxisAlignment.center,
         crossAxisAlignment: CrossAxisAlignment.center,
         children: [
-          FIcon(GI.GiBreakingChain, size: iconSize),
+          FIcon(
+            GI.GiBreakingChain,
+            size: iconSize,
+            color: Theme.of(context).iconTheme.color ??
+                Theme.of(context).textTheme.bodyMedium?.color ??
+                Colors.black,
+          ),
           const SizedBox(height: 16),
           Text(
             'O combate foi encerrado.',

@@ -16,6 +16,7 @@ class ShareEncounterNotifier extends ChangeNotifier {
     PocketBase? pb,
   })  : _pb = pb ?? pocketbase,
         _encounterId = encounterId {
+    // FIXME: only autoreconnect if feature is enabled
     _reconnect();
   }
 
@@ -27,7 +28,7 @@ class ShareEncounterNotifier extends ChangeNotifier {
 
   Future<void> _reconnect() async {
     if (!authProvider.isAuthenticated) {
-      return;
+      await authProvider.login();
     }
     try {
       _sharedEncounter ??= await _pb.collection('live_encounters').getFirstListItem(
@@ -44,11 +45,17 @@ class ShareEncounterNotifier extends ChangeNotifier {
     }
   }
 
-  Future<String?> toggleLive(Encounter encounter) {
-    return _live ? _stopLive() : _goLive(encounter);
+  Future<String?> toggleLive(
+    Encounter encounter, {
+    Map<String, bool>? flags,
+  }) {
+    return _live ? _stopLive() : _goLive(encounter, flags: flags);
   }
 
-  Future<String?> _goLive(Encounter encounter) async {
+  Future<String?> _goLive(
+    Encounter encounter, {
+    Map<String, bool>? flags,
+  }) async {
     assert(_live == false);
     await authProvider.login();
 
@@ -67,6 +74,7 @@ class ShareEncounterNotifier extends ChangeNotifier {
       'round': encounter.round,
       'turn': encounter.turn,
       'encounterId': encounter.id,
+      'flags': flags,
       authProvider.userKey: authProvider.userModel!.id,
     });
 

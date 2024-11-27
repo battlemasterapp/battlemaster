@@ -139,16 +139,20 @@ class __LiveViewListState extends State<_LiveViewList> {
         itemBuilder: (context, index) {
           final combatant = widget.encounter.combatants[index];
           final selected = index == widget.encounter.turn;
+          final hideMonsters = widget.encounter.hideFutureCombatants;
+
           return LiveViewTile(
             combatant: combatant,
             index: index,
             selected: selected,
-            revealed: _isRevealed(
-              combatant,
-              widget.encounter.round,
-              index,
-              widget.encounter.turn,
-            ),
+            showMonsterHealth: widget.encounter.showMonsterHealth,
+            revealed: !hideMonsters ||
+                _isRevealed(
+                  combatant,
+                  widget.encounter.round,
+                  index,
+                  widget.encounter.turn,
+                ),
           );
         },
       ),

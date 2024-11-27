@@ -17,12 +17,14 @@ class LiveViewTile extends StatelessWidget {
     required this.index,
     this.selected = false,
     this.revealed = true,
+    this.showMonsterHealth = true,
   });
 
   final Combatant combatant;
   final int index;
   final bool selected;
   final bool revealed;
+  final bool showMonsterHealth;
 
   @override
   Widget build(BuildContext context) {
@@ -46,7 +48,12 @@ class LiveViewTile extends StatelessWidget {
         title: Row(
           children: [
             if (revealed) ...[
-              FIcon(combatant.type.icon),
+              FIcon(
+                combatant.type.icon,
+                color: Theme.of(context).iconTheme.color ??
+                    Theme.of(context).textTheme.bodyMedium?.color ??
+                    Colors.black,
+              ),
               const SizedBox(width: 8),
             ],
             revealed ? Text(combatant.name) : Text('???'),
@@ -54,6 +61,7 @@ class LiveViewTile extends StatelessWidget {
             _CombatantHealth(
               combatant: combatant,
               revealed: revealed,
+              showMonsterHealth: showMonsterHealth,
             ),
           ],
         ),
@@ -88,10 +96,12 @@ class _CombatantHealth extends StatelessWidget {
   const _CombatantHealth({
     required this.combatant,
     this.revealed = true,
+    this.showMonsterHealth = true,
   });
 
   final Combatant combatant;
   final bool revealed;
+  final bool showMonsterHealth;
 
   @override
   Widget build(BuildContext context) {
@@ -138,7 +148,10 @@ class _CombatantHealth extends StatelessWidget {
       return const SizedBox();
     }
 
-    // FIXME: this should be in the system settings
+    if (!showMonsterHealth) {
+      return const SizedBox();
+    }
+
     final thresholds = <double, String>{
       0.75: 'Saudável',
       0.5: 'Machucado',

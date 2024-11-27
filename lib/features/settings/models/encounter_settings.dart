@@ -38,16 +38,15 @@ class EncounterSettings {
 @JsonSerializable()
 class LiveEncounterSettings {
   static const featureKey = 'live_view';
-  final bool enabled;
-  final bool autoStartStop;
+  final bool featureEnabled;
+  final bool userEnabled;
 
-  // FIXME: this values should be sent with the live encounter
   final bool showMonsterHealth;
   final bool hideFutureCombatants;
 
   const LiveEncounterSettings({
-    this.enabled = false,
-    this.autoStartStop = false,
+    this.featureEnabled = false,
+    this.userEnabled = true,
     this.showMonsterHealth = true,
     this.hideFutureCombatants = true,
   });
@@ -57,15 +56,23 @@ class LiveEncounterSettings {
 
   Map<String, dynamic> toJson() => _$LiveEncounterSettingsToJson(this);
 
+  bool get enabled => featureEnabled && userEnabled;
+
+  Map<String, bool> get flags => {
+        'show_monster_health': showMonsterHealth,
+        'hide_future_combatants': hideFutureCombatants,
+      };
+
   LiveEncounterSettings copyWith({
-    bool? enabled,
+    bool? featureEnabled,
+    bool? userEnabled,
     bool? autoStartStop,
     bool? showMonsterHealth,
     bool? hideFutureCombatants,
   }) {
     return LiveEncounterSettings(
-      enabled: enabled ?? this.enabled,
-      autoStartStop: autoStartStop ?? this.autoStartStop,
+      featureEnabled: featureEnabled ?? this.featureEnabled,
+      userEnabled: userEnabled ?? this.userEnabled,
       showMonsterHealth: showMonsterHealth ?? this.showMonsterHealth,
       hideFutureCombatants: hideFutureCombatants ?? this.hideFutureCombatants,
     );

@@ -22,7 +22,13 @@ class LiveViewError extends StatelessWidget {
         mainAxisAlignment: MainAxisAlignment.center,
         crossAxisAlignment: CrossAxisAlignment.center,
         children: [
-          FIcon(GI.GiBrokenSkull, size: iconSize),
+          FIcon(
+            GI.GiBrokenSkull,
+            size: iconSize,
+            color: Theme.of(context).iconTheme.color ??
+                Theme.of(context).textTheme.bodyMedium?.color ??
+                Colors.black,
+          ),
           const SizedBox(height: 16),
           Text(
             'Não foi possível conectar no combate.',

@@ -15,7 +15,8 @@ class LiveEncounterSettingsWidget extends StatelessWidget {
 
     return FutureBuilder<bool>(
       future: settings.isFeatureEnabled(LiveEncounterSettings.featureKey),
-      initialData: false,
+      initialData:
+          settings.encounterSettings.liveEncounterSettings.featureEnabled,
       builder: (context, snapshot) {
         final featureEnabled = snapshot.data ?? false;
 
@@ -32,10 +33,10 @@ class LiveEncounterSettingsWidget extends StatelessWidget {
           children: [
             const Divider(),
             SwitchListTile.adaptive(
-              value: liveSettings.enabled,
+              value: liveSettings.userEnabled,
               onChanged: (value) {
                 context.read<SystemSettingsProvider>().setLiveEncounterSettings(
-                    liveSettings.copyWith(enabled: value));
+                    liveSettings.copyWith(userEnabled: value));
               },
               title: Text(
                 'Visão do jogador',
@@ -46,7 +47,7 @@ class LiveEncounterSettingsWidget extends StatelessWidget {
               duration: 300.ms,
               switchInCurve: Curves.easeInOutCubic,
               switchOutCurve: Curves.easeInOutCubic,
-              child: liveSettings.enabled
+              child: liveSettings.userEnabled
                   ? const _LiveEncounterSettings()
                   : const SizedBox.shrink(),
             ),
@@ -69,17 +70,6 @@ class _LiveEncounterSettings extends StatelessWidget {
     // FIXME: textos
     return Column(
       children: [
-        SwitchListTile.adaptive(
-          value: settings.autoStartStop,
-          onChanged: (value) {
-            context.read<SystemSettingsProvider>().setLiveEncounterSettings(
-                settings.copyWith(autoStartStop: value));
-          },
-          secondary: Icon(MingCute.play_circle_fill),
-          title: Text('Auto iniciar/parar'),
-          subtitle: Text(
-              'Inicia e para o compartilhamento automaticamente com o combate.'),
-        ),
         SwitchListTile.adaptive(
           value: settings.showMonsterHealth,
           onChanged: (value) {

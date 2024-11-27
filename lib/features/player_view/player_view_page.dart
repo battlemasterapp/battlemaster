@@ -38,6 +38,9 @@ class _PlayerViewPageState extends State<PlayerViewPage> {
       );
     }
 
+    // FIXME: move provider up in the stack (maybe to the main page?)
+    //     and pass the code as a parameter of the subscribe function 
+    //     so that the page can display the correct state to the user
     return ChangeNotifierProxyProvider<AuthProvider, PlayerViewNotifier>(
       create: (context) => PlayerViewNotifier(
         code: _code!,

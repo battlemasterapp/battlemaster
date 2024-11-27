@@ -57,6 +57,15 @@ class SystemSettingsProvider extends ChangeNotifier {
     notifyListeners();
     await _flagsmithClient.initialize();
     await _flagsmithClient.getFeatureFlags(reload: true);
+    _settings = _settings.copyWith(
+      encounterSettings: _settings.encounterSettings.copyWith(
+        liveEncounterSettings: LiveEncounterSettings(
+          featureEnabled:
+              await isFeatureEnabled(LiveEncounterSettings.featureKey),
+        ),
+      ),
+    );
+    await _saveSettings();
   }
 
   Future<bool> isFeatureEnabled(String featureKey) {
