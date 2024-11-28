@@ -19,6 +19,9 @@ class SystemSettingsProvider extends ChangeNotifier {
       : _flagsmithClient = flagsmithClient ??
             FlagsmithClient(
               apiKey: const String.fromEnvironment('FLAGSMITH_API_KEY'),
+              seeds: [
+                Flag.seed(LiveEncounterSettings.featureKey, enabled: false),
+              ],
               config: FlagsmithConfig(
                 baseURI: const String.fromEnvironment('FLAGSMTIH_URI'),
                 isDebug: kDebugMode,
