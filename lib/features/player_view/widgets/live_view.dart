@@ -25,7 +25,6 @@ class LiveView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    // FIXME: textos
     final localization = AppLocalizations.of(context)!;
     final liveState = context.watch<PlayerViewNotifier>();
 
@@ -74,7 +73,7 @@ class LiveView extends StatelessWidget {
                   onLeave?.call();
                 },
                 icon: Icon(MingCute.exit_fill),
-                label: Text('Sair'),
+                label: Text(localization.leave_button),
               ),
             ],
           ),
@@ -162,7 +161,6 @@ class __LiveViewListState extends State<_LiveViewList> {
   }
 
   bool _isRevealed(Combatant combatant, int round, int index, int turn) {
-    // TODO: add to the system settings
     if (combatant.type == CombatantType.player) {
       return true;
     }

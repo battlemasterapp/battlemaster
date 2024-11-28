@@ -2,6 +2,7 @@ import 'package:battlemaster/features/settings/models/encounter_settings.dart';
 import 'package:battlemaster/features/settings/providers/system_settings_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_animate/flutter_animate.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:icons_plus/icons_plus.dart';
 import 'package:provider/provider.dart';
 
@@ -10,7 +11,7 @@ class LiveEncounterSettingsWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    // FIXME: textos
+    final localization = AppLocalizations.of(context)!;
     final settings = context.read<SystemSettingsProvider>();
 
     return FutureBuilder<bool>(
@@ -39,8 +40,11 @@ class LiveEncounterSettingsWidget extends StatelessWidget {
                     liveSettings.copyWith(userEnabled: value));
               },
               title: Text(
-                'Visão do jogador',
+                localization.live_view_settings_title,
                 style: Theme.of(context).textTheme.headlineSmall,
+              ),
+              subtitle: Text(
+                localization.live_view_settings_description,
               ),
             ),
             AnimatedSwitcher(
@@ -67,7 +71,7 @@ class _LiveEncounterSettings extends StatelessWidget {
         context.select<SystemSettingsProvider, LiveEncounterSettings>(
       (state) => state.encounterSettings.liveEncounterSettings,
     );
-    // FIXME: textos
+    final localization = AppLocalizations.of(context)!;
     return Column(
       children: [
         SwitchListTile.adaptive(
@@ -77,9 +81,9 @@ class _LiveEncounterSettings extends StatelessWidget {
                 settings.copyWith(showMonsterHealth: value));
           },
           secondary: Icon(MingCute.heartbeat_fill),
-          title: Text('Indicativo de vida dos monstros'),
+          title: Text(localization.live_view_settings_monster_health_title),
           subtitle:
-              Text('Mostra um indicativo de quão machucado um monstro está.'),
+              Text(localization.live_view_settings_monster_health_subtitle),
         ),
         SwitchListTile.adaptive(
           value: settings.hideFutureCombatants,
@@ -88,9 +92,10 @@ class _LiveEncounterSettings extends StatelessWidget {
                 settings.copyWith(hideFutureCombatants: value));
           },
           secondary: Icon(MingCute.eye_fill),
-          title: Text('Esconder monstros futuros'),
+          title: Text(
+              localization.live_view_settings_hide_future_combatants_title),
           subtitle: Text(
-              'Esconde o nome e informações de monstros que não agiram ainda.'),
+              localization.live_view_settings_hide_future_combatants_subtitle),
         ),
       ],
     );

@@ -1,3 +1,4 @@
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:battlemaster/features/encounter_tracker/providers/share_encounter_notifier.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_animate/flutter_animate.dart';
@@ -10,7 +11,7 @@ class GoLiveButton extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    // FIXME: textos
+    final localization = AppLocalizations.of(context)!;
     final live =
         context.select<ShareEncounterNotifier, bool>((state) => state.live);
     if (live) {
@@ -35,7 +36,7 @@ class GoLiveButton extends StatelessWidget {
                   .fade(duration: 750.ms, curve: Curves.easeInOutQuad),
             ),
             const SizedBox(width: 6),
-            Text('Live'),
+            Text(localization.live_button),
           ],
         ),
       );
@@ -43,7 +44,7 @@ class GoLiveButton extends StatelessWidget {
 
     return ElevatedButton(
       onPressed: onPressed,
-      child: Text('Share'),
+      child: Text(localization.live_share_button),
     );
   }
 }

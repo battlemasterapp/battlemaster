@@ -2,6 +2,7 @@ import 'dart:math';
 
 import 'package:battlemaster/features/player_view/providers/player_view_notifier.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:provider/provider.dart';
 import 'package:ultimate_flutter_icons/flutter_icons.dart';
 
@@ -15,7 +16,7 @@ class LiveViewError extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    // FIXME: textos
+    final localization = AppLocalizations.of(context)!;
     return LayoutBuilder(builder: (context, layout) {
       final iconSize = min(128, layout.maxHeight / 3).toDouble();
       return Column(
@@ -31,7 +32,7 @@ class LiveViewError extends StatelessWidget {
           ),
           const SizedBox(height: 16),
           Text(
-            'Não foi possível conectar no combate.',
+            localization.live_view_error,
             style: Theme.of(context).textTheme.titleMedium,
           ),
           const SizedBox(height: 8),
@@ -39,12 +40,12 @@ class LiveViewError extends StatelessWidget {
             onPressed: () {
               context.read<PlayerViewNotifier>().subscribe();
             },
-            child: Text('Tentar novamente'),
+            child: Text(localization.retry_button),
           ),
           const SizedBox(height: 16),
           OutlinedButton(
             onPressed: onLeave,
-            child: Text('Sair'),
+            child: Text(localization.leave_button),
           ),
         ],
       );

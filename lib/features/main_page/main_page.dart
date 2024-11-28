@@ -26,28 +26,28 @@ class _MainPageState extends State<MainPage> {
   @override
   Widget build(BuildContext context) {
     final settings = context.watch<SystemSettingsProvider>();
+    final localization = AppLocalizations.of(context)!;
 
     final pages = {
       "combats": NavigationPage(
         page: CombatsPage(type: EncounterType.encounter),
-        title: AppLocalizations.of(context)!.combats_page_title,
+        title: localization.combats_page_title,
         icon: MingCute.sword_fill,
       ),
       "groups": NavigationPage(
         page: CombatsPage(type: EncounterType.group),
-        title: AppLocalizations.of(context)!.groups_page_title,
+        title: localization.groups_page_title,
         icon: MingCute.group_fill,
       ),
       if (settings.encounterSettings.liveEncounterSettings.enabled)
-        // FIXME: textos
         "live-view": NavigationPage(
           page: const PlayerViewPage(),
-          title: 'Live View',
+          title: localization.live_view_page_title,
           icon: MingCute.tv_2_fill,
         ),
       "settings": NavigationPage(
         page: SettingsPage(),
-        title: AppLocalizations.of(context)!.settings_page_title,
+        title: localization.settings_page_title,
         icon: MingCute.settings_3_fill,
       ),
     };

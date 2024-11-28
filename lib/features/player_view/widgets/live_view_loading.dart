@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class LiveViewLoading extends StatelessWidget {
   const LiveViewLoading({
@@ -10,7 +11,7 @@ class LiveViewLoading extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    // FIXME: textos
+    final localization = AppLocalizations.of(context)!;
     return Column(
       mainAxisAlignment: MainAxisAlignment.center,
       crossAxisAlignment: CrossAxisAlignment.center,
@@ -19,7 +20,7 @@ class LiveViewLoading extends StatelessWidget {
         const SizedBox(height: 16),
         ElevatedButton(
           onPressed: onLeave,
-          child: Text('Cancelar'),
+          child: Text(localization.cancel_button),
         ),
       ],
     );

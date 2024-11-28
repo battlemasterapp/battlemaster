@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class EncounterCodeDialog extends StatelessWidget {
   const EncounterCodeDialog({
@@ -10,13 +11,13 @@ class EncounterCodeDialog extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    // FIXME: textos
+    final localization = AppLocalizations.of(context)!;
     return AlertDialog(
-      title: Text('Encounter Code'),
+      title: Text(localization.encounter_code_dialog_title),
       content: Column(
         mainAxisSize: MainAxisSize.min,
         children: [
-          Text('Share this code with your friends to join the encounter:'),
+          Text(localization.encounter_code_dialog_description),
           const SizedBox(height: 8),
           SelectableText(
             code,
@@ -27,7 +28,7 @@ class EncounterCodeDialog extends StatelessWidget {
       actions: [
         TextButton(
           onPressed: () => Navigator.of(context).pop(),
-          child: const Text('Close'),
+          child: Text(localization.close_button),
         ),
       ],
     );
