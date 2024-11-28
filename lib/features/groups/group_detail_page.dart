@@ -1,4 +1,3 @@
-import 'package:battlemaster/features/encounters/providers/encounters_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
@@ -50,13 +49,13 @@ class GroupDetailPage extends StatelessWidget {
                         encounter: encounter,
                         onCombatantsAdded: (value) async {
                           await context
-                              .read<EncountersProvider>()
-                              .addCombatants(encounter, value);
+                              .read<EncounterTrackerNotifier>()
+                              .addCombatants(value);
                         },
                         onTitleChanged: (value) async {
                           await context
-                              .read<EncountersProvider>()
-                              .editEncounterName(encounter, value);
+                              .read<EncounterTrackerNotifier>()
+                              .editName(value);
                         },
                       ),
                       Expanded(
@@ -64,8 +63,8 @@ class GroupDetailPage extends StatelessWidget {
                           encounter: encounter,
                           onCombatantsAdded: (combatants) async {
                             await context
-                                .read<EncountersProvider>()
-                                .addCombatants(encounter, combatants);
+                                .read<EncounterTrackerNotifier>()
+                                .addCombatants(combatants);
                           },
                         ),
                       ),

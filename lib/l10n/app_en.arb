@@ -849,5 +849,101 @@
   "download_button": "Download",
   "@download_button": {
     "description": "The button to download the file."
+  },
+  "encounter_code_dialog_title": "Join Code",
+  "@encounter_code_dialog_title": {
+    "description": "The title of the encounter code dialog."
+  },
+  "encounter_code_dialog_description": "Share this code with your players to join the encounter.",
+  "@encounter_code_dialog_description": {
+    "description": "The description of the encounter code dialog."
+  },
+  "close_button": "Close",
+  "@close_button": {
+    "description": "The button to close the dialog."
+  },
+  "live_button": "Live",
+  "@live_button": {
+    "description": "The button to go live."
+  },
+  "live_share_button": "Share",
+  "@live_share_button": {
+    "description": "The button to share the live encounter."
+  },
+  "live_view_page_title": "Live View",
+  "@live_view_page_title": {
+    "description": "The title of the live view page."
+  },
+  "type_encounter_code": "Enter the encounter code",
+  "@type_encounter_code": {
+    "description": "The label of the encounter code input."
+  },
+  "live_view_ended": "The live view has ended.",
+  "@live_view_ended": {
+    "description": "The message to show the live view has ended."
+  },
+  "leave_button": "Leave",
+  "@leave_button": {
+    "description": "The button to leave the live view."
+  },
+  "live_view_error": "An error occurred while trying to join the encounter.",
+  "@live_view_error": {
+    "description": "The message to show an error occurred while trying to join the encounter."
+  },
+  "retry_button": "Retry",
+  "@retry_button": {
+    "description": "The button to retry the action."
+  },
+  "live_view_settings_title": "Live View Settings",
+  "@live_view_settings_title": {
+    "description": "The title of the live view settings section."
+  },
+  "live_view_settings_description": "Enable the live view and share the encounter with your players.",
+  "@live_view_settings_description": {
+    "description": "The description of the live view settings section."
+  },
+  "live_view_settings_monster_health_title": "Show monster health indicators",
+  "@live_view_settings_monster_health_title": {
+    "description": "The toggle to show monster health indicators."
+  },
+  "live_view_settings_monster_health_subtitle": "Show the monsters' health indicators to your players.",
+  "@live_view_settings_monster_health_subtitle": {
+    "description": "The description of the monster health indicators toggle."
+  },
+  "live_view_settings_player_health_title": "Show player health",
+  "@live_view_settings_player_health_title": {
+    "description": "The toggle to show player health."
+  },
+  "live_view_settings_player_health_subtitle": "Show the players' health.",
+  "@live_view_settings_player_health_subtitle": {
+    "description": "The description of the player health toggle."
+  },
+  "live_view_settings_hide_future_combatants_title": "Hide future combatants",
+  "@live_view_settings_hide_future_combatants_title": {
+    "description": "The toggle to hide future combatants."
+  },
+  "live_view_settings_hide_future_combatants_subtitle": "Hide the future combatants from your players until they act.",
+  "@live_view_settings_hide_future_combatants_subtitle": {
+    "description": "The description of the hide future combatants toggle."
+  },
+  "health_indicator_healthy": "Healthy",
+  "@health_indicator_healthy": {
+    "description": "The healthy health indicator."
+  },
+  "health_indicator_hurt": "Hurt",
+  "@health_indicator_hurt": {
+    "description": "The hurt health indicator."
+  },
+  "health_indicator_bloodied": "Bloodied",
+  "@health_indicator_bloodied": {
+    "description": "The bloodied health indicator."
+  },
+  "health_indicator_critical": "Critical",
+  "@health_indicator_critical": {
+    "description": "The critical health indicator."
+  },
+  "health_indicator_dead": "Dead",
+  "@health_indicator_dead": {
+    "description": "The dead health indicator."
   }
 }

@@ -14,12 +14,17 @@ EncounterSettings _$EncounterSettingsFromJson(Map<String, dynamic> json) =>
       skipDeadBehavior: $enumDecodeNullable(
               _$SkipDeadBehaviorEnumMap, json['skipDeadBehavior']) ??
           SkipDeadBehavior.allButPlayers,
+      liveEncounterSettings: json['liveEncounterSettings'] == null
+          ? const LiveEncounterSettings()
+          : LiveEncounterSettings.fromJson(
+              json['liveEncounterSettings'] as Map<String, dynamic>),
     );
 
 Map<String, dynamic> _$EncounterSettingsToJson(EncounterSettings instance) =>
     <String, dynamic>{
       'rollType': _$InitiativeRollTypeEnumMap[instance.rollType]!,
       'skipDeadBehavior': _$SkipDeadBehaviorEnumMap[instance.skipDeadBehavior]!,
+      'liveEncounterSettings': instance.liveEncounterSettings,
     };
 
 const _$InitiativeRollTypeEnumMap = {
@@ -33,3 +38,21 @@ const _$SkipDeadBehaviorEnumMap = {
   SkipDeadBehavior.allButPlayers: 'allButPlayers',
   SkipDeadBehavior.none: 'none',
 };
+
+LiveEncounterSettings _$LiveEncounterSettingsFromJson(
+        Map<String, dynamic> json) =>
+    LiveEncounterSettings(
+      featureEnabled: json['featureEnabled'] as bool? ?? false,
+      userEnabled: json['userEnabled'] as bool? ?? true,
+      showMonsterHealth: json['showMonsterHealth'] as bool? ?? true,
+      hideFutureCombatants: json['hideFutureCombatants'] as bool? ?? true,
+    );
+
+Map<String, dynamic> _$LiveEncounterSettingsToJson(
+        LiveEncounterSettings instance) =>
+    <String, dynamic>{
+      'featureEnabled': instance.featureEnabled,
+      'userEnabled': instance.userEnabled,
+      'showMonsterHealth': instance.showMonsterHealth,
+      'hideFutureCombatants': instance.hideFutureCombatants,
+    };

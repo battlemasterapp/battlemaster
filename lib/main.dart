@@ -1,9 +1,9 @@
 import 'package:battlemaster/api/providers/dnd5e_engine_provider.dart';
 import 'package:battlemaster/database/database.dart';
 import 'package:battlemaster/features/analytics/analytics_service.dart';
-import 'package:battlemaster/features/bestiaries/providers/custom_bestiary_provider.dart';
+import 'package:battlemaster/features/auth/providers/auth_provider.dart';
 import 'package:battlemaster/features/conditions/custom_conditions_page.dart';
-import 'package:battlemaster/features/conditions/providers/conditions_provider.dart';
+import 'package:battlemaster/features/player_view/providers/player_view_notifier.dart';
 import 'package:battlemaster/features/settings/providers/system_settings_provider.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
@@ -16,7 +16,6 @@ import 'package:sentry_flutter/sentry_flutter.dart';
 import 'package:toastification/toastification.dart';
 import 'package:wiredash/wiredash.dart';
 
-import 'api/services/pf2e_bestiary_service.dart';
 import 'features/analytics/analytics_observer.dart';
 import 'features/analytics/plausible.dart';
 import 'features/combatant/add_combatant_page.dart';
@@ -91,9 +90,8 @@ class BattlemasterApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MultiProvider(
       providers: [
-        ChangeNotifierProvider(
+        ChangeNotifierProvider<SystemSettingsProvider>(
           create: (_) => SystemSettingsProvider(),
-          lazy: false,
         ),
         Provider<AppDatabase>(
           create: (_) => AppDatabase(),
@@ -103,26 +101,26 @@ class BattlemasterApp extends StatelessWidget {
           create: (context) => EncountersProvider(context.read<AppDatabase>()),
           update: (_, __, provider) => provider!,
         ),
-        ProxyProvider<SystemSettingsProvider, Pf2eBestiaryService>(
-          create: (context) {
-            final settings =
-                context.read<SystemSettingsProvider>().pf2eSettings;
-            return Pf2eBestiaryService(
-              bestiarySources: settings.enabled ? settings.bestiaries : {},
-            )..fetchData();
-          },
-          update: (_, settings, service) {
-            final settingsSources = settings.pf2eSettings.bestiaries;
-            final providerSources = service?.bestiarySources ?? {};
-            final hasChanged = !setEquals(settingsSources, providerSources);
-            if (hasChanged) {
-              return Pf2eBestiaryService(bestiarySources: settingsSources)
-                ..fetchData(forceRefresh: true);
-            }
-            return service!;
-          },
-          lazy: false,
-        ),
+        // ProxyProvider<SystemSettingsProvider, Pf2eBestiaryService>(
+        //   create: (context) {
+        //     final settings =
+        //         context.read<SystemSettingsProvider>().pf2eSettings;
+        //     return Pf2eBestiaryService(
+        //       bestiarySources: settings.enabled ? settings.bestiaries : {},
+        //     )..fetchData();
+        //   },
+        //   update: (_, settings, service) {
+        //     final settingsSources = settings.pf2eSettings.bestiaries;
+        //     final providerSources = service?.bestiarySources ?? {};
+        //     final hasChanged = !setEquals(settingsSources, providerSources);
+        //     if (hasChanged) {
+        //       return Pf2eBestiaryService(bestiarySources: settingsSources)
+        //         ..fetchData(forceRefresh: true);
+        //     }
+        //     return service!;
+        //   },
+        //   lazy: false,
+        // ),
         ChangeNotifierProxyProvider<SystemSettingsProvider,
             Dnd5eEngineProvider>(
           create: (context) {
@@ -147,15 +145,15 @@ class BattlemasterApp extends StatelessWidget {
           create: (_) => AnalyticsService(),
           lazy: false,
         ),
-        ChangeNotifierProxyProvider<AppDatabase, ConditionsProvider>(
-          create: (context) => ConditionsProvider(context.read<AppDatabase>()),
-          update: (_, __, provider) => provider!,
+        ChangeNotifierProvider<AuthProvider>(
+          create: (context) => AuthProvider(),
         ),
-        ChangeNotifierProvider<CustomBestiaryProvider>(
-          create: (context) => CustomBestiaryProvider(
-            context.read<AppDatabase>(),
+        ChangeNotifierProxyProvider<AuthProvider, PlayerViewNotifier>(
+          create: (context) => PlayerViewNotifier(
+            auth: context.read<AuthProvider>(),
           ),
-        )
+          update: (_, auth, notifier) => notifier!..auth = auth,
+        ),
       ],
       child: Builder(builder: (context) {
         return ToastificationWrapper(

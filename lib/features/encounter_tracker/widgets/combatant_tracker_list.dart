@@ -2,7 +2,6 @@ import 'dart:async';
 
 import 'package:battlemaster/features/combatant/add_combatant_page.dart';
 import 'package:battlemaster/features/encounter_tracker/providers/encounter_tracker_notifier.dart';
-import 'package:battlemaster/features/encounters/providers/encounters_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_animate/flutter_animate.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
@@ -117,21 +116,21 @@ class _CombatantTrackerListState extends State<CombatantTrackerList> {
               onTap: () => widget.onCombatantTap?.call(combatant, index),
               onRemove: () async {
                 await context
-                    .read<EncountersProvider>()
-                    .removeCombatant(widget.encounter, combatant);
+                    .read<EncounterTrackerNotifier>()
+                    .removeCombatant(combatant);
               },
               onHealthChanged: (health) async {
-                await context.read<EncountersProvider>().updateCombatantHealth(
-                      widget.encounter,
+                await context
+                    .read<EncounterTrackerNotifier>()
+                    .updateCombatantHealth(
                       combatant,
                       health,
                     );
               },
               onInitiativeChanged: (initiative) async {
                 await context
-                    .read<EncountersProvider>()
+                    .read<EncounterTrackerNotifier>()
                     .updateCombatantInitiative(
-                      widget.encounter,
                       combatant,
                       initiative,
                     );
