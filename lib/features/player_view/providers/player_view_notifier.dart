@@ -14,7 +14,7 @@ class PlayerViewNotifier extends ChangeNotifier {
   PlayerViewState _state = PlayerViewState.loading;
   EncounterView? _encounter;
   AuthProvider auth;
-  final _activeIndexController = StreamController<int>();
+  final _activeIndexController = StreamController<int>.broadcast();
 
   PlayerViewNotifier({
     required this.auth,
@@ -76,13 +76,16 @@ class PlayerViewNotifier extends ChangeNotifier {
           return;
         }
 
+        final isNewTurn = _encounter?.turn != data.record!.data['turn'];
         _encounter = EncounterView.fromRecord(data.record!.data);
         if (_encounter == null) {
           _state = PlayerViewState.error;
           notifyListeners();
           return;
         }
-        _activeIndexController.add(_encounter!.turn);
+        if (isNewTurn) {
+          _activeIndexController.add(_encounter!.turn);
+        }
         _state = PlayerViewState.ready;
         notifyListeners();
       },

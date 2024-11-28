@@ -13,6 +13,7 @@ import 'package:flutter_animate/flutter_animate.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:icons_plus/icons_plus.dart';
 import 'package:provider/provider.dart';
+import 'package:responsive_framework/responsive_framework.dart';
 import 'package:scrollview_observer/scrollview_observer.dart';
 
 class LiveView extends StatelessWidget {
@@ -50,6 +51,7 @@ class LiveView extends StatelessWidget {
     }
 
     final encounter = liveState.encounter!;
+    final isMobile = ResponsiveBreakpoints.of(context).isMobile;
 
     return Column(
       children: [
@@ -67,14 +69,23 @@ class LiveView extends StatelessWidget {
                     .titleLarge
                     ?.copyWith(color: Colors.white),
               ),
-              ElevatedButton.icon(
-                onPressed: () {
-                  liveState.unsubscribe();
-                  onLeave?.call();
-                },
-                icon: Icon(MingCute.exit_fill),
-                label: Text(localization.leave_button),
-              ),
+              if (!isMobile)
+                ElevatedButton.icon(
+                  onPressed: () {
+                    liveState.unsubscribe();
+                    onLeave?.call();
+                  },
+                  icon: Icon(MingCute.exit_fill),
+                  label: Text(localization.leave_button),
+                ),
+              if (isMobile)
+                IconButton.outlined(
+                  icon: Icon(MingCute.exit_fill),
+                  onPressed: () {
+                    liveState.unsubscribe();
+                    onLeave?.call();
+                  },
+                ),
             ],
           ),
         ),
@@ -108,8 +119,9 @@ class __LiveViewListState extends State<_LiveViewList> {
   void initState() {
     super.initState();
     final liveState = context.read<PlayerViewNotifier>();
-    _sub?.cancel().then((_) {
-      _sub ??= liveState.activeIndexStream.listen((index) {
+
+    if (_sub == null) {
+      _sub = liveState.activeIndexStream.listen((index) {
         _observerController.animateTo(
           index: index,
           duration: 500.ms,
@@ -117,7 +129,19 @@ class __LiveViewListState extends State<_LiveViewList> {
           padding: EdgeInsets.symmetric(vertical: 16),
         );
       });
-    });
+    } else {
+      _sub?.cancel().then((_) {
+        _sub ??= liveState.activeIndexStream.listen((index) {
+          _observerController.animateTo(
+            index: index,
+            duration: 500.ms,
+            curve: Curves.easeInOutQuad,
+            padding: EdgeInsets.symmetric(vertical: 16),
+          );
+        });
+      });
+    }
+
     _observerController = ListObserverController(controller: _listController);
   }
 
