@@ -28,7 +28,7 @@ class PlayerViewPage extends StatelessWidget {
             Pinput(
               length: 6,
               onCompleted: (value) {
-                liveViewState.subscribe(code: value);
+                liveViewState.subscribe(code: value.toUpperCase());
               },
             ),
           ],

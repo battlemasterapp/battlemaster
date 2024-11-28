@@ -75,6 +75,17 @@ class _LiveEncounterSettings extends StatelessWidget {
     return Column(
       children: [
         SwitchListTile.adaptive(
+          value: settings.showPlayersHealth,
+          onChanged: (value) {
+            context.read<SystemSettingsProvider>().setLiveEncounterSettings(
+                settings.copyWith(showPlayersHealth: value));
+          },
+          secondary: Icon(MingCute.heartbeat_fill),
+          title: Text(localization.live_view_settings_player_health_title),
+          subtitle:
+              Text(localization.live_view_settings_player_health_subtitle),
+        ),
+        SwitchListTile.adaptive(
           value: settings.showMonsterHealth,
           onChanged: (value) {
             context.read<SystemSettingsProvider>().setLiveEncounterSettings(

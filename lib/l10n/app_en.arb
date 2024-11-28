@@ -925,5 +925,25 @@
   "live_view_settings_hide_future_combatants_subtitle": "Hide the future combatants from your players until they act.",
   "@live_view_settings_hide_future_combatants_subtitle": {
     "description": "The description of the hide future combatants toggle."
+  },
+  "health_indicator_healthy": "Healthy",
+  "@health_indicator_healthy": {
+    "description": "The healthy health indicator."
+  },
+  "health_indicator_hurt": "Hurt",
+  "@health_indicator_hurt": {
+    "description": "The hurt health indicator."
+  },
+  "health_indicator_bloodied": "Bloodied",
+  "@health_indicator_bloodied": {
+    "description": "The bloodied health indicator."
+  },
+  "health_indicator_critical": "Critical",
+  "@health_indicator_critical": {
+    "description": "The critical health indicator."
+  },
+  "health_indicator_dead": "Dead",
+  "@health_indicator_dead": {
+    "description": "The dead health indicator."
   }
 }

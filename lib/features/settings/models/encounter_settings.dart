@@ -43,12 +43,14 @@ class LiveEncounterSettings {
 
   final bool showMonsterHealth;
   final bool hideFutureCombatants;
+  final bool showPlayersHealth;
 
   const LiveEncounterSettings({
     this.featureEnabled = false,
     this.userEnabled = true,
     this.showMonsterHealth = true,
     this.hideFutureCombatants = true,
+    this.showPlayersHealth = true,
   });
 
   factory LiveEncounterSettings.fromJson(Map<String, dynamic> json) =>
@@ -61,6 +63,7 @@ class LiveEncounterSettings {
   Map<String, bool> get flags => {
         'show_monster_health': showMonsterHealth,
         'hide_future_combatants': hideFutureCombatants,
+        'show_players_health': showPlayersHealth,
       };
 
   LiveEncounterSettings copyWith({
@@ -69,12 +72,14 @@ class LiveEncounterSettings {
     bool? autoStartStop,
     bool? showMonsterHealth,
     bool? hideFutureCombatants,
+    bool? showPlayersHealth,
   }) {
     return LiveEncounterSettings(
       featureEnabled: featureEnabled ?? this.featureEnabled,
       userEnabled: userEnabled ?? this.userEnabled,
       showMonsterHealth: showMonsterHealth ?? this.showMonsterHealth,
       hideFutureCombatants: hideFutureCombatants ?? this.hideFutureCombatants,
+      showPlayersHealth: showPlayersHealth ?? this.showPlayersHealth,
     );
   }
 }

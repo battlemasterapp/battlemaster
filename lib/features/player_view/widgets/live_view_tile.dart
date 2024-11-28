@@ -1,3 +1,4 @@
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'dart:math';
 
 import 'package:animated_flip_counter/animated_flip_counter.dart';
@@ -18,6 +19,7 @@ class LiveViewTile extends StatelessWidget {
     this.selected = false,
     this.revealed = true,
     this.showMonsterHealth = true,
+    this.showPlayersHealth = true,
   });
 
   final Combatant combatant;
@@ -25,6 +27,7 @@ class LiveViewTile extends StatelessWidget {
   final bool selected;
   final bool revealed;
   final bool showMonsterHealth;
+  final bool showPlayersHealth;
 
   @override
   Widget build(BuildContext context) {
@@ -62,6 +65,7 @@ class LiveViewTile extends StatelessWidget {
               combatant: combatant,
               revealed: revealed,
               showMonsterHealth: showMonsterHealth,
+              showPlayersHealth: showPlayersHealth,
             ),
           ],
         ),
@@ -97,11 +101,13 @@ class _CombatantHealth extends StatelessWidget {
     required this.combatant,
     this.revealed = true,
     this.showMonsterHealth = true,
+    this.showPlayersHealth = true,
   });
 
   final Combatant combatant;
   final bool revealed;
   final bool showMonsterHealth;
+  final bool showPlayersHealth;
 
   @override
   Widget build(BuildContext context) {
@@ -113,8 +119,11 @@ class _CombatantHealth extends StatelessWidget {
       combatant.currentHp,
       maxHp: combatant.maxHp,
     );
-    // FIXME: this should be in the system settings
     if (combatant.type == CombatantType.player) {
+      if (!showPlayersHealth) {
+        return const SizedBox();
+      }
+
       return Container(
         decoration: BoxDecoration(
           color: color.withOpacity(.1),
@@ -152,16 +161,17 @@ class _CombatantHealth extends StatelessWidget {
       return const SizedBox();
     }
 
+    final localization = AppLocalizations.of(context)!;
     final thresholds = <double, String>{
-      0.75: 'Saudável',
-      0.5: 'Machucado',
-      0.25: 'Sangrando',
-      0: 'Crítico',
+      0.75: localization.health_indicator_healthy,
+      0.5: localization.health_indicator_hurt,
+      0.25: localization.health_indicator_bloodied,
+      0: localization.health_indicator_critical,
     };
 
     final healthThreshold = thresholds.entries.firstWhere(
       (entry) => combatant.currentHp / combatant.maxHp > entry.key,
-      orElse: () => const MapEntry(0, 'Dead'),
+      orElse: () => MapEntry(0, localization.health_indicator_dead),
     );
 
     return Container(

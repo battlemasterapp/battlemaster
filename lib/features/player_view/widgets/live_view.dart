@@ -147,6 +147,7 @@ class __LiveViewListState extends State<_LiveViewList> {
             index: index,
             selected: selected,
             showMonsterHealth: widget.encounter.showMonsterHealth,
+            showPlayersHealth: widget.encounter.showPlayersHealth,
             revealed: !hideMonsters ||
                 _isRevealed(
                   combatant,

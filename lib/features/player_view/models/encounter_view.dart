@@ -7,6 +7,7 @@ class EncounterView {
   final String code;
   final bool showMonsterHealth;
   final bool hideFutureCombatants;
+  final bool showPlayersHealth;
 
   EncounterView({
     required this.round,
@@ -15,6 +16,7 @@ class EncounterView {
     required this.code,
     this.showMonsterHealth = true,
     this.hideFutureCombatants = true,
+    this.showPlayersHealth = true,
   });
 
   factory EncounterView.fromRecord(Map<String, dynamic> record) {
@@ -27,6 +29,7 @@ class EncounterView {
           .toList(),
       showMonsterHealth: record['flags']?['show_monster_health'] ?? true,
       hideFutureCombatants: record['flags']?['hide_future_combatants'] ?? true,
+      showPlayersHealth: record['flags']?['show_players_health'] ?? true,
     );
   }
 }

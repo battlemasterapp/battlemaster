@@ -189,5 +189,10 @@
   "live_view_settings_player_health_title": "Mostrar vida dos jogadores",
   "live_view_settings_player_health_subtitle": "Mostre a vida dos jogadores",
   "live_view_settings_hide_future_combatants_title": "Esconder monstros futuros",
-  "live_view_settings_hide_future_combatants_subtitle": "Esconda monstros que ainda não agiram no combate"
+  "live_view_settings_hide_future_combatants_subtitle": "Esconda monstros que inda não agiram no combate",
+  "health_indicator_healthy": "Saudável",
+  "health_indicator_hurt": "Machucado",
+  "health_indicator_bloodied": "Ensanguentado",
+  "health_indicator_critical": "Crítico",
+  "health_indicator_dead": "Morto"
 }
