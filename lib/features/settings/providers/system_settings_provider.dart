@@ -20,7 +20,7 @@ class SystemSettingsProvider extends ChangeNotifier {
             FlagsmithClient(
               apiKey: const String.fromEnvironment('FLAGSMITH_API_KEY'),
               seeds: [
-                Flag.seed(LiveEncounterSettings.featureKey, enabled: false),
+                Flag.seed(LiveEncounterSettings.featureKey, enabled: true),
               ],
               config: FlagsmithConfig(
                 baseURI: const String.fromEnvironment('FLAGSMTIH_URI'),
