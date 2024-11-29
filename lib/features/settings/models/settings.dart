@@ -50,9 +50,7 @@ class PF2eSettings {
   const PF2eSettings({
     this.enabled = false,
     this.bestiaries = const {
-      "npc-gallery",
       "pathfinder-monster-core",
-      "rage-of-elements",
     },
   });
 
