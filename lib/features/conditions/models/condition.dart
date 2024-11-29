@@ -33,6 +33,12 @@ class Condition extends Equatable {
         engine: GameEngineType.dnd5e,
       );
 
+  factory Condition.fromPf2e(Map<String, dynamic> entry) => Condition(
+        name: entry['name'] as String,
+        description: entry['system']?['description']?['value'] as String,
+        engine: GameEngineType.pf2e,
+      );
+
   factory Condition.fromJson(Map<String, dynamic> json) =>
       _$ConditionFromJson(json);
 

@@ -30,13 +30,18 @@ class ConditionInfoDialog extends StatelessWidget {
             ),
         ],
       ),
-      content: SingleChildScrollView(
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            const Divider(),
-            Text(condition.description),
-          ],
+      content: ConstrainedBox(
+        constraints: BoxConstraints(maxWidth: 600),
+        child: SingleChildScrollView(
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              const Divider(),
+              Text(condition.description
+                  .replaceAll("<p>", "")
+                  .replaceAll("</p>", "")),
+            ],
+          ),
         ),
       ),
     );
