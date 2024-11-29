@@ -870,6 +870,10 @@
   "@live_share_button": {
     "description": "The button to share the live encounter."
   },
+  "end_live_share_button": "End live sharing",
+  "@end_live_share_button": {
+    "description": "The button to end the shared encounter."
+  },
   "live_view_page_title": "Live View",
   "@live_view_page_title": {
     "description": "The title of the live view page."
@@ -945,5 +949,9 @@
   "health_indicator_dead": "Dead",
   "@health_indicator_dead": {
     "description": "The dead health indicator."
+  },
+  "copied_to_clipboard": "Copied to clipboard!",
+  "@copied_to_clipboard": {
+    "description": "The message to show the text was copied to the clipboard."
   }
 }

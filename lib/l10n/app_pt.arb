@@ -176,6 +176,7 @@
   "close_button": "Fechar",
   "live_button": "Ao vivo",
   "live_share_button": "Compartilhar",
+  "end_live_share_button": "Encerrar visualização ao vivo",
   "live_view_page_title": "Ao vivo",
   "type_encounter_code": "Digite o código do combate",
   "live_view_ended": "A visualização ao vivo terminou",
@@ -194,5 +195,6 @@
   "health_indicator_hurt": "Machucado",
   "health_indicator_bloodied": "Ensanguentado",
   "health_indicator_critical": "Crítico",
-  "health_indicator_dead": "Morto"
+  "health_indicator_dead": "Morto",
+  "copied_to_clipboard": "Copiado para a área de transferência!"
 }
