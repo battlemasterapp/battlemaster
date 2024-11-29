@@ -1,4 +1,5 @@
 import 'package:battlemaster/api/providers/dnd5e_engine_provider.dart';
+import 'package:battlemaster/api/providers/pf2e_engine_provider.dart';
 import 'package:battlemaster/api/services/pf2e_bestiary_service.dart';
 import 'package:battlemaster/database/database.dart';
 import 'package:battlemaster/features/analytics/analytics_service.dart';
@@ -102,20 +103,20 @@ class BattlemasterApp extends StatelessWidget {
           create: (context) => EncountersProvider(context.read<AppDatabase>()),
           update: (_, __, provider) => provider!,
         ),
-        ProxyProvider<SystemSettingsProvider, Pf2eBestiaryService>(
+        ChangeNotifierProxyProvider<SystemSettingsProvider, Pf2eEngineProvider>(
           create: (context) {
             final settings =
                 context.read<SystemSettingsProvider>().pf2eSettings;
-            return Pf2eBestiaryService(
-              bestiarySources: settings.enabled ? settings.bestiaries : {},
+            return Pf2eEngineProvider(
+              sources: settings.enabled ? settings.bestiaries : {},
             )..fetchData();
           },
-          update: (_, settings, service) {
+          update: (context, settings, service) {
             final settingsSources = settings.pf2eSettings.bestiaries;
-            final providerSources = service?.bestiarySources ?? {};
+            final providerSources = service?.sources ?? {};
             final hasChanged = !setEquals(settingsSources, providerSources);
             if (hasChanged) {
-              return Pf2eBestiaryService(bestiarySources: settingsSources)
+              return Pf2eEngineProvider(sources: settingsSources)
                 ..fetchData(forceRefresh: true);
             }
             return service!;

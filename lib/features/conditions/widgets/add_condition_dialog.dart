@@ -1,4 +1,5 @@
 import 'package:battlemaster/api/providers/dnd5e_engine_provider.dart';
+import 'package:battlemaster/api/providers/pf2e_engine_provider.dart';
 import 'package:battlemaster/database/database.dart';
 import 'package:battlemaster/features/conditions/models/condition.dart';
 import 'package:battlemaster/features/conditions/providers/conditions_provider.dart';
@@ -37,6 +38,9 @@ class _AddConditionDialogState extends State<AddConditionDialog> {
     if (settings.dnd5eSettings.enabled ||
         widget.engine == GameEngineType.dnd5e) {
       _allConditions.addAll(context.read<Dnd5eEngineProvider>().conditions);
+    }
+    if (settings.pf2eSettings.enabled || widget.engine == GameEngineType.pf2e) {
+      _allConditions.addAll(context.read<Pf2eEngineProvider>().conditions);
     }
   }
 

@@ -1,4 +1,5 @@
 import 'package:battlemaster/api/providers/dnd5e_engine_provider.dart';
+import 'package:battlemaster/api/providers/pf2e_engine_provider.dart';
 import 'package:battlemaster/api/services/pf2e_bestiary_service.dart';
 import 'package:battlemaster/features/analytics/analytics_service.dart';
 import 'package:battlemaster/features/bestiaries/models/custom_bestiary.dart';
@@ -47,7 +48,7 @@ class AddCombatant extends StatelessWidget {
           text: localization.pf2e_toggle_button,
           icon: Icon(FontAwesome.dragon_solid),
         ): AddFromBestiaryList(
-          combatants: context.read<Pf2eBestiaryService>().bestiaryData,
+          combatants: context.read<Pf2eEngineProvider>().bestiary,
           onCombatantSelected: (combatant) async {
             onCombatantsAdded({combatant: 1});
             await context
