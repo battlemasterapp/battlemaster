@@ -1,6 +1,5 @@
 import 'package:battlemaster/api/providers/dnd5e_engine_provider.dart';
 import 'package:battlemaster/api/providers/pf2e_engine_provider.dart';
-import 'package:battlemaster/api/services/pf2e_bestiary_service.dart';
 import 'package:battlemaster/database/database.dart';
 import 'package:battlemaster/features/analytics/analytics_service.dart';
 import 'package:battlemaster/features/auth/providers/auth_provider.dart';
@@ -161,7 +160,7 @@ class BattlemasterApp extends StatelessWidget {
         return ToastificationWrapper(
           child: MaterialApp.router(
             routerConfig: _router,
-            title: 'BattleMaster',
+            title: 'Battlemaster',
             localizationsDelegates: AppLocalizations.localizationsDelegates,
             supportedLocales: AppLocalizations.supportedLocales,
             theme: pf2eLightTheme,

@@ -6,18 +6,45 @@ class BasicAbility extends StatelessWidget {
   const BasicAbility({
     super.key,
     required this.boldText,
-    required this.text,
+    this.htmlText,
+    this.text,
     this.color = Colors.black,
-  });
+  }) : assert(htmlText != null || text != null);
 
   final String boldText;
-  final String text;
+  final String? htmlText;
+  final String? text;
   final Color? color;
 
   @override
   Widget build(BuildContext context) {
+    if (htmlText == null) {
+      return RichText(
+        text: TextSpan(
+          children: [
+            TextSpan(
+              text: boldText,
+              style: TextStyle(
+                fontWeight: FontWeight.bold,
+                color: color,
+              ),
+            ),
+            if (text != null)
+              TextSpan(
+                text: text,
+                style: TextStyle(
+                  color: color,
+                ),
+              ),
+          ],
+        ),
+      );
+    }
+
     return Wrap(
-      crossAxisAlignment: WrapCrossAlignment.center,
+      crossAxisAlignment: WrapCrossAlignment.start,
+      runAlignment: WrapAlignment.start,
+      alignment: WrapAlignment.start,
       direction: Axis.horizontal,
       children: [
         Text(
@@ -27,9 +54,13 @@ class BasicAbility extends StatelessWidget {
             color: color,
           ),
         ),
-        HtmlWidget(
-          md.markdownToHtml(text).replaceAll("<p>", "").replaceAll("</p>", ""),
-        ),
+        if (htmlText != null)
+          HtmlWidget(
+            md
+                .markdownToHtml(htmlText!)
+                .replaceAll("<p>", "")
+                .replaceAll("</p>", ""),
+          ),
       ],
     );
   }

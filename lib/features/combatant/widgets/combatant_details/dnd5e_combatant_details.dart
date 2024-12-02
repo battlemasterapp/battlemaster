@@ -23,7 +23,7 @@ class Dnd5eCombatantDetails extends StatelessWidget {
         _ArmorClass(combatant: combatant),
         BasicAbility(
           boldText: '${localization.hit_points} ',
-          text: combatant.hp.toString(),
+          htmlText: combatant.hp.toString(),
         ),
         _CombatantSpeed(combatant: combatant),
         const Divider(),
@@ -34,32 +34,32 @@ class Dnd5eCombatantDetails extends StatelessWidget {
         if (combatant.damageVulnerabilities.isNotEmpty)
           BasicAbility(
             boldText: "${localization.dnd5e_damage_vulnerabilities} ",
-            text: combatant.damageVulnerabilities,
+            htmlText: combatant.damageVulnerabilities,
           ),
         if (combatant.damageResistances.isNotEmpty)
           BasicAbility(
             boldText: "${localization.dnd5e_damage_resistances} ",
-            text: combatant.damageResistances,
+            htmlText: combatant.damageResistances,
           ),
         if (combatant.damageImmunities.isNotEmpty)
           BasicAbility(
             boldText: "${localization.dnd5e_damage_immunities} ",
-            text: combatant.damageImmunities,
+            htmlText: combatant.damageImmunities,
           ),
         if (combatant.conditionImmunities.isNotEmpty)
           BasicAbility(
             boldText: "${localization.dnd5e_condition_immunities} ",
-            text: combatant.conditionImmunities,
+            htmlText: combatant.conditionImmunities,
           ),
         if (combatant.senses.isNotEmpty)
           BasicAbility(
             boldText: "${localization.dnd5e_senses} ",
-            text: combatant.senses,
+            htmlText: combatant.senses,
           ),
         if (combatant.languages.isNotEmpty)
           BasicAbility(
             boldText: "${localization.dnd5e_languages} ",
-            text: combatant.languages,
+            htmlText: combatant.languages,
           ),
         const Divider(),
         _CombatantAbility(
@@ -107,7 +107,7 @@ class _ArmorClass extends StatelessWidget {
 
     return BasicAbility(
       boldText: "${localization.armor_class} ",
-      text: text,
+      htmlText: text,
     );
   }
 }
@@ -152,7 +152,7 @@ class _CombatantSpeed extends StatelessWidget {
       if (combatant.speed.climb > 0)
         localization.climb_speed_ft(combatant.speed.climb),
     ].join(", ");
-    return BasicAbility(boldText: '${localization.speed_label} ', text: speeds);
+    return BasicAbility(boldText: '${localization.speed_label} ', htmlText: speeds);
   }
 }
 
@@ -177,7 +177,7 @@ class _CombatantSaves extends StatelessWidget {
     }
     return BasicAbility(
         boldText: "${localization.dnd5e_saving_throws} ",
-        text: saves.entries
+        htmlText: saves.entries
             .map((e) => "${e.key} ${e.value!.signString}")
             .join(", "));
   }
@@ -197,7 +197,7 @@ class _CombatantSkill extends StatelessWidget {
     }
     return BasicAbility(
       boldText: "${localzation.dnd5e_skills} ",
-      text: skills
+      htmlText: skills
           .map((skill) => "${skill.name} ${skill.modifier.signString}")
           .join(", "),
     );
@@ -283,7 +283,7 @@ class _CombatantAbility extends StatelessWidget {
             padding: const EdgeInsets.symmetric(vertical: 4),
             child: BasicAbility(
               boldText: "${ability.name} ",
-              text: ability.desc,
+              htmlText: ability.desc,
             ),
           ),
         const Divider(),

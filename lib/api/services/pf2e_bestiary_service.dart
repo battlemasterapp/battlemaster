@@ -3,7 +3,7 @@ import 'dart:convert';
 import 'package:dio/dio.dart';
 
 import '../../features/combatant/models/combatant.dart';
-import '../../features/combatant/models/pf2e_combatant_data.dart';
+import '../../features/combatant/models/pf2e_combatant_data/pf2e_combatant_data.dart';
 import 'bestiary_service.dart';
 
 const _baseUrl = String.fromEnvironment("PF2E_URI");

@@ -46,6 +46,7 @@ LiveEncounterSettings _$LiveEncounterSettingsFromJson(
       userEnabled: json['userEnabled'] as bool? ?? true,
       showMonsterHealth: json['showMonsterHealth'] as bool? ?? true,
       hideFutureCombatants: json['hideFutureCombatants'] as bool? ?? true,
+      showPlayersHealth: json['showPlayersHealth'] as bool? ?? true,
     );
 
 Map<String, dynamic> _$LiveEncounterSettingsToJson(
@@ -55,4 +56,5 @@ Map<String, dynamic> _$LiveEncounterSettingsToJson(
       'userEnabled': instance.userEnabled,
       'showMonsterHealth': instance.showMonsterHealth,
       'hideFutureCombatants': instance.hideFutureCombatants,
+      'showPlayersHealth': instance.showPlayersHealth,
     };

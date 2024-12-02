@@ -1,4 +1,6 @@
 import 'package:battlemaster/features/combatant/models/combatant.dart';
+import 'package:battlemaster/features/combatant/models/pf2e_combatant_data/pf2e_combatant_data.dart';
+import 'package:battlemaster/features/combatant/widgets/combatant_details/pf2e_combatant_details.dart';
 import 'package:battlemaster/features/conditions/models/condition.dart';
 import 'package:battlemaster/features/conditions/widgets/add_condition_button.dart';
 import 'package:battlemaster/features/engines/models/game_engine_type.dart';
@@ -44,6 +46,11 @@ class CombatantDetails extends StatelessWidget {
           Dnd5eCombatantDetails(
             combatant: combatant.combatantData as Dnd5eCombatantData,
           ),
+        if (combatant.combatantData != null &&
+            combatant.combatantData is Pf2eCombatantData)
+          Pf2eCombatantDetails(
+            combatant: combatant.combatantData as Pf2eCombatantData,
+          )
       ],
     );
   }
