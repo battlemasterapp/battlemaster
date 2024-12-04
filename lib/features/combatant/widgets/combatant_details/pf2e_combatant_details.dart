@@ -1,4 +1,7 @@
+import 'package:battlemaster/common/fonts/action_font.dart';
 import 'package:battlemaster/extensions/int_extensions.dart';
+import 'package:battlemaster/extensions/string_extension.dart';
+import 'package:battlemaster/features/combatant/models/pf2e_combatant_data/pf2e_attack.dart';
 import 'package:battlemaster/features/combatant/models/pf2e_combatant_data/pf2e_combatant_data.dart';
 import 'package:battlemaster/features/combatant/widgets/combatant_details/basic_ability.dart';
 import 'package:battlemaster/features/combatant/widgets/traits.dart';
@@ -16,6 +19,7 @@ class Pf2eCombatantDetails extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     // FIXME: textos
+    // FIXME: spacing
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
@@ -44,8 +48,11 @@ class Pf2eCombatantDetails extends StatelessWidget {
         const Divider(),
         BasicAbility(
           boldText: 'Speed ',
-          text: combatant.baseSpeed.toString(),
+          text: "${combatant.baseSpeed} feet",
         ),
+        _Attacks(combatant),
+        const Divider(),
+        _RecallKnowledge(combatant),
       ],
     );
   }
@@ -155,7 +162,7 @@ class _Health extends StatelessWidget {
         combatant.hpDetails.isNotEmpty ? " (${combatant.hpDetails})" : "";
     return RichText(
       text: TextSpan(
-        style: TextStyle(color: Colors.black),
+        style: DefaultTextStyle.of(context).style,
         children: [
           TextSpan(
             text: 'HP ',
@@ -168,7 +175,7 @@ class _Health extends StatelessWidget {
               style: const TextStyle(fontWeight: FontWeight.bold),
             ),
             TextSpan(
-              text: "${combatant.immunities.join(', ')};",
+              text: "${(combatant.immunities..sort()).join(', ')};",
             ),
           ],
           if (combatant.resistances.isNotEmpty) ...[
@@ -180,6 +187,105 @@ class _Health extends StatelessWidget {
               text: "${combatant.resistances.join(', ')};",
             ),
           ],
+        ],
+      ),
+    );
+  }
+}
+
+class _Attacks extends StatelessWidget {
+  const _Attacks(this.combatant);
+
+  final Pf2eCombatantData combatant;
+
+  @override
+  Widget build(BuildContext context) {
+    if (combatant.attacks.isEmpty) {
+      return const SizedBox.shrink();
+    }
+    return Column(
+      children: [
+        for (final attack in combatant.attacks) _Attack(attack),
+      ],
+    );
+  }
+}
+
+class _Attack extends StatelessWidget {
+  const _Attack(this.attack);
+
+  final Pf2eAttack attack;
+
+  @override
+  Widget build(BuildContext context) {
+    return RichText(
+      text: TextSpan(
+        style: DefaultTextStyle.of(context).style,
+        children: [
+          TextSpan(
+            text: "${attack.range.capitalize()} ",
+            style: const TextStyle(fontWeight: FontWeight.bold),
+          ),
+          getAction(),
+          TextSpan(text: "${attack.name} "),
+          TextSpan(text: "${attack.modifier.signString} "),
+          TextSpan(text: "[${attack.map.map((i) => i.signString).join("/")}] "),
+          if (attack.traits.isNotEmpty)
+            TextSpan(
+                text:
+                    "(${attack.traits.join(", ").capitalizeAll().replaceAll("-", " ")}) "),
+          if (attack.damage != null) ...[
+            const TextSpan(
+              text: "Damage ",
+              style: TextStyle(fontWeight: FontWeight.bold),
+            ),
+            TextSpan(text: "${attack.damage} "),
+          ],
+          if (attack.effects.isNotEmpty) ...[
+            const TextSpan(
+              text: "Effects ",
+              style: TextStyle(fontWeight: FontWeight.bold),
+            ),
+            TextSpan(
+                text: attack.effects
+                    .join(", ")
+                    .replaceAll("-", " ")
+                    .capitalizeAll()),
+          ],
+          // TextSpan(text: attack.entry.toString()),
+        ],
+      ),
+    );
+  }
+
+  TextSpan getAction() {
+    return TextSpan(
+      text: "${actionToString(ActionsEnum.one)} ",
+      style: const TextStyle(fontFamily: "ActionIcons"),
+    );
+  }
+}
+
+class _RecallKnowledge extends StatelessWidget {
+  const _RecallKnowledge(this.combatant);
+
+  final Pf2eCombatantData combatant;
+
+  @override
+  Widget build(BuildContext context) {
+    // FIXME: textos
+    return RichText(
+      text: TextSpan(
+        style: DefaultTextStyle.of(context).style,
+        children: [
+          TextSpan(
+            text:
+                "Recall Knowledge (${combatant.recallKnowledge.skills.join(', ')}): ",
+            style: const TextStyle(fontWeight: FontWeight.bold),
+          ),
+          TextSpan(
+            text: "DC ${combatant.recallKnowledge.dc}",
+          ),
         ],
       ),
     );

@@ -1,4 +1,5 @@
 import 'package:battlemaster/extensions/int_extensions.dart';
+import 'package:battlemaster/features/combatant/models/pf2e_combatant_data/pf2e_attack.dart';
 import 'package:battlemaster/features/combatant/models/pf2e_combatant_data/recall_knowledge_entry.dart';
 import 'package:json_annotation/json_annotation.dart';
 
@@ -298,6 +299,21 @@ class Pf2eCombatantData extends CombatantData {
   }
 
   int get baseSpeed => rawData["system"]?["attributes"]?["speed"]?["value"] ?? 0;
+
+  List<Pf2eAttack> get attacks {
+    final List<Map<String, dynamic>> rawEntries =
+        (rawData["items"] ?? []).cast<Map<String, dynamic>>();
+
+    return rawEntries
+        .where(
+          (entry) => entry["type"] == "melee",
+        )
+        .map((entry) => Pf2eAttack(
+              entry: entry,
+              template: template,
+            ))
+        .toList();
+  }
 }
 
 class Pf2eSense {

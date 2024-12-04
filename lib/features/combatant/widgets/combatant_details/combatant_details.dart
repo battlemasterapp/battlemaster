@@ -22,36 +22,39 @@ class CombatantDetails extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: [
-        Text(
-          combatant.name,
-          style: Theme.of(context).textTheme.titleLarge?.copyWith(
-                color: Colors.black,
-              ),
-        ),
-        const SizedBox(height: 4),
-        AddConditionButton(
-          conditions: combatant.conditions,
-          onConditionsAdded: (conditions) =>
-              onConditionsAdded?.call(conditions),
-          engine: combatant.engineType,
-        ),
-        const SizedBox(height: 8),
-        if (combatant.engineType == GameEngineType.custom)
-          CustomCombatantDetails(combatant: combatant),
-        if (combatant.combatantData != null &&
-            combatant.combatantData is Dnd5eCombatantData)
-          Dnd5eCombatantDetails(
-            combatant: combatant.combatantData as Dnd5eCombatantData,
+    return DefaultTextStyle(
+      style: const TextStyle(color: Colors.black),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Text(
+            combatant.name,
+            style: Theme.of(context).textTheme.titleLarge?.copyWith(
+                  color: Colors.black,
+                ),
           ),
-        if (combatant.combatantData != null &&
-            combatant.combatantData is Pf2eCombatantData)
-          Pf2eCombatantDetails(
-            combatant: combatant.combatantData as Pf2eCombatantData,
-          )
-      ],
+          const SizedBox(height: 4),
+          AddConditionButton(
+            conditions: combatant.conditions,
+            onConditionsAdded: (conditions) =>
+                onConditionsAdded?.call(conditions),
+            engine: combatant.engineType,
+          ),
+          const SizedBox(height: 8),
+          if (combatant.engineType == GameEngineType.custom)
+            CustomCombatantDetails(combatant: combatant),
+          if (combatant.combatantData != null &&
+              combatant.combatantData is Dnd5eCombatantData)
+            Dnd5eCombatantDetails(
+              combatant: combatant.combatantData as Dnd5eCombatantData,
+            ),
+          if (combatant.combatantData != null &&
+              combatant.combatantData is Pf2eCombatantData)
+            Pf2eCombatantDetails(
+              combatant: combatant.combatantData as Pf2eCombatantData,
+            )
+        ],
+      ),
     );
   }
 }
