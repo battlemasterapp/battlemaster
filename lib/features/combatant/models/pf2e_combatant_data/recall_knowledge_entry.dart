@@ -86,7 +86,7 @@ class RecallKnowledgeEntry {
         .map((trait) => _traitAdjustment[trait.toLowerCase()] ?? 0)
         .fold<int>(0, (a, b) => a + b);
     if (level < 0) {
-      return _dcByLevel.first + adjustment;
+      return _dcByLevel.first - 1 + adjustment;
     }
     if (level > 25) {
       return _dcByLevel.last + adjustment;
