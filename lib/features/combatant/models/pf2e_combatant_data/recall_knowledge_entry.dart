@@ -81,6 +81,10 @@ class RecallKnowledgeEntry {
 
   int get dc => _dc;
 
+  int get unspecificDC => _dc - 2;
+
+  int get specificDC => _dc - 5;
+
   int _calculateDC(List<String> traits, int level) {
     final adjustment = traits
         .map((trait) => _traitAdjustment[trait.toLowerCase()] ?? 0)

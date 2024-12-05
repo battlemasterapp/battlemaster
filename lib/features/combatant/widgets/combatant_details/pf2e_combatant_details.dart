@@ -281,20 +281,23 @@ class _RecallKnowledge extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     // FIXME: textos
-    return RichText(
-      text: TextSpan(
-        style: DefaultTextStyle.of(context).style,
-        children: [
-          TextSpan(
-            text:
-                "Recall Knowledge (${combatant.recallKnowledge.skills.join(', ')}): ",
-            style: const TextStyle(fontWeight: FontWeight.bold),
-          ),
-          TextSpan(
-            text: "DC ${combatant.recallKnowledge.dc}",
-          ),
-        ],
-      ),
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        BasicAbility(
+          boldText:
+              "Recall Knowledge (${combatant.recallKnowledge.skills.join(', ')}): ",
+          text: "DC ${combatant.recallKnowledge.dc}",
+        ),
+        BasicAbility(
+          boldText: "Unspecific Lore: ",
+          text: "${combatant.recallKnowledge.unspecificDC}",
+        ),
+        BasicAbility(
+          boldText: "Specific Lore: ",
+          text: "${combatant.recallKnowledge.specificDC}",
+        ),
+      ],
     );
   }
 }
