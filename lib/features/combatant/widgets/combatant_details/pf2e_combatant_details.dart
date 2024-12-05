@@ -51,10 +51,7 @@ class Pf2eCombatantDetails extends StatelessWidget {
         _Health(combatant),
         _SpecialAbilities(combatant.midAbilities),
         const Divider(),
-        BasicAbility(
-          boldText: 'Speed ',
-          text: "${combatant.baseSpeed} feet",
-        ),
+        _Speed(combatant),
         _Attacks(combatant),
         _Spells(combatant),
         _SpecialAbilities(combatant.botAbilities),
@@ -180,6 +177,13 @@ class _Health extends StatelessWidget {
             style: const TextStyle(fontWeight: FontWeight.bold),
           ),
           TextSpan(text: '${combatant.hp}$hpDetails;'),
+          if (combatant.hardness != null) ...[
+            TextSpan(
+              text: ' Hardness ',
+              style: const TextStyle(fontWeight: FontWeight.bold),
+            ),
+            TextSpan(text: '${combatant.hardness};'),
+          ],
           if (combatant.immunities.isNotEmpty) ...[
             TextSpan(
               text: ' Immunities ',
@@ -209,6 +213,23 @@ class _Health extends StatelessWidget {
           ],
         ],
       ),
+    );
+  }
+}
+
+class _Speed extends StatelessWidget {
+  const _Speed(this.combatant);
+
+  final Pf2eCombatantData combatant;
+
+  @override
+  Widget build(BuildContext context) {
+    final otherSpeeds = combatant.otherSpeeds.isEmpty
+        ? ""
+        : ", ${combatant.otherSpeeds.join(', ')}";
+    return BasicAbility(
+      boldText: 'Speed ',
+      text: "${combatant.baseSpeed} feet$otherSpeeds",
     );
   }
 }
@@ -365,7 +386,7 @@ class _SpecialAbilityState extends State<_SpecialAbility> {
                 const SizedBox(width: 4),
                 getAction(),
               ],
-              if(widget.ability.traits.isNotEmpty) ...[
+              if (widget.ability.traits.isNotEmpty) ...[
                 const SizedBox(width: 4),
                 Text(
                   "(${widget.ability.traits.join(", ").replaceAll("-", " ")})",

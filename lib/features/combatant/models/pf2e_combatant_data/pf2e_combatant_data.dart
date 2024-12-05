@@ -99,6 +99,8 @@ class Pf2eCombatantData extends CombatantData {
   String get hpDetails =>
       rawData['system']?['attributes']?['hp']?['details'] ?? "";
 
+  int? get hardness => rawData['system']?['attributes']?['hardness']?['value'];
+
   int get ac {
     final baseValue = rawData['system']?['attributes']?['ac']?['value'] ?? 0;
     return baseValue + _template.attributeModifier;
@@ -328,6 +330,13 @@ class Pf2eCombatantData extends CombatantData {
   int get baseSpeed =>
       rawData["system"]?["attributes"]?["speed"]?["value"] ?? 0;
 
+  List<Pf2eSpeed> get otherSpeeds {
+    final List rawSpeeds =
+        rawData["system"]?["attributes"]?["speed"]?["otherSpeeds"] ?? [];
+
+    return rawSpeeds.map((s) => Pf2eSpeed(s["type"], s["value"])).toList();
+  }
+
   List<Pf2eAttack> get attacks {
     final List<Map<String, dynamic>> rawEntries =
         (rawData["items"] ?? []).cast<Map<String, dynamic>>();
@@ -442,7 +451,7 @@ class Pf2eSense {
   @override
   String toString() {
     final acuityString = acuity != null ? "($acuity)" : "";
-    final rangeString = range != null ? " $range" : "";
+    final rangeString = range != null ? " $range ft." : "";
 
     return "$type $acuityString$rangeString";
   }
@@ -476,6 +485,18 @@ class Pf2eResistanceWeakness {
   @override
   String toString() {
     return "$name $value";
+  }
+}
+
+class Pf2eSpeed {
+  final String name;
+  final int speed;
+
+  Pf2eSpeed(this.name, this.speed);
+
+  @override
+  String toString() {
+    return "$name $speed feet";
   }
 }
 
