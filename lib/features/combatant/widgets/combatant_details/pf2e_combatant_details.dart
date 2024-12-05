@@ -32,7 +32,7 @@ class Pf2eCombatantDetails extends StatelessWidget {
         if (combatant.languages.isNotEmpty)
           BasicAbility(
             boldText: "Languages: ",
-            text: combatant.languages.join(', ').capitalizeAll(),
+            text: "${combatant.languages.join(', ').capitalizeAll()} ${combatant.languageDetails}",
           ),
         if (combatant.skills.isNotEmpty)
           BasicAbility(

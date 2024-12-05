@@ -171,6 +171,9 @@ class Pf2eCombatantData extends CombatantData {
       rawData["system"]?["details"]?["languages"]?["value"].cast<String>() ??
       [];
 
+  String get languageDetails =>
+      rawData["system"]?["details"]?["languages"]?["details"] ?? "";
+
   List<Pf2eSkill> get skills {
     final Map<String, Map> rawSkillsMap =
         rawData["system"]?["skills"].cast<String, Map>() ?? <String, Map>{};
@@ -309,7 +312,11 @@ class Pf2eCombatantData extends CombatantData {
       final name = resistance["type"];
       final value = resistance["value"] ?? 0;
 
-      return Pf2eResistanceWeakness(name, value);
+      return Pf2eResistanceWeakness(
+        name,
+        value,
+        exceptions: resistance["exceptions"]?.cast<String>() ?? <String>[],
+      );
     }).toList();
   }
 
@@ -479,12 +486,20 @@ class Pf2eAttributes {
 class Pf2eResistanceWeakness {
   final String name;
   final int value;
+  final List<String> exceptions;
 
-  Pf2eResistanceWeakness(this.name, this.value);
+  const Pf2eResistanceWeakness(
+    this.name,
+    this.value, {
+    this.exceptions = const [],
+  });
 
   @override
   String toString() {
-    return "$name $value";
+    if (exceptions.isEmpty) {
+      return "$name $value";
+    }
+    return "$name $value (except ${exceptions.join(", ")})";
   }
 }
 
