@@ -95,14 +95,16 @@ class Pf2eCombatantData extends CombatantData {
     return baseValue + _template.healthModifier(baseLevel);
   }
 
-  String get hpDetails => rawData['system']?['attributes']?['hp']?['details'] ?? "";
+  String get hpDetails =>
+      rawData['system']?['attributes']?['hp']?['details'] ?? "";
 
   int get ac {
     final baseValue = rawData['system']?['attributes']?['ac']?['value'] ?? 0;
     return baseValue + _template.attributeModifier;
   }
 
-  String get acDetails => rawData['system']?['attributes']?['ac']?['details'] ?? "";
+  String get acDetails =>
+      rawData['system']?['attributes']?['ac']?['details'] ?? "";
 
   int get initiativeModifier => rawData['system']?['perception']?['mod'] ?? 0;
 
@@ -287,11 +289,18 @@ class Pf2eCombatantData extends CombatantData {
   }
 
   List<String> get immunities =>
-      rawData["system"]?["attributes"]?["immunities"]?.cast<Map<String, dynamic>>().map((e) => e['type']).toList().cast<String>() ?? [];
-  
+      rawData["system"]?["attributes"]?["immunities"]
+          ?.cast<Map<String, dynamic>>()
+          .map((e) => e['type'])
+          .toList()
+          .cast<String>() ??
+      [];
+
   List<Pf2eResistance> get resistances {
-    final List<Map<String, dynamic>> rawResistances =
-        rawData["system"]?["attributes"]?["resistances"]?.cast<Map<String, dynamic>>() ?? [];
+    final List<Map<String, dynamic>> rawResistances = rawData["system"]
+                ?["attributes"]?["resistances"]
+            ?.cast<Map<String, dynamic>>() ??
+        [];
 
     return rawResistances.map((resistance) {
       final name = resistance["type"];
@@ -301,7 +310,8 @@ class Pf2eCombatantData extends CombatantData {
     }).toList();
   }
 
-  int get baseSpeed => rawData["system"]?["attributes"]?["speed"]?["value"] ?? 0;
+  int get baseSpeed =>
+      rawData["system"]?["attributes"]?["speed"]?["value"] ?? 0;
 
   List<Pf2eAttack> get attacks {
     final List<Map<String, dynamic>> rawEntries =
@@ -318,6 +328,20 @@ class Pf2eCombatantData extends CombatantData {
         .toList();
   }
 
+  List<Pf2eSpecialAbility> get topAbilities {
+    // top abilities are interaction abilities
+    final List<Map<String, dynamic>> rawEntries =
+        (rawData["items"] ?? []).cast<Map<String, dynamic>>();
+
+    final defensiveAbilities = rawEntries
+        .where(
+          (entry) => entry["system"]?["category"] == "interaction",
+        )
+        .map((entry) => Pf2eSpecialAbility(entry))
+        .toList();
+    return defensiveAbilities;
+  }
+
   List<Pf2eSpecialAbility> get midAbilities {
     // Mid abilities are defensive abilities
     final List<Map<String, dynamic>> rawEntries =
@@ -331,6 +355,20 @@ class Pf2eCombatantData extends CombatantData {
             return entry["system"]?["category"] == "defensive" &&
                 description.isNotEmpty;
           },
+        )
+        .map((entry) => Pf2eSpecialAbility(entry))
+        .toList();
+    return defensiveAbilities;
+  }
+
+  List<Pf2eSpecialAbility> get botAbilities {
+    // bottom abilities are offensive abilities
+    final List<Map<String, dynamic>> rawEntries =
+        (rawData["items"] ?? []).cast<Map<String, dynamic>>();
+
+    final defensiveAbilities = rawEntries
+        .where(
+          (entry) => entry["system"]?["category"] == "offensive",
         )
         .map((entry) => Pf2eSpecialAbility(entry))
         .toList();
