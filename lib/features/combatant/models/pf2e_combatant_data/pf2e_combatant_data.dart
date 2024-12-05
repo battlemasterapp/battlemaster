@@ -1,6 +1,7 @@
 import 'package:battlemaster/common/fonts/action_font.dart';
 import 'package:battlemaster/extensions/int_extensions.dart';
 import 'package:battlemaster/features/combatant/models/pf2e_combatant_data/pf2e_attack.dart';
+import 'package:battlemaster/features/combatant/models/pf2e_combatant_data/pf2e_spellcasting.dart';
 import 'package:battlemaster/features/combatant/models/pf2e_combatant_data/recall_knowledge_entry.dart';
 import 'package:json_annotation/json_annotation.dart';
 
@@ -387,6 +388,31 @@ class Pf2eCombatantData extends CombatantData {
         .map((entry) => Pf2eSpecialAbility(entry))
         .toList();
     return defensiveAbilities;
+  }
+
+  List<Pf2eSpellcasting> get spellcasting {
+    final List<Map<String, dynamic>> rawEntries =
+        (rawData["items"] ?? []).cast<Map<String, dynamic>>();
+
+    return rawEntries
+        .where(
+      (entry) => entry["type"] == "spellcastingEntry",
+    )
+        .map((spellcasting) {
+      final spells = rawEntries
+          .where(
+            (entry) =>
+                entry["type"] == "spell" &&
+                entry["system"]?["location"]?["value"] == spellcasting["_id"],
+          )
+          .toList();
+      spellcasting["spells"] = spells;
+      return Pf2eSpellcasting(
+        spellcasting,
+        template: template,
+        characterLevel: baseLevel,
+      );
+    }).toList();
   }
 }
 

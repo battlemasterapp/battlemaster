@@ -4,6 +4,7 @@ import 'package:battlemaster/extensions/string_extension.dart';
 import 'package:battlemaster/features/combatant/models/pf2e_combatant_data/pf2e_attack.dart';
 import 'package:battlemaster/features/combatant/models/pf2e_combatant_data/pf2e_combatant_data.dart';
 import 'package:battlemaster/features/combatant/widgets/combatant_details/basic_ability.dart';
+import 'package:battlemaster/features/combatant/widgets/combatant_details/pf2e_spellcasting_ability.dart';
 import 'package:battlemaster/features/combatant/widgets/traits.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
@@ -55,6 +56,7 @@ class Pf2eCombatantDetails extends StatelessWidget {
           text: "${combatant.baseSpeed} feet",
         ),
         _Attacks(combatant),
+        _Spells(combatant),
         _SpecialAbilities(combatant.botAbilities),
         const Divider(),
         _RecallKnowledge(combatant),
@@ -384,6 +386,31 @@ class _SpecialAbilityState extends State<_SpecialAbility> {
     return Text(
       widget.ability.actions.map((a) => a.toActionString()).join(" "),
       style: const TextStyle(fontFamily: "ActionIcons"),
+    );
+  }
+}
+
+class _Spells extends StatelessWidget {
+  const _Spells(this.combatant);
+
+  final Pf2eCombatantData combatant;
+
+  @override
+  Widget build(BuildContext context) {
+    if (combatant.spellcasting.isEmpty) {
+      return Container();
+    }
+
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        for (final tradition in combatant.spellcasting)
+          Padding(
+            padding: const EdgeInsets.only(top: 4),
+            child: Pf2eSpellcastingAbility(tradition),
+          ),
+        // TODO: rituals
+      ],
     );
   }
 }
