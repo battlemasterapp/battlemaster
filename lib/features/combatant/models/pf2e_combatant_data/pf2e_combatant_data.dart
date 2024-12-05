@@ -1,3 +1,4 @@
+import 'package:battlemaster/common/fonts/action_font.dart';
 import 'package:battlemaster/extensions/int_extensions.dart';
 import 'package:battlemaster/features/combatant/models/pf2e_combatant_data/pf2e_attack.dart';
 import 'package:battlemaster/features/combatant/models/pf2e_combatant_data/recall_knowledge_entry.dart';
@@ -101,6 +102,8 @@ class Pf2eCombatantData extends CombatantData {
     return baseValue + _template.attributeModifier;
   }
 
+  String get acDetails => rawData['system']?['attributes']?['ac']?['details'] ?? "";
+
   int get initiativeModifier => rawData['system']?['perception']?['mod'] ?? 0;
 
   int get baseLevel => rawData['system']?['details']?['level']?['value'] ?? 0;
@@ -195,46 +198,46 @@ class Pf2eCombatantData extends CombatantData {
     }).toList();
   }
 
-  Pf2eAbility get strength {
+  Pf2eAttributes get strength {
     final mod = rawData["system"]?["abilities"]?["str"]?["mod"] ?? 0;
     final value = rawData["system"]?["abilities"]?["str"]?["value"] ?? 0;
 
-    return Pf2eAbility(value, mod);
+    return Pf2eAttributes(value, mod);
   }
 
-  Pf2eAbility get dexterity {
+  Pf2eAttributes get dexterity {
     final mod = rawData["system"]?["abilities"]?["dex"]?["mod"] ?? 0;
     final value = rawData["system"]?["abilities"]?["dex"]?["value"] ?? 0;
 
-    return Pf2eAbility(value, mod);
+    return Pf2eAttributes(value, mod);
   }
 
-  Pf2eAbility get constitution {
+  Pf2eAttributes get constitution {
     final mod = rawData["system"]?["abilities"]?["con"]?["mod"] ?? 0;
     final value = rawData["system"]?["abilities"]?["con"]?["value"] ?? 0;
 
-    return Pf2eAbility(value, mod);
+    return Pf2eAttributes(value, mod);
   }
 
-  Pf2eAbility get intelligence {
+  Pf2eAttributes get intelligence {
     final mod = rawData["system"]?["abilities"]?["int"]?["mod"] ?? 0;
     final value = rawData["system"]?["abilities"]?["int"]?["value"] ?? 0;
 
-    return Pf2eAbility(value, mod);
+    return Pf2eAttributes(value, mod);
   }
 
-  Pf2eAbility get wisdom {
+  Pf2eAttributes get wisdom {
     final mod = rawData["system"]?["abilities"]?["wis"]?["mod"] ?? 0;
     final value = rawData["system"]?["abilities"]?["wis"]?["value"] ?? 0;
 
-    return Pf2eAbility(value, mod);
+    return Pf2eAttributes(value, mod);
   }
 
-  Pf2eAbility get charisma {
+  Pf2eAttributes get charisma {
     final mod = rawData["system"]?["abilities"]?["cha"]?["mod"] ?? 0;
     final value = rawData["system"]?["abilities"]?["cha"]?["value"] ?? 0;
 
-    return Pf2eAbility(value, mod);
+    return Pf2eAttributes(value, mod);
   }
 
   List<String> get items {
@@ -314,6 +317,25 @@ class Pf2eCombatantData extends CombatantData {
             ))
         .toList();
   }
+
+  List<Pf2eSpecialAbility> get midAbilities {
+    // Mid abilities are defensive abilities
+    final List<Map<String, dynamic>> rawEntries =
+        (rawData["items"] ?? []).cast<Map<String, dynamic>>();
+
+    final defensiveAbilities = rawEntries
+        .where(
+          (entry) {
+            final String description =
+                entry["system"]?["description"]?["value"] ?? "";
+            return entry["system"]?["category"] == "defensive" &&
+                description.isNotEmpty;
+          },
+        )
+        .map((entry) => Pf2eSpecialAbility(entry))
+        .toList();
+    return defensiveAbilities;
+  }
 }
 
 class Pf2eSense {
@@ -360,11 +382,11 @@ class Pf2eSkill {
   }
 }
 
-class Pf2eAbility {
+class Pf2eAttributes {
   final int attribute;
   final int modifier;
 
-  Pf2eAbility(this.attribute, this.modifier);
+  Pf2eAttributes(this.attribute, this.modifier);
 }
 
 class Pf2eResistance {
@@ -377,4 +399,49 @@ class Pf2eResistance {
   String toString() {
     return "$name $value";
   }
+}
+
+class Pf2eSpecialAbility {
+  final Map<String, dynamic> rawData;
+
+  Pf2eSpecialAbility(this.rawData);
+
+  String get name => rawData["name"];
+
+  List<ActionsEnum> get actions {
+    final actionType = rawData["system"]?["actionType"]?["value"];
+
+    if (actionType == null) {
+      return [];
+    }
+
+    if (actionType == "free") {
+      return [ActionsEnum.free];
+    }
+
+    if (actionType == "reaction") {
+      return [ActionsEnum.reaction];
+    }
+
+    if (actionType == "action") {
+      final int? actionCost = rawData["system"]?["actions"]?["value"];
+
+      if (actionCost == null) {
+        return [];
+      }
+
+      switch (actionCost) {
+        case 1:
+          return [ActionsEnum.one];
+        case 2:
+          return [ActionsEnum.two];
+        case 3:
+          return [ActionsEnum.three];
+      }
+    }
+
+    return [];
+  }
+
+  String get description => rawData["system"]?["description"]?["value"] ?? "";
 }

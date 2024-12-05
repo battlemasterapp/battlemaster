@@ -7,6 +7,8 @@ import 'package:battlemaster/features/combatant/widgets/combatant_details/basic_
 import 'package:battlemaster/features/combatant/widgets/traits.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import 'package:flutter_widget_from_html_core/flutter_widget_from_html_core.dart';
+import 'package:icons_plus/icons_plus.dart';
 
 class Pf2eCombatantDetails extends StatelessWidget {
   const Pf2eCombatantDetails({
@@ -29,14 +31,14 @@ class Pf2eCombatantDetails extends StatelessWidget {
         if (combatant.languages.isNotEmpty)
           BasicAbility(
             boldText: "Languages: ",
-            text: combatant.languages.join(', '),
+            text: combatant.languages.join(', ').capitalizeAll(),
           ),
         if (combatant.skills.isNotEmpty)
           BasicAbility(
             boldText: "Skills ",
-            text: combatant.skills.join(', '),
+            text: combatant.skills.join(', ').capitalizeAll(),
           ),
-        _Abilities(combatant),
+        _Attributes(combatant),
         if (combatant.items.isNotEmpty)
           BasicAbility(
             boldText: 'Items: ',
@@ -45,6 +47,7 @@ class Pf2eCombatantDetails extends StatelessWidget {
         const Divider(),
         _Defenses(combatant),
         _Health(combatant),
+        _SpecialAbilities(combatant.midAbilities),
         const Divider(),
         BasicAbility(
           boldText: 'Speed ',
@@ -80,8 +83,8 @@ class _Perception extends StatelessWidget {
   }
 }
 
-class _Abilities extends StatelessWidget {
-  const _Abilities(this.combatant);
+class _Attributes extends StatelessWidget {
+  const _Attributes(this.combatant);
 
   final Pf2eCombatantData combatant;
 
@@ -124,11 +127,15 @@ class _Defenses extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     // FIXME: textos
-    return Row(
+    String acString = combatant.ac.toString();
+    if (combatant.acDetails.isNotEmpty) {
+      acString += " ${combatant.acDetails}";
+    }
+    return Wrap(
       children: [
         BasicAbility(
           boldText: 'AC ',
-          text: combatant.ac.toString(),
+          text: acString,
         ),
         const SizedBox(width: 8),
         BasicAbility(
@@ -288,6 +295,75 @@ class _RecallKnowledge extends StatelessWidget {
           ),
         ],
       ),
+    );
+  }
+}
+
+class _SpecialAbilities extends StatelessWidget {
+  const _SpecialAbilities(this.abilities);
+
+  final List<Pf2eSpecialAbility> abilities;
+
+  @override
+  Widget build(BuildContext context) {
+    if (abilities.isEmpty) {
+      return const SizedBox.shrink();
+    }
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        for (final ability in abilities) _SpecialAbility(ability),
+      ],
+    );
+  }
+}
+
+class _SpecialAbility extends StatefulWidget {
+  const _SpecialAbility(this.ability);
+
+  final Pf2eSpecialAbility ability;
+
+  @override
+  State<_SpecialAbility> createState() => _SpecialAbilityState();
+}
+
+class _SpecialAbilityState extends State<_SpecialAbility> {
+  bool _expanded = false;
+
+  @override
+  Widget build(BuildContext context) {
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        InkWell(
+          onTap: () => setState(() {
+            _expanded = !_expanded;
+          }),
+          child: Row(
+            children: [
+              Text(
+                widget.ability.name,
+                style: const TextStyle(fontWeight: FontWeight.bold),
+              ),
+              if (widget.ability.actions.isNotEmpty) ...[
+                const SizedBox(width: 4),
+                getAction(),
+              ],
+              const Spacer(),
+              if (_expanded) const Icon(MingCute.up_fill),
+              if (!_expanded) const Icon(MingCute.down_fill),
+            ],
+          ),
+        ),
+        if (_expanded) HtmlWidget(widget.ability.description),
+      ],
+    );
+  }
+
+  Widget getAction() {
+    return Text(
+      widget.ability.actions.map((a) => a.toActionString()).join(" "),
+      style: const TextStyle(fontFamily: "ActionIcons"),
     );
   }
 }
