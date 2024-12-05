@@ -296,7 +296,7 @@ class Pf2eCombatantData extends CombatantData {
           .cast<String>() ??
       [];
 
-  List<Pf2eResistance> get resistances {
+  List<Pf2eResistanceWeakness> get resistances {
     final List<Map<String, dynamic>> rawResistances = rawData["system"]
                 ?["attributes"]?["resistances"]
             ?.cast<Map<String, dynamic>>() ??
@@ -306,7 +306,21 @@ class Pf2eCombatantData extends CombatantData {
       final name = resistance["type"];
       final value = resistance["value"] ?? 0;
 
-      return Pf2eResistance(name, value);
+      return Pf2eResistanceWeakness(name, value);
+    }).toList();
+  }
+
+  List<Pf2eResistanceWeakness> get weaknesses {
+    final List<Map<String, dynamic>> rawResistances = rawData["system"]
+                ?["attributes"]?["weaknesses"]
+            ?.cast<Map<String, dynamic>>() ??
+        [];
+
+    return rawResistances.map((resistance) {
+      final name = resistance["type"];
+      final value = resistance["value"] ?? 0;
+
+      return Pf2eResistanceWeakness(name, value);
     }).toList();
   }
 
@@ -427,11 +441,11 @@ class Pf2eAttributes {
   Pf2eAttributes(this.attribute, this.modifier);
 }
 
-class Pf2eResistance {
+class Pf2eResistanceWeakness {
   final String name;
   final int value;
 
-  Pf2eResistance(this.name, this.value);
+  Pf2eResistanceWeakness(this.name, this.value);
 
   @override
   String toString() {
@@ -482,4 +496,8 @@ class Pf2eSpecialAbility {
   }
 
   String get description => rawData["system"]?["description"]?["value"] ?? "";
+
+  List<String> get traits {
+    return rawData["system"]?["traits"]?['value']?.cast<String>() ?? [];
+  }
 }

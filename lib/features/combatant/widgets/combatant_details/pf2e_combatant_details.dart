@@ -196,6 +196,15 @@ class _Health extends StatelessWidget {
               text: "${combatant.resistances.join(', ')};",
             ),
           ],
+          if (combatant.weaknesses.isNotEmpty) ...[
+            TextSpan(
+              text: ' Weaknesses ',
+              style: const TextStyle(fontWeight: FontWeight.bold),
+            ),
+            TextSpan(
+              text: "${combatant.weaknesses.join(', ')};",
+            ),
+          ],
         ],
       ),
     );
@@ -353,6 +362,12 @@ class _SpecialAbilityState extends State<_SpecialAbility> {
               if (widget.ability.actions.isNotEmpty) ...[
                 const SizedBox(width: 4),
                 getAction(),
+              ],
+              if(widget.ability.traits.isNotEmpty) ...[
+                const SizedBox(width: 4),
+                Text(
+                  "(${widget.ability.traits.join(", ").replaceAll("-", " ")})",
+                ),
               ],
               const Spacer(),
               if (_expanded) const Icon(MingCute.up_fill),
