@@ -279,6 +279,7 @@ class _Attacks extends StatelessWidget {
         .cast<Widget>()
         .intercalate(const SizedBox(height: 8));
     return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
       children: children,
     );
   }
