@@ -48,7 +48,7 @@ class PF2eSettings {
   final Set<String> bestiaries;
 
   const PF2eSettings({
-    this.enabled = false,
+    this.enabled = true,
     this.bestiaries = const {
       "pathfinder-monster-core",
     },
