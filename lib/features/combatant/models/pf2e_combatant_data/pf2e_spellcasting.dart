@@ -150,10 +150,8 @@ class SpellcastingLevelEntry {
 
   List<Map<String, dynamic>> get raw => _spells;
 
-
   List<Pf2eSpellEntry> get spells =>
       _spells.map((e) => Pf2eSpellEntry(e, level)).toList();
-
 }
 
 class Pf2eSpellEntry {

@@ -317,7 +317,7 @@ class _Attack extends StatelessWidget {
             TextSpan(text: "${attack.damage} "),
           ],
           if (attack.effects.isNotEmpty) ...[
-             TextSpan(
+            TextSpan(
               text: "${localization.pf2e_effects} ",
               style: TextStyle(fontWeight: FontWeight.bold),
             ),

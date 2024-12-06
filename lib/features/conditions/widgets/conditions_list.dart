@@ -58,7 +58,6 @@ class _RawConditionChip extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-
     return Container(
       decoration: BoxDecoration(
         color: Theme.of(context).canvasColor,
@@ -92,7 +91,8 @@ class _RawConditionChip extends StatelessWidget {
             mainAxisAlignment: MainAxisAlignment.center,
             mainAxisSize: MainAxisSize.min,
             children: [
-              Text(condition.label, style: Theme.of(context).textTheme.bodyMedium),
+              Text(condition.label,
+                  style: Theme.of(context).textTheme.bodyMedium),
               if (showDeleteIcon) buildDeleteIcon(),
             ],
           ),

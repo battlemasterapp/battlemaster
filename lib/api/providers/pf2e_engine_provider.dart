@@ -13,9 +13,9 @@ class Pf2eEngineProvider extends GameEngineProvider {
     required this.sources,
     Pf2eBestiaryService? bestiaryService,
     Pf2eConditionService? conditionService,
-  }) : _bestiaryService =
-            bestiaryService ?? Pf2eBestiaryService(bestiarySources: sources), 
-            _conditionService = conditionService ?? Pf2eConditionService() ;
+  })  : _bestiaryService =
+            bestiaryService ?? Pf2eBestiaryService(bestiarySources: sources),
+        _conditionService = conditionService ?? Pf2eConditionService();
 
   @override
   Future<void> fetchData({bool forceRefresh = false}) async {

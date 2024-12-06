@@ -17,8 +17,7 @@ List<Condition> _decodeCondition(String cache) {
 class Pf2eConditionService extends DataService<List<Condition>> {
   Pf2eConditionService()
       : super(
-            baseUrl: const String.fromEnvironment('PF2E_URI'),
-            initialData: []);
+            baseUrl: const String.fromEnvironment('PF2E_URI'), initialData: []);
 
   @override
   String get cacheKey => 'pf2e_conditions';
@@ -54,8 +53,7 @@ class Pf2eConditionService extends DataService<List<Condition>> {
 
     try {
       logger.d('Fetching conditions');
-      final response =
-          await client.get<String>('/conditions/conditions.json');
+      final response = await client.get<String>('/conditions/conditions.json');
       final results = (jsonDecode(response.data ?? '[]') as List? ?? [])
           .cast<Map<String, dynamic>>();
       data.addAll(results.map(Condition.fromPf2e));

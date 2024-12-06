@@ -89,7 +89,9 @@ class BasicAbility extends StatelessWidget {
 
     final localization = AppLocalizations.of(context)!;
 
-    final text = actions.map((action) => action.toActionString()).join(" ${localization.pf2e_variable_action_preposition} ");
+    final text = actions
+        .map((action) => action.toActionString())
+        .join(" ${localization.pf2e_variable_action_preposition} ");
     return TextSpan(
       text: text,
       style: const TextStyle(fontFamily: "ActionIcons"),

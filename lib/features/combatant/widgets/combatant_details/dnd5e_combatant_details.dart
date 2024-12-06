@@ -152,7 +152,8 @@ class _CombatantSpeed extends StatelessWidget {
       if (combatant.speed.climb > 0)
         localization.climb_speed_ft(combatant.speed.climb),
     ].join(", ");
-    return BasicAbility(boldText: '${localization.speed_label} ', htmlText: speeds);
+    return BasicAbility(
+        boldText: '${localization.speed_label} ', htmlText: speeds);
   }
 }
 
