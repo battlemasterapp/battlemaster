@@ -111,6 +111,9 @@ class BattlemasterApp extends StatelessWidget {
             )..fetchData();
           },
           update: (context, settings, service) {
+            if (settings.pf2eSettings.enabled == false) {
+              return service!;
+            }
             final settingsSources = settings.pf2eSettings.bestiaries;
             final providerSources = service?.sources ?? {};
             final hasChanged = !setEquals(settingsSources, providerSources);
@@ -127,9 +130,14 @@ class BattlemasterApp extends StatelessWidget {
           create: (context) {
             final settings =
                 context.read<SystemSettingsProvider>().dnd5eSettings;
-            return Dnd5eEngineProvider(sources: settings.sources)..fetchData();
+            return Dnd5eEngineProvider(
+              sources: settings.enabled ? settings.sources : {},
+            )..fetchData();
           },
           update: (context, settings, provider) {
+            if (settings.dnd5eSettings.enabled == false) {
+              return provider!;
+            }
             final settingsSources = settings.dnd5eSettings.sources;
             final providerSources = provider?.sources ?? {};
             final hasChanged = !setEquals(settingsSources, providerSources);

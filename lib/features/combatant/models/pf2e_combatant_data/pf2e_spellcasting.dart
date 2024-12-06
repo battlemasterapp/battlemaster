@@ -62,7 +62,6 @@ class Pf2eSpellcasting {
   }
 
   List<SpellcastingLevelEntry>? get spells {
-    // TODO: detemine spells by the type (prepared/spontaneous)
     final List<Map<String, dynamic>> nonCantrips =
         (_entry["spells"] as List<Map<String, dynamic>>? ??
                 <Map<String, dynamic>>[])
