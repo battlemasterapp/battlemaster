@@ -99,10 +99,6 @@ TextSpan _getSpell(BuildContext context, Pf2eSpellEntry spell) {
     };
 
   String name = spell.name;
-  // FIXME: Implement this
-  // if (spell["notes"] != null) {
-  //   name = "$name (${spell["notes"].join(", ")})";
-  // }
   final amount = spell.amount;
   name = "$name${amount != null ? " (x$amount)" : ""}";
   return TextSpan(

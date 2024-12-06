@@ -1,3 +1,4 @@
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:battlemaster/common/fonts/action_font.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_widget_from_html_core/flutter_widget_from_html_core.dart';
@@ -33,7 +34,7 @@ class BasicAbility extends StatelessWidget {
                 color: color,
               ),
             ),
-            if (actions.isNotEmpty) _getActionSpan(),
+            if (actions.isNotEmpty) _getActionSpan(context),
             if (text != null)
               TextSpan(
                 text: text,
@@ -63,7 +64,7 @@ class BasicAbility extends StatelessWidget {
                   color: color,
                 ),
               ),
-              if (actions.isNotEmpty) _getActionSpan(),
+              if (actions.isNotEmpty) _getActionSpan(context),
             ],
           ),
         ),
@@ -78,9 +79,7 @@ class BasicAbility extends StatelessWidget {
     );
   }
 
-  TextSpan _getActionSpan() {
-    // FIXME: textos
-
+  TextSpan _getActionSpan(BuildContext context) {
     if (actions.length == 1) {
       return TextSpan(
         text: actions.first.toActionString(),
@@ -88,7 +87,9 @@ class BasicAbility extends StatelessWidget {
       );
     }
 
-    final text = actions.map((action) => action.toActionString()).join(" to ");
+    final localization = AppLocalizations.of(context)!;
+
+    final text = actions.map((action) => action.toActionString()).join(" ${localization.pf2e_variable_action_preposition} ");
     return TextSpan(
       text: text,
       style: const TextStyle(fontFamily: "ActionIcons"),

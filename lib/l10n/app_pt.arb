@@ -196,5 +196,21 @@
   "health_indicator_bloodied": "Ensanguentado",
   "health_indicator_critical": "Crítico",
   "health_indicator_dead": "Morto",
-  "copied_to_clipboard": "Copiado para a área de transferência!"
+  "copied_to_clipboard": "Copiado para a área de transferência!",
+  "pf2e_variable_action_preposition": "a",
+  "pf2e_creature_level": "Criatura {level}",
+  "pf2e_items": "Itens",
+  "pf2e_perception": "Percepção",
+  "pf2e_fort": "Fort",
+  "pf2e_ref": "Ref",
+  "pf2e_will": "Von",
+  "pf2e_hardness": "Dureza",
+  "pf2e_immunities": "Imunidades",
+  "pf2e_resistances": "Resistências",
+  "pf2e_weaknesses": "Fraquezas",
+  "pf2e_damage": "Dano",
+  "pf2e_effects": "Efeitos",
+  "pf2e_condition_value_label": "Valor",
+  "pf2e_ac": "CA",
+  "pf2e_hp": "PV"
 }

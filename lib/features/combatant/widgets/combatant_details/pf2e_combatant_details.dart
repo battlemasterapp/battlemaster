@@ -22,14 +22,13 @@ class Pf2eCombatantDetails extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    // FIXME: textos
-    // FIXME: spacing
+    final localization = AppLocalizations.of(context)!;
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         Traits(traits: combatant.traits),
         Text(
-          'Creature ${combatant.level}',
+          localization.pf2e_creature_level(combatant.level),
           style: Theme.of(context).textTheme.titleMedium?.copyWith(
                 color: Colors.black.withOpacity(0.8),
               ),
@@ -39,7 +38,7 @@ class Pf2eCombatantDetails extends StatelessWidget {
         if (combatant.languages.isNotEmpty) ...[
           const SizedBox(height: 8),
           BasicAbility(
-            boldText: "Languages: ",
+            boldText: "${localization.dnd5e_languages} ",
             text:
                 "${combatant.languages.join(', ').capitalizeAll()} ${combatant.languageDetails}",
           ),
@@ -47,7 +46,7 @@ class Pf2eCombatantDetails extends StatelessWidget {
         if (combatant.skills.isNotEmpty) ...[
           const SizedBox(height: 8),
           BasicAbility(
-            boldText: "Skills ",
+            boldText: "${localization.dnd5e_skills} ",
             text: combatant.skills.join(', ').capitalizeAll(),
           ),
         ],
@@ -56,7 +55,7 @@ class Pf2eCombatantDetails extends StatelessWidget {
         if (combatant.items.isNotEmpty) ...[
           const SizedBox(height: 8),
           BasicAbility(
-            boldText: 'Items: ',
+            boldText: '${localization.pf2e_items} ',
             text: combatant.items.join(', '),
           ),
         ],
@@ -98,16 +97,16 @@ class _Perception extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    // FIXME: textos
+    final localization = AppLocalizations.of(context)!;
     final otherSenses = combatant.otherSenses;
     if (otherSenses.isNotEmpty) {
       return BasicAbility(
-        boldText: 'Perception: ',
+        boldText: '${localization.pf2e_perception} ',
         text: '${combatant.perception.signString}, ${otherSenses.join(', ')}',
       );
     }
     return BasicAbility(
-      boldText: 'Perception',
+      boldText: localization.pf2e_perception,
       text: combatant.perception.signString,
     );
   }
@@ -156,7 +155,7 @@ class _Defenses extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    // FIXME: textos
+    final localization = AppLocalizations.of(context)!;
     String acString = combatant.ac.toString();
     if (combatant.acDetails.isNotEmpty) {
       acString += " ${combatant.acDetails}";
@@ -164,22 +163,22 @@ class _Defenses extends StatelessWidget {
     return Wrap(
       children: [
         BasicAbility(
-          boldText: 'AC ',
+          boldText: '${localization.pf2e_ac} ',
           text: acString,
         ),
         const SizedBox(width: 8),
         BasicAbility(
-          boldText: 'Fort ',
+          boldText: '${localization.pf2e_fort} ',
           text: combatant.fortitude.signString,
         ),
         const SizedBox(width: 8),
         BasicAbility(
-          boldText: 'Ref ',
+          boldText: '${localization.pf2e_ref} ',
           text: combatant.reflex.signString,
         ),
         const SizedBox(width: 8),
         BasicAbility(
-          boldText: 'Will ',
+          boldText: '${localization.pf2e_will} ',
           text: combatant.will.signString,
         ),
       ],
@@ -194,7 +193,7 @@ class _Health extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    // FIXME: textos
+    final localization = AppLocalizations.of(context)!;
     final hpDetails =
         combatant.hpDetails.isNotEmpty ? " (${combatant.hpDetails})" : "";
     return RichText(
@@ -202,20 +201,20 @@ class _Health extends StatelessWidget {
         style: DefaultTextStyle.of(context).style,
         children: [
           TextSpan(
-            text: 'HP ',
+            text: '${localization.pf2e_hp} ',
             style: const TextStyle(fontWeight: FontWeight.bold),
           ),
           TextSpan(text: '${combatant.hp}$hpDetails;'),
           if (combatant.hardness != null) ...[
             TextSpan(
-              text: ' Hardness ',
+              text: ' ${localization.pf2e_hardness} ',
               style: const TextStyle(fontWeight: FontWeight.bold),
             ),
             TextSpan(text: '${combatant.hardness};'),
           ],
           if (combatant.immunities.isNotEmpty) ...[
             TextSpan(
-              text: ' Immunities ',
+              text: ' ${localization.pf2e_immunities} ',
               style: const TextStyle(fontWeight: FontWeight.bold),
             ),
             TextSpan(
@@ -224,7 +223,7 @@ class _Health extends StatelessWidget {
           ],
           if (combatant.resistances.isNotEmpty) ...[
             TextSpan(
-              text: ' Resistances ',
+              text: ' ${localization.pf2e_resistances} ',
               style: const TextStyle(fontWeight: FontWeight.bold),
             ),
             TextSpan(
@@ -233,7 +232,7 @@ class _Health extends StatelessWidget {
           ],
           if (combatant.weaknesses.isNotEmpty) ...[
             TextSpan(
-              text: ' Weaknesses ',
+              text: ' ${localization.pf2e_weaknesses} ',
               style: const TextStyle(fontWeight: FontWeight.bold),
             ),
             TextSpan(
@@ -253,11 +252,12 @@ class _Speed extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final localization = AppLocalizations.of(context)!;
     final otherSpeeds = combatant.otherSpeeds.isEmpty
         ? ""
         : ", ${combatant.otherSpeeds.join(', ')}";
     return BasicAbility(
-      boldText: 'Speed ',
+      boldText: '${localization.speed_label} ',
       text: "${combatant.baseSpeed} feet$otherSpeeds",
     );
   }
@@ -292,6 +292,7 @@ class _Attack extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final localization = AppLocalizations.of(context)!;
     return RichText(
       text: TextSpan(
         style: DefaultTextStyle.of(context).style,
@@ -309,15 +310,15 @@ class _Attack extends StatelessWidget {
                 text:
                     "(${attack.traits.join(", ").capitalizeAll().replaceAll("-", " ")}) "),
           if (attack.damage != null) ...[
-            const TextSpan(
-              text: "Damage ",
+            TextSpan(
+              text: "${localization.pf2e_damage} ",
               style: TextStyle(fontWeight: FontWeight.bold),
             ),
             TextSpan(text: "${attack.damage} "),
           ],
           if (attack.effects.isNotEmpty) ...[
-            const TextSpan(
-              text: "Effects ",
+             TextSpan(
+              text: "${localization.pf2e_effects} ",
               style: TextStyle(fontWeight: FontWeight.bold),
             ),
             TextSpan(
@@ -326,7 +327,6 @@ class _Attack extends StatelessWidget {
                     .replaceAll("-", " ")
                     .capitalizeAll()),
           ],
-          // TextSpan(text: attack.entry.toString()),
         ],
       ),
     );

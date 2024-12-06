@@ -1,3 +1,4 @@
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:battlemaster/features/conditions/models/condition.dart';
 import 'package:battlemaster/features/engines/models/game_engine_type.dart';
 import 'package:flutter/material.dart';
@@ -31,6 +32,7 @@ class _ConditionInfoDialogState extends State<ConditionInfoDialog> {
 
   @override
   Widget build(BuildContext context) {
+    final localization = AppLocalizations.of(context)!;
     final hasValue = widget.condition.engine == GameEngineType.pf2e;
     final title =
         value > 0 ? '${widget.condition.name} $value' : widget.condition.name;
@@ -70,8 +72,7 @@ class _ConditionInfoDialogState extends State<ConditionInfoDialog> {
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.center,
                       children: [
-                        // FIXME: textos
-                        Text('Valor da condição'),
+                        Text(localization.pf2e_condition_value_label),
                         Row(
                           mainAxisAlignment: MainAxisAlignment.center,
                           mainAxisSize: MainAxisSize.min,
