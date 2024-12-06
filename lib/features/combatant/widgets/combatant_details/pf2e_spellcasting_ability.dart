@@ -8,30 +8,53 @@ import 'package:flutter/material.dart';
 import 'package:flutter_widget_from_html_core/flutter_widget_from_html_core.dart';
 
 class Pf2eSpellcastingAbility extends StatelessWidget {
-  const Pf2eSpellcastingAbility(this.spellcasting);
+  const Pf2eSpellcastingAbility(
+    this.spellcasting, {
+    super.key,
+  });
 
   final Pf2eSpellcasting spellcasting;
 
   @override
   Widget build(BuildContext context) {
-    return RichText(
-      text: TextSpan(
-        style: DefaultTextStyle.of(context).style,
-        children: [
-          TextSpan(
-            text: [spellcasting.name].whereType<String>().join(" "),
-            style: const TextStyle(fontWeight: FontWeight.bold),
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        RichText(
+          text: TextSpan(
+            style: DefaultTextStyle.of(context).style,
+            children: [
+              TextSpan(
+                text: [spellcasting.name].whereType<String>().join(" "),
+                style: const TextStyle(fontWeight: FontWeight.bold),
+              ),
+              const TextSpan(text: " "),
+              TextSpan(text: "DC ${spellcasting.dc}; "),
+              if (spellcasting.attack != null)
+                TextSpan(text: "attack ${spellcasting.attack?.signString}; "),
+            ],
           ),
-          const TextSpan(text: " "),
-          TextSpan(text: "DC ${spellcasting.dc}; "),
-          if (spellcasting.attack != null)
-            TextSpan(text: "attack ${spellcasting.attack?.signString}; "),
-          ...getCantrips(context),
-          for (final spellLevel
-              in spellcasting.spells ?? <SpellcastingLevelEntry>[])
-            ...getSpells(context, spellLevel, spellLevel.level.ordinal),
-        ],
-      ),
+        ),
+        if (spellcasting.cantrips != null)
+          RichText(
+            text: TextSpan(
+              style: DefaultTextStyle.of(context).style,
+              children: getCantrips(context),
+            ),
+          ),
+        for (final spellLevel
+            in spellcasting.spells ?? <SpellcastingLevelEntry>[])
+          RichText(
+            text: TextSpan(
+              style: DefaultTextStyle.of(context).style,
+              children: getSpells(
+                context,
+                spellLevel,
+                spellLevel.level.ordinal,
+              ),
+            ),
+          ),
+      ],
     );
   }
 
@@ -72,7 +95,10 @@ class Pf2eSpellcastingAbility extends StatelessWidget {
       ),
       if (spellLevel.slots != null)
         TextSpan(text: "(${spellLevel.slots} slots) "),
-      for (final spell in spellLevel.spells) _getSpell(context, spell),
+      for (final spell in spellLevel.spells) ...[
+        _getSpell(context, spell),
+        TextSpan(text: '; '),
+      ],
     ];
   }
 }
@@ -91,11 +117,11 @@ TextSpan _getSpell(BuildContext context, Pf2eSpellEntry spell) {
   // if (spell["notes"] != null) {
   //   name = "$name (${spell["notes"].join(", ")})";
   // }
-  // dynamic amount = spell["amount"];
+  final amount = spell.amount;
   // amount = amount is int ? "x$amount" : amount;
-  // name = "$name${amount != null ? " ($amount)" : ""}";
+  name = "$name${amount != null ? " (x$amount)" : ""}";
   return TextSpan(
-    text: "$name; ",
+    text: name,
     recognizer: onTap,
     style: const TextStyle(decoration: TextDecoration.underline),
   );
@@ -129,11 +155,6 @@ class _SpellInfoDialog extends StatelessWidget {
             ),
             Traits(traits: spell.traits),
             BasicAbility(
-              boldText: "Source: ",
-              text: spell.source,
-              color: Theme.of(context).textTheme.bodyMedium?.color,
-            ),
-            BasicAbility(
               boldText: "Traditions: ",
               text: spell.traditions.join(", ").capitalizeAll(),
               color: Theme.of(context).textTheme.bodyMedium?.color,
@@ -141,7 +162,7 @@ class _SpellInfoDialog extends StatelessWidget {
             BasicAbility(
               boldText: "Cast ",
               actions: spell.actions,
-              text: spell.components.join(", "),
+              text: "",
               color: Theme.of(context).textTheme.bodyMedium?.color,
             ),
             if (spell.range.isNotEmpty)
@@ -177,12 +198,6 @@ class _SpellInfoDialog extends StatelessWidget {
                     : spell.defense,
                 color: Theme.of(context).textTheme.bodyMedium?.color,
               ),
-            if (spell.savingThrow != null)
-              BasicAbility(
-                boldText: "Saving Throw ",
-                text: spell.savingThrow,
-                color: Theme.of(context).textTheme.bodyMedium?.color,
-              ),
             if (spell.duration.isNotEmpty || spell.isSustained)
               BasicAbility(
                 boldText: "Duration ",
@@ -193,13 +208,6 @@ class _SpellInfoDialog extends StatelessWidget {
               ),
             const Divider(),
             HtmlWidget(spell.description),
-            if (spell.heightened.isNotEmpty) const Divider(),
-            for (final height in spell.heightened)
-              BasicAbility(
-                boldText: "Heightened (${height.level}) ",
-                text: height.entries.join("\n"),
-                color: Theme.of(context).textTheme.bodyMedium?.color,
-              ),
           ],
         ),
       ),

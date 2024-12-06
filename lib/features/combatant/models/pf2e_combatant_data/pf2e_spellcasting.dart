@@ -1,7 +1,6 @@
 import 'dart:math';
 
 import 'package:battlemaster/common/fonts/action_font.dart';
-import 'package:battlemaster/extensions/int_extensions.dart';
 import 'package:battlemaster/extensions/string_extension.dart';
 import 'package:battlemaster/features/combatant/models/pf2e_combatant_data/pf2e_combatant_data.dart';
 
@@ -109,7 +108,8 @@ class Pf2eSpellcasting {
             .toList()
             .cast<Map<String, dynamic>>();
         return SpellcastingLevelEntry(spells: preparedSpells, level: level);
-      }).toList();
+      }).toList()
+        ..sort((a, b) => a.level.compareTo(b.level));
     }
 
     final levels = <int, List<Map<String, dynamic>>>{};
@@ -133,7 +133,8 @@ class Pf2eSpellcasting {
           slots: slots,
         );
       },
-    ).toList();
+    ).toList()
+      ..sort((a, b) => a.level.compareTo(b.level));
   }
 }
 
@@ -164,12 +165,14 @@ class Pf2eSpellEntry {
   final Map<String, dynamic> _entry;
   final int level;
 
-  Pf2eSpellEntry(Map<String, dynamic> entry, this.level,) : _entry = entry;
+  Pf2eSpellEntry(
+    Map<String, dynamic> entry,
+    this.level,
+  ) : _entry = entry;
 
   Map<String, dynamic> get raw => _entry;
 
   String get name => _entry["name"] ?? "";
-
 
   List<String> get traits {
     final Map rawTraits = _entry["system"]?["traits"] ?? {};
@@ -182,29 +185,11 @@ class Pf2eSpellEntry {
 
   bool get isCantrip => traits.contains("cantrip");
 
-  String get source => _entry["system"]?["publication"]?["title"] ?? "";
-
   List<String> get traditions {
     final Map rawTraits = _entry["system"]?["traits"] ?? {};
     return [
       ...(rawTraits["traditions"] ?? []),
     ].whereType<String>().toList();
-  }
-
-  List<String> get components {
-    List components = _entry["components"]?[0] ?? [];
-
-    return components
-        .map((e) {
-          final componentMap = {
-            "V": "verbal",
-            "S": "somatic",
-            "M": "material",
-          };
-          return componentMap[e] ?? e;
-        })
-        .whereType<String>()
-        .toList();
   }
 
   List<ActionsEnum> get actions {
@@ -237,6 +222,8 @@ class Pf2eSpellEntry {
 
   String get targets => _entry["system"]?["target"]?["value"] ?? "";
 
+  int? get amount => _entry["system"]?["location"]?["uses"]?["max"];
+
   String? get area {
     final area = _entry["system"]?["area"];
 
@@ -266,69 +253,8 @@ class Pf2eSpellEntry {
     return statistic.capitalize();
   }
 
-  String? get savingThrow {
-    final savingThrow = _entry["savingThrow"];
-
-    if (savingThrow == null) {
-      return null;
-    }
-
-    if (savingThrow is String) {
-      return savingThrow;
-    }
-
-    final basic = savingThrow["basic"] ?? false;
-    List<String> type = savingThrow["type"]?.cast<String>() ?? [];
-
-    final saveList = [
-      if (basic) "basic",
-      ...type.map((e) {
-        final saveMap = {
-          "F": "Fortitude",
-          "R": "Reflex",
-          "W": "Will",
-        };
-        return saveMap[e];
-      }).whereType<String>(),
-    ];
-
-    return saveList.whereType<String>().join(" ");
-  }
-
   String get description {
     return _entry["system"]?["description"]?["value"] ?? "";
-  }
-
-  List<HeightenedEntry> get heightened {
-    final Map rawEntries = _entry["heightened"] ?? {};
-
-    if (rawEntries.isEmpty) {
-      return [];
-    }
-
-    final entries = <HeightenedEntry>[];
-
-    if (rawEntries["X"] != null) {
-      final leveledHeightened = rawEntries["X"] as Map<String, dynamic>;
-      entries.addAll(leveledHeightened.entries.map((e) {
-        return HeightenedEntry(
-          level: int.tryParse(e.key.toString())?.ordinal ?? e.key.toString(),
-          entries: e.value.cast<String>(),
-        );
-      }).toList());
-    }
-
-    if (rawEntries["plusX"] != null) {
-      final plusHeightened = rawEntries["plusX"] as Map<String, dynamic>;
-      entries.addAll(plusHeightened.entries.map((e) {
-        return HeightenedEntry(
-          level: "+${int.tryParse(e.key.toString()) ?? e.key.toString()}",
-          entries: e.value.cast<String>(),
-        );
-      }).toList());
-    }
-
-    return entries;
   }
 }
 
