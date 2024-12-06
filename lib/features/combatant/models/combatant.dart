@@ -1,5 +1,5 @@
 import 'package:battlemaster/features/combatant/models/combatant_data.dart';
-import 'package:battlemaster/features/combatant/models/pf2e_combatant_data.dart';
+import 'package:battlemaster/features/combatant/models/pf2e_combatant_data/pf2e_combatant_data.dart';
 import 'package:battlemaster/features/conditions/models/condition.dart';
 import 'package:equatable/equatable.dart';
 import 'package:json_annotation/json_annotation.dart';

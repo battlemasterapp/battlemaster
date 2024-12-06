@@ -1,3 +1,6 @@
+import 'package:async/async.dart';
+import 'package:battlemaster/api/providers/game_engine_provider.dart';
+import 'package:battlemaster/api/providers/pf2e_engine_provider.dart';
 import 'package:battlemaster/extensions/string_extension.dart';
 import 'package:battlemaster/features/analytics/analytics_service.dart';
 import 'package:battlemaster/features/settings/models/settings.dart';
@@ -43,8 +46,7 @@ class Pf2eSettingsWidget extends StatelessWidget {
           duration: 300.ms,
           switchInCurve: Curves.easeInOutCubic,
           switchOutCurve: Curves.easeInOutCubic,
-          child:
-              gameSettings.enabled ? const _Pf2eSettings() : SizedBox.shrink(),
+          child: gameSettings.enabled ? _Pf2eSettings() : SizedBox.shrink(),
         ),
       ],
     );
@@ -52,11 +54,14 @@ class Pf2eSettingsWidget extends StatelessWidget {
 }
 
 class _Pf2eSettings extends StatelessWidget {
-  const _Pf2eSettings();
+  _Pf2eSettings();
+
+  final AsyncCache _cache = AsyncCache.ephemeral();
 
   @override
   Widget build(BuildContext context) {
     final localization = AppLocalizations.of(context)!;
+    final engineProvider = context.watch<Pf2eEngineProvider>();
     final gameSettings = context.select<SystemSettingsProvider, PF2eSettings>(
         (state) => state.pf2eSettings);
     final selectedBestiaries = gameSettings.bestiaries
@@ -66,9 +71,24 @@ class _Pf2eSettings extends StatelessWidget {
     final bestiariesString = selectedBestiaries.join(', ');
     final subtitle =
         "${localization.bestiary_settings_description}\n${localization.selected_bestiaries} $bestiariesString";
+    final loadingData =
+        engineProvider.currentStatus == GameEngineProviderStatus.loading;
     return Column(
       mainAxisSize: MainAxisSize.min,
       children: [
+        ListTile(
+          leading: Icon(MingCute.refresh_2_fill),
+          title: Text(localization.reload_data_title),
+          subtitle: Text(localization.reload_data_description),
+          trailing: loadingData
+              ? CircularProgressIndicator.adaptive()
+              : ElevatedButton(
+                  onPressed: () => _cache.fetch(() async {
+                    await engineProvider.fetchData(forceRefresh: true);
+                  }),
+                  child: Text(localization.reload_button),
+                ),
+        ),
         ListTile(
           leading: Icon(MingCute.book_3_fill),
           title: Text(localization.bestiary_settings_title),

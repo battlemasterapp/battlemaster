@@ -1,4 +1,5 @@
 import 'package:battlemaster/api/providers/dnd5e_engine_provider.dart';
+import 'package:battlemaster/api/providers/pf2e_engine_provider.dart';
 import 'package:battlemaster/database/database.dart';
 import 'package:battlemaster/features/conditions/models/condition.dart';
 import 'package:battlemaster/features/conditions/providers/conditions_provider.dart';
@@ -38,12 +39,15 @@ class _AddConditionDialogState extends State<AddConditionDialog> {
         widget.engine == GameEngineType.dnd5e) {
       _allConditions.addAll(context.read<Dnd5eEngineProvider>().conditions);
     }
+    if (settings.pf2eSettings.enabled || widget.engine == GameEngineType.pf2e) {
+      _allConditions.addAll(context.read<Pf2eEngineProvider>().conditions);
+    }
   }
 
   @override
   Widget build(BuildContext context) {
     final localization = AppLocalizations.of(context)!;
-    final activeConditionsNames = _activeConditions.map((e) => e.name).toSet();
+    final displayEngine = widget.engine == GameEngineType.custom;
     return FutureBuilder<List<CustomCondition>>(
         future: context.read<ConditionsProvider>().getConditions(),
         builder: (context, snapshot) {
@@ -78,19 +82,21 @@ class _AddConditionDialogState extends State<AddConditionDialog> {
                         children: [
                           for (final condition in filteredConditions)
                             CheckboxListTile(
-                              value: activeConditionsNames
-                                  .contains(condition.name),
+                              value: _activeConditions.contains(condition),
                               onChanged: (value) {
                                 setState(() {
                                   if (value!) {
                                     _activeConditions.add(condition);
                                   } else {
-                                    _activeConditions.removeWhere(
-                                        (e) => e.name == condition.name);
+                                    _activeConditions.remove(condition);
                                   }
                                 });
                               },
-                              title: Text(condition.name),
+                              title: Text(
+                                displayEngine
+                                    ? '${condition.name} (${condition.engine.translate(localization)})'
+                                    : condition.name,
+                              ),
                             ),
                         ],
                       ),

@@ -1,4 +1,4 @@
-import 'package:battlemaster/features/combatant/models/pf2e_combatant_data.dart';
+import 'package:battlemaster/features/combatant/models/pf2e_combatant_data/pf2e_combatant_data.dart';
 import 'package:flutter/material.dart';
 
 import '../../../engines/models/game_engine_type.dart';

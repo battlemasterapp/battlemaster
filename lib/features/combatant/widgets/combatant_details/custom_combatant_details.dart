@@ -22,11 +22,11 @@ class CustomCombatantDetails extends StatelessWidget {
         _CombatantType(combatant: combatant),
         BasicAbility(
           boldText: '${localization.hit_points} ',
-          text: combatant.maxHp.toString(),
+          htmlText: combatant.maxHp.toString(),
         ),
         BasicAbility(
           boldText: '${localization.armor_class} ',
-          text: combatant.armorClass.toString(),
+          htmlText: combatant.armorClass.toString(),
         ),
       ],
     );

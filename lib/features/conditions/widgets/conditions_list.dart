@@ -10,10 +10,12 @@ class ConditionChip extends StatelessWidget {
     required this.condition,
     this.showDeleteIcon = false,
     this.onDeleted,
-  }) : assert(showDeleteIcon || onDeleted == null);
+    this.onValueChanged,
+  });
 
   final Condition condition;
   final VoidCallback? onDeleted;
+  final ValueChanged<int>? onValueChanged;
   final bool showDeleteIcon;
 
   @override
@@ -35,6 +37,7 @@ class ConditionChip extends StatelessWidget {
     return _RawConditionChip(
       condition: condition,
       onDeleted: onDeleted,
+      onValueChanged: onValueChanged,
       showDeleteIcon: showDeleteIcon,
     );
   }
@@ -45,18 +48,16 @@ class _RawConditionChip extends StatelessWidget {
     required this.condition,
     this.showDeleteIcon = false,
     this.onDeleted,
+    this.onValueChanged,
   });
 
   final Condition condition;
   final VoidCallback? onDeleted;
+  final ValueChanged<int>? onValueChanged;
   final bool showDeleteIcon;
 
   @override
   Widget build(BuildContext context) {
-    String label = condition.name;
-    if (condition.value != null) {
-      label += ' ${condition.value}';
-    }
     return Container(
       decoration: BoxDecoration(
         color: Theme.of(context).canvasColor,
@@ -69,6 +70,7 @@ class _RawConditionChip extends StatelessWidget {
             builder: (context) => ConditionInfoDialog(
               condition: condition,
               onDeleted: onDeleted,
+              onValueChanged: onValueChanged,
             ),
           );
         },
@@ -89,7 +91,8 @@ class _RawConditionChip extends StatelessWidget {
             mainAxisAlignment: MainAxisAlignment.center,
             mainAxisSize: MainAxisSize.min,
             children: [
-              Text(label, style: Theme.of(context).textTheme.bodyMedium),
+              Text(condition.label,
+                  style: Theme.of(context).textTheme.bodyMedium),
               if (showDeleteIcon) buildDeleteIcon(),
             ],
           ),
@@ -122,10 +125,12 @@ class ConditionsList extends StatelessWidget {
     super.key,
     this.conditions = const [],
     this.onDeleted,
+    this.onValueChanged,
   });
 
   final List<Condition> conditions;
-  final VoidCallback? onDeleted;
+  final ValueChanged<Condition>? onDeleted;
+  final ValueChanged<Condition>? onValueChanged;
 
   @override
   Widget build(BuildContext context) {
@@ -139,7 +144,10 @@ class ConditionsList extends StatelessWidget {
         for (final condition in conditions)
           ConditionChip(
             condition: condition,
-            onDeleted: onDeleted,
+            onDeleted: () => onDeleted?.call(condition),
+            onValueChanged: (value) {
+              onValueChanged?.call(condition.copyWith(value: value));
+            },
           ),
       ],
     );

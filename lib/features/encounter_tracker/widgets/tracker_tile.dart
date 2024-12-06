@@ -3,6 +3,7 @@ import 'dart:math';
 import 'package:animated_flip_counter/animated_flip_counter.dart';
 import 'package:battlemaster/features/combatant/models/combatant_type.dart';
 import 'package:battlemaster/features/conditions/widgets/conditions_list.dart';
+import 'package:battlemaster/features/encounter_tracker/providers/encounter_tracker_notifier.dart';
 import 'package:battlemaster/features/encounter_tracker/widgets/hp_dialog.dart';
 import 'package:battlemaster/features/encounter_tracker/widgets/initiative_dialog.dart';
 import 'package:battlemaster/features/encounter_tracker/widgets/remove_combatant_dialog.dart';
@@ -10,6 +11,7 @@ import 'package:battlemaster/features/shared/colors.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_animate/flutter_animate.dart';
 import 'package:icons_plus/icons_plus.dart';
+import 'package:provider/provider.dart';
 import 'package:ultimate_flutter_icons/flutter_icons.dart';
 
 import '../../combatant/models/combatant.dart';
@@ -103,6 +105,31 @@ class TrackerTile extends StatelessWidget {
                         padding: const EdgeInsets.symmetric(vertical: 4),
                         child: ConditionsList(
                           conditions: combatant.conditions,
+                          onDeleted: (condition) async {
+                            final conditions = combatant.conditions
+                                .where((c) => c != condition)
+                                .toList();
+                            await context
+                                .read<EncounterTrackerNotifier>()
+                                .updateCombatantsConditions(
+                                  combatant,
+                                  conditions,
+                                );
+                          },
+                          onValueChanged: (condition) async {
+                            final conditions = combatant.conditions.map((c) {
+                              if (c == condition) {
+                                return c.copyWith(value: condition.value);
+                              }
+                              return c;
+                            }).toList();
+                            await context
+                                .read<EncounterTrackerNotifier>()
+                                .updateCombatantsConditions(
+                                  combatant,
+                                  conditions,
+                                );
+                          },
                         ),
                       ),
                   ],
