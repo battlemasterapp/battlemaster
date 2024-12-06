@@ -1,5 +1,6 @@
 import 'package:battlemaster/common/fonts/action_font.dart';
 import 'package:battlemaster/extensions/int_extensions.dart';
+import 'package:battlemaster/extensions/list_extensions.dart';
 import 'package:battlemaster/extensions/string_extension.dart';
 import 'package:battlemaster/features/combatant/models/pf2e_combatant_data/pf2e_attack.dart';
 import 'package:battlemaster/features/combatant/models/pf2e_combatant_data/pf2e_combatant_data.dart';
@@ -272,10 +273,13 @@ class _Attacks extends StatelessWidget {
     if (combatant.attacks.isEmpty) {
       return const SizedBox.shrink();
     }
+    final List<Widget> children = combatant.attacks
+        .map((a) => _Attack(a))
+        .toList()
+        .cast<Widget>()
+        .intercalate(const SizedBox(height: 8));
     return Column(
-      children: [
-        for (final attack in combatant.attacks) _Attack(attack),
-      ],
+      children: children,
     );
   }
 }
@@ -459,14 +463,15 @@ class _Spells extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final List<Widget> children = combatant.spellcasting
+        .map((tradition) => Pf2eSpellcastingAbility(tradition))
+        .toList()
+        .cast<Widget>()
+        .intercalate(const SizedBox(height: 8));
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        for (final tradition in combatant.spellcasting)
-          Padding(
-            padding: const EdgeInsets.only(top: 4),
-            child: Pf2eSpellcastingAbility(tradition),
-          ),
+        ...children,
         // TODO: rituals
       ],
     );

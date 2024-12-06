@@ -43,7 +43,8 @@ class Pf2eSpellcastingAbility extends StatelessWidget {
             ),
           ),
         for (final spellLevel
-            in spellcasting.spells ?? <SpellcastingLevelEntry>[])
+            in spellcasting.spells ?? <SpellcastingLevelEntry>[]) ...[
+          const SizedBox(height: 4),
           RichText(
             text: TextSpan(
               style: DefaultTextStyle.of(context).style,
@@ -54,6 +55,7 @@ class Pf2eSpellcastingAbility extends StatelessWidget {
               ),
             ),
           ),
+        ],
       ],
     );
   }
@@ -72,22 +74,6 @@ class Pf2eSpellcastingAbility extends StatelessWidget {
 
   List<TextSpan> getSpells(
       BuildContext context, SpellcastingLevelEntry spellLevel, String title) {
-    if (spellLevel.constant) {
-      return [
-        const TextSpan(
-          text: "Constant ",
-          style: TextStyle(fontWeight: FontWeight.bold),
-        ),
-        for (final level in spellLevel.constantSpells) ...[
-          TextSpan(
-            text: "(${level.level.ordinal}) ",
-            style: const TextStyle(fontWeight: FontWeight.bold),
-          ),
-          for (final spell in level.spells) _getSpell(context, spell),
-        ],
-      ];
-    }
-
     return [
       TextSpan(
         text: "$title ",
@@ -118,7 +104,6 @@ TextSpan _getSpell(BuildContext context, Pf2eSpellEntry spell) {
   //   name = "$name (${spell["notes"].join(", ")})";
   // }
   final amount = spell.amount;
-  // amount = amount is int ? "x$amount" : amount;
   name = "$name${amount != null ? " (x$amount)" : ""}";
   return TextSpan(
     text: name,

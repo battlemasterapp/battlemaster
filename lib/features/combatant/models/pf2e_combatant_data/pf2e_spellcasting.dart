@@ -151,14 +151,10 @@ class SpellcastingLevelEntry {
 
   List<Map<String, dynamic>> get raw => _spells;
 
-  bool get constant => false;
 
   List<Pf2eSpellEntry> get spells =>
       _spells.map((e) => Pf2eSpellEntry(e, level)).toList();
 
-  List<SpellcastingLevelEntry> get constantSpells {
-    return [];
-  }
 }
 
 class Pf2eSpellEntry {
