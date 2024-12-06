@@ -131,41 +131,66 @@ class _SpellInfoDialog extends StatelessWidget {
             BasicAbility(
               boldText: "Source: ",
               text: spell.source,
+              color: Theme.of(context).textTheme.bodyMedium?.color,
             ),
             BasicAbility(
-                boldText: "Traditions: ",
-                text: spell.traditions.join(", ").capitalizeAll()),
+              boldText: "Traditions: ",
+              text: spell.traditions.join(", ").capitalizeAll(),
+              color: Theme.of(context).textTheme.bodyMedium?.color,
+            ),
             BasicAbility(
               boldText: "Cast ",
               actions: spell.actions,
               text: spell.components.join(", "),
+              color: Theme.of(context).textTheme.bodyMedium?.color,
             ),
             if (spell.range.isNotEmpty)
               BasicAbility(
                 boldText: "Range ",
                 text: spell.range,
+                color: Theme.of(context).textTheme.bodyMedium?.color,
               ),
             Row(
               children: [
                 if (spell.area != null)
                   Padding(
                     padding: const EdgeInsets.only(right: 4),
-                    child: BasicAbility(boldText: "Area ", text: spell.area),
+                    child: BasicAbility(
+                      boldText: "Area ",
+                      text: spell.area,
+                      color: Theme.of(context).textTheme.bodyMedium?.color,
+                    ),
                   ),
                 if (spell.targets.isNotEmpty)
-                  BasicAbility(boldText: "Targets ", text: spell.targets),
+                  BasicAbility(
+                    boldText: "Targets ",
+                    text: spell.targets,
+                    color: Theme.of(context).textTheme.bodyMedium?.color,
+                  ),
               ],
             ),
             if (spell.defense.isNotEmpty)
               BasicAbility(
-                  boldText: "Defense ",
-                  text: spell.isBasicSave
-                      ? 'Basic ${spell.defense}'
-                      : spell.defense),
+                boldText: "Defense ",
+                text: spell.isBasicSave
+                    ? 'Basic ${spell.defense}'
+                    : spell.defense,
+                color: Theme.of(context).textTheme.bodyMedium?.color,
+              ),
             if (spell.savingThrow != null)
-              BasicAbility(boldText: "Saving Throw ", text: spell.savingThrow),
+              BasicAbility(
+                boldText: "Saving Throw ",
+                text: spell.savingThrow,
+                color: Theme.of(context).textTheme.bodyMedium?.color,
+              ),
             if (spell.duration.isNotEmpty || spell.isSustained)
-              BasicAbility(boldText: "Duration ", text: spell.isSustained ? '${spell.duration} Sustained' : spell.duration),
+              BasicAbility(
+                boldText: "Duration ",
+                text: spell.isSustained
+                    ? '${spell.duration} Sustained'
+                    : spell.duration,
+                color: Theme.of(context).textTheme.bodyMedium?.color,
+              ),
             const Divider(),
             HtmlWidget(spell.description),
             if (spell.heightened.isNotEmpty) const Divider(),
@@ -173,10 +198,8 @@ class _SpellInfoDialog extends StatelessWidget {
               BasicAbility(
                 boldText: "Heightened (${height.level}) ",
                 text: height.entries.join("\n"),
+                color: Theme.of(context).textTheme.bodyMedium?.color,
               ),
-            // Text(
-            //   spellData.toString(),
-            // ),
           ],
         ),
       ),

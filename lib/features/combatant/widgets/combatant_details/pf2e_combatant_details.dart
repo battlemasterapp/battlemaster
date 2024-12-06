@@ -27,34 +27,62 @@ class Pf2eCombatantDetails extends StatelessWidget {
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         Traits(traits: combatant.traits),
-        Text('Creature ${combatant.level}'),
+        Text(
+          'Creature ${combatant.level}',
+          style: Theme.of(context).textTheme.titleMedium?.copyWith(
+            color: Colors.black.withOpacity(0.8),
+          ),
+        ),
+        const SizedBox(height: 12),
         _Perception(combatant),
-        if (combatant.languages.isNotEmpty)
+        if (combatant.languages.isNotEmpty) ...[
+          const SizedBox(height: 8),
           BasicAbility(
             boldText: "Languages: ",
-            text: "${combatant.languages.join(', ').capitalizeAll()} ${combatant.languageDetails}",
+            text:
+                "${combatant.languages.join(', ').capitalizeAll()} ${combatant.languageDetails}",
           ),
-        if (combatant.skills.isNotEmpty)
+        ],
+        if (combatant.skills.isNotEmpty) ...[
+          const SizedBox(height: 8),
           BasicAbility(
             boldText: "Skills ",
             text: combatant.skills.join(', ').capitalizeAll(),
           ),
+        ],
+        const SizedBox(height: 8),
         _Attributes(combatant),
-        if (combatant.items.isNotEmpty)
+        if (combatant.items.isNotEmpty) ...[
+          const SizedBox(height: 8),
           BasicAbility(
             boldText: 'Items: ',
             text: combatant.items.join(', '),
           ),
-        _SpecialAbilities(combatant.topAbilities),
+        ],
+        if (combatant.topAbilities.isNotEmpty) ...[
+          const SizedBox(height: 8),
+          _SpecialAbilities(combatant.topAbilities),
+        ],
         const Divider(),
         _Defenses(combatant),
+        const SizedBox(height: 8),
         _Health(combatant),
-        _SpecialAbilities(combatant.midAbilities),
+        if (combatant.midAbilities.isNotEmpty) ...[
+          const SizedBox(height: 8),
+          _SpecialAbilities(combatant.midAbilities),
+        ],
         const Divider(),
         _Speed(combatant),
+        const SizedBox(height: 8),
         _Attacks(combatant),
-        _Spells(combatant),
-        _SpecialAbilities(combatant.botAbilities),
+        if (combatant.spellcasting.isNotEmpty) ...[
+          const SizedBox(height: 8),
+          _Spells(combatant),
+        ],
+        if (combatant.botAbilities.isNotEmpty) ...[
+          const SizedBox(height: 8),
+          _SpecialAbilities(combatant.botAbilities),
+        ],
         const Divider(),
         _RecallKnowledge(combatant),
       ],
@@ -393,8 +421,16 @@ class _SpecialAbilityState extends State<_SpecialAbility> {
                 ),
               ],
               const Spacer(),
-              if (_expanded) const Icon(MingCute.up_fill),
-              if (!_expanded) const Icon(MingCute.down_fill),
+              if (_expanded)
+                const Icon(
+                  MingCute.up_fill,
+                  color: Colors.black,
+                ),
+              if (!_expanded)
+                const Icon(
+                  MingCute.down_fill,
+                  color: Colors.black,
+                ),
             ],
           ),
         ),
@@ -418,10 +454,6 @@ class _Spells extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    if (combatant.spellcasting.isEmpty) {
-      return Container();
-    }
-
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
