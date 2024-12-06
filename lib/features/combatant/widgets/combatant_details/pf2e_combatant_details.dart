@@ -30,8 +30,8 @@ class Pf2eCombatantDetails extends StatelessWidget {
         Text(
           'Creature ${combatant.level}',
           style: Theme.of(context).textTheme.titleMedium?.copyWith(
-            color: Colors.black.withOpacity(0.8),
-          ),
+                color: Colors.black.withOpacity(0.8),
+              ),
         ),
         const SizedBox(height: 12),
         _Perception(combatant),
@@ -406,21 +406,26 @@ class _SpecialAbilityState extends State<_SpecialAbility> {
           }),
           child: Row(
             children: [
-              Text(
-                widget.ability.name,
-                style: const TextStyle(fontWeight: FontWeight.bold),
-              ),
-              if (widget.ability.actions.isNotEmpty) ...[
-                const SizedBox(width: 4),
-                getAction(),
-              ],
-              if (widget.ability.traits.isNotEmpty) ...[
-                const SizedBox(width: 4),
-                Text(
-                  "(${widget.ability.traits.join(", ").replaceAll("-", " ")})",
+              Expanded(
+                child: Wrap(
+                  children: [
+                    Text(
+                      widget.ability.name,
+                      style: const TextStyle(fontWeight: FontWeight.bold),
+                    ),
+                    if (widget.ability.actions.isNotEmpty) ...[
+                      const SizedBox(width: 4),
+                      getAction(),
+                    ],
+                    if (widget.ability.traits.isNotEmpty) ...[
+                      const SizedBox(width: 4),
+                      Text(
+                        "(${widget.ability.traits.join(", ").replaceAll("-", " ")})",
+                      ),
+                    ],
+                  ],
                 ),
-              ],
-              const Spacer(),
+              ),
               if (_expanded)
                 const Icon(
                   MingCute.up_fill,
