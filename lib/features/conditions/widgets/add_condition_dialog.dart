@@ -47,7 +47,7 @@ class _AddConditionDialogState extends State<AddConditionDialog> {
   @override
   Widget build(BuildContext context) {
     final localization = AppLocalizations.of(context)!;
-    final activeConditionsNames = _activeConditions.map((e) => e.name).toSet();
+    final displayEngine = widget.engine == GameEngineType.custom;
     return FutureBuilder<List<CustomCondition>>(
         future: context.read<ConditionsProvider>().getConditions(),
         builder: (context, snapshot) {
@@ -82,19 +82,21 @@ class _AddConditionDialogState extends State<AddConditionDialog> {
                         children: [
                           for (final condition in filteredConditions)
                             CheckboxListTile(
-                              value: activeConditionsNames
-                                  .contains(condition.name),
+                              value: _activeConditions.contains(condition),
                               onChanged: (value) {
                                 setState(() {
                                   if (value!) {
                                     _activeConditions.add(condition);
                                   } else {
-                                    _activeConditions.removeWhere(
-                                        (e) => e.name == condition.name);
+                                    _activeConditions.remove(condition);
                                   }
                                 });
                               },
-                              title: Text(condition.name),
+                              title: Text(
+                                displayEngine
+                                    ? '${condition.name} (${condition.engine.translate(localization)})'
+                                    : condition.name,
+                              ),
                             ),
                         ],
                       ),

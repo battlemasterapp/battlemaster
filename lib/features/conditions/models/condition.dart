@@ -21,6 +21,13 @@ class Condition extends Equatable {
     this.value,
   });
 
+  String get label {
+    if ((value ?? 0) > 0) {
+      return '$name $value';
+    }
+    return name;
+  }
+
   factory Condition.fromCustomCondition(CustomCondition entry) => Condition(
         name: entry.name,
         description: entry.description,
@@ -64,5 +71,6 @@ class Condition extends Equatable {
   List<Object?> get props => [
         name,
         description,
+        engine,
       ];
 }
