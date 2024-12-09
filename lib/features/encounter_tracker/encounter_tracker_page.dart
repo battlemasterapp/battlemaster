@@ -7,7 +7,6 @@ import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:provider/provider.dart';
 
 import '../../database/database.dart';
-import '../combatant/models/combatant.dart';
 import '../settings/providers/system_settings_provider.dart';
 import 'providers/encounter_tracker_notifier.dart';
 import 'widgets/details_panel.dart';
@@ -67,7 +66,9 @@ class EncounterTrackerPage extends StatelessWidget {
                       ),
                       Expanded(
                         child: _TrackerPageContent(
-                            encounter: encounter, trackerState: trackerState),
+                          encounter: encounter,
+                          trackerState: trackerState,
+                        ),
                       ),
                     ],
                   ),
@@ -95,7 +96,7 @@ class _TrackerPageContent extends StatefulWidget {
 }
 
 class _TrackerPageContentState extends State<_TrackerPageContent> {
-  Combatant? combatant;
+  int? combatantIndex;
   bool detailsOpen = false;
 
   @override
@@ -106,9 +107,9 @@ class _TrackerPageContentState extends State<_TrackerPageContent> {
       children: [
         CombatantTrackerList(
           encounter: widget.encounter,
-          onCombatantTap: (combatant) {
+          onCombatantTap: (combatant, index) {
             setState(() {
-              this.combatant = combatant;
+              combatantIndex = index;
               detailsOpen = true;
             });
           },
@@ -124,11 +125,22 @@ class _TrackerPageContentState extends State<_TrackerPageContent> {
         Align(
           alignment: Alignment.topRight,
           child: EncounterDetailsPanel(
-            combatant: combatant,
+            combatant: combatantIndex != null
+                ? widget.encounter.combatants[combatantIndex!]
+                : null,
             open: detailsOpen,
             onClose: () => setState(() {
               detailsOpen = false;
             }),
+            onConditionsAdded: (conditions) async {
+              final combatant = widget.encounter.combatants[combatantIndex!];
+              await context.read<EncountersProvider>().editCombatant(
+                    widget.encounter,
+                    combatant.copyWith(conditions: conditions),
+                    widget.encounter.combatants
+                        .indexWhere((e) => e.name == combatant.name),
+                  );
+            },
           ),
         ),
         Align(

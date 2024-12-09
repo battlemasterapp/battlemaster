@@ -8,10 +8,8 @@ class Dnd5eBestiaryService extends BestiaryService {
   Dnd5eBestiaryService()
       : super(
           initialData: [],
-          baseUrl: 'https://api.open5e.com/monsters',
-        ) {
-    fetchData();
-  }
+          baseUrl: const String.fromEnvironment('API_5E_URI'),
+        );
 
   final List<String> _defaultSources = [
     "wotc-srd",
@@ -34,29 +32,37 @@ class Dnd5eBestiaryService extends BestiaryService {
     final sources = _defaultSources.join(',');
     // Get the first one just to get the count
     try {
-      final getCount = await client
-          .get<Map<String, dynamic>>('?limit=1&document__slug=$sources');
+      final getCount = await client.get<Map<String, dynamic>>(
+          '/v1/monsters/?limit=1&document__slug=$sources');
       final count = getCount.data?['count'] as int;
 
       logger.d('Found $count 5e bestiary entries for sources: $sources');
       logger.d('Fetching 5e bestiary data');
 
-      final response = await client
-          .get<Map<String, dynamic>>('?limit=$count&document__slug=$sources');
+      final response = await client.get<Map<String, dynamic>>(
+          '/v1/monsters/?limit=$count&document__slug=$sources');
 
       final results = (response.data?['results'] as List? ?? [])
           .cast<Map<String, dynamic>>();
-      data.addAll(results
-          .map<Combatant>((entry) =>
-              Combatant.from5eCombatantData(Dnd5eCombatantData(rawData: entry)))
-          .toList());
+      data.addAll(
+        results.map<Combatant>(
+          (entry) => Combatant.from5eCombatantData(
+            Dnd5eCombatantData(
+              rawData: entry,
+            ),
+          ),
+        ),
+      );
     } on DioException catch (e) {
       logger.e(e);
     }
 
     data.sort((a, b) => a.name.compareTo(b.name));
-    await cacheData();
-    logger.d('5e bestiary data fetched and cached');
+    if (data.isNotEmpty) {
+      logger.d('Caching bestiary data');
+      await cacheData();
+    }
+    logger.d('5e bestiary data fetched');
     return data;
   }
 }

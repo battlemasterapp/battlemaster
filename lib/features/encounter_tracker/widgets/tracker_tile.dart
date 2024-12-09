@@ -2,6 +2,7 @@ import 'dart:math';
 
 import 'package:animated_flip_counter/animated_flip_counter.dart';
 import 'package:battlemaster/features/combatant/models/combatant_type.dart';
+import 'package:battlemaster/features/conditions/widgets/conditions_list.dart';
 import 'package:battlemaster/features/encounter_tracker/widgets/hp_dialog.dart';
 import 'package:battlemaster/features/encounter_tracker/widgets/initiative_dialog.dart';
 import 'package:battlemaster/features/encounter_tracker/widgets/remove_combatant_dialog.dart';
@@ -71,18 +72,32 @@ class TrackerTile extends StatelessWidget {
                 child: Text(combatant.initiative.toStringAsFixed(1)),
               ),
               const SizedBox(width: 8),
-              FIcon(
-                combatant.type.icon,
-                color: Theme.of(context).iconTheme.color ??
-                    Theme.of(context).textTheme.bodyMedium?.color ??
-                    Colors.black,
-              ),
-              const SizedBox(width: 8),
-              Text(combatant.name),
-              const SizedBox(width: 8),
-              _Health(
-                combatant: combatant,
-                onHealthChanged: onHealthChanged,
+              Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Row(
+                    children: [
+                      FIcon(
+                        combatant.type.icon,
+                        color: Theme.of(context).iconTheme.color ??
+                            Theme.of(context).textTheme.bodyMedium?.color ??
+                            Colors.black,
+                      ),
+                      const SizedBox(width: 8),
+                      Text(combatant.name),
+                      const SizedBox(width: 8),
+                      _Health(
+                        combatant: combatant,
+                        onHealthChanged: onHealthChanged,
+                      ),
+                    ],
+                  ),
+                  if (combatant.conditions.isNotEmpty)
+                    Padding(
+                      padding: const EdgeInsets.symmetric(vertical: 4),
+                      child: ConditionsList(conditions: combatant.conditions),
+                    ),
+                ],
               ),
               const Spacer(),
               _Armor(

@@ -1,3 +1,4 @@
+import 'package:battlemaster/api/providers/dnd5e_engine_provider.dart';
 import 'package:battlemaster/database/database.dart';
 import 'package:battlemaster/features/analytics/analytics_service.dart';
 import 'package:battlemaster/features/settings/providers/system_settings_provider.dart';
@@ -8,7 +9,6 @@ import 'package:provider/provider.dart';
 import 'package:sentry_flutter/sentry_flutter.dart';
 import 'package:wiredash/wiredash.dart';
 
-import 'api/services/dnd5e_bestiary_service.dart';
 import 'api/services/pf2e_bestiary_service.dart';
 import 'features/analytics/analytics_observer.dart';
 import 'features/analytics/plausible.dart';
@@ -71,8 +71,8 @@ class BattlemasterApp extends StatelessWidget {
           },
           lazy: false,
         ),
-        Provider<Dnd5eBestiaryService>(
-          create: (_) => Dnd5eBestiaryService(),
+        ChangeNotifierProvider<Dnd5eEngineProvider>(
+          create: (_) => Dnd5eEngineProvider()..fetchData(),
           lazy: false,
         ),
         Provider<AnalyticsService>(
