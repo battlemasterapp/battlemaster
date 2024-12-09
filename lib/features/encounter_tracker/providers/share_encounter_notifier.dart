@@ -58,10 +58,10 @@ class ShareEncounterNotifier extends ChangeNotifier {
     Encounter encounter, {
     Map<String, bool>? flags,
   }) {
-    return _live ? _stopLive() : _goLive(encounter, flags: flags);
+    return _live ? stopLive() : goLive(encounter, flags: flags);
   }
 
-  Future<String?> _goLive(
+  Future<String?> goLive(
     Encounter encounter, {
     Map<String, bool>? flags,
   }) async {
@@ -97,7 +97,7 @@ class ShareEncounterNotifier extends ChangeNotifier {
     return joinCode;
   }
 
-  Future<String?> _stopLive() async {
+  Future<String?> stopLive() async {
     assert(_live == true);
     _logger.d('Stopping live encounter');
     await _pb.collection('live_encounters').delete(_sharedEncounter!.id);

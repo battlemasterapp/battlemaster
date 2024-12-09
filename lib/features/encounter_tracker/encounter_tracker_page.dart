@@ -2,10 +2,10 @@ import 'package:battlemaster/features/analytics/analytics_service.dart';
 import 'package:battlemaster/features/auth/providers/auth_provider.dart';
 import 'package:battlemaster/features/encounter_tracker/providers/share_encounter_notifier.dart';
 import 'package:battlemaster/features/encounter_tracker/widgets/combatant_tracker_list.dart';
-import 'package:battlemaster/features/encounter_tracker/widgets/encounter_code_dialog.dart';
 import 'package:battlemaster/features/encounter_tracker/widgets/encounter_history/encounter_history.dart';
 import 'package:battlemaster/features/encounter_tracker/widgets/encounter_tracker_controls.dart';
-import 'package:battlemaster/features/encounter_tracker/widgets/go_live_button.dart';
+import 'package:battlemaster/features/encounter_tracker/widgets/live_encounter/encounter_code_dialog.dart';
+import 'package:battlemaster/features/encounter_tracker/widgets/live_encounter/go_live_button.dart';
 import 'package:battlemaster/features/encounters/models/encounter.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
@@ -80,7 +80,23 @@ class EncounterTrackerPage extends StatelessWidget {
                         .encounterSettings.liveEncounterSettings.enabled)
                       GoLiveButton(
                         onPressed: () async {
-                          final code = await shareState.toggleLive(
+                          if (shareState.live) {
+                            await showDialog(
+                              // ignore: use_build_context_synchronously
+                              context: context,
+                              builder: (context) => EncounterCodeDialog(
+                                code: shareState.joinCode!,
+                                onEndShare: shareState.stopLive,
+                              ),
+                            );
+                            await analytics
+                                .logEvent('toggle_live_encounter', props: {
+                              'live': 'false',
+                            });
+                            return;
+                          }
+
+                          final code = await shareState.goLive(
                             encounter,
                             flags: settings
                                 .encounterSettings.liveEncounterSettings.flags,
@@ -89,13 +105,15 @@ class EncounterTrackerPage extends StatelessWidget {
                             await showDialog(
                               // ignore: use_build_context_synchronously
                               context: context,
-                              builder: (context) =>
-                                  EncounterCodeDialog(code: code),
+                              builder: (context) => EncounterCodeDialog(
+                                code: code,
+                                onEndShare: shareState.stopLive,
+                              ),
                             );
                           }
                           await analytics
                               .logEvent('toggle_live_encounter', props: {
-                            'live': (!shareState.live).toString(),
+                            'live': 'true',
                           });
                         },
                       ),
