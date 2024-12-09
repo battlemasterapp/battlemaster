@@ -41,7 +41,6 @@ class _CombatantTrackerListState extends State<CombatantTrackerList> {
         .read<EncounterTrackerNotifier>()
         .activeIndexStream
         .listen((index) {
-      debugPrint('Animating to index: $index');
       _observerController.animateTo(
         index: index,
         duration: 500.ms,

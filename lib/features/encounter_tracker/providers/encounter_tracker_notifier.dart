@@ -29,7 +29,6 @@ class EncounterTrackerNotifier extends ChangeNotifier {
   })  : _database = database,
         _settings = settings {
     watchEncounter().listen((encounter) {
-      debugPrint('Encounter updated: $encounter');
       _encounter = encounter;
     });
   }
@@ -71,7 +70,6 @@ class EncounterTrackerNotifier extends ChangeNotifier {
   Future<void> playStop() async {
     if (_status == EncounterTrackerStatus.stopped) {
       _status = EncounterTrackerStatus.playing;
-      await _rollInitiative();
     } else {
       _status = EncounterTrackerStatus.stopped;
     }
@@ -80,7 +78,7 @@ class EncounterTrackerNotifier extends ChangeNotifier {
     notifyListeners();
   }
 
-  Future<void> _rollInitiative() async {
+  Future<void> rollInitiative() async {
     if (_settings.rollType == InitiativeRollType.manual) {
       return;
     }

@@ -193,5 +193,9 @@
   "yes_button": "Yes",
   "@yes_button": {
     "description": "The button to accept the action."
+  },
+  "roll_initiative_button": "Roll Initiative",
+  "@roll_initiative_button": {
+    "description": "The button to roll initiative."
   }
 }
