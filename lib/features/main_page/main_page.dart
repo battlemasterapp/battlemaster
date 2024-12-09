@@ -26,17 +26,17 @@ class _MainPageState extends State<MainPage> {
       "combats": NavigationPage(
         page: CombatsPage(type: EncounterType.encounter),
         title: AppLocalizations.of(context)!.combats_page_title,
-        icon: LineAwesome.dragon_solid,
+        icon: MingCute.sword_fill,
       ),
       "groups": NavigationPage(
         page: CombatsPage(type: EncounterType.group),
         title: AppLocalizations.of(context)!.groups_page_title,
-        icon: LineAwesome.users_solid,
+        icon: MingCute.group_fill,
       ),
       "settings": NavigationPage(
         page: SettingsPage(),
         title: AppLocalizations.of(context)!.settings_page_title,
-        icon: Icons.settings,
+        icon: MingCute.settings_3_fill,
       ),
     };
 
