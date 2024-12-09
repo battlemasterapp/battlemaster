@@ -1,3 +1,6 @@
+import 'dart:math';
+
+import 'package:auto_size_text/auto_size_text.dart';
 import 'package:battlemaster/features/analytics/analytics_service.dart';
 import 'package:battlemaster/features/combatant/add_combatant_page.dart';
 import 'package:battlemaster/features/encounters/models/encounter.dart';
@@ -27,67 +30,93 @@ class TrackerBar extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final trackerState = context.watch<EncounterTrackerNotifier>();
     return Container(
       color: Theme.of(context).primaryColor,
       padding: const EdgeInsets.all(8),
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
-          if (displayControls)
-            Row(
-              children: [
-                IconButton.filled(
-                  color: Theme.of(context).primaryColor,
-                  style: IconButton.styleFrom(backgroundColor: Colors.white),
-                  onPressed: () async {
-                    trackerState.playStop();
-                    await context.read<AnalyticsService>().logEvent(
-                      'play_stop',
-                      props: {'is_playing': trackerState.isPlaying.toString()},
-                    );
-                  },
-                  icon: Icon(
-                    trackerState.isPlaying
-                        ? MingCute.stop_fill
-                        : MingCute.play_fill,
-                  ),
-                ),
-                const SizedBox(width: 16),
-                const _RollInitiativeButton(),
-                const SizedBox(width: 8),
-              ],
-            ),
+          if (displayControls) const _BarControls(),
           if (!displayControls) const SizedBox.shrink(),
-          _TrackerTitle(
-            title: encounter.name,
-            onTitleChanged: onTitleChanged,
-          ),
-          IconButton.filled(
-            style: IconButton.styleFrom(
-              backgroundColor: Theme.of(context).colorScheme.secondary,
+          Expanded(
+            child: _TrackerTitle(
+              title: encounter.name,
+              onTitleChanged: onTitleChanged,
             ),
-            color: Colors.white,
-            onPressed: () async {
-              final combatantsMap = await Navigator.of(context).pushNamed(
-                "/combatant/add",
-                arguments: AddCombatantParams(
-                  encounterType: encounter.type,
-                ),
-              );
-
-              if (combatantsMap == null) {
-                return;
-              }
-
-              onCombatantsAdded?.call(
-                combatantsMap as Map<Combatant, int>,
-              );
-            },
-            icon: Icon(MingCute.add_fill),
+          ),
+          _AddCombatantButton(
+            encounter: encounter,
+            onCombatantsAdded: onCombatantsAdded,
           ),
         ],
       ),
+    );
+  }
+}
+
+class _BarControls extends StatelessWidget {
+  const _BarControls();
+
+  @override
+  Widget build(BuildContext context) {
+    final trackerState = context.watch<EncounterTrackerNotifier>();
+    return Row(
+      children: [
+        IconButton.filled(
+          color: Theme.of(context).primaryColor,
+          style: IconButton.styleFrom(backgroundColor: Colors.white),
+          onPressed: () async {
+            trackerState.playStop();
+            await context.read<AnalyticsService>().logEvent(
+              'play_stop',
+              props: {'is_playing': trackerState.isPlaying.toString()},
+            );
+          },
+          icon: Icon(
+            trackerState.isPlaying ? MingCute.stop_fill : MingCute.play_fill,
+          ),
+        ),
+        const SizedBox(width: 16),
+        const _RollInitiativeButton(),
+        const SizedBox(width: 8),
+      ],
+    );
+  }
+}
+
+class _AddCombatantButton extends StatelessWidget {
+  const _AddCombatantButton({
+    required this.encounter,
+    required this.onCombatantsAdded,
+  });
+
+  final Encounter encounter;
+  final ValueChanged<Map<Combatant, int>>? onCombatantsAdded;
+
+  @override
+  Widget build(BuildContext context) {
+    return IconButton.filled(
+      style: IconButton.styleFrom(
+        backgroundColor: Theme.of(context).colorScheme.secondary,
+      ),
+      color: Colors.white,
+      onPressed: () async {
+        final combatantsMap = await Navigator.of(context).pushNamed(
+          "/combatant/add",
+          arguments: AddCombatantParams(
+            encounterType: encounter.type,
+          ),
+        );
+
+        if (combatantsMap == null) {
+          return;
+        }
+
+        onCombatantsAdded?.call(
+          combatantsMap as Map<Combatant, int>,
+        );
+      },
+      icon: Icon(MingCute.add_fill),
     );
   }
 }
@@ -117,16 +146,17 @@ class _TrackerTitleState extends State<_TrackerTitle> {
 
   @override
   Widget build(BuildContext context) {
+    final width = MediaQuery.of(context).size.width;
     if (_isEditing) {
       return Theme(
         data: pf2eDarkTheme,
         child: Expanded(
           child: Row(
             mainAxisAlignment: MainAxisAlignment.center,
-            mainAxisSize: MainAxisSize.max,
+            mainAxisSize: MainAxisSize.min,
             children: [
               ConstrainedBox(
-                constraints: BoxConstraints(maxWidth: 400),
+                constraints: BoxConstraints(maxWidth: min(400, width * .5)),
                 child: TextField(
                   autofocus: true,
                   decoration: InputDecoration(
@@ -159,9 +189,15 @@ class _TrackerTitleState extends State<_TrackerTitle> {
     return Theme(
       data: ThemeData.dark(),
       child: Row(
+        mainAxisAlignment: MainAxisAlignment.center,
+        mainAxisSize: MainAxisSize.max,
         children: [
-          Text(
+          AutoSizeText(
             widget.title,
+            minFontSize: 18,
+            maxLines: 1,
+            overflow: TextOverflow.ellipsis,
+            textAlign: TextAlign.center,
             style: Theme.of(context)
                 .textTheme
                 .headlineMedium

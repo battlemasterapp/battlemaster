@@ -1,3 +1,4 @@
+import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_animate/flutter_animate.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
@@ -69,11 +70,16 @@ class _EncounterControls extends StatelessWidget {
               onPressed: trackerState.previousTurn,
             ),
             const Spacer(),
-            Text(
-              AppLocalizations.of(context)!.round_counter(trackerState.round),
-              style: Theme.of(context).textTheme.headlineSmall?.copyWith(
-                    color: Colors.white,
-                  ),
+            Expanded(
+              child: AutoSizeText(
+                AppLocalizations.of(context)!.round_counter(trackerState.round),
+                minFontSize: 14,
+                maxLines: 1,
+                textAlign: TextAlign.center,
+                style: Theme.of(context).textTheme.headlineSmall?.copyWith(
+                      color: Colors.white,
+                    ),
+              ),
             ),
             const Spacer(),
             IconButton.filled(
