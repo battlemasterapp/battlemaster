@@ -27,7 +27,8 @@ class CombatantTrackerList extends StatelessWidget {
             const SizedBox(height: 16),
             ElevatedButton.icon(
               onPressed: () async {
-                final combatants = await Navigator.of(context).pushNamed("/combatant/add");
+                final combatants =
+                    await Navigator.of(context).pushNamed("/combatant/add");
                 if (combatants == null) {
                   return;
                 }
