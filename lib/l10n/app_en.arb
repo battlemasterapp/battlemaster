@@ -1,17 +1,15 @@
 {
   "@@locale": "en",
-  "helloWorld": "Hello World!",
-  "@helloWorld": {
-    "description": "The conventional newborn programmer greeting"
+  "combats_page_title": "Combats",
+  "@combats_page_title": {
+    "description": "The page where you can see the combats."
   },
-  "counter": "You have pushed the button {count} times:",
-  "@counter": {
-    "description": "The number of times the button has been pushed",
-    "placeholders": {
-      "count": {
-        "type": "int",
-        "example": "42"
-      }
-    }
+  "groups_page_title": "Groups",
+  "@groups_page_title": {
+    "description": "The page where you can see the groups."
+  },
+  "settings_page_title": "Settings",
+  "@settings_page_title": {
+    "description": "The page where you can see the settings."
   }
 }
