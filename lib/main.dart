@@ -6,6 +6,7 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:provider/provider.dart';
+import 'package:responsive_framework/responsive_framework.dart';
 import 'package:sentry_flutter/sentry_flutter.dart';
 import 'package:wiredash/wiredash.dart';
 
@@ -94,23 +95,31 @@ class BattlemasterApp extends StatelessWidget {
           darkTheme: pf2eDarkTheme,
           themeMode: context.select<SystemSettingsProvider, ThemeMode>(
               (state) => state.themeMode),
-          builder: (context, child) => Wiredash(
-            projectId: const String.fromEnvironment('WIREDASH_PROJECT'),
-            secret: const String.fromEnvironment('WIREDASH_SECRET'),
-            feedbackOptions: WiredashFeedbackOptions(
-              email: EmailPrompt.hidden,
-              labels: [
-                Label(
-                  id: 'label-0oezaz9t8j',
-                  title: AppLocalizations.of(context)!.feedback_label_bug,
-                ),
-                Label(
-                  id: 'label-ynr7f57jtv',
-                  title: AppLocalizations.of(context)!.feedback_label_feature,
-                ),
-              ],
+          builder: (context, child) => ResponsiveBreakpoints.builder(
+            breakpoints: [
+              const Breakpoint(start: 0, end: 500, name: MOBILE),
+              const Breakpoint(start: 501, end: 800, name: TABLET),
+              const Breakpoint(start: 801, end: 1920, name: DESKTOP),
+              const Breakpoint(start: 1921, end: double.infinity, name: '4K'),
+            ],
+            child: Wiredash(
+              projectId: const String.fromEnvironment('WIREDASH_PROJECT'),
+              secret: const String.fromEnvironment('WIREDASH_SECRET'),
+              feedbackOptions: WiredashFeedbackOptions(
+                email: EmailPrompt.hidden,
+                labels: [
+                  Label(
+                    id: 'label-0oezaz9t8j',
+                    title: AppLocalizations.of(context)!.feedback_label_bug,
+                  ),
+                  Label(
+                    id: 'label-ynr7f57jtv',
+                    title: AppLocalizations.of(context)!.feedback_label_feature,
+                  ),
+                ],
+              ),
+              child: child!,
             ),
-            child: child!,
           ),
           routes: {
             "/": (context) => const MainPage(),
