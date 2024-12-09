@@ -63,11 +63,14 @@ class BattlemasterApp extends StatelessWidget {
             )..fetchData();
           },
           update: (_, settings, service) {
-            return Pf2eBestiaryService(
-              bestiarySources: settings.pf2eSettings.enabled
-                  ? settings.pf2eSettings.bestiaries
-                  : {},
-            )..fetchData(forceRefresh: true);
+            if (settings.pf2eSettings.bestiaries != service?.bestiarySources) {
+              return Pf2eBestiaryService(
+                bestiarySources: settings.pf2eSettings.enabled
+                    ? settings.pf2eSettings.bestiaries
+                    : {},
+              )..fetchData(forceRefresh: true);
+            }
+            return service!;
           },
           lazy: false,
         ),
