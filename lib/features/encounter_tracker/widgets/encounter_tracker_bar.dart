@@ -32,6 +32,7 @@ class TrackerBar extends StatelessWidget {
       color: Theme.of(context).primaryColor,
       padding: const EdgeInsets.all(8),
       child: Row(
+        mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
           if (displayControls)
             Row(
@@ -54,14 +55,15 @@ class TrackerBar extends StatelessWidget {
                 ),
                 const SizedBox(width: 16),
                 const _RollInitiativeButton(),
+                const SizedBox(width: 8),
               ],
             ),
-          const Spacer(),
+          if (!displayControls)
+            const SizedBox.shrink(),
           _TrackerTitle(
             title: encounter.name,
             onTitleChanged: onTitleChanged,
           ),
-          const Spacer(),
           IconButton.filled(
             style: IconButton.styleFrom(
               backgroundColor: Theme.of(context).colorScheme.secondary,
@@ -121,6 +123,7 @@ class _TrackerTitleState extends State<_TrackerTitle> {
         data: pf2eDarkTheme,
         child: Expanded(
           child: Row(
+            mainAxisAlignment: MainAxisAlignment.center,
             mainAxisSize: MainAxisSize.max,
             children: [
               Expanded(
