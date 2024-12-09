@@ -30,7 +30,6 @@ class _AddGroupCombatantsState extends State<AddGroupCombatants> {
   Widget build(BuildContext context) {
     final state = context.read<EncountersProvider>();
     final localization = AppLocalizations.of(context)!;
-    final analytics = context.read<AnalyticsService>();
     return Column(
       children: [
         TextField(
