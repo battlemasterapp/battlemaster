@@ -37,5 +37,81 @@
         "example": "1"
       }
     }
+  },
+  "add_combatant_title": "Add combatant",
+  "@add_combatant_title": {
+    "description": "The title of the dialog to add a combatant."
+  },
+  "combatants_selected": "Combatants selected",
+  "@combatants_selected": {
+    "description": "The number of combatants selected."
+  },
+  "search_input": "Search",
+  "@search_input": {
+    "description": "The label of the search input."
+  },
+  "groups_toggle_button": "Groups",
+  "@groups_toggle_button": {
+    "description": "The button to toggle the groups view."
+  },
+  "custom_combatant_toggle_button": "Custom",
+  "@custom_combatant_toggle_button": {
+    "description": "The button to toggle the custom combatant view."
+  },
+  "empty_groups_list": "No groups found",
+  "@empty_groups_list": {
+    "description": "The message to show when there are no groups."
+  },
+  "add_combatants_button": "Add",
+  "@add_combatants_button": {
+    "description": "The button to add combatants."
+  },
+  "cancel_button": "Cancel",
+  "@cancel_button": {
+    "description": "The button to cancel the action."
+  },
+  "save_button": "Save",
+  "@save_button": {
+    "description": "The button to save the action."
+  },
+  "combatant_type_player": "Player/Ally NPC",
+  "@combatant_type_player": {
+    "description": "The type of combatant: Player."
+  },
+  "combatant_type_monster": "Enemy NPC",
+  "@combatant_type_monster": {
+    "description": "The type of combatant: Monster NPC."
+  },
+  "combatant_type_hazard": "Hazard/Trap",
+  "@combatant_type_hazard": {
+    "description": "The type of combatant: Hazard."
+  },
+  "combatant_type_lair": "Lair Action",
+  "@combatant_type_lair": {
+    "description": "The type of combatant: Lair Action."
+  },
+  "combatant_type_dropdown_label": "Type",
+  "@combatant_type_dropdown_label": {
+    "description": "The label of the combatant type dropdown."
+  },
+  "name_label": "Name",
+  "@name_label": {
+    "description": "The label of the name input."
+  },
+  "name_validation_text": "Please enter the combatant's name.",
+  "@name_validation_text": {
+    "description": "The validation text for the name input."
+  },
+  "hp_label": "HP",
+  "@hp_label": {
+    "description": "The label of the HP input."
+  },
+  "ac_label": "AC",
+  "@ac_label": {
+    "description": "The label of the AC input."
+  },
+  "initiative_modifier_label": "Initiative Modifier",
+  "@initiative_modifier_label": {
+    "description": "The label of the initiative modifier input."
   }
 }

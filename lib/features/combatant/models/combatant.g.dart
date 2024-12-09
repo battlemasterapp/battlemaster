@@ -17,6 +17,7 @@ Combatant _$CombatantFromJson(Map<String, dynamic> json) => Combatant(
       initiative: (json['initiative'] as num?)?.toInt() ?? 0,
       combatantData:
           combatantDataFromJson(json['combatantData'] as Map<String, dynamic>),
+      level: (json['level'] as num?)?.toInt(),
     );
 
 Map<String, dynamic> _$CombatantToJson(Combatant instance) => <String, dynamic>{
@@ -26,6 +27,7 @@ Map<String, dynamic> _$CombatantToJson(Combatant instance) => <String, dynamic>{
       'initiative': instance.initiative,
       'armorClass': instance.armorClass,
       'initiativeModifier': instance.initiativeModifier,
+      'level': instance.level,
       'type': _$CombatantTypeEnumMap[instance.type]!,
       'engineType': _$GameEngineTypeEnumMap[instance.engineType]!,
       'combatantData': combatantDataToJson(instance.combatantData),
