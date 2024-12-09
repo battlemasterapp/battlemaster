@@ -62,9 +62,9 @@ class EncounterTileMenu extends StatelessWidget {
       },
       onSelected: (value) async {
         if (value == EncounterMenuOptions.deleteCombat) {
-          await context.read<EncountersProvider>().removeEncounter(encounter);
-          // ignore: use_build_context_synchronously
           await context.read<AnalyticsService>().logEvent('delete-encounter');
+          // ignore: use_build_context_synchronously
+          await context.read<EncountersProvider>().removeEncounter(encounter);
           return;
         }
 

@@ -1,5 +1,7 @@
 import 'dart:convert';
 
+import 'package:battlemaster/features/settings/models/encounter_settings.dart';
+import 'package:battlemaster/features/settings/models/skip_dead_behavior.dart';
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
@@ -14,7 +16,10 @@ class SystemSettingsProvider extends ChangeNotifier {
     _init();
   }
 
-  InitiativeRollType get rollType => _settings.rollType;
+  InitiativeRollType get rollType => _settings.encounterSettings.rollType;
+
+  SkipDeadBehavior get skipDeadBehavior =>
+      _settings.encounterSettings.skipDeadBehavior;
 
   ThemeMode get themeMode => _settings.themeMode;
 
@@ -46,7 +51,10 @@ class SystemSettingsProvider extends ChangeNotifier {
   }
 
   Future<void> setInitiativeRollType(InitiativeRollType rollType) async {
-    _settings = _settings.copyWith(rollType: rollType);
+    _settings = _settings.copyWith(
+      encounterSettings:
+          _settings.encounterSettings.copyWith(rollType: rollType),
+    );
     notifyListeners();
     await _saveSettings();
   }
@@ -61,6 +69,20 @@ class SystemSettingsProvider extends ChangeNotifier {
     _settings = settings;
     notifyListeners();
     await _saveSettings();
+  }
+
+  Future<void> setSkipDeadBehavior(SkipDeadBehavior skipDeadBehavior) async {
+    await setSettings(
+      _settings.copyWith(
+        encounterSettings: _settings.encounterSettings.copyWith(
+          skipDeadBehavior: skipDeadBehavior,
+        ),
+      ),
+    );
+  }
+
+  Future<void> setEncounterSettings(EncounterSettings encounterSettings) async {
+    await setSettings(settings.copyWith(encounterSettings: encounterSettings));
   }
 
   Future<void> setPF2eSettings(PF2eSettings pf2eSettings) async {
