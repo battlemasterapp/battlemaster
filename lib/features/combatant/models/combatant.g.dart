@@ -43,4 +43,5 @@ const _$CombatantTypeEnumMap = {
 const _$GameEngineTypeEnumMap = {
   GameEngineType.pf2e: 'pf2e',
   GameEngineType.dnd5e: 'dnd5e',
+  GameEngineType.custom: 'custom',
 };
