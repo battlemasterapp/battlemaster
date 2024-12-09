@@ -1,5 +1,6 @@
 import 'dart:math';
 
+import 'package:battlemaster/features/shared/colors.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:icons_plus/icons_plus.dart';
@@ -43,141 +44,104 @@ class _HpDialogState extends State<HpDialog> {
         }
         Navigator.pop(context, health);
       },
-      child: AlertDialog(
-        title: Text(AppLocalizations.of(context)!.hp_dialog_title(health)),
-        content: Column(
-          mainAxisSize: MainAxisSize.min,
-          children: [
-            Slider(
-              value: health.toDouble(),
-              max: maxHp.toDouble(),
-              onChanged: (value) {
-                setState(() {
-                  health = value.toInt();
-                });
-              },
-            ),
-            const SizedBox(height: 8),
-            Row(
-              children: [
-                ElevatedButton.icon(
-                  key: const Key('-10-hp'),
-                  style: ElevatedButton.styleFrom(
-                    shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(4),
-                    ),
-                  ),
-                  onPressed: () => applyModifier(-10),
-                  icon: Icon(MingCute.arrows_left_fill),
-                  label: const Text("-10"),
+      child: LayoutBuilder(builder: (context, constraints) {
+        final portraitLayout = constraints.maxWidth < 520;
+        debugPrint("constraints: $constraints");
+        debugPrint("portraitLayout: $portraitLayout");
+        return AlertDialog(
+          title: Text(AppLocalizations.of(context)!.hp_dialog_title(health)),
+          content: Column(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              Slider(
+                value: health.toDouble(),
+                max: maxHp.toDouble(),
+                activeColor: getHealthColor(
+                  health,
+                  maxHp: maxHp,
                 ),
-                const SizedBox(width: 8),
-                ElevatedButton.icon(
-                  key: const Key('-5-hp'),
-                  style: ElevatedButton.styleFrom(
-                    shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(4),
+                onChanged: (value) {
+                  setState(() {
+                    health = value.toInt();
+                  });
+                },
+              ),
+              const SizedBox(height: 8),
+              _QuickAdjustmentButtons(
+                portraitLayout: portraitLayout,
+                onAdjustment: applyModifier,
+              ),
+              const Divider(),
+              const SizedBox(height: 16),
+              Row(
+                children: [
+                  ElevatedButton.icon(
+                    style: ElevatedButton.styleFrom(
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(4),
+                      ),
                     ),
-                  ),
-                  onPressed: () => applyModifier(-5),
-                  icon: Icon(MingCute.left_fill),
-                  label: const Text("-5"),
-                ),
-                const SizedBox(width: 8),
-                ElevatedButton.icon(
-                  key: const Key('+5-hp'),
-                  style: ElevatedButton.styleFrom(
-                    shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(4),
-                    ),
-                  ),
-                  onPressed: () => applyModifier(5),
-                  icon: Icon(MingCute.right_fill),
-                  label: const Text("+5"),
-                ),
-                const SizedBox(width: 8),
-                ElevatedButton.icon(
-                  key: const Key('+10-hp'),
-                  style: ElevatedButton.styleFrom(
-                    shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(4),
-                    ),
-                  ),
-                  onPressed: () => applyModifier(10),
-                  icon: Icon(MingCute.arrows_right_fill),
-                  label: const Text("+10"),
-                ),
-              ],
-            ),
-            const SizedBox(height: 16),
-            Row(
-              children: [
-                ElevatedButton.icon(
-                  style: ElevatedButton.styleFrom(
-                    shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(4),
-                    ),
-                  ),
-                  onPressed: () {
-                    final value = int.tryParse(_controller.text) ?? 0;
-                    applyModifier(value * -1);
-                    _controller.clear();
-                  },
-                  icon: Icon(MingCute.heart_crack_fill),
-                  label: Text(AppLocalizations.of(context)!.damage_button),
-                ),
-                const SizedBox(width: 8),
-                Expanded(
-                  child: TextField(
-                    controller: _controller,
-                    decoration: InputDecoration(
-                      hintText: "15",
-                      label:
-                          Text(AppLocalizations.of(context)!.hp_dialog_input),
-                    ),
-                    keyboardType: const TextInputType.numberWithOptions(
-                      signed: true,
-                      decimal: false,
-                    ),
-                    onSubmitted: (value) {
-                      applyModifier(int.tryParse(value) ?? 0);
+                    onPressed: () {
+                      final value = int.tryParse(_controller.text) ?? 0;
+                      applyModifier(value * -1);
                       _controller.clear();
                     },
+                    icon: Icon(MingCute.heart_crack_fill),
+                    label: Text(AppLocalizations.of(context)!.damage_button),
                   ),
-                ),
-                const SizedBox(width: 8),
-                ElevatedButton.icon(
-                  style: ElevatedButton.styleFrom(
-                    shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(4),
+                  const SizedBox(width: 8),
+                  Expanded(
+                    child: TextField(
+                      controller: _controller,
+                      decoration: InputDecoration(
+                        hintText: "15",
+                        label:
+                            Text(AppLocalizations.of(context)!.hp_dialog_input),
+                      ),
+                      keyboardType: const TextInputType.numberWithOptions(
+                        signed: true,
+                        decimal: false,
+                      ),
+                      onSubmitted: (value) {
+                        applyModifier(int.tryParse(value) ?? 0);
+                        _controller.clear();
+                      },
                     ),
                   ),
-                  onPressed: () {
-                    applyModifier(int.tryParse(_controller.text) ?? 0);
-                    _controller.clear();
-                  },
-                  icon: Icon(MingCute.heart_fill),
-                  label: Text(AppLocalizations.of(context)!.heal_button),
-                ),
-              ],
+                  const SizedBox(width: 8),
+                  ElevatedButton.icon(
+                    style: ElevatedButton.styleFrom(
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(4),
+                      ),
+                    ),
+                    onPressed: () {
+                      applyModifier(int.tryParse(_controller.text) ?? 0);
+                      _controller.clear();
+                    },
+                    icon: Icon(MingCute.heart_fill),
+                    label: Text(AppLocalizations.of(context)!.heal_button),
+                  ),
+                ],
+              ),
+            ],
+          ),
+          actions: [
+            TextButton(
+              onPressed: () {
+                Navigator.pop(context, widget.currentHp);
+              },
+              child: Text(AppLocalizations.of(context)!.cancel_button),
+            ),
+            ElevatedButton(
+              onPressed: () {
+                Navigator.pop(context, health);
+              },
+              child: Text(AppLocalizations.of(context)!.save_button),
             ),
           ],
-        ),
-        actions: [
-          TextButton(
-            onPressed: () {
-              Navigator.pop(context, widget.currentHp);
-            },
-            child: Text(AppLocalizations.of(context)!.cancel_button),
-          ),
-          ElevatedButton(
-            onPressed: () {
-              Navigator.pop(context, health);
-            },
-            child: Text(AppLocalizations.of(context)!.save_button),
-          ),
-        ],
-      ),
+        );
+      }),
     );
   }
 
@@ -186,5 +150,137 @@ class _HpDialogState extends State<HpDialog> {
       health += mod;
       health = max(min(health, maxHp), 0);
     });
+  }
+}
+
+class _QuickAdjustmentButtons extends StatelessWidget {
+  const _QuickAdjustmentButtons({
+    required this.onAdjustment,
+    this.portraitLayout = false,
+  });
+
+  final bool portraitLayout;
+  final ValueChanged<int> onAdjustment;
+
+  @override
+  Widget build(BuildContext context) {
+    if (portraitLayout) {
+      return Column(
+        crossAxisAlignment: CrossAxisAlignment.center,
+        children: [
+          Row(
+            mainAxisSize: MainAxisSize.max,
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              ElevatedButton.icon(
+                key: const Key('-10-hp'),
+                style: ElevatedButton.styleFrom(
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(4),
+                  ),
+                ),
+                onPressed: () => onAdjustment(-10),
+                icon: Icon(MingCute.arrows_left_fill),
+                label: const Text("-10"),
+              ),
+              const SizedBox(width: 8),
+              ElevatedButton.icon(
+                key: const Key('+10-hp'),
+                style: ElevatedButton.styleFrom(
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(4),
+                  ),
+                ),
+                onPressed: () => onAdjustment(10),
+                icon: Icon(MingCute.arrows_right_fill),
+                label: const Text("+10"),
+              ),
+            ],
+          ),
+          const SizedBox(height: 8),
+          Row(
+            mainAxisSize: MainAxisSize.max,
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              ElevatedButton.icon(
+                key: const Key('-5-hp'),
+                style: ElevatedButton.styleFrom(
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(4),
+                  ),
+                ),
+                onPressed: () => onAdjustment(-5),
+                icon: Icon(MingCute.left_fill),
+                label: const Text("-5"),
+              ),
+              const SizedBox(width: 8),
+              ElevatedButton.icon(
+                key: const Key('+5-hp'),
+                style: ElevatedButton.styleFrom(
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(4),
+                  ),
+                ),
+                onPressed: () => onAdjustment(5),
+                icon: Icon(MingCute.right_fill),
+                label: const Text("+5"),
+              ),
+            ],
+          ),
+        ],
+      );
+    }
+
+    return Row(
+      children: [
+        ElevatedButton.icon(
+          key: const Key('-10-hp'),
+          style: ElevatedButton.styleFrom(
+            shape: RoundedRectangleBorder(
+              borderRadius: BorderRadius.circular(4),
+            ),
+          ),
+          onPressed: () => onAdjustment(-10),
+          icon: Icon(MingCute.arrows_left_fill),
+          label: const Text("-10"),
+        ),
+        const SizedBox(width: 8),
+        ElevatedButton.icon(
+          key: const Key('-5-hp'),
+          style: ElevatedButton.styleFrom(
+            shape: RoundedRectangleBorder(
+              borderRadius: BorderRadius.circular(4),
+            ),
+          ),
+          onPressed: () => onAdjustment(-5),
+          icon: Icon(MingCute.left_fill),
+          label: const Text("-5"),
+        ),
+        const SizedBox(width: 8),
+        ElevatedButton.icon(
+          key: const Key('+5-hp'),
+          style: ElevatedButton.styleFrom(
+            shape: RoundedRectangleBorder(
+              borderRadius: BorderRadius.circular(4),
+            ),
+          ),
+          onPressed: () => onAdjustment(5),
+          icon: Icon(MingCute.right_fill),
+          label: const Text("+5"),
+        ),
+        const SizedBox(width: 8),
+        ElevatedButton.icon(
+          key: const Key('+10-hp'),
+          style: ElevatedButton.styleFrom(
+            shape: RoundedRectangleBorder(
+              borderRadius: BorderRadius.circular(4),
+            ),
+          ),
+          onPressed: () => onAdjustment(10),
+          icon: Icon(MingCute.arrows_right_fill),
+          label: const Text("+10"),
+        ),
+      ],
+    );
   }
 }

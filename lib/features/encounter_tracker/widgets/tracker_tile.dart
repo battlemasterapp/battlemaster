@@ -6,6 +6,7 @@ import 'package:battlemaster/features/conditions/widgets/conditions_list.dart';
 import 'package:battlemaster/features/encounter_tracker/widgets/hp_dialog.dart';
 import 'package:battlemaster/features/encounter_tracker/widgets/initiative_dialog.dart';
 import 'package:battlemaster/features/encounter_tracker/widgets/remove_combatant_dialog.dart';
+import 'package:battlemaster/features/shared/colors.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_animate/flutter_animate.dart';
 import 'package:icons_plus/icons_plus.dart';
@@ -164,7 +165,10 @@ class _Health extends StatelessWidget {
       healthString += "/${combatant.maxHp}";
     }
 
-    final color = getColor();
+    final color = getHealthColor(
+      combatant.currentHp,
+      maxHp: combatant.maxHp,
+    );
 
     return OutlinedButton.icon(
       style: OutlinedButton.styleFrom(
@@ -218,23 +222,6 @@ class _Health extends StatelessWidget {
     }
 
     return halfHealth ? MingCute.heart_crack_fill : MingCute.heart_fill;
-  }
-
-  Color getColor() {
-    const fullHealthColor = Colors.green;
-    const deadColor = Colors.red;
-
-    final currentHealth = combatant.currentHp;
-
-    if (currentHealth == 0) {
-      return deadColor;
-    }
-
-    return Color.lerp(
-      fullHealthColor,
-      deadColor,
-      1 - (currentHealth / max(combatant.maxHp, currentHealth)),
-    )!;
   }
 }
 
