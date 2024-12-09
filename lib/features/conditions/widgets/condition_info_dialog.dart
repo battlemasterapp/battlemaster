@@ -23,10 +23,12 @@ class ConditionInfoDialog extends StatefulWidget {
 
 class _ConditionInfoDialogState extends State<ConditionInfoDialog> {
   late int value;
+  late bool canEdit;
 
   @override
   void initState() {
     super.initState();
+    canEdit = widget.onValueChanged != null;
     value = widget.condition.value ?? 0;
   }
 
@@ -62,7 +64,7 @@ class _ConditionInfoDialogState extends State<ConditionInfoDialog> {
                   .replaceAll("<p>", "")
                   .replaceAll("</p>", "")),
               const Divider(),
-              if (hasValue)
+              if (hasValue && canEdit)
                 Container(
                   decoration: BoxDecoration(
                     border: Border.all(color: Colors.grey),

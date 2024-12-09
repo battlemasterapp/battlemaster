@@ -144,10 +144,13 @@ class ConditionsList extends StatelessWidget {
         for (final condition in conditions)
           ConditionChip(
             condition: condition,
-            onDeleted: () => onDeleted?.call(condition),
-            onValueChanged: (value) {
-              onValueChanged?.call(condition.copyWith(value: value));
-            },
+            onDeleted:
+                onDeleted != null ? () => onDeleted?.call(condition) : null,
+            onValueChanged: onValueChanged != null
+                ? (value) {
+                    onValueChanged?.call(condition.copyWith(value: value));
+                  }
+                : null,
           ),
       ],
     );
