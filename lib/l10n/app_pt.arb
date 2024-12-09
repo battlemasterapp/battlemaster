@@ -39,5 +39,9 @@
   "initiative_input_label": "Iniciativa",
   "hp_dialog_title": "PV: {count}",
   "hp_dialog_input": "Dano/Cura",
-  "apply_button": "Aplicar"
+  "apply_button": "Aplicar",
+  "remove_combatant_dialog_title": "Remover combatente",
+  "remove_combatant_dialog_content": "Tem certeza que deseja remover {name}?",
+  "no_button": "Não",
+  "yes_button": "Sim"
 }
