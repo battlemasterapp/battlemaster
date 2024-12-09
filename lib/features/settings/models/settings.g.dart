@@ -54,9 +54,14 @@ Map<String, dynamic> _$PF2eSettingsToJson(PF2eSettings instance) =>
 Dnd5eSettings _$Dnd5eSettingsFromJson(Map<String, dynamic> json) =>
     Dnd5eSettings(
       enabled: json['enabled'] as bool? ?? true,
+      sources: (json['sources'] as List<dynamic>?)
+              ?.map((e) => e as String)
+              .toSet() ??
+          const {"wotc-srd", "tob", "tob2", "cc"},
     );
 
 Map<String, dynamic> _$Dnd5eSettingsToJson(Dnd5eSettings instance) =>
     <String, dynamic>{
       'enabled': instance.enabled,
+      'sources': instance.sources.toList(),
     };
