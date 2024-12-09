@@ -16,21 +16,13 @@ import 'providers/encounter_tracker_notifier.dart';
 import 'widgets/details_panel.dart';
 import 'widgets/encounter_tracker_bar.dart';
 
-class EncounterTrackerParams {
-  final Encounter encounter;
-
-  const EncounterTrackerParams({
-    required this.encounter,
-  });
-}
-
 class EncounterTrackerPage extends StatelessWidget {
   const EncounterTrackerPage({
     super.key,
-    required this.params,
+    required this.encounterId,
   });
 
-  final EncounterTrackerParams params;
+  final int encounterId;
 
   @override
   Widget build(BuildContext context) {
@@ -40,7 +32,7 @@ class EncounterTrackerPage extends StatelessWidget {
       create: (context) => EncounterTrackerNotifier(
         database: context.read<AppDatabase>(),
         settings: context.read<SystemSettingsProvider>(),
-        encounterId: params.encounter.id,
+        encounterId: encounterId,
       ),
       child: Builder(
         builder: (context) {
@@ -48,7 +40,17 @@ class EncounterTrackerPage extends StatelessWidget {
           return StreamBuilder<Encounter>(
             stream: trackerState.watchEncounter(),
             builder: (context, snapshot) {
-              final encounter = snapshot.data ?? params.encounter;
+              final encounter = snapshot.data;
+
+              if (encounter == null) {
+                return Scaffold(
+                  appBar: AppBar(),
+                  body: const Center(
+                    child: CircularProgressIndicator(),
+                  ),
+                );
+              }
+
               return Scaffold(
                 appBar: AppBar(
                   title: Text(AppLocalizations.of(context)!

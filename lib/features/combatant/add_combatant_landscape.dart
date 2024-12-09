@@ -3,6 +3,7 @@ import 'package:battlemaster/features/combatant/widgets/add_combatant.dart';
 import 'package:battlemaster/features/combatant/widgets/selected_combatants.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import 'package:go_router/go_router.dart';
 
 class AddCombatantPageLandscape extends StatelessWidget {
   const AddCombatantPageLandscape({
@@ -44,14 +45,14 @@ class AddCombatantPageLandscape extends StatelessWidget {
                   Spacer(),
                   OutlinedButton(
                     onPressed: () {
-                      Navigator.of(context).pop();
+                      context.pop();
                     },
                     child: Text(localization.cancel_button),
                   ),
                   const SizedBox(width: 16),
                   ElevatedButton(
                     onPressed: () {
-                      Navigator.of(context).pop(combatants);
+                      context.pop(combatants);
                     },
                     child: Text(localization.save_button),
                   ),

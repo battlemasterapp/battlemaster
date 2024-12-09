@@ -2,6 +2,7 @@ import 'package:battlemaster/features/settings/providers/dnd5e_bestiary_source.d
 import 'package:battlemaster/features/settings/providers/system_settings_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import 'package:go_router/go_router.dart';
 import 'package:provider/provider.dart';
 
 class Dnd5eBestiaryDialog extends StatelessWidget {
@@ -73,13 +74,13 @@ class _DialogState extends State<_Dialog> {
       actions: [
         OutlinedButton(
           onPressed: () {
-            Navigator.of(context).pop();
+            context.pop();
           },
           child: Text(localization.cancel_button),
         ),
         ElevatedButton(
           onPressed: () {
-            Navigator.of(context).pop(_selected);
+            context.pop(_selected);
           },
           child: Text(localization.save_button),
         ),

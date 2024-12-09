@@ -2,6 +2,7 @@ import 'package:battlemaster/database/database.dart';
 import 'package:battlemaster/features/engines/models/game_engine_type.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import 'package:go_router/go_router.dart';
 
 class CreateConditionDialog extends StatefulWidget {
   const CreateConditionDialog({super.key});
@@ -59,14 +60,14 @@ class _CreateConditionDialogState extends State<CreateConditionDialog> {
       actions: [
         OutlinedButton(
           onPressed: () {
-            Navigator.of(context).pop();
+            context.pop();
           },
           child: Text(localization.cancel_button),
         ),
         ElevatedButton(
           onPressed: () {
             if (_formKey.currentState!.validate()) {
-              Navigator.of(context).pop(CustomCondition(
+              context.pop(CustomCondition(
                 id: -1,
                 name: _name,
                 description: _description,

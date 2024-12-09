@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import 'package:go_router/go_router.dart';
 
 class RemoveCombatantDialog extends StatelessWidget {
   const RemoveCombatantDialog({
@@ -17,11 +18,11 @@ class RemoveCombatantDialog extends StatelessWidget {
       content: Text(localization.remove_combatant_dialog_content(name)),
       actions: [
         TextButton(
-          onPressed: () => Navigator.of(context).pop(false),
+          onPressed: () => context.pop(false),
           child: Text(localization.no_button.toUpperCase()),
         ),
         TextButton(
-          onPressed: () => Navigator.of(context).pop(true),
+          onPressed: () => context.pop(true),
           child: Text(localization.yes_button.toUpperCase()),
         ),
       ],

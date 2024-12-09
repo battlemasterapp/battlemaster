@@ -7,6 +7,7 @@ import 'package:file_picker/file_picker.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import 'package:go_router/go_router.dart';
 import 'package:provider/provider.dart';
 
 typedef BestiarySelectedCallback = void Function(
@@ -140,7 +141,7 @@ class _ImportBestiaryDialogState extends State<ImportBestiaryDialog> {
       actions: [
         OutlinedButton(
           onPressed: () {
-            Navigator.of(context).pop();
+            context.pop();
           },
           child: Text(localization.cancel_button),
         ),
@@ -155,7 +156,7 @@ class _ImportBestiaryDialogState extends State<ImportBestiaryDialog> {
                       engine: _engine,
                     ),
                   );
-                  Navigator.of(context).pop();
+                  context.pop();
                 }
               : null,
           child: Text(localization.import_button),

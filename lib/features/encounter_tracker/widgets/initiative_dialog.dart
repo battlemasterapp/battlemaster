@@ -4,6 +4,7 @@ import 'package:battlemaster/extensions/int_extensions.dart';
 import 'package:battlemaster/features/analytics/analytics_service.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import 'package:go_router/go_router.dart';
 import 'package:icons_plus/icons_plus.dart';
 import 'package:provider/provider.dart';
 
@@ -61,7 +62,7 @@ class _InitiativeDialogState extends State<InitiativeDialog> {
               labelText: AppLocalizations.of(context)!.initiative_input_label,
             ),
             onSubmitted: (value) {
-              Navigator.of(context).pop(double.tryParse(value));
+              context.pop(double.tryParse(value));
             },
           ),
         ],
@@ -69,13 +70,13 @@ class _InitiativeDialogState extends State<InitiativeDialog> {
       actions: [
         TextButton(
           onPressed: () {
-            Navigator.of(context).pop();
+            context.pop();
           },
           child: Text(AppLocalizations.of(context)!.cancel_button),
         ),
         ElevatedButton(
           onPressed: () {
-            Navigator.of(context).pop(double.tryParse(_controller.text));
+            context.pop(double.tryParse(_controller.text));
           },
           child: Text(AppLocalizations.of(context)!.save_button),
         ),

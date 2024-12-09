@@ -1,5 +1,6 @@
 import 'package:battlemaster/features/conditions/models/condition.dart';
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
 import 'package:icons_plus/icons_plus.dart';
 
 class ConditionInfoDialog extends StatelessWidget {
@@ -24,7 +25,7 @@ class ConditionInfoDialog extends StatelessWidget {
               icon: Icon(MingCute.delete_2_fill),
               onPressed: () {
                 onDeleted?.call();
-                Navigator.of(context).pop();
+                context.pop();
               },
             ),
         ],

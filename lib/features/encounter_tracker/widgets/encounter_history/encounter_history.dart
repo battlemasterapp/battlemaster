@@ -3,6 +3,7 @@ import 'package:battlemaster/features/encounters/models/encounter.dart';
 import 'package:battlemaster/features/encounters/models/encounter_log.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import 'package:go_router/go_router.dart';
 import 'package:icons_plus/icons_plus.dart';
 import 'package:responsive_framework/responsive_framework.dart';
 
@@ -66,7 +67,7 @@ class EncounterHistory extends StatelessWidget {
       OutlinedButton.icon(
         onPressed: () {
           onDeleteHistory?.call();
-          Navigator.of(context).pop();
+          context.pop();
         },
         label: Text(localization.delete_history_button),
         icon: Icon(MingCute.delete_2_fill),
@@ -96,7 +97,7 @@ class EncounterHistory extends StatelessWidget {
               groups: groupedLogs,
               onUndo: (log) {
                 onUndo?.call(log);
-                Navigator.of(context).pop();
+                context.pop();
               },
             ),
           ),

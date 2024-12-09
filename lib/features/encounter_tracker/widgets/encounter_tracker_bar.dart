@@ -7,6 +7,7 @@ import 'package:battlemaster/features/encounters/models/encounter.dart';
 import 'package:battlemaster/features/settings/models/initiative_roll_type.dart';
 import 'package:battlemaster/features/settings/providers/system_settings_provider.dart';
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
 import 'package:icons_plus/icons_plus.dart';
 import 'package:provider/provider.dart';
 
@@ -193,9 +194,10 @@ class _AddCombatantButton extends StatelessWidget {
       ),
       color: Colors.white,
       onPressed: () async {
-        final combatantsMap = await Navigator.of(context).pushNamed(
-          "/combatant/add",
-          arguments: AddCombatantParams(
+        final combatantsMap = await context.pushNamed(
+          "add-combatant",
+          pathParameters: {'encounterId': encounter.id.toString()},
+          extra: AddCombatantParams(
             encounterType: encounter.type,
           ),
         );
