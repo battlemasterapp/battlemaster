@@ -1,56 +1,33 @@
 # Battlemaster
+Battlemaster is a combat management tool for tabletop RPGs, supporting systems such as D&D 5e, Pathfinder 2e, and custom game engines. It focuses on assisting the game master in tracking combatants, managing initiative, and applying game-specific rules during combat encounters.
+
+See it in action at [app.battlemaster.com.br](https://app.battlemaster.com.br) or download and install the app from the releases page.
 
 ## Features
+### Combat Management
+**Combat Creation**: Easily create and name combats, and organize custom groups of combatants.
 
-Combat has a game engine selected: 5e, pf2e or custom. The game engine defines the rules for combat, including the attributes of combatants and the conditions that can be applied.
-
-### Combats
-
-- User can create combats with a name and a game engine
-- User can create custom groups of combatants
-
-### Initiative tracker
-
-- Users can add combatants: add custom combatants or select from a list of pre-defined monsters
-- Users can manage combatant HP
-- Display basic combatant attributes on the tracker
-- Display combatant sheet on a panel/window
-- Roll initiative
-  - Users can toggle to auto-roll for enemies
-  - Users can insert initiative
-- Users can check off monster abilities that have been used
-- Users can check off if a combatant has spent their reaction
-- User can toggle reminders for combatants abilities (fast-healing, etc)
+### Initiative Tracker
+**Combatants**: Add combatants either manually or by selecting from predefined monsters.
+**HP Management**: Keep track of combatant health.
+**Attributes**: Display basic combatant stats in the tracker and detailed sheets in a separate panel.
+**Initiative Rolling**: Roll initiative manually or toggle auto-rolling.
 
 ### Conditions
+**Apply Conditions**: Manage conditions (5e, pf2e, or custom);
+**Custom Conditions**: Add your own conditions to tailor the combat experience.
 
-- Add conditions to combatants (5e, pf2e, custom)
-- Users can add temporary conditions that expire after X turns
-  - The app shows a dialog when a condition expires
-- Users can ddd custom conditions
+### Monster Management
+**Monster Sources**: Select from 5e SRD monsters or Pathfinder 2e bestiaries.
+**Custom Import**: Import monsters via CSV or JSON files.
 
-### Monsters
-
-- Choose data source: 5e SRD, pf2e bestiaries
-  - 5e SRD monsters
-  - pf2e bestiaries from foundry data
-- Import from CSV file
-
-### Player features
-
-- Player facing view of the combat (requires a server?)
-- Player can add their initiative to the tracker
-- Monster health displayed with words like "wounded" or "uninjured"
-
-## Technologies
-
-- flutter flavors for different versions: https://docs.flutter.dev/deployment/flavors#setting-up-launch-configurations
-- drift: https://pub.dev/packages/drift
-
+### Player Features
+**Player View**: Show a simplified combat view for players, including health statuses like "wounded" or "uninjured" for monsters.
 
 ## Development
+### Build Instructions
+To build the project, use the following commands:
 
-### Build
 ```bash
 flutter gen-l10n
 dart run build_runner build
