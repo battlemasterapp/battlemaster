@@ -492,6 +492,10 @@
   "@danger_zone_settings_title": {
     "description": "Danger zone settings title"
   },
+  "danger_zone_settings_subtitle": "Enable these settings with caution",
+  "@danger_zone_settings_subtitle": {
+    "description": "Danger zone settings subtitle"
+  },
   "delete_data_title": "Delete app data",
   "@delete_data_title": {
     "description": "Delete app data settings title"
