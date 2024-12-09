@@ -28,7 +28,7 @@
   "combatant_type_lair": "Lair",
   "combatant_type_dropdown_label": "Tipo",
   "name_label": "Nome",
-  "name_validation_text": "O nome é obrigatório",
+  "combatant_name_validation_text": "O nome é obrigatório",
   "hp_label": "Pontos de Vida (PV)",
   "ac_label": "Classe de Armadura (CA)",
   "initiative_modifier_label": "Modificador de Iniciativa",
@@ -111,5 +111,13 @@
   "danger_zone_settings_subtitle": "Configurações que podem afetar seus dados",
   "delete_data_title": "Apagar dados",
   "delete_data_subtitle": "Isso excluirá todos os dados do aplicativo",
-  "delete_data_button": "Apagar"
+  "delete_data_button": "Apagar",
+  "custom_conditions_settings_title": "Condições personalizadas",
+  "custom_conditions_settings_subtitle": "Adicione condições personalizadas para usar nos combates",
+  "custom_conditions_title": "Condições personalizadas",
+  "custom_conditions_empty_list": "Nenhuma condição encontrada. Crie uma nova!",
+  "create_condition_dialog_title": "Criar condição",
+  "condition_name_validation_text": "O nome é obrigatório",
+  "description_label": "Descrição",
+  "condition_description_validation_text": "A descrição é obrigatória"
 }

@@ -131,6 +131,7 @@ class _TrackerPageContentState extends State<_TrackerPageContent> {
             open: detailsOpen,
             onClose: () => setState(() {
               detailsOpen = false;
+              combatantIndex = null;
             }),
             onConditionsAdded: (conditions) async {
               final combatant = widget.encounter.combatants[combatantIndex!];

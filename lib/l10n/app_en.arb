@@ -118,8 +118,8 @@
   "@name_label": {
     "description": "The label of the name input."
   },
-  "name_validation_text": "Please enter the combatant's name.",
-  "@name_validation_text": {
+  "combatant_name_validation_text": "Please enter the combatant's name.",
+  "@combatant_name_validation_text": {
     "description": "The validation text for the name input."
   },
   "hp_label": "HP",
@@ -507,5 +507,37 @@
   "delete_data_button": "Delete",
   "@delete_data_button": {
     "description": "Delete app data button"
+  },
+  "custom_conditions_settings_title": "Custom Conditions",
+  "@custom_conditions_settings_title": {
+    "description": "Custom conditions settings title"
+  },
+  "custom_conditions_settings_subtitle": "Create custom conditions to use in your encounters.",
+  "@custom_conditions_settings_subtitle": {
+    "description": "Custom conditions settings subtitle"
+  },
+  "custom_conditions_title": "Custom Conditions",
+  "@custom_conditions_title": {
+    "description": "Custom conditions title"
+  },
+  "custom_conditions_empty_list": "No custom conditions found. Create a new one!",
+  "@custom_conditions_empty_list": {
+    "description": "The message to show when there are no custom conditions."
+  },
+  "create_condition_dialog_title": "Create Condition",
+  "@create_condition_dialog_title": {
+    "description": "Create condition dialog title"
+  },
+  "condition_name_validation_text": "Please enter the condition's name.",
+  "@condition_name_validation_text": {
+    "description": "The validation text for the condition name input."
+  },
+  "description_label": "Description",
+  "@description_label": {
+    "description": "The label of the description input."
+  },
+  "condition_description_validation_text": "Please enter the condition's description.",
+  "@condition_description_validation_text": {
+    "description": "The validation text for the condition description input."
   }
 }

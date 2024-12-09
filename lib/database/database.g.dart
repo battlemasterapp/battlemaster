@@ -312,15 +312,287 @@ class EncounterTableCompanion extends UpdateCompanion<EncounterTableData> {
   }
 }
 
+class $CustomConditionsTable extends CustomConditions
+    with TableInfo<$CustomConditionsTable, CustomCondition> {
+  @override
+  final GeneratedDatabase attachedDatabase;
+  final String? _alias;
+  $CustomConditionsTable(this.attachedDatabase, [this._alias]);
+  static const VerificationMeta _idMeta = const VerificationMeta('id');
+  @override
+  late final GeneratedColumn<int> id = GeneratedColumn<int>(
+      'id', aliasedName, false,
+      hasAutoIncrement: true,
+      type: DriftSqlType.int,
+      requiredDuringInsert: false,
+      defaultConstraints:
+          GeneratedColumn.constraintIsAlways('PRIMARY KEY AUTOINCREMENT'));
+  static const VerificationMeta _nameMeta = const VerificationMeta('name');
+  @override
+  late final GeneratedColumn<String> name = GeneratedColumn<String>(
+      'name', aliasedName, false,
+      type: DriftSqlType.string, requiredDuringInsert: true);
+  static const VerificationMeta _descriptionMeta =
+      const VerificationMeta('description');
+  @override
+  late final GeneratedColumn<String> description = GeneratedColumn<String>(
+      'description', aliasedName, false,
+      type: DriftSqlType.string, requiredDuringInsert: true);
+  static const VerificationMeta _engineMeta = const VerificationMeta('engine');
+  @override
+  late final GeneratedColumnWithTypeConverter<GameEngineType, int> engine =
+      GeneratedColumn<int>('engine', aliasedName, false,
+              type: DriftSqlType.int, requiredDuringInsert: true)
+          .withConverter<GameEngineType>(
+              $CustomConditionsTable.$converterengine);
+  @override
+  List<GeneratedColumn> get $columns => [id, name, description, engine];
+  @override
+  String get aliasedName => _alias ?? actualTableName;
+  @override
+  String get actualTableName => $name;
+  static const String $name = 'custom_conditions';
+  @override
+  VerificationContext validateIntegrity(Insertable<CustomCondition> instance,
+      {bool isInserting = false}) {
+    final context = VerificationContext();
+    final data = instance.toColumns(true);
+    if (data.containsKey('id')) {
+      context.handle(_idMeta, id.isAcceptableOrUnknown(data['id']!, _idMeta));
+    }
+    if (data.containsKey('name')) {
+      context.handle(
+          _nameMeta, name.isAcceptableOrUnknown(data['name']!, _nameMeta));
+    } else if (isInserting) {
+      context.missing(_nameMeta);
+    }
+    if (data.containsKey('description')) {
+      context.handle(
+          _descriptionMeta,
+          description.isAcceptableOrUnknown(
+              data['description']!, _descriptionMeta));
+    } else if (isInserting) {
+      context.missing(_descriptionMeta);
+    }
+    context.handle(_engineMeta, const VerificationResult.success());
+    return context;
+  }
+
+  @override
+  Set<GeneratedColumn> get $primaryKey => {id};
+  @override
+  CustomCondition map(Map<String, dynamic> data, {String? tablePrefix}) {
+    final effectivePrefix = tablePrefix != null ? '$tablePrefix.' : '';
+    return CustomCondition(
+      id: attachedDatabase.typeMapping
+          .read(DriftSqlType.int, data['${effectivePrefix}id'])!,
+      name: attachedDatabase.typeMapping
+          .read(DriftSqlType.string, data['${effectivePrefix}name'])!,
+      description: attachedDatabase.typeMapping
+          .read(DriftSqlType.string, data['${effectivePrefix}description'])!,
+      engine: $CustomConditionsTable.$converterengine.fromSql(attachedDatabase
+          .typeMapping
+          .read(DriftSqlType.int, data['${effectivePrefix}engine'])!),
+    );
+  }
+
+  @override
+  $CustomConditionsTable createAlias(String alias) {
+    return $CustomConditionsTable(attachedDatabase, alias);
+  }
+
+  static JsonTypeConverter2<GameEngineType, int, int> $converterengine =
+      const EnumIndexConverter<GameEngineType>(GameEngineType.values);
+}
+
+class CustomCondition extends DataClass implements Insertable<CustomCondition> {
+  final int id;
+  final String name;
+  final String description;
+  final GameEngineType engine;
+  const CustomCondition(
+      {required this.id,
+      required this.name,
+      required this.description,
+      required this.engine});
+  @override
+  Map<String, Expression> toColumns(bool nullToAbsent) {
+    final map = <String, Expression>{};
+    map['id'] = Variable<int>(id);
+    map['name'] = Variable<String>(name);
+    map['description'] = Variable<String>(description);
+    {
+      map['engine'] =
+          Variable<int>($CustomConditionsTable.$converterengine.toSql(engine));
+    }
+    return map;
+  }
+
+  CustomConditionsCompanion toCompanion(bool nullToAbsent) {
+    return CustomConditionsCompanion(
+      id: Value(id),
+      name: Value(name),
+      description: Value(description),
+      engine: Value(engine),
+    );
+  }
+
+  factory CustomCondition.fromJson(Map<String, dynamic> json,
+      {ValueSerializer? serializer}) {
+    serializer ??= driftRuntimeOptions.defaultSerializer;
+    return CustomCondition(
+      id: serializer.fromJson<int>(json['id']),
+      name: serializer.fromJson<String>(json['name']),
+      description: serializer.fromJson<String>(json['description']),
+      engine: $CustomConditionsTable.$converterengine
+          .fromJson(serializer.fromJson<int>(json['engine'])),
+    );
+  }
+  @override
+  Map<String, dynamic> toJson({ValueSerializer? serializer}) {
+    serializer ??= driftRuntimeOptions.defaultSerializer;
+    return <String, dynamic>{
+      'id': serializer.toJson<int>(id),
+      'name': serializer.toJson<String>(name),
+      'description': serializer.toJson<String>(description),
+      'engine': serializer
+          .toJson<int>($CustomConditionsTable.$converterengine.toJson(engine)),
+    };
+  }
+
+  CustomCondition copyWith(
+          {int? id,
+          String? name,
+          String? description,
+          GameEngineType? engine}) =>
+      CustomCondition(
+        id: id ?? this.id,
+        name: name ?? this.name,
+        description: description ?? this.description,
+        engine: engine ?? this.engine,
+      );
+  CustomCondition copyWithCompanion(CustomConditionsCompanion data) {
+    return CustomCondition(
+      id: data.id.present ? data.id.value : this.id,
+      name: data.name.present ? data.name.value : this.name,
+      description:
+          data.description.present ? data.description.value : this.description,
+      engine: data.engine.present ? data.engine.value : this.engine,
+    );
+  }
+
+  @override
+  String toString() {
+    return (StringBuffer('CustomCondition(')
+          ..write('id: $id, ')
+          ..write('name: $name, ')
+          ..write('description: $description, ')
+          ..write('engine: $engine')
+          ..write(')'))
+        .toString();
+  }
+
+  @override
+  int get hashCode => Object.hash(id, name, description, engine);
+  @override
+  bool operator ==(Object other) =>
+      identical(this, other) ||
+      (other is CustomCondition &&
+          other.id == this.id &&
+          other.name == this.name &&
+          other.description == this.description &&
+          other.engine == this.engine);
+}
+
+class CustomConditionsCompanion extends UpdateCompanion<CustomCondition> {
+  final Value<int> id;
+  final Value<String> name;
+  final Value<String> description;
+  final Value<GameEngineType> engine;
+  const CustomConditionsCompanion({
+    this.id = const Value.absent(),
+    this.name = const Value.absent(),
+    this.description = const Value.absent(),
+    this.engine = const Value.absent(),
+  });
+  CustomConditionsCompanion.insert({
+    this.id = const Value.absent(),
+    required String name,
+    required String description,
+    required GameEngineType engine,
+  })  : name = Value(name),
+        description = Value(description),
+        engine = Value(engine);
+  static Insertable<CustomCondition> custom({
+    Expression<int>? id,
+    Expression<String>? name,
+    Expression<String>? description,
+    Expression<int>? engine,
+  }) {
+    return RawValuesInsertable({
+      if (id != null) 'id': id,
+      if (name != null) 'name': name,
+      if (description != null) 'description': description,
+      if (engine != null) 'engine': engine,
+    });
+  }
+
+  CustomConditionsCompanion copyWith(
+      {Value<int>? id,
+      Value<String>? name,
+      Value<String>? description,
+      Value<GameEngineType>? engine}) {
+    return CustomConditionsCompanion(
+      id: id ?? this.id,
+      name: name ?? this.name,
+      description: description ?? this.description,
+      engine: engine ?? this.engine,
+    );
+  }
+
+  @override
+  Map<String, Expression> toColumns(bool nullToAbsent) {
+    final map = <String, Expression>{};
+    if (id.present) {
+      map['id'] = Variable<int>(id.value);
+    }
+    if (name.present) {
+      map['name'] = Variable<String>(name.value);
+    }
+    if (description.present) {
+      map['description'] = Variable<String>(description.value);
+    }
+    if (engine.present) {
+      map['engine'] = Variable<int>(
+          $CustomConditionsTable.$converterengine.toSql(engine.value));
+    }
+    return map;
+  }
+
+  @override
+  String toString() {
+    return (StringBuffer('CustomConditionsCompanion(')
+          ..write('id: $id, ')
+          ..write('name: $name, ')
+          ..write('description: $description, ')
+          ..write('engine: $engine')
+          ..write(')'))
+        .toString();
+  }
+}
+
 abstract class _$AppDatabase extends GeneratedDatabase {
   _$AppDatabase(QueryExecutor e) : super(e);
   $AppDatabaseManager get managers => $AppDatabaseManager(this);
   late final $EncounterTableTable encounterTable = $EncounterTableTable(this);
+  late final $CustomConditionsTable customConditions =
+      $CustomConditionsTable(this);
   @override
   Iterable<TableInfo<Table, Object?>> get allTables =>
       allSchemaEntities.whereType<TableInfo<Table, Object?>>();
   @override
-  List<DatabaseSchemaEntity> get allSchemaEntities => [encounterTable];
+  List<DatabaseSchemaEntity> get allSchemaEntities =>
+      [encounterTable, customConditions];
 }
 
 typedef $$EncounterTableTableCreateCompanionBuilder = EncounterTableCompanion
@@ -496,10 +768,167 @@ typedef $$EncounterTableTableProcessedTableManager = ProcessedTableManager<
     ),
     EncounterTableData,
     PrefetchHooks Function()>;
+typedef $$CustomConditionsTableCreateCompanionBuilder
+    = CustomConditionsCompanion Function({
+  Value<int> id,
+  required String name,
+  required String description,
+  required GameEngineType engine,
+});
+typedef $$CustomConditionsTableUpdateCompanionBuilder
+    = CustomConditionsCompanion Function({
+  Value<int> id,
+  Value<String> name,
+  Value<String> description,
+  Value<GameEngineType> engine,
+});
+
+class $$CustomConditionsTableFilterComposer
+    extends Composer<_$AppDatabase, $CustomConditionsTable> {
+  $$CustomConditionsTableFilterComposer({
+    required super.$db,
+    required super.$table,
+    super.joinBuilder,
+    super.$addJoinBuilderToRootComposer,
+    super.$removeJoinBuilderFromRootComposer,
+  });
+  ColumnFilters<int> get id => $composableBuilder(
+      column: $table.id, builder: (column) => ColumnFilters(column));
+
+  ColumnFilters<String> get name => $composableBuilder(
+      column: $table.name, builder: (column) => ColumnFilters(column));
+
+  ColumnFilters<String> get description => $composableBuilder(
+      column: $table.description, builder: (column) => ColumnFilters(column));
+
+  ColumnWithTypeConverterFilters<GameEngineType, GameEngineType, int>
+      get engine => $composableBuilder(
+          column: $table.engine,
+          builder: (column) => ColumnWithTypeConverterFilters(column));
+}
+
+class $$CustomConditionsTableOrderingComposer
+    extends Composer<_$AppDatabase, $CustomConditionsTable> {
+  $$CustomConditionsTableOrderingComposer({
+    required super.$db,
+    required super.$table,
+    super.joinBuilder,
+    super.$addJoinBuilderToRootComposer,
+    super.$removeJoinBuilderFromRootComposer,
+  });
+  ColumnOrderings<int> get id => $composableBuilder(
+      column: $table.id, builder: (column) => ColumnOrderings(column));
+
+  ColumnOrderings<String> get name => $composableBuilder(
+      column: $table.name, builder: (column) => ColumnOrderings(column));
+
+  ColumnOrderings<String> get description => $composableBuilder(
+      column: $table.description, builder: (column) => ColumnOrderings(column));
+
+  ColumnOrderings<int> get engine => $composableBuilder(
+      column: $table.engine, builder: (column) => ColumnOrderings(column));
+}
+
+class $$CustomConditionsTableAnnotationComposer
+    extends Composer<_$AppDatabase, $CustomConditionsTable> {
+  $$CustomConditionsTableAnnotationComposer({
+    required super.$db,
+    required super.$table,
+    super.joinBuilder,
+    super.$addJoinBuilderToRootComposer,
+    super.$removeJoinBuilderFromRootComposer,
+  });
+  GeneratedColumn<int> get id =>
+      $composableBuilder(column: $table.id, builder: (column) => column);
+
+  GeneratedColumn<String> get name =>
+      $composableBuilder(column: $table.name, builder: (column) => column);
+
+  GeneratedColumn<String> get description => $composableBuilder(
+      column: $table.description, builder: (column) => column);
+
+  GeneratedColumnWithTypeConverter<GameEngineType, int> get engine =>
+      $composableBuilder(column: $table.engine, builder: (column) => column);
+}
+
+class $$CustomConditionsTableTableManager extends RootTableManager<
+    _$AppDatabase,
+    $CustomConditionsTable,
+    CustomCondition,
+    $$CustomConditionsTableFilterComposer,
+    $$CustomConditionsTableOrderingComposer,
+    $$CustomConditionsTableAnnotationComposer,
+    $$CustomConditionsTableCreateCompanionBuilder,
+    $$CustomConditionsTableUpdateCompanionBuilder,
+    (
+      CustomCondition,
+      BaseReferences<_$AppDatabase, $CustomConditionsTable, CustomCondition>
+    ),
+    CustomCondition,
+    PrefetchHooks Function()> {
+  $$CustomConditionsTableTableManager(
+      _$AppDatabase db, $CustomConditionsTable table)
+      : super(TableManagerState(
+          db: db,
+          table: table,
+          createFilteringComposer: () =>
+              $$CustomConditionsTableFilterComposer($db: db, $table: table),
+          createOrderingComposer: () =>
+              $$CustomConditionsTableOrderingComposer($db: db, $table: table),
+          createComputedFieldComposer: () =>
+              $$CustomConditionsTableAnnotationComposer($db: db, $table: table),
+          updateCompanionCallback: ({
+            Value<int> id = const Value.absent(),
+            Value<String> name = const Value.absent(),
+            Value<String> description = const Value.absent(),
+            Value<GameEngineType> engine = const Value.absent(),
+          }) =>
+              CustomConditionsCompanion(
+            id: id,
+            name: name,
+            description: description,
+            engine: engine,
+          ),
+          createCompanionCallback: ({
+            Value<int> id = const Value.absent(),
+            required String name,
+            required String description,
+            required GameEngineType engine,
+          }) =>
+              CustomConditionsCompanion.insert(
+            id: id,
+            name: name,
+            description: description,
+            engine: engine,
+          ),
+          withReferenceMapper: (p0) => p0
+              .map((e) => (e.readTable(table), BaseReferences(db, table, e)))
+              .toList(),
+          prefetchHooksCallback: null,
+        ));
+}
+
+typedef $$CustomConditionsTableProcessedTableManager = ProcessedTableManager<
+    _$AppDatabase,
+    $CustomConditionsTable,
+    CustomCondition,
+    $$CustomConditionsTableFilterComposer,
+    $$CustomConditionsTableOrderingComposer,
+    $$CustomConditionsTableAnnotationComposer,
+    $$CustomConditionsTableCreateCompanionBuilder,
+    $$CustomConditionsTableUpdateCompanionBuilder,
+    (
+      CustomCondition,
+      BaseReferences<_$AppDatabase, $CustomConditionsTable, CustomCondition>
+    ),
+    CustomCondition,
+    PrefetchHooks Function()>;
 
 class $AppDatabaseManager {
   final _$AppDatabase _db;
   $AppDatabaseManager(this._db);
   $$EncounterTableTableTableManager get encounterTable =>
       $$EncounterTableTableTableManager(_db, _db.encounterTable);
+  $$CustomConditionsTableTableManager get customConditions =>
+      $$CustomConditionsTableTableManager(_db, _db.customConditions);
 }
