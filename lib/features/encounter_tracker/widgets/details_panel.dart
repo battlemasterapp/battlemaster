@@ -82,7 +82,7 @@ class EncounterDetailsPanel extends StatelessWidget {
                             combatant: combatant!,
                             onConditionsAdded: onConditionsAdded,
                           ),
-                          const SizedBox(height: 80),
+                          const SizedBox(height: 100),
                         ],
                       ),
                     ),
