@@ -11,7 +11,6 @@ part 'encounter.g.dart';
 class Encounter extends Equatable {
   final int id;
   final String name;
-  final int round;
   final EncounterType type;
   final List<Combatant> combatants;
   final GameEngineType engine;
@@ -22,8 +21,11 @@ class Encounter extends Equatable {
     required this.engine,
     this.type = EncounterType.encounter,
     this.id = -1,
-    this.round = 0,
   });
+
+  bool get isEncounter => type == EncounterType.encounter;
+
+  bool get isGroup => type == EncounterType.group;
 
   Encounter copyWith({
     int? id,
@@ -36,7 +38,6 @@ class Encounter extends Equatable {
     return Encounter(
       id: id ?? this.id,
       name: name ?? this.name,
-      round: round ?? this.round,
       type: type ?? this.type,
       combatants: combatants ?? this.combatants,
       engine: engine ?? this.engine,
@@ -52,7 +53,6 @@ class Encounter extends Equatable {
   List<Object> get props => [
         id,
         name,
-        round,
         combatants,
         engine,
       ];

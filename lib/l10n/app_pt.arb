@@ -6,5 +6,6 @@
   "add_new_encounter": "Criar novo",
   "convert_to_group": "Converter para grupo",
   "convert_to_encounter": "Converter para combate",
-  "delete_encounter": "Deletar"
+  "delete_encounter": "Deletar",
+  "round_counter": "Rodada {count}"
 }

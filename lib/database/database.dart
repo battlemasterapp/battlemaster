@@ -12,7 +12,6 @@ part 'database.g.dart';
 class EncounterTable extends Table {
   IntColumn get id => integer().autoIncrement()();
   TextColumn get name => text()();
-  IntColumn get round => integer()();
   IntColumn get type => intEnum<EncounterType>()();
   TextColumn get combatants => text().map(const CombatantsConverter())();
   IntColumn get engine => integer()();
@@ -39,7 +38,6 @@ class AppDatabase extends _$AppDatabase {
               .map((row) => Encounter(
                     id: row.id,
                     name: row.name,
-                    round: row.round,
                     type: row.type,
                     combatants: row.combatants,
                     engine: GameEngineType.values[row.engine],
@@ -51,7 +49,6 @@ class AppDatabase extends _$AppDatabase {
   Future<Encounter> insertEncounter(Encounter encounter) async {
     final id = await into(encounterTable).insert(EncounterTableCompanion.insert(
       name: encounter.name,
-      round: encounter.round,
       type: encounter.type,
       combatants: encounter.combatants,
       engine: encounter.engine.index,
@@ -65,7 +62,6 @@ class AppDatabase extends _$AppDatabase {
       EncounterTableCompanion(
         id: Value(encounter.id),
         name: Value(encounter.name),
-        round: Value(encounter.round),
         type: Value(encounter.type),
         combatants: Value(encounter.combatants),
         engine: Value(encounter.engine.index),
