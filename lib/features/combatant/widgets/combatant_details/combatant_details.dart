@@ -1,7 +1,6 @@
 import 'package:battlemaster/features/combatant/models/combatant.dart';
 import 'package:battlemaster/features/engines/models/game_engine_type.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 import '../../models/dnd5e_combatant_data.dart';
 import 'custom_combatant_details.dart';
@@ -26,7 +25,6 @@ class CombatantDetails extends StatelessWidget {
                 color: Colors.black,
               ),
         ),
-        _CombatantGameEngine(engineType: combatant.engineType),
         if (combatant.engineType == GameEngineType.custom)
           CustomCombatantDetails(combatant: combatant),
         if (combatant.combatantData != null &&
@@ -36,23 +34,5 @@ class CombatantDetails extends StatelessWidget {
           ),
       ],
     );
-  }
-}
-
-class _CombatantGameEngine extends StatelessWidget {
-  const _CombatantGameEngine({required this.engineType});
-
-  final GameEngineType engineType;
-
-  @override
-  Widget build(BuildContext context) {
-    final localization = AppLocalizations.of(context)!;
-    final engineNameMap = {
-      GameEngineType.dnd5e: localization.dnd5e_engine_name,
-      GameEngineType.pf2e: localization.pf2e_engine_name,
-      GameEngineType.custom: localization.custom_engine_name,
-    };
-
-    return Text(engineNameMap[engineType] ?? "");
   }
 }
