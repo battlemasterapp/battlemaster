@@ -61,8 +61,7 @@ class _AddCombatantPageState extends State<AddCombatantPage> {
                         onPressed: () {
                           Navigator.of(context).pop(_combatants);
                         },
-                        child: Text(AppLocalizations.of(context)!
-                            .save_button),
+                        child: Text(AppLocalizations.of(context)!.save_button),
                       ),
                       const SizedBox(width: 8),
                     ],

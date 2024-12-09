@@ -88,6 +88,7 @@ class _CombatantTrackerListState extends State<CombatantTrackerList> {
       controller: _observerController,
       child: ReorderableListView.builder(
         scrollController: _listController,
+        physics: BouncingScrollPhysics(),
         itemBuilder: (context, index) {
           final combatant = combatants[index];
           return Padding(
