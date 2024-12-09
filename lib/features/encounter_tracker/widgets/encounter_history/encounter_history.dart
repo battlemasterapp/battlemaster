@@ -78,7 +78,10 @@ class EncounterHistory extends StatelessWidget {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          if (!isMobile) Row(mainAxisAlignment: MainAxisAlignment.spaceBetween, children: titleChildren),
+          if (!isMobile)
+            Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: titleChildren),
           if (isMobile)
             Column(
               crossAxisAlignment: CrossAxisAlignment.start,

@@ -150,7 +150,7 @@ class _SingleLogTile extends StatelessWidget {
       padding: const EdgeInsets.symmetric(horizontal: 16),
       child: isMobile
           ? Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
+              crossAxisAlignment: CrossAxisAlignment.start,
               children: children,
             )
           : Row(
