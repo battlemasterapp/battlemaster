@@ -1,18 +1,10 @@
-import 'package:battlemaster/api/providers/dnd5e_engine_provider.dart';
-import 'package:battlemaster/api/services/pf2e_bestiary_service.dart';
-import 'package:battlemaster/features/analytics/analytics_service.dart';
-import 'package:battlemaster/features/combatant/widgets/add_custom_combatant.dart';
-import 'package:battlemaster/features/combatant/widgets/add_from_bestiary_list.dart';
+import 'package:battlemaster/features/combatant/add_combatant_landscape.dart';
+import 'package:battlemaster/features/combatant/add_combatants_portrait.dart';
 import 'package:battlemaster/features/encounters/models/encounter_type.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
-import 'package:icons_plus/icons_plus.dart';
-import 'package:provider/provider.dart';
 
-import '../settings/providers/system_settings_provider.dart';
 import 'models/combatant.dart';
-import 'widgets/add_group_combatants.dart';
-import 'widgets/selected_combatants.dart';
 
 class AddCombatantParams {
   final EncounterType encounterType;
@@ -44,201 +36,48 @@ class _AddCombatantPageState extends State<AddCombatantPage> {
         title: Text(AppLocalizations.of(context)!.add_combatant_title),
       ),
       body: SafeArea(
-        child: Row(
-          children: [
-            Expanded(
-              child: _AddCombatant(
-                showGroupReminder:
-                    widget.params.encounterType == EncounterType.encounter,
-                onCombatantsAdded: (combatants) {
-                  setState(() {
-                    combatants.forEach((combatant, count) {
-                      _combatants.update(
-                        combatant,
-                        (value) => value + count,
-                        ifAbsent: () => count,
-                      );
-                    });
+        child: OrientationBuilder(builder: (context, orientation) {
+          final isPortrait = orientation == Orientation.portrait;
+          if (isPortrait) {
+            return AddCombatantsPortraitPage(
+              combatants: _combatants,
+              showGroupReminder:
+                  widget.params.encounterType == EncounterType.encounter,
+              onCombatantsChanged: (combatants) => setState(() {
+                _combatants = combatants;
+              }),
+              onCombatantsAdded: (combatants) {
+                setState(() {
+                  combatants.forEach((combatant, count) {
+                    _combatants.update(
+                      combatant,
+                      (value) => value + count,
+                      ifAbsent: () => count,
+                    );
                   });
-                },
-              ),
-            ),
-            const VerticalDivider(),
-            Expanded(
-              child: Column(
-                children: [
-                  Expanded(
-                    child: SelectedCombatants(
-                      combatants: _combatants,
-                      onCombatantsChanged: (combatants) {
-                        setState(() {
-                          _combatants = combatants;
-                        });
-                      },
-                    ),
-                  ),
-                  Row(
-                    children: [
-                      Spacer(),
-                      OutlinedButton(
-                        onPressed: () {
-                          Navigator.of(context).pop();
-                        },
-                        child:
-                            Text(AppLocalizations.of(context)!.cancel_button),
-                      ),
-                      const SizedBox(width: 16),
-                      ElevatedButton(
-                        onPressed: () {
-                          Navigator.of(context).pop(_combatants);
-                        },
-                        child: Text(AppLocalizations.of(context)!.save_button),
-                      ),
-                      const SizedBox(width: 8),
-                    ],
-                  ),
-                  const SizedBox(height: 8),
-                ],
-              ),
-            ),
-          ],
-        ),
-      ),
-    );
-  }
-}
+                });
+              },
+            );
+          }
 
-enum _AddCombatantSource {
-  dnd5e,
-  pf2e,
-  group,
-  custom,
-}
-
-class _AddCombatant extends StatefulWidget {
-  const _AddCombatant({
-    required this.onCombatantsAdded,
-    this.showGroupReminder = false,
-  });
-
-  final ValueChanged<Map<Combatant, int>> onCombatantsAdded;
-  final bool showGroupReminder;
-
-  @override
-  State<_AddCombatant> createState() => _AddCombatantState();
-}
-
-class _AddCombatantState extends State<_AddCombatant> {
-  Set<_AddCombatantSource> _selected = {};
-
-  @override
-  void initState() {
-    super.initState();
-    final systemSettings = context.read<SystemSettingsProvider>();
-    if (systemSettings.pf2eSettings.enabled) {
-      _selected.add(_AddCombatantSource.pf2e);
-    }
-    if (systemSettings.dnd5eSettings.enabled) {
-      _selected.clear();
-      _selected.add(_AddCombatantSource.dnd5e);
-    }
-    if (_selected.isEmpty) {
-      _selected.add(_AddCombatantSource.group);
-    }
-  }
-
-  @override
-  Widget build(BuildContext context) {
-    final systemSettings = context.watch<SystemSettingsProvider>();
-    var localization = AppLocalizations.of(context)!;
-    return Padding(
-      padding: const EdgeInsets.all(8.0),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.center,
-        children: [
-          SegmentedButton<_AddCombatantSource>(
-            segments: [
-              if (systemSettings.dnd5eSettings.enabled)
-                ButtonSegment(
-                  value: _AddCombatantSource.dnd5e,
-                  label: Text(localization.dnd5e_toggle_button),
-                  icon: Icon(FontAwesome.dragon_solid),
-                ),
-              if (systemSettings.pf2eSettings.enabled)
-                ButtonSegment(
-                  value: _AddCombatantSource.pf2e,
-                  label: Text(localization.pf2e_toggle_button),
-                  icon: Icon(FontAwesome.dragon_solid),
-                ),
-              ButtonSegment(
-                value: _AddCombatantSource.group,
-                label: Text(localization.groups_toggle_button),
-                icon: Icon(MingCute.group_fill),
-              ),
-              ButtonSegment(
-                value: _AddCombatantSource.custom,
-                label: Text(localization.custom_combatant_toggle_button),
-                icon: Icon(MingCute.edit_fill),
-              ),
-            ],
-            selected: _selected,
-            multiSelectionEnabled: false,
-            onSelectionChanged: (selected) {
+          return AddCombatantPageLandscape(
+            combatants: _combatants,
+            showGroupReminder:
+                widget.params.encounterType == EncounterType.encounter,
+            onCombatantsAdded: (combatants) {
               setState(() {
-                _selected = selected;
+                combatants.forEach((combatant, count) {
+                  _combatants.update(
+                    combatant,
+                    (value) => value + count,
+                    ifAbsent: () => count,
+                  );
+                });
               });
             },
-          ),
-          Divider(),
-          Expanded(child: _getSelectedWidget()),
-        ],
-      ),
-    );
-  }
-
-  Widget _getSelectedWidget() {
-    if (_selected.contains(_AddCombatantSource.dnd5e)) {
-      return AddFromBestiaryList(
-        combatants: context.read<Dnd5eEngineProvider>().bestiary,
-        onCombatantSelected: (combatant) async {
-          widget.onCombatantsAdded({combatant: 1});
-          await context.read<AnalyticsService>().logEvent('add_5e_combatant');
-        },
-      );
-    }
-    if (_selected.contains(_AddCombatantSource.pf2e)) {
-      return AddFromBestiaryList(
-        combatants: context.read<Pf2eBestiaryService>().bestiaryData,
-        onCombatantSelected: (combatant) async {
-          widget.onCombatantsAdded({combatant: 1});
-          await context.read<AnalyticsService>().logEvent('add_pf2e_combatant');
-        },
-      );
-    }
-    if (_selected.contains(_AddCombatantSource.group)) {
-      return AddGroupCombatants(
-        onGroupSelected: (combatants) async {
-          widget.onCombatantsAdded(
-            combatants.fold<Map<Combatant, int>>(
-              {},
-              (map, combatant) {
-                map[combatant] = 1;
-                return map;
-              },
-            ),
           );
-          await context
-              .read<AnalyticsService>()
-              .logEvent('add_group_combatants');
-        },
-      );
-    }
-    return AddCustomCombatant(
-      showGroupReminder: widget.showGroupReminder,
-      onCombatantAdded: (combatant) async {
-        widget.onCombatantsAdded({combatant: 1});
-        await context.read<AnalyticsService>().logEvent('add_custom_combatant');
-      },
+        }),
+      ),
     );
   }
 }

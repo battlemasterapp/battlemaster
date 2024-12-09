@@ -41,6 +41,9 @@ class ConditionsList extends StatelessWidget {
     return Wrap(
       spacing: 4,
       runSpacing: 4,
+      direction: Axis.horizontal,
+      runAlignment: WrapAlignment.start,
+      alignment: WrapAlignment.start,
       children: [
         for (final condition in conditions) ConditionChip(condition: condition),
       ],

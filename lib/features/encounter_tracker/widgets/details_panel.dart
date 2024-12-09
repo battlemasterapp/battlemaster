@@ -1,3 +1,5 @@
+import 'dart:math';
+
 import 'package:battlemaster/features/combatant/widgets/combatant_details/combatant_details.dart';
 import 'package:battlemaster/features/conditions/models/condition.dart';
 import 'package:battlemaster/flavors/pf2e/pf2e_colors.dart';
@@ -27,14 +29,20 @@ class EncounterDetailsPanel extends StatelessWidget {
       assert(combatant != null);
     }
 
+    final screenWidth = MediaQuery.of(context).size.width;
+    final width = min(max(400, screenWidth / 3), screenWidth).toDouble();
+
     return AnimatedSwitcher(
       duration: 300.ms,
       switchInCurve: Curves.easeInOutCubic,
       switchOutCurve: Curves.easeInOutCubic,
-      transitionBuilder: (child, animation) => SizeTransition(
-        axis: Axis.horizontal,
-        sizeFactor: animation,
-        child: child,
+      transitionBuilder: (child, animation) => FadeTransition(
+        opacity: animation,
+        child: SizeTransition(
+          axis: Axis.horizontal,
+          sizeFactor: animation,
+          child: child,
+        ),
       ),
       child: !open
           ? SizedBox.shrink()
@@ -42,8 +50,8 @@ class EncounterDetailsPanel extends StatelessWidget {
               style: const TextStyle(
                 color: Colors.black,
               ),
-              child: FractionallySizedBox(
-                widthFactor: .3,
+              child: SizedBox(
+                width: width,
                 child: Container(
                   height: double.infinity,
                   decoration: BoxDecoration(

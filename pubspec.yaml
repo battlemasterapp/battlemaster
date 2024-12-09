@@ -64,6 +64,7 @@ dependencies:
   ultimate_flutter_icons: ^1.2.0
   dio_cache_interceptor: ^3.5.0
   async: ^2.11.0
+  draggable_bottom_sheet: ^1.0.2
 
 dev_dependencies:
   flutter_test:
