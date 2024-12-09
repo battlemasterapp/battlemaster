@@ -1,9 +1,11 @@
 import 'dart:math';
 
 import 'package:battlemaster/extensions/int_extensions.dart';
+import 'package:battlemaster/features/analytics/analytics_service.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:icons_plus/icons_plus.dart';
+import 'package:provider/provider.dart';
 
 import '../../combatant/models/combatant.dart';
 
@@ -30,11 +32,17 @@ class _InitiativeDialogState extends State<InitiativeDialog> {
         mainAxisSize: MainAxisSize.min,
         children: [
           OutlinedButton.icon(
-            onPressed: () {
+            onPressed: () async {
               final roll = Random().nextInt(20) +
                   1 +
                   widget.combatant.initiativeModifier;
               _controller.text = roll.toString();
+              await context.read<AnalyticsService>().logEvent(
+                'roll_single_initiative',
+                props: {
+                  'combatant_type': widget.combatant.type.toString(),
+                },
+              );
             },
             icon: Icon(FontAwesome.dice_d20_solid),
             label: Text(

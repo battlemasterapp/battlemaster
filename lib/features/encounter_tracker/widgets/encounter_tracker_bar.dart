@@ -125,19 +125,22 @@ class _TrackerTitleState extends State<_TrackerTitle> {
             mainAxisAlignment: MainAxisAlignment.center,
             mainAxisSize: MainAxisSize.max,
             children: [
-              Expanded(
-                child: TextField(
-                  autofocus: true,
-                  decoration: InputDecoration(
-                    border: UnderlineInputBorder(),
+              ConstrainedBox(
+                constraints: BoxConstraints(maxWidth: 400),
+                child: Expanded(
+                  child: TextField(
+                    autofocus: true,
+                    decoration: InputDecoration(
+                      border: UnderlineInputBorder(),
+                    ),
+                    controller: _controller,
+                    onSubmitted: (value) {
+                      widget.onTitleChanged?.call(value);
+                      setState(() {
+                        _isEditing = false;
+                      });
+                    },
                   ),
-                  controller: _controller,
-                  onSubmitted: (value) {
-                    widget.onTitleChanged?.call(value);
-                    setState(() {
-                      _isEditing = false;
-                    });
-                  },
                 ),
               ),
               IconButton(
