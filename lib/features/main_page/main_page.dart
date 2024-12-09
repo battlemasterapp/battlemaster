@@ -72,7 +72,10 @@ class _MainPageState extends State<MainPage> {
                             _selectedPage = pages.keys.toList()[index];
                           });
                         },
-                        labelType: NavigationRailLabelType.selected,
+                        labelType: NavigationRailLabelType.all,
+                        indicatorShape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(4),
+                        ),
                         destinations: [
                           for (final page in pages.entries)
                             NavigationRailDestination(
