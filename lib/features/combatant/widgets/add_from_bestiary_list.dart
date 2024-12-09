@@ -1,6 +1,7 @@
 import 'package:battlemaster/features/combatant/widgets/bestiary_list/bestiary_list.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import 'package:icons_plus/icons_plus.dart';
 
 import '../models/combatant.dart';
 
@@ -35,7 +36,7 @@ class _AddFromBestiaryListState extends State<AddFromBestiaryList> {
           decoration: InputDecoration(
             labelText: localization.search_input,
             hintText: localization.search_input,
-            prefixIcon: Icon(Icons.search),
+            prefixIcon: Icon(MingCute.search_fill),
           ),
           onChanged: (value) => setState(() => _searchTerm = value),
         ),

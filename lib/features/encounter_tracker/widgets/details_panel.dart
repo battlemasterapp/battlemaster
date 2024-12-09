@@ -2,6 +2,7 @@ import 'package:battlemaster/features/combatant/widgets/combatant_details/combat
 import 'package:battlemaster/flavors/pf2e/pf2e_colors.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_animate/flutter_animate.dart';
+import 'package:icons_plus/icons_plus.dart';
 
 import '../../combatant/models/combatant.dart';
 
@@ -63,7 +64,7 @@ class EncounterDetailsPanel extends StatelessWidget {
                             child: IconButton.outlined(
                               color: Colors.black,
                               onPressed: () => onClose?.call(),
-                              icon: Icon(Icons.close),
+                              icon: Icon(MingCute.close_fill),
                             ),
                           ),
                           CombatantDetails(combatant: combatant!),

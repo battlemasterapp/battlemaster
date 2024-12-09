@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_animate/flutter_animate.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import 'package:icons_plus/icons_plus.dart';
 import 'package:provider/provider.dart';
 
 import '../providers/encounter_tracker_notifier.dart';
@@ -52,7 +53,7 @@ class _EncounterControls extends StatelessWidget {
               ),
               color: Theme.of(context).primaryColor,
               icon: Icon(
-                Icons.skip_previous,
+                MingCute.skip_previous_fill,
               ),
               onPressed: trackerState.previousRound,
             ),
@@ -63,7 +64,7 @@ class _EncounterControls extends StatelessWidget {
               ),
               color: Theme.of(context).primaryColor,
               icon: Icon(
-                Icons.arrow_left,
+                MingCute.left_fill,
               ),
               onPressed: trackerState.previousTurn,
             ),
@@ -81,7 +82,7 @@ class _EncounterControls extends StatelessWidget {
               ),
               color: Theme.of(context).primaryColor,
               icon: Icon(
-                Icons.arrow_right,
+                MingCute.right_fill,
               ),
               onPressed: trackerState.nextTurn,
             ),
@@ -92,7 +93,7 @@ class _EncounterControls extends StatelessWidget {
               ),
               color: Theme.of(context).primaryColor,
               icon: Icon(
-                Icons.skip_next,
+                MingCute.skip_forward_fill,
               ),
               onPressed: trackerState.nextRound,
             ),

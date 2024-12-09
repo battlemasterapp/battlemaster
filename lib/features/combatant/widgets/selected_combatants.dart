@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import 'package:icons_plus/icons_plus.dart';
 
 import '../models/combatant.dart';
 
@@ -50,13 +51,13 @@ class SelectedCombatants extends StatelessWidget {
                           IconButton(
                             onPressed: () =>
                                 _updateCombatants(combatant, count - 1),
-                            icon: Icon(Icons.remove),
+                            icon: Icon(MingCute.minus_circle_fill),
                           ),
                           Text(count.toString()),
                           IconButton(
                             onPressed: () =>
                                 _updateCombatants(combatant, count + 1),
-                            icon: Icon(Icons.add),
+                            icon: Icon(MingCute.add_circle_fill),
                           ),
                         ],
                       ),

@@ -35,7 +35,7 @@ class EncounterTileMenu extends StatelessWidget {
             child: Row(
               children: [
                 Icon(
-                  EvaIcons.flip_2,
+                  MingCute.transfer_fill,
                   color: Theme.of(context).textTheme.bodyMedium?.color,
                 ),
                 const SizedBox(width: 4),
@@ -50,7 +50,7 @@ class EncounterTileMenu extends StatelessWidget {
             child: Row(
               children: [
                 Icon(
-                  Icons.delete,
+                  MingCute.delete_2_fill,
                   color: Theme.of(context).textTheme.bodyMedium?.color,
                 ),
                 const SizedBox(width: 4),
@@ -99,7 +99,7 @@ class EncounterViewMenu extends StatelessWidget {
             child: Row(
               children: [
                 Icon(
-                  EvaIcons.flip_2,
+                  MingCute.transfer_fill,
                   color: Theme.of(context).textTheme.bodyMedium?.color,
                 ),
                 const SizedBox(width: 4),
@@ -114,7 +114,7 @@ class EncounterViewMenu extends StatelessWidget {
             child: Row(
               children: [
                 Icon(
-                  Icons.group_remove,
+                  MingCute.user_remove_2_fill,
                   color: Theme.of(context).textTheme.bodyMedium?.color,
                 ),
                 const SizedBox(width: 4),
@@ -127,7 +127,7 @@ class EncounterViewMenu extends StatelessWidget {
             child: Row(
               children: [
                 Icon(
-                  Icons.delete,
+                  MingCute.delete_2_fill,
                   color: Theme.of(context).textTheme.bodyMedium?.color,
                 ),
                 const SizedBox(width: 4),

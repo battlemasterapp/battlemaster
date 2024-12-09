@@ -162,23 +162,23 @@ class _AddCombatantState extends State<_AddCombatant> {
                 ButtonSegment(
                   value: _AddCombatantSource.dnd5e,
                   label: Text(localization.dnd5e_toggle_button),
-                  icon: Icon(LineAwesome.dragon_solid),
+                  icon: Icon(FontAwesome.dragon_solid),
                 ),
               if (systemSettings.pf2eSettings.enabled)
                 ButtonSegment(
                   value: _AddCombatantSource.pf2e,
                   label: Text(localization.pf2e_toggle_button),
-                  icon: Icon(LineAwesome.dragon_solid),
+                  icon: Icon(FontAwesome.dragon_solid),
                 ),
               ButtonSegment(
                 value: _AddCombatantSource.group,
                 label: Text(localization.groups_toggle_button),
-                icon: Icon(LineAwesome.users_solid),
+                icon: Icon(MingCute.group_fill),
               ),
               ButtonSegment(
                 value: _AddCombatantSource.custom,
                 label: Text(localization.custom_combatant_toggle_button),
-                icon: Icon(LineAwesome.edit_solid),
+                icon: Icon(MingCute.edit_fill),
               ),
             ],
             selected: _selected,
