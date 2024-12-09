@@ -326,6 +326,10 @@
   "@dnd5e_actions": {
     "description": "The label of the actions."
   },
+  "dnd5e_bonus_actions": "Bonus Actions",
+  "@dnd5e_bonus_actions": {
+    "description": "The label of the bonus actions."
+  },
   "dnd5e_reactions": "Reactions",
   "@dnd5e_reactions": {
     "description": "The label of the reactions."

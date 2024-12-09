@@ -100,6 +100,12 @@ class Dnd5eCombatantData extends CombatantData {
           .toList() ??
       [];
 
+  List<Dnd5eAbility> get bonusActions =>
+      (rawData['bonus_actions'] as List<dynamic>?)
+          ?.map((e) => Dnd5eAbility(e as Map<String, dynamic>))
+          .toList() ??
+      [];
+
   List<Dnd5eAbility> get reactions =>
       (rawData['reactions'] as List<dynamic>?)
           ?.map((e) => Dnd5eAbility(e as Map<String, dynamic>))
