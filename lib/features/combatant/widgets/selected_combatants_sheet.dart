@@ -78,31 +78,41 @@ class _Sheet extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      clipBehavior: Clip.hardEdge,
-      margin: const EdgeInsets.symmetric(horizontal: 8),
-      padding: const EdgeInsets.all(8),
-      decoration: BoxDecoration(
-        color: Theme.of(context).canvasColor,
+    return Padding(
+      padding: const EdgeInsets.symmetric(horizontal: 8),
+      child: Material(
+        elevation: 8,
+        clipBehavior: Clip.antiAlias,
         borderRadius: const BorderRadius.only(
-          topLeft: Radius.circular(25),
-          topRight: Radius.circular(25),
-        ),
-      ),
-      width: double.infinity,
-      child: Column(
-        mainAxisSize: MainAxisSize.min,
-        children: [
-          Container(
-            decoration: BoxDecoration(
-              color: Colors.grey.shade700,
-              borderRadius: const BorderRadius.all(Radius.circular(25)),
+              topLeft: Radius.circular(25),
+              topRight: Radius.circular(25),
             ),
-            width: 50,
-            height: 5,
+        child: Container(
+          clipBehavior: Clip.hardEdge,
+          padding: const EdgeInsets.all(8),
+          decoration: BoxDecoration(
+            color: Theme.of(context).canvasColor,
+            borderRadius: const BorderRadius.only(
+              topLeft: Radius.circular(25),
+              topRight: Radius.circular(25),
+            ),
           ),
-          Expanded(child: child),
-        ],
+          width: double.infinity,
+          child: Column(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              Container(
+                decoration: BoxDecoration(
+                  color: Colors.grey.shade700,
+                  borderRadius: const BorderRadius.all(Radius.circular(25)),
+                ),
+                width: 50,
+                height: 5,
+              ),
+              Expanded(child: child),
+            ],
+          ),
+        ),
       ),
     );
   }
