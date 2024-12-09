@@ -17,14 +17,14 @@ enum EncounterTrackerStatus {
 
 class EncounterTrackerNotifier extends ChangeNotifier {
   final AppDatabase _database;
-  final SystemSettings _settings;
+  final SystemSettingsProvider _settings;
   final int encounterId;
   int _activeCombatantIndex = 0;
   final _activeIndexController = StreamController<int>();
 
   EncounterTrackerNotifier({
     required AppDatabase database,
-    required SystemSettings settings,
+    required SystemSettingsProvider settings,
     required this.encounterId,
   })  : _database = database,
         _settings = settings {
@@ -148,7 +148,10 @@ class EncounterTrackerNotifier extends ChangeNotifier {
     _activeCombatantIndex--;
     if (_activeCombatantIndex < 0) {
       _activeCombatantIndex = _encounter.combatants.length - 1;
-      return previousRound();
+      if (round > 1) {
+        return previousRound();
+      }
+      _activeCombatantIndex = 0;
     }
     _setActiveCombatantIndex(_activeCombatantIndex);
     notifyListeners();

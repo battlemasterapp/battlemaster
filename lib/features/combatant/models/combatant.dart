@@ -1,4 +1,5 @@
 import 'package:battlemaster/features/combatant/models/combatant_data.dart';
+import 'package:battlemaster/features/combatant/models/pf2e_combatant_data.dart';
 import 'package:equatable/equatable.dart';
 import 'package:json_annotation/json_annotation.dart';
 
@@ -37,6 +38,20 @@ class Combatant extends Equatable {
     this.combatantData,
     this.level,
   });
+
+  factory Combatant.fromPf2eCombatantData(Pf2eCombatantData data) {
+    return Combatant(
+      name: data.name,
+      currentHp: data.hp,
+      maxHp: data.hp,
+      armorClass: data.ac,
+      initiativeModifier: data.initiativeModifier,
+      combatantData: data,
+      level: data.level,
+      type: CombatantType.monster,
+      engineType: GameEngineType.pf2e,
+    );
+  }
 
   factory Combatant.fromJson(Map<String, dynamic> json) =>
       _$CombatantFromJson(json);
