@@ -111,7 +111,6 @@ class _CombatantTrackerListState extends State<CombatantTrackerList> {
                     );
               },
               onInitiativeChanged: (initiative) async {
-                debugPrint(initiative.toString());
                 await context.read<EncountersProvider>().editCombatant(
                       widget.encounter,
                       combatant.copyWith(initiative: initiative),

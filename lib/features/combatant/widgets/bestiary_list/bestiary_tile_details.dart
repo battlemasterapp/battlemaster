@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 
 import '../../../engines/models/game_engine_type.dart';
 import '../../models/combatant.dart';
+import '../../models/dnd5e_combatant_data.dart';
 import '../traits.dart';
 
 class BestiaryTileDetails extends StatelessWidget {
@@ -16,7 +17,9 @@ class BestiaryTileDetails extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     if (combatant.engineType != GameEngineType.pf2e) {
-      return Container();
+      return Dnd5eBestiaryTileDetails(
+        combatant: combatant.combatantData as Dnd5eCombatantData,
+      );
     }
 
     return PF2eBestiaryTileDetails(
@@ -37,5 +40,24 @@ class PF2eBestiaryTileDetails extends StatelessWidget {
     return Traits(
       traits: combatant.traits,
     );
+  }
+}
+
+class Dnd5eBestiaryTileDetails extends StatelessWidget {
+  const Dnd5eBestiaryTileDetails({
+    super.key,
+    required this.combatant,
+  });
+
+  final Dnd5eCombatantData combatant;
+
+  @override
+  Widget build(BuildContext context) {
+    final texts = [
+      combatant.size,
+      combatant.type,
+      if (combatant.subtype.isNotEmpty) "(${combatant.subtype})",
+    ].nonNulls.toList().join(" ");
+    return Text("$texts, ${combatant.alignment} (${combatant.source})");
   }
 }

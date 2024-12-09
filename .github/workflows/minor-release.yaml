@@ -59,7 +59,7 @@ jobs:
         uses: stefanzweifel/git-auto-commit-action@v5
         with:
           commit_message: "[no ci] Update release"
-          file_pattern: '*.dart *.yaml src/*.dart'
+          file_pattern: '*.dart *.yaml *.md'
 
       - name: Release
         uses: softprops/action-gh-release@v2

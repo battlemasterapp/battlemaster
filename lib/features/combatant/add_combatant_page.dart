@@ -1,3 +1,4 @@
+import 'package:battlemaster/api/services/dnd5e_bestiary_service.dart';
 import 'package:battlemaster/api/services/pf2e_bestiary_service.dart';
 import 'package:battlemaster/features/combatant/widgets/add_custom_combatant.dart';
 import 'package:battlemaster/features/combatant/widgets/add_from_bestiary_list.dart';
@@ -82,6 +83,7 @@ class _AddCombatantPageState extends State<AddCombatantPage> {
 }
 
 enum _AddCombatantSource {
+  dnd5e,
   pf2e,
   group,
   custom,
@@ -107,7 +109,12 @@ class _AddCombatantState extends State<_AddCombatant> {
     final systemSettings = context.read<SystemSettingsProvider>();
     if (systemSettings.pf2eSettings.enabled) {
       _selected.add(_AddCombatantSource.pf2e);
-    } else {
+    }
+    if (systemSettings.dnd5eSettings.enabled) {
+      _selected.clear();
+      _selected.add(_AddCombatantSource.dnd5e);
+    }
+    if (_selected.isEmpty) {
       _selected.add(_AddCombatantSource.group);
     }
   }
@@ -115,6 +122,7 @@ class _AddCombatantState extends State<_AddCombatant> {
   @override
   Widget build(BuildContext context) {
     final systemSettings = context.watch<SystemSettingsProvider>();
+    var localization = AppLocalizations.of(context)!;
     return Padding(
       padding: const EdgeInsets.all(8.0),
       child: Column(
@@ -122,21 +130,26 @@ class _AddCombatantState extends State<_AddCombatant> {
         children: [
           SegmentedButton<_AddCombatantSource>(
             segments: [
+              if (systemSettings.dnd5eSettings.enabled)
+                ButtonSegment(
+                  value: _AddCombatantSource.dnd5e,
+                  label: Text(localization.dnd5e_toggle_button),
+                  icon: Icon(LineAwesome.dragon_solid),
+                ),
               if (systemSettings.pf2eSettings.enabled)
                 ButtonSegment(
                   value: _AddCombatantSource.pf2e,
-                  label: Text(AppLocalizations.of(context)!.pf2e_toggle_button),
+                  label: Text(localization.pf2e_toggle_button),
                   icon: Icon(LineAwesome.dragon_solid),
                 ),
               ButtonSegment(
                 value: _AddCombatantSource.group,
-                label: Text(AppLocalizations.of(context)!.groups_toggle_button),
+                label: Text(localization.groups_toggle_button),
                 icon: Icon(LineAwesome.users_solid),
               ),
               ButtonSegment(
                 value: _AddCombatantSource.custom,
-                label: Text(AppLocalizations.of(context)!
-                    .custom_combatant_toggle_button),
+                label: Text(localization.custom_combatant_toggle_button),
                 icon: Icon(LineAwesome.edit_solid),
               ),
             ],
@@ -156,6 +169,14 @@ class _AddCombatantState extends State<_AddCombatant> {
   }
 
   Widget _getSelectedWidget() {
+    if (_selected.contains(_AddCombatantSource.dnd5e)) {
+      return AddFromBestiaryList(
+        combatants: context.read<Dnd5eBestiaryService>().bestiaryData,
+        onCombatantSelected: (combatant) {
+          widget.onCombatantsAdded({combatant: 1});
+        },
+      );
+    }
     if (_selected.contains(_AddCombatantSource.pf2e)) {
       return AddFromBestiaryList(
         combatants: context.read<Pf2eBestiaryService>().bestiaryData,

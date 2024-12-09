@@ -1,7 +1,6 @@
 import 'package:battlemaster/features/settings/models/initiative_roll_type.dart';
 import 'package:battlemaster/features/settings/providers/system_settings_provider.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:provider/provider.dart';
 
 import '../../../flavors/pf2e/pf2e_theme.dart';
@@ -60,7 +59,6 @@ class TrackerBar extends StatelessWidget {
             onPressed: () async {
               final combatantsMap =
                   await Navigator.of(context).pushNamed("/combatant/add");
-              debugPrint(combatantsMap.toString());
 
               if (combatantsMap == null) {
                 return;
@@ -185,10 +183,10 @@ class _RollInitiativeButton extends StatelessWidget {
 
     // TODO: convert to icon button if orientation is portrait
 
-    return ElevatedButton.icon(
+    return IconButton(
       onPressed: onPressed,
       icon: Icon(Icons.casino),
-      label: Text(AppLocalizations.of(context)!.roll_initiative_button),
+      // label: Text(AppLocalizations.of(context)!.roll_initiative_button),
     );
   }
 }

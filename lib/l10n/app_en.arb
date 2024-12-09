@@ -221,5 +221,13 @@
   "pf2e_settings_bestiary_toggle": "Enable PF2e Bestiary",
   "@pf2e_settings_bestiary_toggle": {
     "description": "The toggle to enable the PF2e bestiary."
+  },
+  "dnd5e_settings_title": "5e Settings",
+  "@dnd5e_settings_title": {
+    "description": "The title of the 5e settings section."
+  },
+  "dnd5e_settings_bestiary_toggle": "Enable 5e Bestiary",
+  "@dnd5e_settings_bestiary_toggle": {
+    "description": "The toggle to enable the 5e bestiary."
   }
 }

@@ -50,5 +50,7 @@
   "app_settings_title": "Configurações do aplicativo",
   "dark_mode_toggle_label": "Modo escuro",
   "pf2e_settings_title": "Configurações PF2e",
-  "pf2e_settings_bestiary_toggle": "Ativar bestiário"
+  "pf2e_settings_bestiary_toggle": "Ativar bestiário",
+  "dnd5e_settings_title": "Configurações 5e",
+  "dnd5e_settings_bestiary_toggle": "Ativar bestiário"
 }
