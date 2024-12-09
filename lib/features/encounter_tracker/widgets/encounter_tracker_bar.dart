@@ -32,7 +32,7 @@ class TrackerBar extends StatelessWidget {
           if (displayControls)
             Row(
               children: [
-                IconButton.outlined(
+                IconButton.filled(
                   onPressed: () {
                     trackerState.playStop();
                   },
@@ -181,10 +181,9 @@ class _RollInitiativeButton extends StatelessWidget {
       await context.read<EncounterTrackerNotifier>().rollInitiative();
     }
 
-    // TODO: convert to icon button if orientation is portrait
-
-    return IconButton(
+    return IconButton.outlined(
       onPressed: onPressed,
+      color: Colors.white,
       icon: Icon(Icons.casino),
       // label: Text(AppLocalizations.of(context)!.roll_initiative_button),
     );
