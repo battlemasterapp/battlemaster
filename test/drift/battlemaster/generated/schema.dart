@@ -4,6 +4,7 @@
 import 'package:drift/drift.dart';
 import 'package:drift/internal/migrations.dart';
 import 'schema_v3.dart' as v3;
+import 'schema_v4.dart' as v4;
 import 'schema_v1.dart' as v1;
 import 'schema_v2.dart' as v2;
 
@@ -13,6 +14,8 @@ class GeneratedHelper implements SchemaInstantiationHelper {
     switch (version) {
       case 3:
         return v3.DatabaseAtV3(db);
+      case 4:
+        return v4.DatabaseAtV4(db);
       case 1:
         return v1.DatabaseAtV1(db);
       case 2:
@@ -22,5 +25,5 @@ class GeneratedHelper implements SchemaInstantiationHelper {
     }
   }
 
-  static const versions = const [1, 2, 3];
+  static const versions = const [1, 2, 3, 4];
 }

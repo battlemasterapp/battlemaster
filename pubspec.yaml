@@ -69,6 +69,10 @@ dependencies:
   badges: ^3.1.2
   side_sheet: ^1.0.4
   http: ^1.2.2
+  file_picker: ^8.1.4
+  csv2json: ^0.0.3
+  toastification: ^2.3.0
+  file_saver: ^0.2.14
 
 dev_dependencies:
   flutter_test:
@@ -93,6 +97,7 @@ flutter:
   # To add assets to your application, add an assets section, like this:
   assets:
     - assets/icon/
+    - assets/templates/templates.zip
   #   - images/a_dot_ham.jpeg
 
   # An image asset can refer to one or more resolution-specific "variants", see

@@ -1,5 +1,7 @@
+import 'package:battlemaster/features/combatant/models/combatant_type.dart';
 import 'package:battlemaster/features/combatant/models/pf2e_combatant_data.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 import '../../../engines/models/game_engine_type.dart';
 import '../../models/combatant.dart';
@@ -16,14 +18,33 @@ class BestiaryTileDetails extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    if (combatant.engineType != GameEngineType.pf2e) {
+    if (combatant.engineType == GameEngineType.dnd5e) {
       return Dnd5eBestiaryTileDetails(
         combatant: combatant.combatantData as Dnd5eCombatantData,
       );
     }
 
-    return PF2eBestiaryTileDetails(
-        combatant: combatant.combatantData as Pf2eCombatantData);
+    if (combatant.engineType == GameEngineType.pf2e) {
+      return PF2eBestiaryTileDetails(
+          combatant: combatant.combatantData as Pf2eCombatantData);
+    }
+
+    return CustomBestiaryTileDetails(combatant: combatant);
+  }
+}
+
+class CustomBestiaryTileDetails extends StatelessWidget {
+  const CustomBestiaryTileDetails({
+    super.key,
+    required this.combatant,
+  });
+
+  final Combatant combatant;
+
+  @override
+  Widget build(BuildContext context) {
+    final localization = AppLocalizations.of(context)!;
+    return Text(combatant.type.translate(localization));
   }
 }
 
