@@ -25,6 +25,7 @@ class EncountersGrid extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final localization = AppLocalizations.of(context)!;
     if (isLoading) {
       return const Center(child: CircularProgressIndicator());
     }
@@ -40,9 +41,10 @@ class EncountersGrid extends StatelessWidget {
         if (index == 0) {
           return ElevatedButton.icon(
             onPressed: () async {
-              // Fixme: hardcoded encounter
               final encounter = Encounter(
-                name: AppLocalizations.of(context)!.new_encounter_name,
+                name: type == EncounterType.encounter
+                    ? localization.new_encounter_name
+                    : localization.new_group_name,
                 type: type,
                 combatants: [],
                 engine: GameEngineType.pf2e,
@@ -79,7 +81,7 @@ class EncountersGrid extends StatelessWidget {
             ),
             icon: const Icon(Icons.add),
             label: Text(
-              AppLocalizations.of(context)!.add_new_encounter,
+              localization.add_new_encounter,
               textAlign: TextAlign.center,
             ),
           );

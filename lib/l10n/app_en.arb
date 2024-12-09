@@ -24,6 +24,10 @@
   "@new_encounter_name": {
     "description": "The default name for a new encounter."
   },
+  "new_group_name": "New Party",
+  "@new_group_name": {
+    "description": "The default name for a new group."
+  },
   "convert_to_group": "Convert to group",
   "@convert_to_group": {
     "description": "Button to convert an encounter to a group."
@@ -409,5 +413,13 @@
   "feedback_label_feature": "Request a feature",
   "@feedback_label_feature": {
     "description": "The label of the feature feedback."
+  },
+  "create_group_reminder": "Adding lots of custom combatants? Create a group!",
+  "@create_group_reminder": {
+    "description": "The message to remind the user to create a group."
+  },
+  "create_group_cta": "Create a group",
+  "@create_group_cta": {
+    "description": "The call-to-action to create a group."
   }
 }
