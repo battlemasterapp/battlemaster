@@ -42,11 +42,14 @@ class _MainPageState extends State<MainPage> {
       builder: (context, orientation) {
         // if orientation is landscape, use a navigation rail
         // if orientation is portrait, use a drawer
+        final isPortrait = orientation == Orientation.portrait;
         return Scaffold(
-          appBar: AppBar(
-            title: Text(pages[_selectedPage]!.title),
-          ),
-          drawer: orientation == Orientation.portrait
+          appBar: isPortrait
+              ? AppBar(
+                  title: Text(pages[_selectedPage]!.title),
+                )
+              : null,
+          drawer: isPortrait
               ? MainDrawer(
                   selectedPage: _selectedPage,
                   pages: pages,
@@ -60,11 +63,12 @@ class _MainPageState extends State<MainPage> {
           body: SafeArea(
             child: Row(
               children: [
-                if (orientation == Orientation.landscape)
+                if (!isPortrait)
                   Row(
                     mainAxisSize: MainAxisSize.min,
                     children: [
                       NavigationRail(
+                        backgroundColor: Colors.grey.withOpacity(.2),
                         selectedIndex:
                             pages.keys.toList().indexOf(_selectedPage),
                         onDestinationSelected: (index) {
@@ -73,6 +77,14 @@ class _MainPageState extends State<MainPage> {
                           });
                         },
                         labelType: NavigationRailLabelType.all,
+                        indicatorColor: Theme.of(context).primaryColor,
+                        unselectedIconTheme: IconThemeData(
+                          color: Theme.of(context).iconTheme.color,
+                        ),
+                        selectedIconTheme: IconThemeData(
+                          color: Colors.white,
+                          size: 27,
+                        ),
                         indicatorShape: RoundedRectangleBorder(
                           borderRadius: BorderRadius.circular(4),
                         ),

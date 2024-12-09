@@ -81,7 +81,7 @@ class EncountersProvider extends ChangeNotifier {
 
   Future<void> removeCombatant(Encounter encounter, Combatant combatant) async {
     final combatants =
-        encounter.combatants.where((c) => c != combatant).toList();
+        encounter.combatants.where((c) => c.name != combatant.name).toList();
     final updated = encounter.copyWith(combatants: combatants);
     await _database.updateEncounter(updated);
   }

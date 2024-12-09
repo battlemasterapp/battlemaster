@@ -28,8 +28,9 @@ class SelectedCombatants extends StatelessWidget {
             style: Theme.of(context).textTheme.headlineSmall,
           ),
           Expanded(
-            child: ListView.builder(
+            child: ListView.separated(
               itemCount: combatants.length,
+              separatorBuilder: (_, __) => const Divider(),
               itemBuilder: (context, index) {
                 final combatant = combatants.keys.elementAt(index);
                 final count = combatants.values.elementAt(index);
