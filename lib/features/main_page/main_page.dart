@@ -62,7 +62,9 @@ class _MainPageState extends State<MainPage> {
           ? AppBar(
               title: Text(pages[_selectedPage]!.title),
             )
-          : null,
+          : AppBar(
+            toolbarHeight: 10,
+          ),
       drawer: isMobile
           ? MainDrawer(
               selectedPage: _selectedPage,
