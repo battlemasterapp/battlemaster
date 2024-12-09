@@ -689,5 +689,9 @@
         "example": "3"
       }
     }
+  },
+  "undo_button": "Undo",
+  "@undo_button": {
+    "description": "The button to undo the last action."
   }
 }
