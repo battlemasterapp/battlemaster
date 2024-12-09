@@ -117,15 +117,19 @@ class _CombatantTrackerListState extends State<CombatantTrackerList> {
                     .removeCombatant(widget.encounter, combatant);
               },
               onHealthChanged: (health) async {
-                await context.read<EncountersProvider>().editCombatant(
+                await context.read<EncountersProvider>().updateCombatantHealth(
                       widget.encounter,
-                      combatant.copyWith(currentHp: health),
+                      combatant,
+                      health,
                     );
               },
               onInitiativeChanged: (initiative) async {
-                await context.read<EncountersProvider>().editCombatant(
+                await context
+                    .read<EncountersProvider>()
+                    .updateCombatantInitiative(
                       widget.encounter,
-                      combatant.copyWith(initiative: initiative),
+                      combatant,
+                      initiative,
                     );
               },
             ),

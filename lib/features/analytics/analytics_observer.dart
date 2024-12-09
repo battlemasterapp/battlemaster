@@ -1,5 +1,5 @@
+import 'package:battlemaster/features/analytics/plausible_base.dart';
 import 'package:flutter/widgets.dart';
-import 'package:plausible/plausible.dart';
 
 /// A [NavigatorObserver] that reports page views to [Plausible].
 class AnalyticsNavigatorObserver extends NavigatorObserver {
