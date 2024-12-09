@@ -79,7 +79,7 @@ class _Sheet extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: const EdgeInsets.symmetric(horizontal: 8),
+      padding: const EdgeInsets.symmetric(horizontal: 1),
       child: Material(
         elevation: 8,
         clipBehavior: Clip.antiAlias,
@@ -96,6 +96,7 @@ class _Sheet extends StatelessWidget {
               topLeft: Radius.circular(25),
               topRight: Radius.circular(25),
             ),
+            border: Border.all(color: Colors.grey.shade700.withOpacity(.5)),
           ),
           width: double.infinity,
           child: Column(
