@@ -487,5 +487,21 @@
         "example": "3"
       }
     }
+  },
+  "danger_zone_settings_title": "Danger Zone",
+  "@danger_zone_settings_title": {
+    "description": "Danger zone settings title"
+  },
+  "delete_data_title": "Delete app data",
+  "@delete_data_title": {
+    "description": "Delete app data settings title"
+  },
+  "delete_data_subtitle": "This will delete all app data, including encounters, groups, and settings.",
+  "@delete_data_subtitle": {
+    "description": "Delete app data settings subtitle"
+  },
+  "delete_data_button": "Delete",
+  "@delete_data_button": {
+    "description": "Delete app data button"
   }
 }

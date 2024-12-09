@@ -106,5 +106,9 @@
   "reload_button": "Recarregar",
   "add_condition_button": "Adicionar condições",
   "add_condition_title": "Adicionar condições",
-  "condition_duration_round": "({duration} rodadas)"
+  "condition_duration_round": "({duration} rodadas)",
+  "danger_zone_settings_title": "Zona de perigo",
+  "delete_data_title": "Apagar dados",
+  "delete_data_subtitle": "Isso excluirá todos os dados do aplicativo",
+  "delete_data_button": "Apagar"
 }
