@@ -46,8 +46,6 @@ class _HpDialogState extends State<HpDialog> {
       },
       child: LayoutBuilder(builder: (context, constraints) {
         final portraitLayout = constraints.maxWidth < 520;
-        debugPrint("constraints: $constraints");
-        debugPrint("portraitLayout: $portraitLayout");
         return AlertDialog(
           title: Text(AppLocalizations.of(context)!.hp_dialog_title(health)),
           content: Column(
@@ -73,56 +71,10 @@ class _HpDialogState extends State<HpDialog> {
               ),
               const Divider(),
               const SizedBox(height: 16),
-              Row(
-                children: [
-                  ElevatedButton.icon(
-                    style: ElevatedButton.styleFrom(
-                      shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(4),
-                      ),
-                    ),
-                    onPressed: () {
-                      final value = int.tryParse(_controller.text) ?? 0;
-                      applyModifier(value * -1);
-                      _controller.clear();
-                    },
-                    icon: Icon(MingCute.heart_crack_fill),
-                    label: Text(AppLocalizations.of(context)!.damage_button),
-                  ),
-                  const SizedBox(width: 8),
-                  Expanded(
-                    child: TextField(
-                      controller: _controller,
-                      decoration: InputDecoration(
-                        hintText: "15",
-                        label:
-                            Text(AppLocalizations.of(context)!.hp_dialog_input),
-                      ),
-                      keyboardType: const TextInputType.numberWithOptions(
-                        signed: true,
-                        decimal: false,
-                      ),
-                      onSubmitted: (value) {
-                        applyModifier(int.tryParse(value) ?? 0);
-                        _controller.clear();
-                      },
-                    ),
-                  ),
-                  const SizedBox(width: 8),
-                  ElevatedButton.icon(
-                    style: ElevatedButton.styleFrom(
-                      shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(4),
-                      ),
-                    ),
-                    onPressed: () {
-                      applyModifier(int.tryParse(_controller.text) ?? 0);
-                      _controller.clear();
-                    },
-                    icon: Icon(MingCute.heart_fill),
-                    label: Text(AppLocalizations.of(context)!.heal_button),
-                  ),
-                ],
+              _DamageField(
+                portraitLayout: portraitLayout,
+                textController: _controller,
+                onDamage: applyModifier,
               ),
             ],
           ),
@@ -279,6 +231,129 @@ class _QuickAdjustmentButtons extends StatelessWidget {
           onPressed: () => onAdjustment(10),
           icon: Icon(MingCute.arrows_right_fill),
           label: const Text("+10"),
+        ),
+      ],
+    );
+  }
+}
+
+class _DamageField extends StatelessWidget {
+  const _DamageField({
+    required this.onDamage,
+    required this.textController,
+    this.portraitLayout = false,
+  });
+
+  final bool portraitLayout;
+  final TextEditingController textController;
+  final ValueChanged<int> onDamage;
+
+  @override
+  Widget build(BuildContext context) {
+    if (portraitLayout) {
+      return Column(
+        children: [
+          TextField(
+            controller: textController,
+            decoration: InputDecoration(
+              hintText: "15",
+              label: Text(AppLocalizations.of(context)!.hp_dialog_input),
+            ),
+            keyboardType: const TextInputType.numberWithOptions(
+              signed: true,
+              decimal: false,
+            ),
+            onSubmitted: (value) {
+              onDamage(int.tryParse(value) ?? 0);
+              textController.clear();
+            },
+          ),
+          const SizedBox(height: 8),
+          Row(
+            mainAxisSize: MainAxisSize.max,
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              ElevatedButton.icon(
+                style: ElevatedButton.styleFrom(
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(4),
+                  ),
+                ),
+                onPressed: () {
+                  final value = int.tryParse(textController.text) ?? 0;
+                  onDamage(value * -1);
+                  textController.clear();
+                },
+                icon: Icon(MingCute.heart_crack_fill),
+                label: Text(AppLocalizations.of(context)!.damage_button),
+              ),
+              const SizedBox(width: 8),
+              ElevatedButton.icon(
+                style: ElevatedButton.styleFrom(
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(4),
+                  ),
+                ),
+                onPressed: () {
+                  onDamage(int.tryParse(textController.text) ?? 0);
+                  textController.clear();
+                },
+                icon: Icon(MingCute.heart_fill),
+                label: Text(AppLocalizations.of(context)!.heal_button),
+              ),
+            ],
+          ),
+        ],
+      );
+    }
+
+    return Row(
+      children: [
+        ElevatedButton.icon(
+          style: ElevatedButton.styleFrom(
+            shape: RoundedRectangleBorder(
+              borderRadius: BorderRadius.circular(4),
+            ),
+          ),
+          onPressed: () {
+            final value = int.tryParse(textController.text) ?? 0;
+            onDamage(value * -1);
+            textController.clear();
+          },
+          icon: Icon(MingCute.heart_crack_fill),
+          label: Text(AppLocalizations.of(context)!.damage_button),
+        ),
+        const SizedBox(width: 8),
+        Expanded(
+          child: TextField(
+            controller: textController,
+            decoration: InputDecoration(
+              hintText: "15",
+              label: Text(AppLocalizations.of(context)!.hp_dialog_input),
+            ),
+            keyboardType: const TextInputType.numberWithOptions(
+              signed: true,
+              decimal: false,
+            ),
+            onSubmitted: (value) {
+              onDamage(int.tryParse(value) ?? 0);
+              textController.clear();
+            },
+          ),
+        ),
+        const SizedBox(width: 8),
+        ElevatedButton.icon(
+          style: ElevatedButton.styleFrom(
+            shape: RoundedRectangleBorder(
+              borderRadius: BorderRadius.circular(4),
+            ),
+          ),
+          onPressed: () {
+            onDamage(int.tryParse(textController.text) ?? 0);
+            textController.clear();
+          },
+          icon: Icon(MingCute.heart_fill),
+          label: Text(AppLocalizations.of(context)!.heal_button),
         ),
       ],
     );
