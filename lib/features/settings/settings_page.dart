@@ -47,7 +47,6 @@ class SettingsPage extends StatelessWidget {
                     .toList(),
               ),
             ),
-            const SizedBox(height: 24),
             Container(
               padding: const EdgeInsets.only(bottom: 24, top: 32),
               color: Theme.of(context).primaryColor,
