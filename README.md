@@ -6,6 +6,7 @@ See it in action at [app.battlemaster.com.br](https://app.battlemaster.com.br) o
 ## Features
 ### Combat Management
 **Combat Creation**: Easily create and name combats, and organize custom groups of combatants.
+**Combat history**: Keep track of everything that has happened during the combat and quickly revert actions.
 
 ### Initiative Tracker
 **Combatants**: Add combatants either manually or by selecting from predefined monsters.

@@ -13,24 +13,24 @@ jobs:
     steps:
       - name: Checkout Repository
         uses: actions/checkout@v4
-      
+
       - name: Set Up Java
         uses: actions/setup-java@v3.12.0
         with:
-          distribution: 'oracle'
-          java-version: '17'
-          cache: 'gradle'
+          distribution: "oracle"
+          java-version: "17"
+          cache: "gradle"
 
       - name: Set Up Flutter
         uses: subosito/flutter-action@v2
         with:
-          flutter-version: '3.24.4'
-          channel: 'stable'
+          flutter-version: "3.24.4"
+          channel: "stable"
           cache: true
 
       - name: Install Dependencies
         run: flutter pub get
-      
+
       - name: Generate l10n
         run: flutter gen-l10n
 
@@ -45,26 +45,27 @@ jobs:
         run: |
           version=$(cider version)
           echo "VERSION=$version" >> $GITHUB_ENV
-
-      - name: Generate .env
-        run: |
-          echo "SENTRY_DSN=${{ secrets.SENTRY_DSN }}" >> .env
-          echo "PLAUSIBLE_SERVER=${{ secrets.PLAUSIBLE_SERVER }}" >> .env
-          echo "PLAUSIBLE_DOMAIN=${{ secrets.PLAUSIBLE_DOMAIN }}" >> .env
-          echo "WIREDASH_PROJECT=${{ secrets.WIREDASH_PROJECT }}" >> .env
-          echo "WIREDASH_SECRET=${{ secrets.WIREDASH_SECRET }}" >> .env
-          echo "PF2E_URI=${{ secrets.PF2E_URI }}" >> .env
-          echo "API_5E_URI=${{ secrets.API_5E_URI }}" >> .env
-          echo "API_URI=${{ secrets.API_URI }}" >> .env
-          echo "FLAGSMTIH_URI=${{ secrets.FLAGSMITH_URI }}" >> .env
-          echo "FLAGSMITH_API_KEY=${{ secrets.FLAGSMITH_API_KEY }}" >> .env
+      
+      - name: Make envfile
+        uses: SpicyPizza/create-envfile@v2.0
+        with:
+          envkey_SENTRY_DSN: ${{ secrets.SENTRY_DSN }}
+          envkey_PLAUSIBLE_SERVER: ${{ secrets.PLAUSIBLE_SERVER }}
+          envkey_PLAUSIBLE_DOMAIN: ${{ secrets.PLAUSIBLE_DOMAIN }}
+          envkey_WIREDASH_PROJECT: ${{ vars.WIREDASH_PROJECT }}
+          envkey_WIREDASH_SECRET: ${{ secrets.WIREDASH_SECRET }}
+          envkey_PF2E_URI: ${{ secrets.PF2E_URI }}
+          envkey_API_5E_URI: ${{ secrets.API_5E_URI }}
+          envkey_API_URI: ${{ secrets.API_URI }}
+          envkey_FLAGSMITH_URI: ${{ secrets.FLAGSMITH_URI }}
+          envkey_FLAGSMITH_API_KEY: ${{ secrets.FLAGSMITH_API_KEY }}
+          file_name: .env
+          fail_on_empty: true
+          sort_keys: false
 
       - name: Build APK
         run: flutter build apk --release --dart-define-from-file=.env
-      
-      - name: Build WEB
-        run: flutter build web --release --dart-define-from-file=.env
-      
+
       - name: Zip web
         run: zip -r web-release.zip build/web
 
@@ -72,7 +73,7 @@ jobs:
         uses: stefanzweifel/git-auto-commit-action@v5
         with:
           commit_message: "[no ci] Update release"
-          file_pattern: '*.dart *.yaml *.md'
+          file_pattern: "*.dart *.yaml *.md"
 
       - name: Release
         uses: softprops/action-gh-release@v2
