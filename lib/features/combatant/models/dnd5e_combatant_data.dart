@@ -30,7 +30,7 @@ class Dnd5eCombatantData extends CombatantData {
     return ((dex - 10) / 2).floor();
   }
 
-  double get level => rawData['cr'] ?? 0;
+  double get level => (rawData['cr'] as num? ?? 0).toDouble();
 
   String get challengeRating => rawData['challenge_rating'] ?? level.toString();
 
