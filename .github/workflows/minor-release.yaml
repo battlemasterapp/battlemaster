@@ -52,7 +52,7 @@ jobs:
           envkey_SENTRY_DSN: ${{ secrets.SENTRY_DSN }}
           envkey_PLAUSIBLE_SERVER: ${{ secrets.PLAUSIBLE_SERVER }}
           envkey_PLAUSIBLE_DOMAIN: ${{ secrets.PLAUSIBLE_DOMAIN }}
-          envkey_WIREDASH_PROJECT: ${{ vars.WIREDASH_PROJECT }}
+          envkey_WIREDASH_PROJECT: ${{ secrets.WIREDASH_PROJECT }}
           envkey_WIREDASH_SECRET: ${{ secrets.WIREDASH_SECRET }}
           envkey_PF2E_URI: ${{ secrets.PF2E_URI }}
           envkey_API_5E_URI: ${{ secrets.API_5E_URI }}
