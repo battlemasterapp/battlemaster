@@ -1,7 +1,11 @@
+import 'package:battlemaster/extensions/string_extension.dart';
 import 'package:battlemaster/features/analytics/analytics_service.dart';
 import 'package:battlemaster/features/settings/models/settings.dart';
+import 'package:battlemaster/features/settings/widgets/pf2e_bestiary_dialog.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_animate/flutter_animate.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import 'package:icons_plus/icons_plus.dart';
 import 'package:provider/provider.dart';
 
 import '../providers/system_settings_provider.dart';
@@ -17,14 +21,7 @@ class Pf2eSettingsWidget extends StatelessWidget {
         (state) => state.pf2eSettings);
     return Column(
       children: [
-        ListTile(
-          title: Text(
-            localization.pf2e_settings_title,
-            style: Theme.of(context).textTheme.headlineSmall,
-          ),
-        ),
         SwitchListTile.adaptive(
-          secondary: Icon(Icons.library_books),
           value: gameSettings.enabled,
           onChanged: (value) async {
             await systemSettings.setPF2eSettings(
@@ -36,7 +33,63 @@ class Pf2eSettingsWidget extends StatelessWidget {
               props: {'enabled': value.toString()},
             );
           },
-          title: Text(localization.pf2e_settings_bestiary_toggle),
+          title: Text(
+            localization.pf2e_settings_title,
+            style: Theme.of(context).textTheme.headlineSmall,
+          ),
+          subtitle: Text(localization.pf2e_settings_bestiary_toggle),
+        ),
+        AnimatedSwitcher(
+          duration: 300.ms,
+          switchInCurve: Curves.easeInOutCubic,
+          switchOutCurve: Curves.easeInOutCubic,
+          child:
+              gameSettings.enabled ? const _Pf2eSettings() : SizedBox.shrink(),
+        ),
+      ],
+    );
+  }
+}
+
+class _Pf2eSettings extends StatelessWidget {
+  const _Pf2eSettings();
+
+  @override
+  Widget build(BuildContext context) {
+    final localization = AppLocalizations.of(context)!;
+    final gameSettings = context.select<SystemSettingsProvider, PF2eSettings>(
+        (state) => state.pf2eSettings);
+    final selectedBestiaries = gameSettings.bestiaries
+        .map((b) => b.split('-').map((s) => s.capitalize()).join(' '))
+        .toList()
+      ..sort();
+    final bestiariesString = selectedBestiaries.join(', ');
+    final subtitle =
+        "${localization.bestiary_settings_description}\n${localization.selected_bestiaries} $bestiariesString";
+    return Column(
+      mainAxisSize: MainAxisSize.min,
+      children: [
+        ListTile(
+          leading: Icon(MingCute.book_3_fill),
+          title: Text(localization.bestiary_settings_title),
+          subtitle: Text(subtitle),
+          isThreeLine: true,
+          trailing: Icon(MingCute.right_fill),
+          onTap: () async {
+            final selected = await showDialog(
+              context: context,
+              builder: (context) => const Pf2eBestiaryDialog(),
+            );
+
+            if (selected == null) {
+              return;
+            }
+
+            // ignore: use_build_context_synchronously
+            await context.read<SystemSettingsProvider>().setPF2eSettings(
+                  gameSettings.copyWith(bestiaries: selected),
+                );
+          },
         ),
       ],
     );

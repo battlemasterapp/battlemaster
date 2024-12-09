@@ -51,6 +51,9 @@ jobs:
           echo "SENTRY_DSN=${{ secrets.SENTRY_DSN }}" >> .env
           echo "PLAUSIBLE_SERVER=${{ secrets.PLAUSIBLE_SERVER }}" >> .env
           echo "PLAUSIBLE_DOMAIN=${{ secrets.PLAUSIBLE_DOMAIN }}" >> .env
+          echo "WIREDASH_PROJECT=${{ secrets.WIREDASH_PROJECT }}" >> .env
+          echo "WIREDASH_SECRET=${{ secrets.WIREDASH_SECRET }}" >> .env
+          echo "PF2E_URI=${{ secrets.PF2E_URI }}" >> .env
 
       - name: Build APK
         run: flutter build apk --release --dart-define-from-file=.env

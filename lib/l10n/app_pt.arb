@@ -96,5 +96,9 @@
   "skip_dead_description": "Pular combatentes mortos automaticamente ao avançar a rodada",
   "skip_dead_behavior_all": "Todos",
   "skip_dead_behavior_allButPlayers": "Todos menos jogadores",
-  "skip_dead_behavior_none": "Nenhum"
+  "skip_dead_behavior_none": "Nenhum",
+  "bestiary_settings_title": "Bestiários",
+  "bestiary_settings_description": "Ative bestiários para adicionar monstros rapidamente aos combates",
+  "select_bestiaries_title": "Selecionar bestiários",
+  "selected_bestiaries": "Bestiários selecionados:"
 }
