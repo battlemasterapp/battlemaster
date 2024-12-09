@@ -539,5 +539,13 @@
   "condition_description_validation_text": "Please enter the condition's description.",
   "@condition_description_validation_text": {
     "description": "The validation text for the condition description input."
+  },
+  "made_with_love": "Made with ❤️ in 🇧🇷",
+  "@made_with_love": {
+    "description": "The message to show the app was made with love."
+  },
+  "copyright": "© Battlemaster 2024",
+  "@copyright": {
+    "description": "The message to show the app's copyright."
   }
 }
