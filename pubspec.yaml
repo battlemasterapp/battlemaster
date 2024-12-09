@@ -38,6 +38,8 @@ dependencies:
   flutter_localizations:
     sdk: flutter
   intl: any
+  icons_plus: ^5.0.0
+  ionicons: ^0.2.2
 
 dev_dependencies:
   flutter_test:
