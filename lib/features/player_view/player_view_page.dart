@@ -1,3 +1,4 @@
+import 'package:battlemaster/features/analytics/analytics_service.dart';
 import 'package:battlemaster/features/player_view/providers/player_view_notifier.dart';
 import 'package:battlemaster/features/player_view/widgets/live_view.dart';
 import 'package:flutter/material.dart';
@@ -13,6 +14,7 @@ class PlayerViewPage extends StatelessWidget {
     final localization = AppLocalizations.of(context)!;
     final liveViewState = context.watch<PlayerViewNotifier>();
     final code = liveViewState.code;
+    final analytics = context.read<AnalyticsService>();
     if (code == null || code.length < 6) {
       return Padding(
         padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
@@ -30,6 +32,7 @@ class PlayerViewPage extends StatelessWidget {
               keyboardType: TextInputType.text,
               onCompleted: (value) {
                 liveViewState.subscribe(code: value.toUpperCase());
+                analytics.logEvent('join_live_view');
               },
             ),
           ],
