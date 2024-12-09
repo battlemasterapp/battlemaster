@@ -1,4 +1,5 @@
 import 'package:battlemaster/features/settings/widgets/custom_bestiaries_settings.dart';
+import 'package:battlemaster/features/settings/widgets/pf2e_settings.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:responsive_framework/responsive_framework.dart';
@@ -23,6 +24,8 @@ class SettingsPage extends StatelessWidget {
           const CustomBestiariesSettings(),
       Tab(child: Text(localization.settings_tab_5e)):
           const Dnd5eSettingsWidget(),
+      Tab(child: Text(localization.settings_tab_pf2e)):
+          const Pf2eSettingsWidget(),
     };
 
     return DefaultTabController(

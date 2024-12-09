@@ -1,12 +1,17 @@
 import 'dart:convert';
 
 import 'package:dio/dio.dart';
+import 'package:flutter/foundation.dart';
 
 import '../../features/combatant/models/combatant.dart';
-import '../../features/combatant/models/pf2e_combatant_data.dart';
+import '../../features/combatant/models/pf2e_combatant_data/pf2e_combatant_data.dart';
 import 'bestiary_service.dart';
 
 const _baseUrl = String.fromEnvironment("PF2E_URI");
+
+List<Map<String, dynamic>> _decodeBestiaryResponse(String response) {
+  return (jsonDecode(response) as List).cast<Map<String, dynamic>>();
+}
 
 class Pf2eBestiaryService extends BestiaryService {
   final Set<String> bestiarySources;
@@ -55,9 +60,12 @@ class Pf2eBestiaryService extends BestiaryService {
         continue;
       }
       try {
-        final bestiaryResponse = await client.get("/bestiaries/$sourceUri");
-        final bestiaryData = (jsonDecode(bestiaryResponse.data) as List)
-            .cast<Map<String, dynamic>>();
+        final bestiaryResponse =
+            await client.get<String>("/bestiaries/$sourceUri");
+        final bestiaryData = await compute(
+          _decodeBestiaryResponse,
+          bestiaryResponse.data!,
+        );
         data.addAll(bestiaryData
             .map(
               (data) => Combatant.fromPf2eCombatantData(

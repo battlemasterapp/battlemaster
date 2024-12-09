@@ -1,5 +1,5 @@
 import 'package:battlemaster/features/combatant/models/combatant_type.dart';
-import 'package:battlemaster/features/combatant/models/pf2e_combatant_data.dart';
+import 'package:battlemaster/features/combatant/models/pf2e_combatant_data/pf2e_combatant_data.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 

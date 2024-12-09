@@ -42,7 +42,7 @@ PF2eSettings _$PF2eSettingsFromJson(Map<String, dynamic> json) => PF2eSettings(
       bestiaries: (json['bestiaries'] as List<dynamic>?)
               ?.map((e) => e as String)
               .toSet() ??
-          const {"npc-gallery", "pathfinder-monster-core", "rage-of-elements"},
+          const {"pathfinder-monster-core"},
     );
 
 Map<String, dynamic> _$PF2eSettingsToJson(PF2eSettings instance) =>

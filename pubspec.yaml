@@ -110,3 +110,8 @@ flutter:
   #
   # For details regarding fonts from package dependencies,
   # see https://flutter.dev/to/font-from-package
+
+  fonts:
+    - family: ActionIcons
+      fonts:
+        - asset: assets/fonts/action_icons.ttf

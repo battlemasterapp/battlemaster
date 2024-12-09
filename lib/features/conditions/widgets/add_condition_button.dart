@@ -37,6 +37,16 @@ class AddConditionButton extends StatelessWidget {
             onDeleted: () {
               onConditionsAdded?.call(conditions..remove(condition));
             },
+            onValueChanged: (value) {
+              onConditionsAdded?.call(
+                conditions.map((c) {
+                  if (c == condition) {
+                    return c.copyWith(value: value);
+                  }
+                  return c;
+                }).toList(),
+              );
+            },
           ),
         OutlinedButton.icon(
           style: OutlinedButton.styleFrom(

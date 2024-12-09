@@ -21,6 +21,13 @@ class Condition extends Equatable {
     this.value,
   });
 
+  String get label {
+    if ((value ?? 0) > 0) {
+      return '$name $value';
+    }
+    return name;
+  }
+
   factory Condition.fromCustomCondition(CustomCondition entry) => Condition(
         name: entry.name,
         description: entry.description,
@@ -31,6 +38,12 @@ class Condition extends Equatable {
         name: entry['name'] as String,
         description: entry['desc'] as String,
         engine: GameEngineType.dnd5e,
+      );
+
+  factory Condition.fromPf2e(Map<String, dynamic> entry) => Condition(
+        name: entry['name'] as String,
+        description: entry['system']?['description']?['value'] as String,
+        engine: GameEngineType.pf2e,
       );
 
   factory Condition.fromJson(Map<String, dynamic> json) =>
@@ -58,5 +71,6 @@ class Condition extends Equatable {
   List<Object?> get props => [
         name,
         description,
+        engine,
       ];
 }

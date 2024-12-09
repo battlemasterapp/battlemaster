@@ -1,4 +1,5 @@
 import 'package:battlemaster/api/providers/dnd5e_engine_provider.dart';
+import 'package:battlemaster/api/providers/pf2e_engine_provider.dart';
 import 'package:battlemaster/database/database.dart';
 import 'package:battlemaster/features/analytics/analytics_service.dart';
 import 'package:battlemaster/features/auth/providers/auth_provider.dart';
@@ -101,34 +102,42 @@ class BattlemasterApp extends StatelessWidget {
           create: (context) => EncountersProvider(context.read<AppDatabase>()),
           update: (_, __, provider) => provider!,
         ),
-        // ProxyProvider<SystemSettingsProvider, Pf2eBestiaryService>(
-        //   create: (context) {
-        //     final settings =
-        //         context.read<SystemSettingsProvider>().pf2eSettings;
-        //     return Pf2eBestiaryService(
-        //       bestiarySources: settings.enabled ? settings.bestiaries : {},
-        //     )..fetchData();
-        //   },
-        //   update: (_, settings, service) {
-        //     final settingsSources = settings.pf2eSettings.bestiaries;
-        //     final providerSources = service?.bestiarySources ?? {};
-        //     final hasChanged = !setEquals(settingsSources, providerSources);
-        //     if (hasChanged) {
-        //       return Pf2eBestiaryService(bestiarySources: settingsSources)
-        //         ..fetchData(forceRefresh: true);
-        //     }
-        //     return service!;
-        //   },
-        //   lazy: false,
-        // ),
+        ChangeNotifierProxyProvider<SystemSettingsProvider, Pf2eEngineProvider>(
+          create: (context) {
+            final settings =
+                context.read<SystemSettingsProvider>().pf2eSettings;
+            return Pf2eEngineProvider(
+              sources: settings.enabled ? settings.bestiaries : {},
+            )..fetchData();
+          },
+          update: (context, settings, service) {
+            if (settings.pf2eSettings.enabled == false) {
+              return service!;
+            }
+            final settingsSources = settings.pf2eSettings.bestiaries;
+            final providerSources = service?.sources ?? {};
+            final hasChanged = !setEquals(settingsSources, providerSources);
+            if (hasChanged) {
+              return Pf2eEngineProvider(sources: settingsSources)
+                ..fetchData(forceRefresh: true);
+            }
+            return service!;
+          },
+          lazy: false,
+        ),
         ChangeNotifierProxyProvider<SystemSettingsProvider,
             Dnd5eEngineProvider>(
           create: (context) {
             final settings =
                 context.read<SystemSettingsProvider>().dnd5eSettings;
-            return Dnd5eEngineProvider(sources: settings.sources)..fetchData();
+            return Dnd5eEngineProvider(
+              sources: settings.enabled ? settings.sources : {},
+            )..fetchData();
           },
           update: (context, settings, provider) {
+            if (settings.dnd5eSettings.enabled == false) {
+              return provider!;
+            }
             final settingsSources = settings.dnd5eSettings.sources;
             final providerSources = provider?.sources ?? {};
             final hasChanged = !setEquals(settingsSources, providerSources);
@@ -159,7 +168,7 @@ class BattlemasterApp extends StatelessWidget {
         return ToastificationWrapper(
           child: MaterialApp.router(
             routerConfig: _router,
-            title: 'BattleMaster',
+            title: 'Battlemaster',
             localizationsDelegates: AppLocalizations.localizationsDelegates,
             supportedLocales: AppLocalizations.supportedLocales,
             theme: pf2eLightTheme,

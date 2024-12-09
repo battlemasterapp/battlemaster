@@ -48,11 +48,9 @@ class PF2eSettings {
   final Set<String> bestiaries;
 
   const PF2eSettings({
-    this.enabled = false,
+    this.enabled = true,
     this.bestiaries = const {
-      "npc-gallery",
       "pathfinder-monster-core",
-      "rage-of-elements",
     },
   });
 

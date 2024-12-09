@@ -953,5 +953,75 @@
   "copied_to_clipboard": "Copied to clipboard!",
   "@copied_to_clipboard": {
     "description": "The message to show the text was copied to the clipboard."
+  },
+  "pf2e_variable_action_preposition": "to",
+  "@pf2e_variable_action_preposition": {
+    "description": "The preposition for the variable action."
+  },
+  "pf2e_creature_level": "Creature {level}",
+  "@pf2e_creature_level": {
+    "description": "The creature level.",
+    "placeholders": {
+      "level": {
+        "type": "int",
+        "example": "5"
+      }
+    }
+  },
+  "pf2e_items": "Items",
+  "@pf2e_items": {
+    "description": "The label of the items."
+  },
+  "pf2e_perception": "Perception",
+  "@pf2e_perception": {
+    "description": "The label of the perception."
+  },
+  "pf2e_fort": "Fort",
+  "@pf2e_fort": {
+    "description": "The label of the fortitude."
+  },
+  "pf2e_ref": "Ref",
+  "@pf2e_ref": {
+    "description": "The label of the reflex."
+  },
+  "pf2e_will": "Will",
+  "@pf2e_will": {
+    "description": "The label of the will."
+  },
+  "pf2e_hardness": "Hardness",
+  "@pf2e_hardness": {
+    "description": "The label of the hardness."
+  },
+  "pf2e_immunities": "Immunities",
+  "@pf2e_immunities": {
+    "description": "The label of the immunities."
+  },
+  "pf2e_resistances": "Resistances",
+  "@pf2e_resistances": {
+    "description": "The label of the resistances."
+  },
+  "pf2e_weaknesses": "Weaknesses",
+  "@pf2e_weaknesses": {
+    "description": "The label of the weaknesses."
+  },
+  "pf2e_damage": "Damage",
+  "@pf2e_damage": {
+    "description": "The label of the damage."
+  },
+  "pf2e_effects": "Effects",
+  "@pf2e_effects": {
+    "description": "The label of the effects."
+  },
+  "pf2e_condition_value_label": "Condition value",
+  "@pf2e_condition_value_label": {
+    "description": "The label of the condition value."
+  },
+  "pf2e_ac": "AC",
+  "@pf2e_ac": {
+    "description": "The label of the AC."
+  },
+  "pf2e_hp": "HP",
+  "@pf2e_hp": {
+    "description": "The label of the HP."
   }
 }
