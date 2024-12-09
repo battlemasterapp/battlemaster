@@ -82,5 +82,9 @@
   "dnd5e_legendary_actions": "Ações Lendárias",
   "dnd5e_engine_name": "5e",
   "pf2e_engine_name": "PF2e",
-  "custom_engine_name": "Personalizado"
+  "custom_engine_name": "Personalizado",
+  "settings_feedback_title": "Envie seu feedback",
+  "settings_feedback_description": "Se você tiver alguma sugestão, encontrou um bug ou deseja solicitar um recurso, envie seu feedback!",
+  "feedback_label_bug": "Relatar um bug",
+  "feedback_label_feature": "Solicitar uma funcionalidade"
 }

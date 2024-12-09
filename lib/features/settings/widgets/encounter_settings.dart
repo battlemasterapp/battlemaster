@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import 'package:icons_plus/icons_plus.dart';
 import 'package:provider/provider.dart';
 
 import '../models/initiative_roll_type.dart';
@@ -19,6 +20,7 @@ class EncounterSettings extends StatelessWidget {
           subtitle: Text(localization.encounter_settings_description),
         ),
         ListTile(
+          leading: Icon(FontAwesome.dice_d20_solid),
           title: Text(localization.initiative_roll_title),
           subtitle: Text(localization.initiative_roll_description),
           trailing: DropdownButton<InitiativeRollType>(

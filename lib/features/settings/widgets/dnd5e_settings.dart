@@ -24,6 +24,7 @@ class Dnd5eSettingsWidget extends StatelessWidget {
           ),
         ),
         SwitchListTile.adaptive(
+          secondary: Icon(Icons.library_books),
           value: gameSettings.enabled,
           onChanged: (value) async {
             await systemSettings
