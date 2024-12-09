@@ -1,6 +1,11 @@
+import 'package:battlemaster/features/encounters/providers/encounters_provider.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 
+import '../../database/database.dart';
+import '../encounter_tracker/providers/encounter_tracker_notifier.dart';
 import '../encounter_tracker/widgets/combatant_tracker_list.dart';
+import '../encounter_tracker/widgets/encounter_tracker_bar.dart';
 import '../encounters/models/encounter.dart';
 
 class GroupDetailPageParams {
@@ -21,16 +26,46 @@ class GroupDetailPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final encounter = params.encounter;
-    return Scaffold(
-      appBar: AppBar(
-        title: Text(encounter.name),
+    return ChangeNotifierProvider(
+      create: (context) => EncounterTrackerNotifier(
+        database: context.read<AppDatabase>(),
+        encounterId: params.encounter.id,
       ),
-      body: SafeArea(
-        child: CombatantTrackerList(
-          combatants: encounter.combatants,
-        ),
-      ),
+      child: Builder(builder: (context) {
+        return StreamBuilder<Encounter>(
+            stream: context.read<EncounterTrackerNotifier>().watchEncounter(),
+            builder: (context, snapshot) {
+              final encounter = snapshot.data ?? params.encounter;
+              return Scaffold(
+                appBar: AppBar(),
+                body: SafeArea(
+                  child: Column(
+                    children: [
+                      TrackerBar(
+                        displayControls: false,
+                        title: encounter.name,
+                        onTitleChanged: (value) async {
+                          await context
+                              .read<EncountersProvider>()
+                              .editEncounterName(encounter, value);
+                        },
+                      ),
+                      Expanded(
+                        child: CombatantTrackerList(
+                          combatants: encounter.combatants,
+                          onCombatantsAdded: (combatants) async {
+                            await context
+                                .read<EncountersProvider>()
+                                .addCombatants(encounter, combatants);
+                          },
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+              );
+            });
+      }),
     );
   }
 }
