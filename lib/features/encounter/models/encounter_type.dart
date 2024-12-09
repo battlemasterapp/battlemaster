@@ -1,0 +1,4 @@
+enum EncounterType {
+  encounter,
+  group,
+}
