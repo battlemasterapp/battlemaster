@@ -45,7 +45,10 @@ class _InitiativeDialogState extends State<InitiativeDialog> {
           const SizedBox(height: 16),
           TextField(
             controller: _controller,
-            keyboardType: TextInputType.number,
+            keyboardType: TextInputType.numberWithOptions(
+              signed: true,
+              decimal: true,
+            ),
             decoration: InputDecoration(
               labelText: AppLocalizations.of(context)!.initiative_input_label,
             ),

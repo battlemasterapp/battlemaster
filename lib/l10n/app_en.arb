@@ -176,9 +176,17 @@
       }
     }
   },
-  "hp_dialog_input": "Damage/Healing",
+  "hp_dialog_input": "Amount",
   "@hp_dialog_input": {
     "description": "The label of the HP dialog input."
+  },
+  "damage_button": "Damage",
+  "@damage_button": {
+    "description": "The button to damage the combatant."
+  },
+  "heal_button": "Heal",
+  "@heal_button": {
+    "description": "The button to heal the combatant."
   },
   "apply_button": "Apply",
   "@apply_button": {

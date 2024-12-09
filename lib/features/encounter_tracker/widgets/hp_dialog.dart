@@ -2,16 +2,17 @@ import 'dart:math';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
-
-import '../../combatant/models/combatant.dart';
+import 'package:icons_plus/icons_plus.dart';
 
 class HpDialog extends StatefulWidget {
   const HpDialog({
     super.key,
-    required this.combatant,
+    required this.currentHp,
+    this.maxHp = 0,
   });
 
-  final Combatant combatant;
+  final int currentHp;
+  final int maxHp;
 
   @override
   State<HpDialog> createState() => _HpDialogState();
@@ -24,11 +25,11 @@ class _HpDialogState extends State<HpDialog> {
 
   @override
   void initState() {
-    maxHp = max(widget.combatant.maxHp, 0);
+    maxHp = max(widget.maxHp, 0);
     if (maxHp == 0) {
       maxHp = 999;
     }
-    health = max(min(widget.combatant.currentHp, maxHp), 0);
+    health = max(min(widget.currentHp, maxHp), 0);
     super.initState();
   }
 
@@ -60,6 +61,7 @@ class _HpDialogState extends State<HpDialog> {
             Row(
               children: [
                 ElevatedButton.icon(
+                  key: const Key('-10-hp'),
                   style: ElevatedButton.styleFrom(
                     shape: RoundedRectangleBorder(
                       borderRadius: BorderRadius.circular(4),
@@ -67,10 +69,11 @@ class _HpDialogState extends State<HpDialog> {
                   ),
                   onPressed: () => applyModifier(-10),
                   icon: Icon(Icons.keyboard_double_arrow_left),
-                  label: Text("-10"),
+                  label: const Text("-10"),
                 ),
                 const SizedBox(width: 8),
                 ElevatedButton.icon(
+                  key: const Key('-5-hp'),
                   style: ElevatedButton.styleFrom(
                     shape: RoundedRectangleBorder(
                       borderRadius: BorderRadius.circular(4),
@@ -78,10 +81,11 @@ class _HpDialogState extends State<HpDialog> {
                   ),
                   onPressed: () => applyModifier(-5),
                   icon: Icon(Icons.keyboard_arrow_left),
-                  label: Text("-5"),
+                  label: const Text("-5"),
                 ),
                 const SizedBox(width: 8),
                 ElevatedButton.icon(
+                  key: const Key('+5-hp'),
                   style: ElevatedButton.styleFrom(
                     shape: RoundedRectangleBorder(
                       borderRadius: BorderRadius.circular(4),
@@ -89,10 +93,11 @@ class _HpDialogState extends State<HpDialog> {
                   ),
                   onPressed: () => applyModifier(5),
                   icon: Icon(Icons.keyboard_arrow_right),
-                  label: Text("+5"),
+                  label: const Text("+5"),
                 ),
                 const SizedBox(width: 8),
                 ElevatedButton.icon(
+                  key: const Key('+10-hp'),
                   style: ElevatedButton.styleFrom(
                     shape: RoundedRectangleBorder(
                       borderRadius: BorderRadius.circular(4),
@@ -100,18 +105,33 @@ class _HpDialogState extends State<HpDialog> {
                   ),
                   onPressed: () => applyModifier(10),
                   icon: Icon(Icons.keyboard_double_arrow_right),
-                  label: Text("+10"),
+                  label: const Text("+10"),
                 ),
               ],
             ),
             const SizedBox(height: 16),
             Row(
               children: [
+                ElevatedButton.icon(
+                  style: ElevatedButton.styleFrom(
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(4),
+                    ),
+                  ),
+                  onPressed: () {
+                    final value = int.tryParse(_controller.text) ?? 0;
+                    applyModifier(value * -1);
+                    _controller.clear();
+                  },
+                  icon: Icon(MingCute.heart_crack_fill),
+                  label: Text(AppLocalizations.of(context)!.damage_button),
+                ),
+                const SizedBox(width: 8),
                 Expanded(
                   child: TextField(
                     controller: _controller,
                     decoration: InputDecoration(
-                      hintText: "-15",
+                      hintText: "15",
                       label:
                           Text(AppLocalizations.of(context)!.hp_dialog_input),
                     ),
@@ -126,7 +146,7 @@ class _HpDialogState extends State<HpDialog> {
                   ),
                 ),
                 const SizedBox(width: 8),
-                ElevatedButton(
+                ElevatedButton.icon(
                   style: ElevatedButton.styleFrom(
                     shape: RoundedRectangleBorder(
                       borderRadius: BorderRadius.circular(4),
@@ -136,7 +156,8 @@ class _HpDialogState extends State<HpDialog> {
                     applyModifier(int.tryParse(_controller.text) ?? 0);
                     _controller.clear();
                   },
-                  child: Text(AppLocalizations.of(context)!.apply_button),
+                  icon: Icon(MingCute.heart_fill),
+                  label: Text(AppLocalizations.of(context)!.heal_button),
                 ),
               ],
             ),
@@ -145,7 +166,7 @@ class _HpDialogState extends State<HpDialog> {
         actions: [
           TextButton(
             onPressed: () {
-              Navigator.pop(context, widget.combatant.currentHp);
+              Navigator.pop(context, widget.currentHp);
             },
             child: Text(AppLocalizations.of(context)!.cancel_button),
           ),
