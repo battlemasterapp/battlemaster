@@ -197,5 +197,13 @@
   "roll_initiative_button": "Roll Initiative",
   "@roll_initiative_button": {
     "description": "The button to roll initiative."
+  },
+  "app_settings_title": "App Settings",
+  "@app_settings_title": {
+    "description": "The title of the app settings section."
+  },
+  "dark_mode_toggle_label": "Dark Mode",
+  "@dark_mode_toggle_label": {
+    "description": "The label of the dark mode toggle."
   }
 }
