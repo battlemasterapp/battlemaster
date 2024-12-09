@@ -70,7 +70,6 @@ jobs:
       - name: Release
         uses: softprops/action-gh-release@v2
         with:
-          prerelease: true
           name: v${{ env.VERSION }}
           tag_name: v${{ env.VERSION }}
           files: |
