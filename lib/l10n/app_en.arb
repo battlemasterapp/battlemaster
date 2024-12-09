@@ -697,5 +697,9 @@
   "undo_button": "Undo",
   "@undo_button": {
     "description": "The button to undo the last action."
+  },
+  "no_results_search": "No results found.",
+  "@no_results_search": {
+    "description": "The message to show when there are no results for the search."
   }
 }
