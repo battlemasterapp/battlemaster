@@ -206,9 +206,15 @@
   "@yes_button": {
     "description": "The button to accept the action."
   },
-  "roll_initiative_button": "Roll Initiative",
+  "roll_initiative_button": "d20 {modifier}",
   "@roll_initiative_button": {
-    "description": "The button to roll initiative."
+    "description": "The button to roll initiative.",
+    "placeholders": {
+      "modifier": {
+        "type": "String",
+        "example": "+3"
+      }
+    }
   },
   "app_settings_title": "App Settings",
   "@app_settings_title": {
