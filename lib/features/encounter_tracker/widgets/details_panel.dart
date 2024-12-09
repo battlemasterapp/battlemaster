@@ -42,7 +42,6 @@ class EncounterDetailsPanel extends StatelessWidget {
                 widthFactor: .3,
                 child: Container(
                   height: double.infinity,
-                  padding: const EdgeInsets.all(16),
                   decoration: BoxDecoration(
                     color: parchment,
                     border: Border(
@@ -53,19 +52,24 @@ class EncounterDetailsPanel extends StatelessWidget {
                     ),
                   ),
                   child: SingleChildScrollView(
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Align(
-                          alignment: Alignment.topRight,
-                          child: IconButton.outlined(
-                            color: Colors.black,
-                            onPressed: () => onClose?.call(),
-                            icon: Icon(Icons.close),
+                    child: Padding(
+                      padding: const EdgeInsets.symmetric(
+                          horizontal: 16, vertical: 8),
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Align(
+                            alignment: Alignment.topRight,
+                            child: IconButton.outlined(
+                              color: Colors.black,
+                              onPressed: () => onClose?.call(),
+                              icon: Icon(Icons.close),
+                            ),
                           ),
-                        ),
-                        CombatantDetails(combatant: combatant!),
-                      ],
+                          CombatantDetails(combatant: combatant!),
+                          const SizedBox(height: 80),
+                        ],
+                      ),
                     ),
                   ),
                 ),
