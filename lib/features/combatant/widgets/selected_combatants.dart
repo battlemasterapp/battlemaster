@@ -37,6 +37,7 @@ class SelectedCombatants extends StatelessWidget {
                 final count = combatants.values.elementAt(index);
 
                 return Row(
+                  key: const Key('combatants-list-tile'),
                   mainAxisSize: MainAxisSize.max,
                   children: [
                     Text(
@@ -45,15 +46,18 @@ class SelectedCombatants extends StatelessWidget {
                     ),
                     Expanded(
                       child: Row(
+                        key: Key('${combatant.name}-count'),
                         mainAxisAlignment: MainAxisAlignment.end,
                         children: [
                           IconButton(
+                            key: const Key('remove-combatant'),
                             onPressed: () =>
                                 _updateCombatants(combatant, count - 1),
                             icon: Icon(MingCute.minus_circle_fill),
                           ),
                           Text(count.toString()),
                           IconButton(
+                            key: const Key('add-combatant'),
                             onPressed: () =>
                                 _updateCombatants(combatant, count + 1),
                             icon: Icon(MingCute.add_circle_fill),
