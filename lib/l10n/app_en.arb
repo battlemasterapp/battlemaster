@@ -634,7 +634,7 @@
   "@log_type_add_conditions": {
     "description": "The log type for adding conditions."
   },
-  "log_type_add_conditions_description": "{name} was affected by {conditions}.",
+  "log_type_add_conditions_description": "{count, plural, zero{{name} lost all conditions.} other{{name} was affected by {conditions}.}}",
   "@log_type_add_conditions_description": {
     "description": "The log description for adding conditions.",
     "placeholders": {
@@ -645,6 +645,10 @@
       "conditions": {
         "type": "String",
         "example": "Poisoned, Blinded"
+      },
+      "count": {
+        "type": "int",
+        "example": "2"
       }
     }
   },

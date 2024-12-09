@@ -133,7 +133,7 @@
   "log_type_combatant_initiative": "Iniciativa rolada",
   "log_type_combatant_initiative_description": "{name} rolou {initiative} de iniciativa",
   "log_type_add_conditions": "Condições aplicadas",
-  "log_type_add_conditions_description": "{name} recebeu as condições {conditions}",
+  "log_type_add_conditions_description": "{count, plural, zero{{name} perdeu todas as condições} one{{name} recebeu a condição {conditions}} other{{name} recebeu as condições {conditions}}}",
   "encounter_history_round_turn": "Rodada {round} - Turno {turn}",
   "encounter_history": "Histórico do combate",
   "delete_history_button": "Apagar histórico",
