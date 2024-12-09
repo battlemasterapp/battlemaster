@@ -3,17 +3,21 @@ import 'dart:convert';
 import 'package:battlemaster/features/combatant/models/combatant.dart';
 import 'package:drift/drift.dart';
 
-class CombatantConverter extends TypeConverter<Combatant, String>
-    with JsonTypeConverter<Combatant, String> {
-  const CombatantConverter();
+class CombatantsConverter extends TypeConverter<List<Combatant>, String>
+    with JsonTypeConverter<List<Combatant>, String> {
+  const CombatantsConverter();
 
   @override
-  Combatant fromSql(String fromDb) {
-    return Combatant.fromJson(jsonDecode(fromDb) as Map<String, dynamic>);
+  List<Combatant> fromSql(String fromDb) {
+    final combatants = jsonDecode(fromDb) as List;
+    return combatants
+        .cast<Map<String, dynamic>>()
+        .map((e) => Combatant.fromJson(e))
+        .toList();
   }
 
   @override
-  String toSql(Combatant value) {
-    return jsonEncode(value.toJson());
+  String toSql(List<Combatant> value) {
+    return jsonEncode(value.map((e) => e.toJson()).toList());
   }
 }
