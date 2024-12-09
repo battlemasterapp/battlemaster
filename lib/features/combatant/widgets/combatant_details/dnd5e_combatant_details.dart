@@ -70,6 +70,14 @@ class Dnd5eCombatantDetails extends StatelessWidget {
           title: localization.dnd5e_actions,
         ),
         _CombatantAbility(
+          abilities: combatant.bonusActions,
+          title: localization.dnd5e_bonus_actions,
+        ),
+        _CombatantAbility(
+          abilities: combatant.reactions,
+          title: localization.dnd5e_reactions,
+        ),
+        _CombatantAbility(
           abilities: combatant.legendaryActions,
           title: localization.dnd5e_legendary_actions,
           description: combatant.legendaryDescription,

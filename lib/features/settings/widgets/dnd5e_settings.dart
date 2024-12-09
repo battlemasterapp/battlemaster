@@ -1,8 +1,10 @@
 import 'package:async/async.dart';
 import 'package:battlemaster/api/providers/dnd5e_engine_provider.dart';
 import 'package:battlemaster/api/providers/game_engine_provider.dart';
+import 'package:battlemaster/extensions/string_extension.dart';
 import 'package:battlemaster/features/analytics/analytics_service.dart';
 import 'package:battlemaster/features/settings/models/settings.dart';
+import 'package:battlemaster/features/settings/widgets/dnd5e_bestiary_dialog.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_animate/flutter_animate.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
@@ -59,8 +61,18 @@ class _Dnd5eSettings extends StatelessWidget {
   Widget build(BuildContext context) {
     final localization = AppLocalizations.of(context)!;
     final engineProvider = context.watch<Dnd5eEngineProvider>();
+    final gameSettings = context.select<SystemSettingsProvider, Dnd5eSettings>(
+        (state) => state.dnd5eSettings);
     final loadingData =
         engineProvider.currentStatus == GameEngineProviderStatus.loading;
+
+    final selectedBestiaries = gameSettings.sources
+        .map((b) => b.split('-').map((s) => s.capitalize()).join(' '))
+        .toList()
+      ..sort();
+    final bestiariesString = selectedBestiaries.join(', ');
+    final subtitle =
+        "${localization.bestiary_settings_description}\n${localization.selected_bestiaries} $bestiariesString";
     return Column(
       mainAxisSize: MainAxisSize.min,
       children: [
@@ -76,6 +88,27 @@ class _Dnd5eSettings extends StatelessWidget {
                   }),
                   child: Text(localization.reload_button),
                 ),
+        ),
+        ListTile(
+          leading: Icon(MingCute.book_3_fill),
+          title: Text(localization.bestiary_settings_title),
+          subtitle: Text(subtitle),
+          trailing: Icon(MingCute.right_fill),
+          onTap: () async {
+            final sources = await showDialog(
+              context: context,
+              builder: (context) => const Dnd5eBestiaryDialog(),
+            );
+
+            if (sources == null) {
+              return;
+            }
+
+            // ignore: use_build_context_synchronously
+            await context.read<SystemSettingsProvider>().set5eSettings(
+                  gameSettings.copyWith(sources: sources),
+                );
+          },
         ),
       ],
     );
