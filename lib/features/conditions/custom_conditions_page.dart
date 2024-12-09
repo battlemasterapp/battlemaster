@@ -1,4 +1,5 @@
 import 'package:battlemaster/database/database.dart';
+import 'package:battlemaster/features/analytics/analytics_service.dart';
 import 'package:battlemaster/features/conditions/providers/conditions_provider.dart';
 import 'package:battlemaster/features/conditions/widgets/create_condition_dialog.dart';
 import 'package:flutter/material.dart';
@@ -12,6 +13,8 @@ class CustomConditionsPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final localization = AppLocalizations.of(context)!;
+    final conditionsProvider = context.read<ConditionsProvider>();
+    final analyticsService = context.read<AnalyticsService>();
     return Scaffold(
       appBar: AppBar(
         title: Text(localization.custom_conditions_title),
@@ -28,13 +31,13 @@ class CustomConditionsPage extends StatelessWidget {
             return;
           }
 
-          // ignore: use_build_context_synchronously
-          await context.read<ConditionsProvider>().addCondition(condition);
+          await conditionsProvider.addCondition(condition);
+          await analyticsService.logEvent('condition_created');
         },
       ),
       body: SafeArea(
         child: StreamBuilder<List<CustomCondition>>(
-            stream: context.read<ConditionsProvider>().watchConditions(),
+            stream: conditionsProvider.watchConditions(),
             builder: (context, snapshot) {
               if (snapshot.connectionState == ConnectionState.waiting) {
                 return Center(
@@ -80,8 +83,7 @@ class CustomConditionsPage extends StatelessWidget {
                                     child: IconButton(
                                       icon: Icon(MingCute.delete_2_fill),
                                       onPressed: () async {
-                                        await context
-                                            .read<ConditionsProvider>()
+                                        await conditionsProvider
                                             .deleteCondition(condition);
                                       },
                                     ),
