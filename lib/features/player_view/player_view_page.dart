@@ -30,9 +30,9 @@ class PlayerViewPage extends StatelessWidget {
             Pinput(
               length: 6,
               keyboardType: TextInputType.text,
-              onCompleted: (value) {
+              onCompleted: (value) async {
                 liveViewState.subscribe(code: value.toUpperCase());
-                analytics.logEvent('join_live_view');
+                await analytics.logEvent('join_live_view');
               },
             ),
           ],
