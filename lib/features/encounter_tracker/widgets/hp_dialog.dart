@@ -109,7 +109,6 @@ class _HpDialogState extends State<HpDialog> {
               children: [
                 Expanded(
                   child: TextField(
-                    autofocus: true,
                     controller: _controller,
                     decoration: InputDecoration(
                       hintText: "-15",
