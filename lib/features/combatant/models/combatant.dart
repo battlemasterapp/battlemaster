@@ -12,7 +12,7 @@ class Combatant extends Equatable {
   final String name;
   final int currentHp;
   final int maxHp;
-  final int initiative;
+  final double initiative;
   final int armorClass;
   final int initiativeModifier;
   final int? level;
@@ -47,7 +47,7 @@ class Combatant extends Equatable {
     String? name,
     int? currentHp,
     int? maxHp,
-    int? initiative,
+    double? initiative,
     int? armorClass,
     int? initiativeModifier,
     int? level,

@@ -1,8 +1,13 @@
+import 'dart:math';
+
+import 'package:battlemaster/features/settings/providers/system_settings_provider.dart';
 import 'package:flutter/material.dart';
 
 import '../../../database/database.dart';
+import '../../combatant/models/combatant_type.dart';
 import '../../encounters/models/encounter.dart';
 import '../../engines/models/game_engine_type.dart';
+import '../../settings/models/initiative_roll_type.dart';
 
 enum EncounterTrackerStatus {
   stopped,
@@ -11,12 +16,15 @@ enum EncounterTrackerStatus {
 
 class EncounterTrackerNotifier extends ChangeNotifier {
   final AppDatabase _database;
+  final SystemSettings _settings;
   final int encounterId;
 
   EncounterTrackerNotifier({
     required AppDatabase database,
+    required SystemSettings settings,
     required this.encounterId,
-  }) : _database = database {
+  })  : _database = database,
+        _settings = settings {
     watchEncounter().listen((encounter) {
       debugPrint('Encounter updated: $encounter');
       _encounter = encounter;
@@ -54,12 +62,43 @@ class EncounterTrackerNotifier extends ChangeNotifier {
   Future<void> playStop() async {
     if (_status == EncounterTrackerStatus.stopped) {
       _status = EncounterTrackerStatus.playing;
+      await _rollInitiative();
     } else {
       _status = EncounterTrackerStatus.stopped;
     }
     _activeCombatantIndex = 0;
     _round = 1;
     notifyListeners();
+  }
+
+  Future<void> _rollInitiative() async {
+    if (_settings.rollType == InitiativeRollType.manual) {
+      return;
+    }
+
+    final combatants = _encounter.combatants.map((c) {
+      final roll = Random().nextInt(20) + 1 + c.initiativeModifier;
+      if (_settings.rollType == InitiativeRollType.monstersOnly) {
+        if (c.type != CombatantType.monster) {
+          return c;
+        }
+      }
+      return c.copyWith(initiative: roll.toDouble());
+    }).toList()
+      ..sort((a, b) => b.initiative.compareTo(a.initiative));
+    await _database
+        .updateEncounter(_encounter.copyWith(combatants: combatants));
+  }
+
+  Future<void> reorderCombatants(int oldIndex, int newIndex) async {
+    final combatants = _encounter.combatants;
+    if (oldIndex < newIndex) {
+      newIndex -= 1;
+    }
+    final item = combatants.removeAt(oldIndex);
+    combatants.insert(newIndex, item);
+    await _database
+        .updateEncounter(_encounter.copyWith(combatants: combatants));
   }
 
   void nextRound() {

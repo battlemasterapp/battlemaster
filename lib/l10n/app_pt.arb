@@ -28,5 +28,13 @@
   "hp_label": "Pontos de Vida (PV)",
   "ac_label": "Classe de Armadura (CA)",
   "initiative_modifier_label": "Modificador de Iniciativa",
-  "empty_combatants_list": "Não há combatentes aqui. Tente adicionar alguns!"
+  "empty_combatants_list": "Não há combatentes aqui. Tente adicionar alguns!",
+  "encounter_settings_title": "Configurações do combate",
+  "encounter_settings_description": "Defina o comportamento do sistema durante o combate",
+  "initiative_roll_title": "Rolar iniciativa",
+  "initiative_roll_description": "Selecione como o sistema rola iniciativa: manual, apenas para monstros ou todos os combatentes",
+  "initiative_roll_type_manual": "Manual",
+  "initiative_roll_type_monstersOnly": "Apenas monstros",
+  "initiative_roll_type_all": "Todos",
+  "initiative_input_label": "Iniciativa"
 }

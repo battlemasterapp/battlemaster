@@ -31,6 +31,26 @@ class EncountersProvider extends ChangeNotifier {
     await _database.updateEncounter(encounter.copyWith(name: name));
   }
 
+  Future<void> editCombatant(
+    Encounter encounter,
+    Combatant combatant,
+    int index,
+  ) async {
+    final combatants = encounter.combatants
+      ..replaceRange(
+        index,
+        index + 1,
+        [combatant],
+      );
+    final updated = encounter.copyWith(
+      combatants: combatants
+        ..sort(
+          (a, b) => b.initiative.compareTo(a.initiative),
+        ),
+    );
+    await _database.updateEncounter(updated);
+  }
+
   Future<void> addCombatants(
     Encounter encounter,
     Map<Combatant, int> combatantsMap,
