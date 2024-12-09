@@ -27,6 +27,7 @@ class PlayerViewPage extends StatelessWidget {
             const SizedBox(height: 16),
             Pinput(
               length: 6,
+              keyboardType: TextInputType.text,
               onCompleted: (value) {
                 liveViewState.subscribe(code: value.toUpperCase());
               },
