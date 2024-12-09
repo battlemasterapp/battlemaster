@@ -54,6 +54,10 @@ jobs:
           echo "WIREDASH_PROJECT=${{ secrets.WIREDASH_PROJECT }}" >> .env
           echo "WIREDASH_SECRET=${{ secrets.WIREDASH_SECRET }}" >> .env
           echo "PF2E_URI=${{ secrets.PF2E_URI }}" >> .env
+          echo "API_5E_URI=${{ secrets.API_5E_URI }}" >> .env
+          echo "API_URI=${{ secrets.API_URI }}" >> .env
+          echo "FLAGSMTIH_URI=${{ secrets.FLAGSMITH_URI }}" >> .env
+          echo "FLAGSMITH_API_KEY=${{ secrets.FLAGSMITH_API_KEY }}" >> .env
 
       - name: Build APK
         run: flutter build apk --release --dart-define-from-file=.env

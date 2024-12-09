@@ -1,9 +1,12 @@
 import 'package:battlemaster/features/analytics/analytics_service.dart';
+import 'package:battlemaster/features/auth/providers/auth_provider.dart';
+import 'package:battlemaster/features/encounter_tracker/providers/share_encounter_notifier.dart';
 import 'package:battlemaster/features/encounter_tracker/widgets/combatant_tracker_list.dart';
+import 'package:battlemaster/features/encounter_tracker/widgets/encounter_code_dialog.dart';
 import 'package:battlemaster/features/encounter_tracker/widgets/encounter_history/encounter_history.dart';
 import 'package:battlemaster/features/encounter_tracker/widgets/encounter_tracker_controls.dart';
+import 'package:battlemaster/features/encounter_tracker/widgets/go_live_button.dart';
 import 'package:battlemaster/features/encounters/models/encounter.dart';
-import 'package:battlemaster/features/encounters/providers/encounters_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:icons_plus/icons_plus.dart';
@@ -26,17 +29,34 @@ class EncounterTrackerPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final encountersProvider = context.read<EncountersProvider>();
     final analytics = context.read<AnalyticsService>();
-    return ChangeNotifierProvider(
-      create: (context) => EncounterTrackerNotifier(
-        database: context.read<AppDatabase>(),
-        settings: context.read<SystemSettingsProvider>(),
-        encounterId: encounterId,
-      ),
+    final settings = context.read<SystemSettingsProvider>();
+    return MultiProvider(
+      providers: [
+        ChangeNotifierProxyProvider<AuthProvider, ShareEncounterNotifier>(
+          create: (context) => ShareEncounterNotifier(
+            authProvider: context.read<AuthProvider>(),
+            encounterId: encounterId,
+            reconnect: settings.encounterSettings.liveEncounterSettings.enabled,
+          ),
+          update: (_, auth, notifier) => notifier!..authProvider = auth,
+        ),
+        ChangeNotifierProxyProvider<ShareEncounterNotifier,
+            EncounterTrackerNotifier>(
+          create: (context) => EncounterTrackerNotifier(
+            database: context.read<AppDatabase>(),
+            settings: context.read<SystemSettingsProvider>(),
+            encounterId: encounterId,
+            shareEncounterNotifier: context.read<ShareEncounterNotifier>(),
+          ),
+          update: (_, share, tracker) =>
+              tracker!..shareEncounterNotifier = share,
+        ),
+      ],
       child: Builder(
         builder: (context) {
           final trackerState = context.watch<EncounterTrackerNotifier>();
+          final shareState = context.watch<ShareEncounterNotifier>();
           return StreamBuilder<Encounter>(
             stream: trackerState.watchEncounter(),
             builder: (context, snapshot) {
@@ -56,6 +76,29 @@ class EncounterTrackerPage extends StatelessWidget {
                   title: Text(AppLocalizations.of(context)!
                       .encounter_tracker_page_title),
                   actions: [
+                    if (settings
+                        .encounterSettings.liveEncounterSettings.enabled)
+                      GoLiveButton(
+                        onPressed: () async {
+                          final code = await shareState.toggleLive(
+                            encounter,
+                            flags: settings
+                                .encounterSettings.liveEncounterSettings.flags,
+                          );
+                          if (code != null) {
+                            await showDialog(
+                              // ignore: use_build_context_synchronously
+                              context: context,
+                              builder: (context) =>
+                                  EncounterCodeDialog(code: code),
+                            );
+                          }
+                          await analytics
+                              .logEvent('toggle_live_encounter', props: {
+                            'live': (!shareState.live).toString(),
+                          });
+                        },
+                      ),
                     IconButton(
                       icon: Icon(MingCute.history_2_fill),
                       onPressed: () async {
@@ -66,12 +109,12 @@ class EncounterTrackerPage extends StatelessWidget {
                           body: EncounterHistory(
                             encounter: encounter,
                             onDeleteHistory: () async {
-                              await encountersProvider.deleteHistory(encounter);
+                              await trackerState.deleteHistory();
                               await analytics
                                   .logEvent('delete_encounter_history');
                             },
                             onUndo: (log) async {
-                              await encountersProvider.undoLog(encounter, log);
+                              await trackerState.undoLog(log);
                               await analytics
                                   .logEvent('undo_encounter_log', props: {
                                 'log': log.type.toString(),
@@ -91,14 +134,12 @@ class EncounterTrackerPage extends StatelessWidget {
                       TrackerBar(
                         encounter: encounter,
                         onTitleChanged: (title) async {
-                          await context
-                              .read<EncountersProvider>()
-                              .editEncounterName(encounter, title);
+                          await trackerState.editName(title);
                         },
                         onCombatantsAdded: (combatantsMap) async {
                           await context
-                              .read<EncountersProvider>()
-                              .addCombatants(encounter, combatantsMap);
+                              .read<EncounterTrackerNotifier>()
+                              .addCombatants(combatantsMap);
                         },
                       ),
                       Expanded(
@@ -155,8 +196,8 @@ class _TrackerPageContentState extends State<_TrackerPageContent> {
               : null,
           onCombatantsAdded: (combatants) async {
             await context
-                .read<EncountersProvider>()
-                .addCombatants(widget.encounter, combatants);
+                .read<EncounterTrackerNotifier>()
+                .addCombatants(combatants);
           },
         ),
         Align(
@@ -173,9 +214,8 @@ class _TrackerPageContentState extends State<_TrackerPageContent> {
             onConditionsAdded: (conditions) async {
               final combatant = widget.encounter.combatants[combatantIndex!];
               await context
-                  .read<EncountersProvider>()
+                  .read<EncounterTrackerNotifier>()
                   .updateCombatantsConditions(
-                    widget.encounter,
                     combatant,
                     conditions,
                   );

@@ -32,6 +32,7 @@ class ConditionInfoDialog extends StatelessWidget {
       ),
       content: SingleChildScrollView(
         child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             const Divider(),
             Text(condition.description),

@@ -1,6 +1,8 @@
 import 'package:battlemaster/features/analytics/analytics_service.dart';
 import 'package:battlemaster/features/encounters/models/encounter_type.dart';
 import 'package:battlemaster/features/main_page/navigation_page.dart';
+import 'package:battlemaster/features/player_view/player_view_page.dart';
+import 'package:battlemaster/features/settings/providers/system_settings_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:icons_plus/icons_plus.dart';
@@ -23,20 +25,29 @@ class _MainPageState extends State<MainPage> {
 
   @override
   Widget build(BuildContext context) {
+    final settings = context.watch<SystemSettingsProvider>();
+    final localization = AppLocalizations.of(context)!;
+
     final pages = {
       "combats": NavigationPage(
         page: CombatsPage(type: EncounterType.encounter),
-        title: AppLocalizations.of(context)!.combats_page_title,
+        title: localization.combats_page_title,
         icon: MingCute.sword_fill,
       ),
       "groups": NavigationPage(
         page: CombatsPage(type: EncounterType.group),
-        title: AppLocalizations.of(context)!.groups_page_title,
+        title: localization.groups_page_title,
         icon: MingCute.group_fill,
       ),
+      if (settings.encounterSettings.liveEncounterSettings.enabled)
+        "live-view": NavigationPage(
+          page: const PlayerViewPage(),
+          title: localization.live_view_page_title,
+          icon: MingCute.tv_2_fill,
+        ),
       "settings": NavigationPage(
         page: SettingsPage(),
-        title: AppLocalizations.of(context)!.settings_page_title,
+        title: localization.settings_page_title,
         icon: MingCute.settings_3_fill,
       ),
     };

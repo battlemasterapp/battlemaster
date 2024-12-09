@@ -82,6 +82,8 @@ class Combatant extends Equatable {
 
   Map<String, dynamic> toJson() => _$CombatantToJson(this);
 
+  Map<String, dynamic> toShortJson() => toJson()..['combatantData'] = {};
+
   Combatant copyWith({
     String? id,
     String? name,
