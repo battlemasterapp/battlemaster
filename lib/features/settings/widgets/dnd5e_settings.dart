@@ -17,14 +17,7 @@ class Dnd5eSettingsWidget extends StatelessWidget {
         (state) => state.dnd5eSettings);
     return Column(
       children: [
-        ListTile(
-          title: Text(
-            localization.dnd5e_settings_title,
-            style: Theme.of(context).textTheme.headlineSmall,
-          ),
-        ),
         SwitchListTile.adaptive(
-          secondary: Icon(Icons.library_books),
           value: gameSettings.enabled,
           onChanged: (value) async {
             await systemSettings
@@ -35,7 +28,11 @@ class Dnd5eSettingsWidget extends StatelessWidget {
               props: {'enabled': value.toString()},
             );
           },
-          title: Text(localization.dnd5e_settings_bestiary_toggle),
+          title: Text(
+            localization.dnd5e_settings_title,
+            style: Theme.of(context).textTheme.headlineSmall,
+          ),
+          subtitle: Text(localization.dnd5e_settings_bestiary_toggle),
         ),
       ],
     );
