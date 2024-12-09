@@ -1,4 +1,6 @@
+import 'package:badges/badges.dart' as badges;
 import 'package:flutter/material.dart';
+import 'package:flutter_animate/flutter_animate.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:icons_plus/icons_plus.dart';
 
@@ -24,10 +26,23 @@ class SelectedCombatants extends StatelessWidget {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          Text(
-            AppLocalizations.of(context)!.combatants_selected,
-            style: Theme.of(context).textTheme.headlineSmall,
-          ),
+          if (combatants.isNotEmpty)
+            badges.Badge(
+              badgeContent:
+                  Text(combatants.values.reduce((a, b) => a + b).toString()),
+              badgeAnimation: badges.BadgeAnimation.fade(
+                animationDuration: 150.ms,
+              ),
+              child: Text(
+                AppLocalizations.of(context)!.combatants_selected,
+                style: Theme.of(context).textTheme.headlineSmall,
+              ),
+            ),
+          if (combatants.isEmpty)
+            Text(
+              AppLocalizations.of(context)!.combatants_selected,
+              style: Theme.of(context).textTheme.headlineSmall,
+            ),
           Expanded(
             child: ListView.separated(
               itemCount: combatants.length,

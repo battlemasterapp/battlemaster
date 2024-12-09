@@ -84,9 +84,9 @@ class _Sheet extends StatelessWidget {
         elevation: 8,
         clipBehavior: Clip.antiAlias,
         borderRadius: const BorderRadius.only(
-              topLeft: Radius.circular(25),
-              topRight: Radius.circular(25),
-            ),
+          topLeft: Radius.circular(25),
+          topRight: Radius.circular(25),
+        ),
         child: Container(
           clipBehavior: Clip.hardEdge,
           padding: const EdgeInsets.all(8),
