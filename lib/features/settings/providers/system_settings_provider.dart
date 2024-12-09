@@ -69,6 +69,7 @@ class SystemSettingsProvider extends ChangeNotifier {
       ),
     );
     await _saveSettings();
+    notifyListeners();
   }
 
   Future<bool> isFeatureEnabled(String featureKey) {
