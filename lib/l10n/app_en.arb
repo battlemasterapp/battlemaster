@@ -544,6 +544,16 @@
   "@condition_description_validation_text": {
     "description": "The validation text for the condition description input."
   },
+  "delete_condition_dialog_title": "Delete condition \"{name}\"?",
+  "@delete_condition_dialog_title": {
+    "description": "Delete condition dialog title",
+    "placeholders": {
+      "name": {
+        "type": "String",
+        "example": "Poisoned"
+      }
+    }
+  },
   "made_with_love": "Made with ❤️ in 🇧🇷",
   "@made_with_love": {
     "description": "The message to show the app was made with love."
