@@ -33,12 +33,13 @@ class TrackerBar extends StatelessWidget {
             Row(
               children: [
                 IconButton.filled(
+                  color: Theme.of(context).primaryColor,
+                  style: IconButton.styleFrom(backgroundColor: Colors.white),
                   onPressed: () {
                     trackerState.playStop();
                   },
                   icon: Icon(
                     trackerState.isPlaying ? Icons.stop : Icons.play_arrow,
-                    color: Colors.white,
                   ),
                 ),
                 const SizedBox(width: 16),

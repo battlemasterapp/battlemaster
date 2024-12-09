@@ -20,7 +20,7 @@ class AddCombatantPage extends StatefulWidget {
 }
 
 class _AddCombatantPageState extends State<AddCombatantPage> {
-  final Map<Combatant, int> _combatants = {};
+  Map<Combatant, int> _combatants = {};
 
   @override
   Widget build(BuildContext context) {
@@ -50,7 +50,16 @@ class _AddCombatantPageState extends State<AddCombatantPage> {
             Expanded(
               child: Column(
                 children: [
-                  Expanded(child: SelectedCombatants(combatants: _combatants)),
+                  Expanded(
+                    child: SelectedCombatants(
+                      combatants: _combatants,
+                      onCombatantsChanged: (combatants) {
+                        setState(() {
+                          _combatants = combatants;
+                        });
+                      },
+                    ),
+                  ),
                   Row(
                     children: [
                       Spacer(),
