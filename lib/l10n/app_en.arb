@@ -1,0 +1,17 @@
+{
+  "@@locale": "en",
+  "helloWorld": "Hello World!",
+  "@helloWorld": {
+    "description": "The conventional newborn programmer greeting"
+  },
+  "counter": "You have pushed the button {count} times:",
+  "@counter": {
+    "description": "The number of times the button has been pushed",
+    "placeholders": {
+      "count": {
+        "type": "int",
+        "example": "42"
+      }
+    }
+  }
+}

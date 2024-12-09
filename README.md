@@ -46,3 +46,12 @@ Combat has a game engine selected: 5e, pf2e or custom. The game engine defines t
 
 - flutter flavors for different versions: https://docs.flutter.dev/deployment/flavors#setting-up-launch-configurations
 - drift: https://pub.dev/packages/drift
+
+
+## Development
+
+### Generate l10n files
+
+```bash
+flutter gen-l10n
+```
