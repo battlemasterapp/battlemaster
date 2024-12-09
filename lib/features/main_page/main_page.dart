@@ -1,8 +1,10 @@
+import 'package:battlemaster/features/analytics/analytics_service.dart';
 import 'package:battlemaster/features/encounters/models/encounter_type.dart';
 import 'package:battlemaster/features/main_page/navigation_page.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:icons_plus/icons_plus.dart';
+import 'package:provider/provider.dart';
 
 import '../encounters/encounters_page.dart';
 import '../settings/settings_page.dart';
@@ -53,11 +55,7 @@ class _MainPageState extends State<MainPage> {
               ? MainDrawer(
                   selectedPage: _selectedPage,
                   pages: pages,
-                  onPageSelected: (page) {
-                    setState(() {
-                      _selectedPage = page;
-                    });
-                  },
+                  onPageSelected: (page) => _changePage(page),
                 )
               : null,
           body: SafeArea(
@@ -71,11 +69,9 @@ class _MainPageState extends State<MainPage> {
                         backgroundColor: Colors.grey.withOpacity(.2),
                         selectedIndex:
                             pages.keys.toList().indexOf(_selectedPage),
-                        onDestinationSelected: (index) {
-                          setState(() {
-                            _selectedPage = pages.keys.toList()[index];
-                          });
-                        },
+                        onDestinationSelected: (index) => _changePage(
+                          pages.keys.toList()[index],
+                        ),
                         labelType: NavigationRailLabelType.all,
                         indicatorColor: Theme.of(context).primaryColor,
                         unselectedIconTheme: IconThemeData(
@@ -107,6 +103,16 @@ class _MainPageState extends State<MainPage> {
           ),
         );
       },
+    );
+  }
+
+  void _changePage(String page) {
+    setState(() {
+      _selectedPage = page;
+    });
+    context.read<AnalyticsService>().logEvent(
+      'change_page',
+      props: {'page': _selectedPage},
     );
   }
 }

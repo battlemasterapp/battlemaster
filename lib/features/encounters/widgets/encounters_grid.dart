@@ -1,3 +1,4 @@
+import 'package:battlemaster/features/analytics/analytics_service.dart';
 import 'package:battlemaster/features/encounter_tracker/encounter_tracker_page.dart';
 import 'package:battlemaster/features/encounters/providers/encounters_provider.dart';
 import 'package:battlemaster/features/engines/models/game_engine_type.dart';
@@ -41,7 +42,7 @@ class EncountersGrid extends StatelessWidget {
             onPressed: () async {
               // Fixme: hardcoded encounter
               final encounter = Encounter(
-                name: "New Encounter",
+                name: AppLocalizations.of(context)!.new_encounter_name,
                 type: type,
                 combatants: [],
                 engine: GameEngineType.pf2e,
@@ -49,6 +50,11 @@ class EncountersGrid extends StatelessWidget {
               final created = await context
                   .read<EncountersProvider>()
                   .addEncounter(encounter);
+              // ignore: use_build_context_synchronously
+              await context.read<AnalyticsService>().logEvent(
+                'create-encounter',
+                props: {'type': type.toString()},
+              );
 
               if (type == EncounterType.encounter) {
                 // ignore: use_build_context_synchronously
