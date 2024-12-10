@@ -23,7 +23,7 @@ class SystemSettingsProvider extends ChangeNotifier {
                 Flag.seed(LiveEncounterSettings.featureKey, enabled: true),
               ],
               config: FlagsmithConfig(
-                baseURI: const String.fromEnvironment('FLAGSMTIH_URI'),
+                baseURI: const String.fromEnvironment('FLAGSMITH_URI'),
                 isDebug: kDebugMode,
                 enableAnalytics: true,
                 enableRealtimeUpdates: true,
