@@ -146,7 +146,7 @@ class EncounterTrackerNotifier extends ChangeNotifier {
     await _database.updateEncounter(_encounter.copyWith(
       combatants: _encounter.combatants.map((c) {
         if (c.id == combatant.id) {
-          return c.copyWith(combatantData: data);
+          return c.updateCombatantData(data);
         }
         return c;
       }).toList(),

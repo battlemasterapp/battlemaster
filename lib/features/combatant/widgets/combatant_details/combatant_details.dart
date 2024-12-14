@@ -70,6 +70,10 @@ class CombatantDetails extends StatelessWidget {
   String getName(BuildContext context) {
     final localization = AppLocalizations.of(context)!;
 
+    if (combatant.combatantData == null) {
+      return combatant.name;
+    }
+
     if (combatant.engineType == GameEngineType.pf2e) {
       return '${(combatant.combatantData as Pf2eCombatantData).template.translate(localization)} ${combatant.name}'
           .trim();

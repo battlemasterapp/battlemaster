@@ -1,3 +1,5 @@
+import 'dart:math';
+
 import 'package:battlemaster/common/fonts/action_font.dart';
 import 'package:battlemaster/extensions/int_extensions.dart';
 import 'package:battlemaster/features/combatant/models/pf2e_combatant_data/pf2e_attack.dart';
@@ -31,7 +33,7 @@ class Pf2eCombatantData extends CombatantData {
 
   int get hp {
     final baseValue = rawData['system']?['attributes']?['hp']?['value'] ?? 0;
-    return baseValue + template.healthModifier(baseLevel);
+    return max(1, baseValue + template.healthModifier(baseLevel));
   }
 
   String get hpDetails =>

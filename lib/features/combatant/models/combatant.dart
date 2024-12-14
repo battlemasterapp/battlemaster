@@ -1,3 +1,5 @@
+import 'dart:math';
+
 import 'package:battlemaster/features/combatant/models/combatant_data.dart';
 import 'package:battlemaster/features/combatant/models/pf2e_combatant_data/pf2e_combatant_data.dart';
 import 'package:battlemaster/features/conditions/models/condition.dart';
@@ -49,6 +51,16 @@ class Combatant extends Equatable {
 
   bool get isPlayer => type == CombatantType.player;
 
+  factory Combatant.fromCombatantData(CombatantData data) {
+    if (data is Pf2eCombatantData) {
+      return Combatant.fromPf2eCombatantData(data);
+    }
+    if (data is Dnd5eCombatantData) {
+      return Combatant.from5eCombatantData(data);
+    }
+    throw UnimplementedError();
+  }
+
   factory Combatant.fromPf2eCombatantData(Pf2eCombatantData data) {
     return Combatant(
       name: data.name,
@@ -84,6 +96,16 @@ class Combatant extends Equatable {
 
   Map<String, dynamic> toShortJson() => toJson()..['combatantData'] = {};
 
+  Combatant updateCombatantData(CombatantData data) {
+    final updated = Combatant.fromCombatantData(data);
+    return updated.copyWith(
+      id: id,
+      currentHp: min(currentHp, updated.maxHp),
+      conditions: conditions,
+      initiative: initiative,
+    );
+  }
+
   Combatant copyWith({
     String? id,
     String? name,
@@ -95,7 +117,6 @@ class Combatant extends Equatable {
     double? level,
     CombatantType? type,
     GameEngineType? engineType,
-    CombatantData? combatantData,
     List<Condition>? conditions,
   }) {
     return Combatant(
@@ -109,8 +130,8 @@ class Combatant extends Equatable {
       level: level ?? this.level,
       type: type ?? this.type,
       engineType: engineType ?? this.engineType,
-      combatantData: combatantData ?? this.combatantData,
       conditions: conditions ?? this.conditions,
+      combatantData: combatantData,
     );
   }
 
