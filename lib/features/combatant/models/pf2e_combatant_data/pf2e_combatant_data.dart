@@ -13,13 +13,13 @@ part 'pf2e_combatant_data.g.dart';
 
 @JsonSerializable()
 class Pf2eCombatantData extends CombatantData {
-  Pf2eTemplate _template;
+  Pf2eTemplate template;
 
   Pf2eCombatantData({
     super.rawData,
     super.engine = GameEngineType.pf2e,
-    Pf2eTemplate template = Pf2eTemplate.normal,
-  }) : _template = template;
+    this.template = Pf2eTemplate.normal,
+  });
 
   factory Pf2eCombatantData.fromJson(Map<String, dynamic> json) =>
       _$Pf2eCombatantDataFromJson(json);
@@ -27,15 +27,11 @@ class Pf2eCombatantData extends CombatantData {
   @override
   Map<String, dynamic> toJson() => _$Pf2eCombatantDataToJson(this);
 
-  Pf2eTemplate get template => _template;
-
-  set template(Pf2eTemplate template) => _template = template;
-
   String get name => rawData['name'] ?? "";
 
   int get hp {
     final baseValue = rawData['system']?['attributes']?['hp']?['value'] ?? 0;
-    return baseValue + _template.healthModifier(baseLevel);
+    return baseValue + template.healthModifier(baseLevel);
   }
 
   String get hpDetails =>
@@ -45,7 +41,7 @@ class Pf2eCombatantData extends CombatantData {
 
   int get ac {
     final baseValue = rawData['system']?['attributes']?['ac']?['value'] ?? 0;
-    return baseValue + _template.attributeModifier;
+    return baseValue + template.attributeModifier;
   }
 
   String get acDetails =>
@@ -56,7 +52,7 @@ class Pf2eCombatantData extends CombatantData {
   int get baseLevel => rawData['system']?['details']?['level']?['value'] ?? 0;
 
   int get level {
-    return baseLevel + _template.levelModifier;
+    return baseLevel + template.levelModifier;
   }
 
   String get source =>
@@ -88,7 +84,7 @@ class Pf2eCombatantData extends CombatantData {
   int get perception {
     final value = rawData["system"]?["perception"]?["mod"] ?? 0;
 
-    return value + _template.attributeModifier;
+    return value + template.attributeModifier;
   }
 
   List<Pf2eSense> get otherSenses {
@@ -135,12 +131,12 @@ class Pf2eCombatantData extends CombatantData {
 
     final skills = <String, int>{};
     for (final skill in rawSkillsMap.entries) {
-      skills[skill.key] = skill.value["base"] + _template.attributeModifier;
+      skills[skill.key] = skill.value["base"] + template.attributeModifier;
     }
     for (final lore in loreEntries) {
       final loreName = lore["name"];
       final loreValue = lore["system"]?["mod"]?["value"] ?? 0;
-      skills[loreName] = loreValue + _template.attributeModifier;
+      skills[loreName] = loreValue + template.attributeModifier;
     }
 
     return skills.entries.map((entry) {
@@ -223,17 +219,17 @@ class Pf2eCombatantData extends CombatantData {
 
   int get fortitude {
     final value = rawData["system"]?["saves"]?["fortitude"]?["value"] ?? 0;
-    return value + _template.attributeModifier;
+    return value + template.attributeModifier;
   }
 
   int get reflex {
     final value = rawData["system"]?["saves"]?["reflex"]?["value"] ?? 0;
-    return value + _template.attributeModifier;
+    return value + template.attributeModifier;
   }
 
   int get will {
     final value = rawData["system"]?["saves"]?["will"]?["value"] ?? 0;
-    return value + _template.attributeModifier;
+    return value + template.attributeModifier;
   }
 
   List<String> get immunities =>

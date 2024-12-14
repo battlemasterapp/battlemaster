@@ -110,11 +110,10 @@ class _Templates extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    // FIXME: textos
     final localization = AppLocalizations.of(context)!;
     final templates = Pf2eTemplate.values.fold<Map<Pf2eTemplate, String>>({}, (map, value) {
       final name = value.translate(localization);
-      return map..[value] = name.isEmpty ? 'Normal' : name;
+      return map..[value] = name.isEmpty ? localization.pf2e_template_normal : name;
     });
     return ToggleButtons(
       borderRadius: BorderRadius.all(Radius.circular(8)),
@@ -385,6 +384,7 @@ class _RecallKnowledge extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final localization = AppLocalizations.of(context)!;
     // FIXME: textos
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
@@ -392,15 +392,15 @@ class _RecallKnowledge extends StatelessWidget {
         BasicAbility(
           // recordar conhecimento
           boldText:
-              "Recall Knowledge (${combatant.recallKnowledge.skills.join(', ')}): ",
-          text: "DC ${combatant.recallKnowledge.dc}",
+              "${localization.pf2e_recall_knowledge} (${combatant.recallKnowledge.skills.join(', ')}): ",
+          text: "${localization.difficulty_class_min} ${combatant.recallKnowledge.dc}",
         ),
         BasicAbility(
-          boldText: "Unspecific Lore: ",
+          boldText: "${localization.pf2e_unespecific_lore}: ",
           text: "${combatant.recallKnowledge.unspecificDC}",
         ),
         BasicAbility(
-          boldText: "Specific Lore: ",
+          boldText: "${localization.pf2e_specific_lore}: ",
           text: "${combatant.recallKnowledge.specificDC}",
         ),
       ],

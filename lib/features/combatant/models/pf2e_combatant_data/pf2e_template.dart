@@ -63,13 +63,12 @@ extension TemplateValues on Pf2eTemplate {
 extension Translate on Pf2eTemplate {
   String translate(AppLocalizations localization) {
     switch (this) {
-      // FIXME: textos
       case Pf2eTemplate.weak:
-        return 'weak';
+        return localization.pf2e_template_weak;
       case Pf2eTemplate.normal:
         return '';
       case Pf2eTemplate.elite:
-        return 'elite';
+        return localization.pf2e_template_elite;
     }
   }
 }
