@@ -18,7 +18,6 @@ import 'package:provider/provider.dart';
 import 'package:ultimate_flutter_icons/flutter_icons.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
-
 import '../../combatant/models/combatant.dart';
 
 class TrackerTile extends StatelessWidget {
