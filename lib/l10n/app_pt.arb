@@ -60,6 +60,7 @@
   "dnd5e_settings_title": "Configurações 5e",
   "dnd5e_settings_bestiary_toggle": "Ativar bestiário",
   "armor_class": "Classe de Armadura",
+  "difficulty_class_min": "CD",
   "hit_points": "Pontos de Vida",
   "speed_label": "Deslocamento",
   "speed_ft": "{speed} ft.",
@@ -212,5 +213,11 @@
   "pf2e_effects": "Efeitos",
   "pf2e_condition_value_label": "Valor",
   "pf2e_ac": "CA",
-  "pf2e_hp": "PV"
+  "pf2e_hp": "PV",
+  "pf2e_template_weak": "Fraco",
+  "pf2e_template_normal": "Normal",
+  "pf2e_template_elite": "Elite",
+  "pf2e_recall_knowledge": "Recordar Conhecimento",
+  "pf2e_unespecific_lore": "Conhecimento não específico",
+  "pf2e_specific_lore": "Conhecimento específico"
 }

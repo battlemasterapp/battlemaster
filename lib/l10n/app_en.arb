@@ -264,6 +264,10 @@
   "@armor_class": {
     "description": "The label of the armor class."
   },
+  "difficulty_class_min": "DC",
+  "@difficulty_class_min": {
+    "description": "DC"
+  },
   "hit_points": "Hit Points",
   "@hit_points": {
     "description": "The label of the hit points."
@@ -1023,5 +1027,29 @@
   "pf2e_hp": "HP",
   "@pf2e_hp": {
     "description": "The label of the HP."
+  },
+  "pf2e_template_weak": "Weak",
+  "@pf2e_template_weak": {
+    "description": "The name for the weak template"
+  },
+  "pf2e_template_normal": "Normal",
+  "@pf2e_template_normal": {
+    "description": "The name for the normal template"
+  },
+  "pf2e_template_elite": "Elite",
+  "@pf2e_template_elite": {
+    "description": "The name for the elite template"
+  },
+  "pf2e_recall_knowledge": "Recall Knowledge",
+  "@pf2e_recall_knowledge": {
+    "description": "The recall knowledge label"
+  },
+  "pf2e_unespecific_lore": "Unespecific Lore",
+  "@pf2e_unespecific_lore": {
+    "description": "The unespecific lore label"
+  },
+  "pf2e_specific_lore": "Specific Lore",
+  "@pf2e_specific_lore": {
+    "description": "The specific lore label"
   }
 }

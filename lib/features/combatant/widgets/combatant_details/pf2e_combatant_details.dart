@@ -4,6 +4,7 @@ import 'package:battlemaster/extensions/list_extensions.dart';
 import 'package:battlemaster/extensions/string_extension.dart';
 import 'package:battlemaster/features/combatant/models/pf2e_combatant_data/pf2e_attack.dart';
 import 'package:battlemaster/features/combatant/models/pf2e_combatant_data/pf2e_combatant_data.dart';
+import 'package:battlemaster/features/combatant/models/pf2e_combatant_data/pf2e_template.dart';
 import 'package:battlemaster/features/combatant/widgets/combatant_details/basic_ability.dart';
 import 'package:battlemaster/features/combatant/widgets/combatant_details/pf2e_spellcasting_ability.dart';
 import 'package:battlemaster/features/combatant/widgets/traits.dart';
@@ -16,9 +17,11 @@ class Pf2eCombatantDetails extends StatelessWidget {
   const Pf2eCombatantDetails({
     super.key,
     required this.combatant,
+    this.onDataChanged,
   });
 
   final Pf2eCombatantData combatant;
+  final ValueChanged<Pf2eCombatantData>? onDataChanged;
 
   @override
   Widget build(BuildContext context) {
@@ -26,6 +29,13 @@ class Pf2eCombatantDetails extends StatelessWidget {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
+        _Templates(
+          combatant,
+          onTemplateChange: (template) {
+            onDataChanged?.call(combatant..template = template);
+          },
+        ),
+        const SizedBox(height: 8),
         Traits(traits: combatant.traits),
         Text(
           localization.pf2e_creature_level(combatant.level),
@@ -86,6 +96,35 @@ class Pf2eCombatantDetails extends StatelessWidget {
         const Divider(),
         _RecallKnowledge(combatant),
       ],
+    );
+  }
+}
+
+class _Templates extends StatelessWidget {
+  const _Templates(
+    this.combatant, {
+    this.onTemplateChange,
+  });
+  final Pf2eCombatantData combatant;
+  final ValueChanged<Pf2eTemplate>? onTemplateChange;
+
+  @override
+  Widget build(BuildContext context) {
+    final localization = AppLocalizations.of(context)!;
+    final templates =
+        Pf2eTemplate.values.fold<Map<Pf2eTemplate, String>>({}, (map, value) {
+      final name = value.translate(localization);
+      return map
+        ..[value] = name.isEmpty ? localization.pf2e_template_normal : name;
+    });
+    return ToggleButtons(
+      borderRadius: BorderRadius.all(Radius.circular(8)),
+      constraints: const BoxConstraints(minWidth: 80, minHeight: 30),
+      isSelected: templates.keys.map((t) => t == combatant.template).toList(),
+      onPressed: (index) {
+        onTemplateChange?.call(templates.keys.elementAt(index));
+      },
+      children: templates.values.map((t) => Text(t)).toList(),
     );
   }
 }
@@ -347,21 +386,24 @@ class _RecallKnowledge extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final localization = AppLocalizations.of(context)!;
     // FIXME: textos
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         BasicAbility(
+          // recordar conhecimento
           boldText:
-              "Recall Knowledge (${combatant.recallKnowledge.skills.join(', ')}): ",
-          text: "DC ${combatant.recallKnowledge.dc}",
+              "${localization.pf2e_recall_knowledge} (${combatant.recallKnowledge.skills.join(', ')}): ",
+          text:
+              "${localization.difficulty_class_min} ${combatant.recallKnowledge.dc}",
         ),
         BasicAbility(
-          boldText: "Unspecific Lore: ",
+          boldText: "${localization.pf2e_unespecific_lore}: ",
           text: "${combatant.recallKnowledge.unspecificDC}",
         ),
         BasicAbility(
-          boldText: "Specific Lore: ",
+          boldText: "${localization.pf2e_specific_lore}: ",
           text: "${combatant.recallKnowledge.specificDC}",
         ),
       ],
