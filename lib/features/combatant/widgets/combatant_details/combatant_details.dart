@@ -1,10 +1,14 @@
 import 'package:battlemaster/features/combatant/models/combatant.dart';
 import 'package:battlemaster/features/combatant/models/pf2e_combatant_data/pf2e_combatant_data.dart';
+import 'package:battlemaster/features/combatant/models/pf2e_combatant_data/pf2e_template.dart';
 import 'package:battlemaster/features/combatant/widgets/combatant_details/pf2e_combatant_details.dart';
 import 'package:battlemaster/features/conditions/models/condition.dart';
 import 'package:battlemaster/features/conditions/widgets/add_condition_button.dart';
+import 'package:battlemaster/features/encounter_tracker/providers/encounter_tracker_notifier.dart';
 import 'package:battlemaster/features/engines/models/game_engine_type.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import 'package:provider/provider.dart';
 
 import '../../models/dnd5e_combatant_data.dart';
 import 'custom_combatant_details.dart';
@@ -28,7 +32,7 @@ class CombatantDetails extends StatelessWidget {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Text(
-            combatant.name,
+            getName(context),
             style: Theme.of(context).textTheme.titleLarge?.copyWith(
                   color: Colors.black,
                 ),
@@ -52,9 +56,25 @@ class CombatantDetails extends StatelessWidget {
               combatant.combatantData is Pf2eCombatantData)
             Pf2eCombatantDetails(
               combatant: combatant.combatantData as Pf2eCombatantData,
+              onDataChanged: (combatantData) async {
+                final encounterState = context.read<EncounterTrackerNotifier>();
+                await encounterState.updateCombatantData(
+                    combatant, combatantData);
+              },
             )
         ],
       ),
     );
+  }
+
+  String getName(BuildContext context) {
+    final localization = AppLocalizations.of(context)!;
+
+    if (combatant.engineType == GameEngineType.pf2e) {
+      return '${(combatant.combatantData as Pf2eCombatantData).template.translate(localization)} ${combatant.name}'
+          .trim();
+    }
+
+    return combatant.name;
   }
 }

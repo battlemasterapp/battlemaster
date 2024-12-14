@@ -2,6 +2,7 @@ import 'package:battlemaster/common/fonts/action_font.dart';
 import 'package:battlemaster/extensions/int_extensions.dart';
 import 'package:battlemaster/features/combatant/models/pf2e_combatant_data/pf2e_attack.dart';
 import 'package:battlemaster/features/combatant/models/pf2e_combatant_data/pf2e_spellcasting.dart';
+import 'package:battlemaster/features/combatant/models/pf2e_combatant_data/pf2e_template.dart';
 import 'package:battlemaster/features/combatant/models/pf2e_combatant_data/recall_knowledge_entry.dart';
 import 'package:json_annotation/json_annotation.dart';
 
@@ -9,65 +10,6 @@ import '../../../engines/models/game_engine_type.dart';
 import '../combatant_data.dart';
 
 part 'pf2e_combatant_data.g.dart';
-
-enum Pf2eTemplate {
-  weak,
-  normal,
-  elite,
-}
-
-extension TemplateValues on Pf2eTemplate {
-  int get levelModifier {
-    switch (this) {
-      case Pf2eTemplate.weak:
-        return -1;
-      case Pf2eTemplate.normal:
-        return 0;
-      case Pf2eTemplate.elite:
-        return 1;
-    }
-  }
-
-  int get attributeModifier {
-    switch (this) {
-      case Pf2eTemplate.weak:
-        return -2;
-      case Pf2eTemplate.normal:
-        return 0;
-      case Pf2eTemplate.elite:
-        return 2;
-    }
-  }
-
-  int healthModifier(int baseLevel) {
-    if (this == Pf2eTemplate.normal) {
-      return 0;
-    }
-
-    final templateMap = {
-      Pf2eTemplate.weak: <int, int>{
-        2: -10,
-        5: -15,
-        20: -20,
-        100: -30,
-      },
-      Pf2eTemplate.elite: <int, int>{
-        1: 10,
-        4: 15,
-        19: 20,
-        100: 30,
-      },
-    };
-
-    final modifierMap = templateMap[this]!;
-    return modifierMap.entries
-        .firstWhere(
-          (entry) => baseLevel <= entry.key,
-          orElse: () => modifierMap.entries.last,
-        )
-        .value;
-  }
-}
 
 @JsonSerializable()
 class Pf2eCombatantData extends CombatantData {
@@ -87,7 +29,7 @@ class Pf2eCombatantData extends CombatantData {
 
   Pf2eTemplate get template => _template;
 
-  Pf2eTemplate set(Pf2eTemplate template) => _template = template;
+  set template(Pf2eTemplate template) => _template = template;
 
   String get name => rawData['name'] ?? "";
 

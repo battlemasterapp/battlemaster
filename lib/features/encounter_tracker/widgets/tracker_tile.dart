@@ -2,17 +2,22 @@ import 'dart:math';
 
 import 'package:animated_flip_counter/animated_flip_counter.dart';
 import 'package:battlemaster/features/combatant/models/combatant_type.dart';
+import 'package:battlemaster/features/combatant/models/pf2e_combatant_data/pf2e_combatant_data.dart';
+import 'package:battlemaster/features/combatant/models/pf2e_combatant_data/pf2e_template.dart';
 import 'package:battlemaster/features/conditions/widgets/conditions_list.dart';
 import 'package:battlemaster/features/encounter_tracker/providers/encounter_tracker_notifier.dart';
 import 'package:battlemaster/features/encounter_tracker/widgets/hp_dialog.dart';
 import 'package:battlemaster/features/encounter_tracker/widgets/initiative_dialog.dart';
 import 'package:battlemaster/features/encounter_tracker/widgets/remove_combatant_dialog.dart';
+import 'package:battlemaster/features/engines/models/game_engine_type.dart';
 import 'package:battlemaster/features/shared/colors.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_animate/flutter_animate.dart';
 import 'package:icons_plus/icons_plus.dart';
 import 'package:provider/provider.dart';
 import 'package:ultimate_flutter_icons/flutter_icons.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+
 
 import '../../combatant/models/combatant.dart';
 
@@ -92,7 +97,7 @@ class TrackerTile extends StatelessWidget {
                               Colors.black,
                         ),
                         const SizedBox(width: 8),
-                        Text(combatant.name),
+                        Text(getName(context)),
                         const SizedBox(width: 8),
                         _Health(
                           combatant: combatant,
@@ -161,6 +166,17 @@ class TrackerTile extends StatelessWidget {
         ),
       ),
     );
+  }
+
+  String getName(BuildContext context) {
+    final localization = AppLocalizations.of(context)!;
+
+    if (combatant.engineType == GameEngineType.pf2e) {
+      return '${(combatant.combatantData as Pf2eCombatantData).template.translate(localization)} ${combatant.name}'
+          .trim();
+    }
+
+    return combatant.name;
   }
 
   Color _getBorderColor(BuildContext context) {

@@ -2,6 +2,7 @@ import 'dart:async';
 import 'dart:math';
 
 import 'package:battlemaster/features/combatant/models/combatant.dart';
+import 'package:battlemaster/features/combatant/models/combatant_data.dart';
 import 'package:battlemaster/features/conditions/models/condition.dart';
 import 'package:battlemaster/features/encounter_tracker/providers/share_encounter_notifier.dart';
 import 'package:battlemaster/features/encounters/models/encounter_log.dart';
@@ -136,6 +137,20 @@ class EncounterTrackerNotifier extends ChangeNotifier {
 
     final updated = log.apply(_encounter);
     await _database.updateEncounter(updated);
+  }
+
+  Future<void> updateCombatantData(
+    Combatant combatant,
+    CombatantData data,
+  ) async {
+    await _database.updateEncounter(_encounter.copyWith(
+      combatants: _encounter.combatants.map((c) {
+        if (c.id == combatant.id) {
+          return c.copyWith(combatantData: data);
+        }
+        return c;
+      }).toList(),
+    ));
   }
 
   Future<void> addCombatants(Map<Combatant, int> combatantsMap) async {
