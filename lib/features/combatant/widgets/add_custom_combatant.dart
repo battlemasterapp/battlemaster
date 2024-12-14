@@ -198,14 +198,14 @@ class _GroupReminder extends StatelessWidget {
                 .read<EncountersProvider>()
                 .addEncounter(encounter);
             // ignore: use_build_context_synchronously
-            await context.read<AnalyticsService>().logEvent(
-              'create-encounter',
-              props: {'type': EncounterType.group.toString()},
-            );
-            // ignore: use_build_context_synchronously
             context.pushNamed(
               "group",
               pathParameters: {"groupId": created.id.toString()},
+            );
+            // ignore: use_build_context_synchronously
+            await context.read<AnalyticsService>().logEvent(
+              'create-encounter',
+              props: {'type': EncounterType.group.toString()},
             );
           },
           child: Text(localization.create_group_cta),

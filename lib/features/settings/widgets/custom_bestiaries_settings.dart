@@ -46,10 +46,7 @@ class CustomBestiariesSettings extends StatelessWidget {
                         try {
                           final result =
                               await bestiaryState.create(bestiaryFile);
-                          analytics.logEvent(
-                            'bestiary_imported',
-                            props: {'engine': bestiaryFile.engine.toString()},
-                          );
+
                           toastification.show(
                             type: result.hasFailed
                                 ? ToastificationType.warning
@@ -64,6 +61,10 @@ class CustomBestiariesSettings extends StatelessWidget {
                                 ? Text(localization
                                     .bestiary_import_warning_description)
                                 : null,
+                          );
+                          analytics.logEvent(
+                            'bestiary_imported',
+                            props: {'engine': bestiaryFile.engine.toString()},
                           );
                         } catch (e) {
                           Logger().e(e);
