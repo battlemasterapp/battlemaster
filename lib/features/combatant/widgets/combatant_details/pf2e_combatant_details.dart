@@ -387,7 +387,6 @@ class _RecallKnowledge extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final localization = AppLocalizations.of(context)!;
-    // FIXME: textos
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
