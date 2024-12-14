@@ -26,11 +26,43 @@ class AddCombatant extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final systemSettings = context.watch<SystemSettingsProvider>();
-    var localization = AppLocalizations.of(context)!;
     final isMobile = ResponsiveBreakpoints.of(context).isMobile;
 
-    final tabs = <Tab, Widget>{
+    return StreamBuilder<List<CustomBestiary>>(
+        stream: context.read<CustomBestiaryProvider>().watchAll(),
+        builder: (context, snapshot) {
+          final data = snapshot.data ?? [];
+          final tabs = getTabs(context, data);
+          return DefaultTabController(
+            length: tabs.length,
+            child: Padding(
+              padding: const EdgeInsets.all(8.0),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.center,
+                children: [
+                  TabBar(
+                    tabs: tabs.keys.toList(),
+                    isScrollable: isMobile && tabs.length > 3,
+                  ),
+                  const SizedBox(height: 8),
+                  Expanded(
+                    child: TabBarView(
+                      physics: NeverScrollableScrollPhysics(),
+                      children: tabs.values.toList(),
+                    ),
+                  ),
+                ],
+              ),
+            ),
+          );
+        });
+  }
+
+  Map<Tab, Widget> getTabs(
+      BuildContext context, List<CustomBestiary> customBestiaries) {
+    final systemSettings = context.watch<SystemSettingsProvider>();
+    final localization = AppLocalizations.of(context)!;
+    return <Tab, Widget>{
       if (systemSettings.dnd5eSettings.enabled)
         Tab(
           text: localization.dnd5e_toggle_button,
@@ -55,13 +87,13 @@ class AddCombatant extends StatelessWidget {
                 .logEvent('add_pf2e_combatant');
           },
         ),
-      Tab(
-        text: localization.custom_bestiary_toggle_button,
-        icon: Icon(MingCute.paw_fill),
-      ): StreamBuilder<List<CustomBestiary>>(
-          stream: context.read<CustomBestiaryProvider>().watchAll(),
-          builder: (context, snapshot) {
-            final data = snapshot.data ?? [];
+      if (customBestiaries.isNotEmpty)
+        Tab(
+          text: localization.custom_bestiary_toggle_button,
+          icon: Icon(MingCute.paw_fill),
+        ): Builder(
+          builder: (context) {
+            final data = customBestiaries;
             return AddFromBestiaryList(
               combatants: data.fold(
                 [],
@@ -75,7 +107,8 @@ class AddCombatant extends StatelessWidget {
                     .logEvent('add_custom_bestiary_combatant');
               },
             );
-          }),
+          },
+        ),
       Tab(
         text: localization.groups_toggle_button,
         icon: Icon(MingCute.group_fill),
@@ -108,28 +141,5 @@ class AddCombatant extends StatelessWidget {
         },
       ),
     };
-
-    return DefaultTabController(
-      length: tabs.length,
-      child: Padding(
-        padding: const EdgeInsets.all(8.0),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.center,
-          children: [
-            TabBar(
-              tabs: tabs.keys.toList(),
-              isScrollable: isMobile && tabs.length > 3,
-            ),
-            const SizedBox(height: 8),
-            Expanded(
-              child: TabBarView(
-                physics: NeverScrollableScrollPhysics(),
-                children: tabs.values.toList(),
-              ),
-            ),
-          ],
-        ),
-      ),
-    );
   }
 }

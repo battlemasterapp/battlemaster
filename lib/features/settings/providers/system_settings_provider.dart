@@ -26,7 +26,6 @@ class SystemSettingsProvider extends ChangeNotifier {
                 baseURI: const String.fromEnvironment('FLAGSMITH_URI'),
                 isDebug: kDebugMode,
                 enableAnalytics: true,
-                enableRealtimeUpdates: true,
               ),
             ) {
     _init();

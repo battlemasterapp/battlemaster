@@ -51,7 +51,12 @@ class Pf2eBestiaryService extends BestiaryService {
       return data;
     }
 
-    await _getAvailableSources();
+    try {
+      await _getAvailableSources();
+    } on DioException catch (e) {
+      logger.e(e);
+    }
+
     for (final source in bestiarySources) {
       logger.d('Fetching bestiary data for $source');
       final sourceUri = _availableSources[source];
@@ -78,6 +83,11 @@ class Pf2eBestiaryService extends BestiaryService {
       } on DioException catch (e) {
         logger.e(e);
       }
+    }
+
+    if (data.isEmpty && cache != null) {
+      logger.d('Request failed. Retrieving from cache');
+      data = await decodeCache(cache) ?? [];
     }
 
     data.sort((a, b) => a.name.compareTo(b.name));

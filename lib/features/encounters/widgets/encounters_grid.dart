@@ -53,7 +53,7 @@ class EncountersGrid extends StatelessWidget {
                   .read<EncountersProvider>()
                   .addEncounter(encounter);
               // ignore: use_build_context_synchronously
-              await context.read<AnalyticsService>().logEvent(
+              context.read<AnalyticsService>().logEvent(
                 'create-encounter',
                 props: {'type': type.toString()},
               );
