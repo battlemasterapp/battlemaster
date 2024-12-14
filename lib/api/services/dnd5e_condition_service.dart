@@ -61,6 +61,10 @@ class Dnd5eConditionService extends DataService<List<Condition>> {
       data.addAll(results.map(Condition.from5e));
     } on DioException catch (e) {
       logger.e(e);
+      if (cache != null) {
+        logger.d('Request failed. Retrieving from cache');
+        data = await decodeCache(cache) ?? [];
+      }
     }
 
     data.sort((a, b) => a.name.compareTo(b.name));

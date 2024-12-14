@@ -59,6 +59,10 @@ class Pf2eConditionService extends DataService<List<Condition>> {
       data.addAll(results.map(Condition.fromPf2e));
     } on DioException catch (e) {
       logger.e(e);
+      if (cache != null) {
+        logger.d('Request failed. Retrieving from cache');
+        data = await decodeCache(cache) ?? [];
+      }
     }
 
     data.sort((a, b) => a.name.compareTo(b.name));
