@@ -1,7 +1,7 @@
 name: battlemaster
 description: "A RPG battle tracker"
 publish_to: "none"
-version: 0.13.3+1
+version: 0.14.0
 
 environment:
   sdk: ^3.5.4
