@@ -66,9 +66,6 @@ jobs:
       - name: Build APK
         run: flutter build apk --release --dart-define-from-file=.env
 
-      - name: Zip web
-        run: zip -r web-release.zip build/web
-
       - name: Commit
         uses: stefanzweifel/git-auto-commit-action@v5
         with:
