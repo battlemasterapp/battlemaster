@@ -153,6 +153,17 @@ class EncounterTrackerNotifier extends ChangeNotifier {
     ));
   }
 
+  Future<void> updateCombatant(Combatant combatant) async {
+    await _database.updateEncounter(_encounter.copyWith(
+      combatants: _encounter.combatants.map((c) {
+        if (c.id == combatant.id) {
+          return combatant;
+        }
+        return c;
+      }).toList(),
+    ));
+  }
+
   Future<void> addCombatants(Map<Combatant, int> combatantsMap) async {
     if (combatantsMap.isEmpty) {
       return;

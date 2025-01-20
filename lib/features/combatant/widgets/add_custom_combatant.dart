@@ -1,3 +1,5 @@
+import 'dart:math';
+
 import 'package:battlemaster/features/analytics/analytics_service.dart';
 import 'package:battlemaster/features/encounters/models/encounter.dart';
 import 'package:battlemaster/features/encounters/models/encounter_type.dart';
@@ -12,28 +14,30 @@ import '../../engines/models/game_engine_type.dart';
 import '../models/combatant.dart';
 import '../models/combatant_type.dart';
 
-class AddCustomCombatant extends StatefulWidget {
-  const AddCustomCombatant({
+class CustomCombatantForm extends StatefulWidget {
+  const CustomCombatantForm({
     super.key,
-    this.onCombatantAdded,
+    this.onSubmit,
     this.showGroupReminder = false,
+    this.baseCombatant,
   });
 
-  final ValueChanged<Combatant>? onCombatantAdded;
+  final ValueChanged<Combatant>? onSubmit;
   final bool showGroupReminder;
+  final Combatant? baseCombatant;
 
   @override
-  State<AddCustomCombatant> createState() => _AddCustomCombatantState();
+  State<CustomCombatantForm> createState() => _CustomCombatantFormState();
 }
 
-class _AddCustomCombatantState extends State<AddCustomCombatant> {
+class _CustomCombatantFormState extends State<CustomCombatantForm> {
   final _formKey = GlobalKey<FormState>();
   late Combatant combatant;
 
   @override
   void initState() {
     super.initState();
-    combatant = _getBaseCombatant();
+    combatant = widget.baseCombatant?.copyWith() ?? _getBaseCombatant();
   }
 
   @override
@@ -49,6 +53,7 @@ class _AddCustomCombatantState extends State<AddCustomCombatant> {
               Expanded(
                 child: TextFormField(
                   keyboardType: TextInputType.name,
+                  initialValue: combatant.name,
                   decoration:
                       InputDecoration(labelText: localization.name_label),
                   onChanged: (value) {
@@ -66,11 +71,13 @@ class _AddCustomCombatantState extends State<AddCustomCombatant> {
               Expanded(
                 child: TextFormField(
                   keyboardType: TextInputType.number,
+                  initialValue:
+                      combatant.maxHp > 0 ? combatant.maxHp.toString() : null,
                   onChanged: (value) {
                     final hp = int.tryParse(value);
                     combatant = combatant.copyWith(
                       maxHp: hp,
-                      currentHp: hp,
+                      currentHp: combatant.id.isEmpty ? hp : null,
                     );
                   },
                   decoration: InputDecoration(labelText: localization.hp_label),
@@ -84,6 +91,9 @@ class _AddCustomCombatantState extends State<AddCustomCombatant> {
               Expanded(
                 child: TextFormField(
                   keyboardType: TextInputType.number,
+                  initialValue: combatant.armorClass > 0
+                      ? combatant.armorClass.toString()
+                      : null,
                   onChanged: (value) {
                     combatant =
                         combatant.copyWith(armorClass: int.tryParse(value));
@@ -94,6 +104,9 @@ class _AddCustomCombatantState extends State<AddCustomCombatant> {
               const SizedBox(width: 16),
               Expanded(
                 child: TextFormField(
+                  initialValue: combatant.initiativeModifier > 0
+                      ? combatant.initiativeModifier.toString()
+                      : null,
                   keyboardType: TextInputType.number,
                   onChanged: (value) {
                     combatant = combatant.copyWith(
@@ -145,11 +158,16 @@ class _AddCustomCombatantState extends State<AddCustomCombatant> {
                   if (!_formKey.currentState!.validate()) {
                     return;
                   }
-                  widget.onCombatantAdded?.call(combatant);
+                  if (combatant.id.isNotEmpty) {
+                    combatant = combatant.copyWith(
+                      currentHp: min(combatant.currentHp, combatant.maxHp),
+                    );
+                  }
+                  widget.onSubmit?.call(combatant);
                   _formKey.currentState!.reset();
                   combatant = _getBaseCombatant();
                 },
-                child: Text(localization.add_combatants_button),
+                child: Text(localization.save_button),
               ),
             ],
           ),
@@ -161,6 +179,7 @@ class _AddCustomCombatantState extends State<AddCustomCombatant> {
 
   Combatant _getBaseCombatant() {
     return Combatant(
+      id: '',
       name: '',
       currentHp: 0,
       maxHp: 0,

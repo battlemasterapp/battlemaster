@@ -131,9 +131,9 @@ class AddCombatant extends StatelessWidget {
       Tab(
         text: localization.custom_combatant_toggle_button,
         icon: Icon(MingCute.edit_fill),
-      ): AddCustomCombatant(
+      ): CustomCombatantForm(
         showGroupReminder: showGroupReminder,
-        onCombatantAdded: (combatant) async {
+        onSubmit: (combatant) async {
           onCombatantsAdded({combatant: 1});
           await context
               .read<AnalyticsService>()

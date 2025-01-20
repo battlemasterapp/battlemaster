@@ -1051,5 +1051,15 @@
   "pf2e_specific_lore": "Specific Lore",
   "@pf2e_specific_lore": {
     "description": "The specific lore label"
+  },
+  "edit_combatant_title": "Edit \"{name}\"",
+  "@edit_combatant_title": {
+    "description": "Edit combatant title",
+    "placeholders": {
+      "name":{
+        "type": "String",
+        "example": "Goblin"
+      }
+    }
   }
 }
