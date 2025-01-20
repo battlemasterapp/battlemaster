@@ -229,6 +229,11 @@ class _TrackerPageContentState extends State<_TrackerPageContent> {
               detailsOpen = false;
               combatantIndex = null;
             }),
+            onEdit: (combatant) async {
+              await context
+                  .read<EncounterTrackerNotifier>()
+                  .updateCombatant(combatant);
+            },
             onConditionsAdded: (conditions) async {
               final combatant = widget.encounter.combatants[combatantIndex!];
               await context

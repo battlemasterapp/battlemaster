@@ -219,5 +219,6 @@
   "pf2e_template_elite": "Elite",
   "pf2e_recall_knowledge": "Recordar Conhecimento",
   "pf2e_unespecific_lore": "Conhecimento não específico",
-  "pf2e_specific_lore": "Conhecimento específico"
+  "pf2e_specific_lore": "Conhecimento específico",
+  "edit_combatant_title": "Editar \"{name}\""
 }

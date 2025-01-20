@@ -113,7 +113,9 @@ class _CombatantTrackerListState extends State<CombatantTrackerList> {
               combatant: combatant,
               selected: index == widget.selectedCombatantIndex,
               index: index,
-              onTap: () => widget.onCombatantTap?.call(combatant, index),
+              onTap: widget.onCombatantTap != null
+                  ? () => widget.onCombatantTap?.call(combatant, index)
+                  : null,
               onRemove: () async {
                 await context
                     .read<EncounterTrackerNotifier>()

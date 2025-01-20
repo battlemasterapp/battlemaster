@@ -18,6 +18,8 @@ jobs:
 
     steps:
       - uses: actions/checkout@v4
+      - name: Install sqlite
+        run: sudo apt install -y sqlite3 libsqlite3-dev
       - name: Set Up Flutter
         uses: subosito/flutter-action@v2
         with:

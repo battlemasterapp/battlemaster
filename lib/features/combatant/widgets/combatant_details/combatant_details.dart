@@ -2,12 +2,14 @@ import 'package:battlemaster/features/combatant/models/combatant.dart';
 import 'package:battlemaster/features/combatant/models/pf2e_combatant_data/pf2e_combatant_data.dart';
 import 'package:battlemaster/features/combatant/models/pf2e_combatant_data/pf2e_template.dart';
 import 'package:battlemaster/features/combatant/widgets/combatant_details/pf2e_combatant_details.dart';
+import 'package:battlemaster/features/combatant/widgets/edit_combatant_dialog.dart';
 import 'package:battlemaster/features/conditions/models/condition.dart';
 import 'package:battlemaster/features/conditions/widgets/add_condition_button.dart';
 import 'package:battlemaster/features/encounter_tracker/providers/encounter_tracker_notifier.dart';
 import 'package:battlemaster/features/engines/models/game_engine_type.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import 'package:icons_plus/icons_plus.dart';
 import 'package:provider/provider.dart';
 
 import '../../models/dnd5e_combatant_data.dart';
@@ -19,24 +21,52 @@ class CombatantDetails extends StatelessWidget {
     super.key,
     required this.combatant,
     this.onConditionsAdded,
+    this.onEdit,
   });
 
   final Combatant combatant;
   final ValueChanged<List<Condition>>? onConditionsAdded;
+  final ValueChanged<Combatant>? onEdit;
 
   @override
   Widget build(BuildContext context) {
+    final canEdit = combatant.engineType == GameEngineType.custom;
     return DefaultTextStyle(
       style: const TextStyle(color: Colors.black),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          Text(
-            getName(context),
-            style: Theme.of(context).textTheme.titleLarge?.copyWith(
-                  color: Colors.black,
+          if (!canEdit)
+            Text(
+              getName(context),
+              style: Theme.of(context).textTheme.titleLarge?.copyWith(
+                    color: Colors.black,
+                  ),
+            ),
+          if (canEdit)
+            Row(
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                Text(
+                  getName(context),
+                  style: Theme.of(context).textTheme.titleLarge?.copyWith(
+                        color: Colors.black,
+                      ),
                 ),
-          ),
+                IconButton(
+                  onPressed: () async {
+                    await showDialog(
+                      context: context,
+                      builder: (context) => EditCombatantDialog(
+                        combatant: combatant,
+                        onEdit: (c) => onEdit?.call(c),
+                      ),
+                    );
+                  },
+                  icon: Icon(MingCute.pencil_fill),
+                ),
+              ],
+            ),
           const SizedBox(height: 4),
           AddConditionButton(
             conditions: combatant.conditions,

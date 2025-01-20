@@ -16,12 +16,14 @@ class EncounterDetailsPanel extends StatelessWidget {
     this.open = false,
     this.onClose,
     this.onConditionsAdded,
+    this.onEdit,
   });
 
   final bool open;
   final Combatant? combatant;
   final VoidCallback? onClose;
   final ValueChanged<List<Condition>>? onConditionsAdded;
+  final ValueChanged<Combatant>? onEdit;
 
   @override
   Widget build(BuildContext context) {
@@ -81,6 +83,7 @@ class EncounterDetailsPanel extends StatelessWidget {
                           CombatantDetails(
                             combatant: combatant!,
                             onConditionsAdded: onConditionsAdded,
+                            onEdit: onEdit,
                           ),
                           const SizedBox(height: 100),
                         ],
