@@ -1,3 +1,4 @@
+import 'package:battlemaster/features/encounter_tracker/widgets/details_panel.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
@@ -59,14 +60,7 @@ class GroupDetailPage extends StatelessWidget {
                         },
                       ),
                       Expanded(
-                        child: CombatantTrackerList(
-                          encounter: encounter,
-                          onCombatantsAdded: (combatants) async {
-                            await context
-                                .read<EncounterTrackerNotifier>()
-                                .addCombatants(combatants);
-                          },
-                        ),
+                        child: _GroupDetailsContent(encounter: encounter),
                       ),
                     ],
                   ),
@@ -74,6 +68,66 @@ class GroupDetailPage extends StatelessWidget {
               );
             });
       }),
+    );
+  }
+}
+
+class _GroupDetailsContent extends StatefulWidget {
+  const _GroupDetailsContent({required this.encounter});
+
+  final Encounter encounter;
+
+  @override
+  State<_GroupDetailsContent> createState() => _GroupDetailsContentState();
+}
+
+class _GroupDetailsContentState extends State<_GroupDetailsContent> {
+  int? combatantIndex;
+  bool detailsOpen = false;
+
+  @override
+  Widget build(BuildContext context) {
+    return Stack(
+      clipBehavior: Clip.none,
+      fit: StackFit.expand,
+      children: [
+        CombatantTrackerList(
+          encounter: widget.encounter,
+          onCombatantTap: (combatant, index) {
+            setState(() {
+              combatantIndex = index;
+              detailsOpen = true;
+            });
+          },
+          onCombatantsAdded: (combatants) async {
+            await context
+                .read<EncounterTrackerNotifier>()
+                .addCombatants(combatants);
+          },
+        ),
+        Align(
+          alignment: Alignment.topRight,
+          child: EncounterDetailsPanel(
+            combatant: combatantIndex != null
+                ? widget.encounter.combatants[combatantIndex!]
+                : null,
+            open: detailsOpen,
+            onClose: () => setState(() {
+              detailsOpen = false;
+              combatantIndex = null;
+            }),
+            onConditionsAdded: (conditions) async {
+              final combatant = widget.encounter.combatants[combatantIndex!];
+              await context
+                  .read<EncounterTrackerNotifier>()
+                  .updateCombatantsConditions(
+                    combatant,
+                    conditions,
+                  );
+            },
+          ),
+        ),
+      ],
     );
   }
 }
