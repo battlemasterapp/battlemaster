@@ -46,7 +46,24 @@ class __LoginState extends State<_Login> {
             constraints: BoxConstraints(maxWidth: 500),
             child: Column(
               children: [
-                if (_showLogin) const LoginForm(),
+                if (_showLogin)
+                  LoginForm(
+                    onSubmit: (email, password) async {
+                      final success = await context
+                          .read<AuthProvider>()
+                          .login(UserCredentials(email, password));
+                      if (!success) {
+                        toastification.show(
+                          type: ToastificationType.error,
+                          style: ToastificationStyle.fillColored,
+                          autoCloseDuration: 3.seconds,
+                          showProgressBar: false,
+                          title: Text("houve um erro ao entrar"),
+                          description: Text("tente novamente"),
+                        );
+                      }
+                    },
+                  ),
                 if (!_showLogin)
                   SignupForm(
                     onSubmit: (data) async {
@@ -59,7 +76,8 @@ class __LoginState extends State<_Login> {
                           autoCloseDuration: 3.seconds,
                           showProgressBar: false,
                           title: Text("houve um erro ao criar sua conta"),
-                          description: Text("faça o login ou tente novamente mais tarde"),
+                          description: Text(
+                              "faça o login ou tente novamente mais tarde"),
                         );
                       }
                     },

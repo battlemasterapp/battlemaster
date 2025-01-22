@@ -72,6 +72,7 @@ class AuthProvider extends ChangeNotifier {
           credentials.password,
         );
     _anonymousLogin = false;
+    notifyListeners();
     return true;
   }
 
