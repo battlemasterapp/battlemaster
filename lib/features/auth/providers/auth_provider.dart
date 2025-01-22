@@ -1,7 +1,7 @@
 import 'dart:io';
 
-import 'package:battlemaster/features/auth/pocketbase.dart';
 import 'package:battlemaster/features/sync/widgets/signup_form.dart';
+import 'package:battlemaster/main.dart';
 import 'package:device_info_plus/device_info_plus.dart';
 import 'package:fingerprint/fingerprint.dart';
 import 'package:flutter/foundation.dart';
