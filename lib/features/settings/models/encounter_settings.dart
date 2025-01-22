@@ -46,7 +46,7 @@ class LiveEncounterSettings {
   final bool showPlayersHealth;
 
   const LiveEncounterSettings({
-    this.featureEnabled = false,
+    this.featureEnabled = true,
     this.userEnabled = true,
     this.showMonsterHealth = true,
     this.hideFutureCombatants = true,

@@ -91,6 +91,7 @@ class __EraseDataButtonState extends State<_EraseDataButton> {
           context.read<AppDatabase>().eraseDb(),
           context.read<SystemSettingsProvider>().reset(),
           context.read<Dnd5eEngineProvider>().clearData(),
+          context.read<SystemSettingsProvider>().init(),
         ]);
         setState(() {
           _loading = false;

@@ -28,7 +28,7 @@ class SystemSettingsProvider extends ChangeNotifier {
                 enableAnalytics: true,
               ),
             ) {
-    _init();
+    init();
   }
 
   InitiativeRollType get rollType => _settings.encounterSettings.rollType;
@@ -48,15 +48,15 @@ class SystemSettingsProvider extends ChangeNotifier {
 
   EncounterSettings get encounterSettings => _settings.encounterSettings;
 
-  Future<void> _init() async {
+  Future<void> init() async {
     final preferences = await SharedPreferences.getInstance();
     final cache = jsonDecode(preferences.getString(_settingsKey) ?? '{}')
         as Map<String, dynamic>;
     if (cache.isNotEmpty) {
       _settings = Settings.fromJson(cache);
     }
-
     notifyListeners();
+
     await _flagsmithClient.initialize();
     await _flagsmithClient.getFeatureFlags(reload: true);
     _settings = _settings.copyWith(
