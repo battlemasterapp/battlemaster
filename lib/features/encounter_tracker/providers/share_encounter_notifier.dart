@@ -33,7 +33,7 @@ class ShareEncounterNotifier extends ChangeNotifier {
   Future<void> _reconnect() async {
     _logger.d('Reconnecting to live encounter');
     if (!authProvider.isAuthenticated) {
-      await authProvider.login();
+      await authProvider.login(await AnonymousCredentials.generate());
     }
     try {
       _sharedEncounter ??= await _pb.collection('live_encounters').getFirstListItem(
@@ -67,7 +67,7 @@ class ShareEncounterNotifier extends ChangeNotifier {
   }) async {
     _logger.d('Going live with encounter');
     assert(_live == false);
-    await authProvider.login();
+    await authProvider.login(await AnonymousCredentials.generate());
 
     RecordModel? sharedEncounter;
     try {

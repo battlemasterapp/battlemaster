@@ -3,6 +3,7 @@ import 'package:battlemaster/features/encounters/models/encounter_type.dart';
 import 'package:battlemaster/features/main_page/navigation_page.dart';
 import 'package:battlemaster/features/player_view/player_view_page.dart';
 import 'package:battlemaster/features/settings/providers/system_settings_provider.dart';
+import 'package:battlemaster/features/sync/sync_page.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:icons_plus/icons_plus.dart';
@@ -49,6 +50,12 @@ class _MainPageState extends State<MainPage> {
         page: SettingsPage(),
         title: localization.settings_page_title,
         icon: MingCute.settings_3_fill,
+      ),
+      "sync": NavigationPage(
+        page: SyncPage(),
+        title: "Sync",
+        // TODO: show badge if user is logged in
+        icon: MingCute.user_4_fill,
       ),
     };
 

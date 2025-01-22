@@ -42,7 +42,7 @@ class PlayerViewNotifier extends ChangeNotifier {
     }
     assert(_code != null);
 
-    await auth.login();
+    await auth.login(await AnonymousCredentials.generate());
     _state = PlayerViewState.loading;
     notifyListeners();
 
