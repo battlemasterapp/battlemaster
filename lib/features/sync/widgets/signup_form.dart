@@ -173,7 +173,7 @@ class _SignupFormState extends State<SignupForm> {
               }
               widget.onSubmit(_form);
             },
-            child: Text("Entrar"),
+            child: Text("Criar conta"),
           ),
         ],
       ),

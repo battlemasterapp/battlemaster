@@ -1,6 +1,7 @@
 import 'package:battlemaster/features/auth/providers/auth_provider.dart';
 import 'package:battlemaster/features/sync/widgets/login_form.dart';
 import 'package:battlemaster/features/sync/widgets/signup_form.dart';
+import 'package:battlemaster/features/sync/widgets/sync_status.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_animate/flutter_animate.dart';
 import 'package:provider/provider.dart';
@@ -13,7 +14,7 @@ class SyncPage extends StatelessWidget {
   Widget build(BuildContext context) {
     final authProvider = context.watch<AuthProvider>();
     if (authProvider.isAuthenticated) {
-      return Placeholder();
+      return const SyncStatus();
     }
     return const _Login();
   }
@@ -30,6 +31,7 @@ class __LoginState extends State<_Login> {
   bool _showLogin = true;
   @override
   Widget build(BuildContext context) {
+    final authProvider = context.read<AuthProvider>();
     // FIXME: textos
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 48, vertical: 8),
@@ -49,8 +51,7 @@ class __LoginState extends State<_Login> {
                 if (_showLogin)
                   LoginForm(
                     onSubmit: (email, password) async {
-                      final success = await context
-                          .read<AuthProvider>()
+                      final success = await authProvider
                           .login(UserCredentials(email, password));
                       if (!success) {
                         toastification.show(
@@ -67,8 +68,7 @@ class __LoginState extends State<_Login> {
                 if (!_showLogin)
                   SignupForm(
                     onSubmit: (data) async {
-                      final success =
-                          await context.read<AuthProvider>().signUp(data);
+                      final success = await authProvider.signUp(data);
                       if (!success) {
                         toastification.show(
                           type: ToastificationType.error,
@@ -80,6 +80,8 @@ class __LoginState extends State<_Login> {
                               "faça o login ou tente novamente mais tarde"),
                         );
                       }
+                      await authProvider
+                          .login(UserCredentials(data.email, data.password));
                     },
                   ),
                 const SizedBox(height: 8),

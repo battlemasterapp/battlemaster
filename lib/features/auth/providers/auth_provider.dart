@@ -43,6 +43,8 @@ class AuthProvider extends ChangeNotifier {
 
   bool get isAuthenticated => _pb.authStore.isValid;
 
+  bool get isAnonymous => _anonymousLogin;
+
   String get userKey => _anonymousLogin ? 'anonymousId' : 'userId';
 
   String get _userCollection => _anonymousLogin ? 'anonymous_users' : 'users';
