@@ -1,10 +1,12 @@
 import 'dart:io';
 
 import 'package:battlemaster/features/auth/pocketbase.dart';
+import 'package:battlemaster/features/sync/widgets/signup_form.dart';
 import 'package:device_info_plus/device_info_plus.dart';
 import 'package:fingerprint/fingerprint.dart';
 import 'package:flutter/foundation.dart';
 import 'package:pocketbase/pocketbase.dart';
+import 'package:sentry_flutter/sentry_flutter.dart';
 
 abstract class AuthCredentials {
   final String email;
@@ -70,6 +72,23 @@ class AuthProvider extends ChangeNotifier {
           credentials.password,
         );
     _anonymousLogin = false;
+    return true;
+  }
+
+  Future<bool> signUp(SignupData data) async {
+    try {
+      await _pb.collection("users").create(
+        body: {
+          "email": data.email,
+          "name": data.name,
+          "password": data.password,
+          "passwordConfirm": data.passwordConfirmation,
+        },
+      );
+    } catch (e) {
+      await Sentry.captureException(e);
+      return false;
+    }
     return true;
   }
 

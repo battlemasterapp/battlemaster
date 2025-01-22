@@ -46,16 +46,16 @@ class _MainPageState extends State<MainPage> {
           title: localization.live_view_page_title,
           icon: MingCute.tv_2_fill,
         ),
-      "settings": NavigationPage(
-        page: SettingsPage(),
-        title: localization.settings_page_title,
-        icon: MingCute.settings_3_fill,
-      ),
       "sync": NavigationPage(
         page: SyncPage(),
         title: "Sync",
         // TODO: show badge if user is logged in
         icon: MingCute.user_4_fill,
+      ),
+      "settings": NavigationPage(
+        page: SettingsPage(),
+        title: localization.settings_page_title,
+        icon: MingCute.settings_3_fill,
       ),
     };
 
