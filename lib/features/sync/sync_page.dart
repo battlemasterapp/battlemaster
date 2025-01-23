@@ -82,6 +82,7 @@ class __LoginState extends State<_Login> {
                           description: Text(
                               "faça o login ou tente novamente mais tarde"),
                         );
+                        return;
                       }
                       await authProvider
                           .login(UserCredentials(data.email, data.password));
