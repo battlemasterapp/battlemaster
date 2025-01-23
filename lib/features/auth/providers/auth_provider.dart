@@ -7,6 +7,7 @@ import 'package:fingerprint/fingerprint.dart';
 import 'package:flutter/foundation.dart';
 import 'package:pocketbase/pocketbase.dart';
 import 'package:sentry_flutter/sentry_flutter.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 abstract class AuthCredentials {
   final String email;
@@ -32,7 +33,6 @@ class UserCredentials extends AuthCredentials {
 
 class AuthProvider extends ChangeNotifier {
   final PocketBase _pb;
-  bool _anonymousLogin = true;
   BaseDeviceInfo? _deviceInfo;
 
   AuthProvider({
@@ -43,11 +43,11 @@ class AuthProvider extends ChangeNotifier {
 
   bool get isAuthenticated => _pb.authStore.isValid;
 
-  bool get isAnonymous => _anonymousLogin;
+  bool get isAnonymous => _pb.authStore.record?.collectionName == 'anonymous_users';
 
-  String get userKey => _anonymousLogin ? 'anonymousId' : 'userId';
+  String get userKey => isAnonymous ? 'anonymousId' : 'userId';
 
-  String get _userCollection => _anonymousLogin ? 'anonymous_users' : 'users';
+  String get _userCollection => isAnonymous ? 'anonymous_users' : 'users';
 
   Future<bool> login(AuthCredentials credentials) async {
     if (isAuthenticated) {
@@ -73,7 +73,6 @@ class AuthProvider extends ChangeNotifier {
           credentials.email,
           credentials.password,
         );
-    _anonymousLogin = false;
     notifyListeners();
     return true;
   }
@@ -167,7 +166,6 @@ class AuthProvider extends ChangeNotifier {
           credentials.password,
         );
 
-    _anonymousLogin = true;
     notifyListeners();
     return true;
   }
@@ -177,8 +175,10 @@ class AuthProvider extends ChangeNotifier {
     notifyListeners();
   }
 
-  void logout() {
+  Future<void> logout() async {
     _pb.authStore.clear();
     notifyListeners();
+    final prefs = await SharedPreferences.getInstance();
+    prefs.remove("pb_auth");
   }
 }

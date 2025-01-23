@@ -37,8 +37,8 @@ class SyncStatus extends StatelessWidget {
                     "Saia e entre na sua conta para sincronizar seus combates."),
                 const SizedBox(height: 16),
                 ElevatedButton(
-                  onPressed: () {
-                    authProvider.logout();
+                  onPressed: () async {
+                    await authProvider.logout();
                   },
                   child: Text("Sair"),
                 ),
@@ -63,8 +63,8 @@ class SyncStatus extends StatelessWidget {
               Text("Seus dados estão sincronizados"),
               const SizedBox(height: 16),
               ElevatedButton(
-                onPressed: () {
-                  authProvider.logout();
+                onPressed: () async {
+                  await authProvider.logout();
                 },
                 child: Text("Sair"),
               ),

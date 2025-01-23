@@ -36,7 +36,6 @@ void main() async {
 
   final prefs = await SharedPreferences.getInstance();
 
-// initialize the async store
   final store = AsyncAuthStore(
     save: (String data) async => prefs.setString('pb_auth', data),
     initial: prefs.getString('pb_auth'),
