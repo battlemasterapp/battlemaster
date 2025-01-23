@@ -61,8 +61,8 @@ class __LoginState extends State<_Login> {
                           style: ToastificationStyle.fillColored,
                           autoCloseDuration: 3.seconds,
                           showProgressBar: false,
-                          title: Text("houve um erro ao entrar"),
-                          description: Text("tente novamente"),
+                          title: Text("Houve um erro ao entrar"),
+                          description: Text("Tente novamente ou crie uma conta"),
                         );
                       }
                       await encountersProvider.syncAllEncounters();

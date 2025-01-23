@@ -19,6 +19,7 @@ class _LoginFormState extends State<LoginForm> {
   String _email = "";
   String _password = "";
   bool _showPassword = false;
+  bool _loading = false;
 
   @override
   Widget build(BuildContext context) {
@@ -75,13 +76,23 @@ class _LoginFormState extends State<LoginForm> {
             style: ElevatedButton.styleFrom(
               minimumSize: Size.fromHeight(40),
             ),
-            onPressed: () {
-              if (!_formKey.currentState!.validate()) {
-                return;
-              }
-              widget.onSubmit(_email, _password);
-            },
-            child: Text("Entrar"),
+            onPressed: _loading
+                ? null
+                : () {
+                    if (!_formKey.currentState!.validate()) {
+                      return;
+                    }
+                    setState(() {
+                      _loading = true;
+                    });
+                    widget.onSubmit(_email, _password);
+                    setState(() {
+                      _loading = false;
+                    });
+                  },
+            child: _loading
+                ? CircularProgressIndicator.adaptive()
+                : Text("Entrar"),
           ),
         ],
       ),

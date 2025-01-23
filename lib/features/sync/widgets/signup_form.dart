@@ -52,6 +52,7 @@ class _SignupFormState extends State<SignupForm> {
   final _formKey = GlobalKey<FormState>();
   SignupData _form = SignupData.empty();
   bool _showPassword = false;
+  bool _loading = false;
 
   @override
   Widget build(BuildContext context) {
@@ -167,13 +168,13 @@ class _SignupFormState extends State<SignupForm> {
             style: ElevatedButton.styleFrom(
               minimumSize: Size.fromHeight(40),
             ),
-            onPressed: () {
+            onPressed: _loading ? null : () {
               if (!_formKey.currentState!.validate()) {
                 return;
               }
               widget.onSubmit(_form);
             },
-            child: Text("Criar conta"),
+            child: _loading ? CircularProgressIndicator.adaptive() : Text("Criar conta"),
           ),
         ],
       ),

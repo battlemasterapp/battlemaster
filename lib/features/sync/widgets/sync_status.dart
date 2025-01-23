@@ -1,6 +1,7 @@
 import 'dart:math';
 
 import 'package:battlemaster/features/auth/providers/auth_provider.dart';
+import 'package:battlemaster/features/encounters/providers/encounters_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:ultimate_flutter_icons/flutter_icons.dart';
@@ -62,10 +63,7 @@ class SyncStatus extends StatelessWidget {
               ),
               Text("Seus dados estão sincronizados"),
               const SizedBox(height: 16),
-              ElevatedButton(
-                onPressed: () async {},
-                child: Text("Sincronizar"),
-              ),
+              const SyncButton(),
               const SizedBox(height: 8),
               OutlinedButton(
                 onPressed: () async {
@@ -77,6 +75,32 @@ class SyncStatus extends StatelessWidget {
           );
         },
       ),
+    );
+  }
+}
+
+class SyncButton extends StatefulWidget {
+  const SyncButton({super.key});
+
+  @override
+  State<SyncButton> createState() => _SyncButtonState();
+}
+
+class _SyncButtonState extends State<SyncButton> {
+  bool _loading = false;
+  @override
+  Widget build(BuildContext context) {
+    return ElevatedButton(
+      onPressed: () async {
+        setState(() {
+          _loading = true;
+        });
+        await context.read<EncountersProvider>().syncAllEncounters();
+        setState(() {
+          _loading = false;
+        });
+      },
+      child: _loading ? CircularProgressIndicator() : Text("Sincronizar"),
     );
   }
 }

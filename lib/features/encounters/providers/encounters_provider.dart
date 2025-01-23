@@ -1,6 +1,7 @@
 import 'package:battlemaster/features/encounters/models/encounter_type.dart';
 import 'package:battlemaster/features/sync/providers/sync_encounter_repository.dart';
 import 'package:flutter/material.dart';
+import 'package:logger/logger.dart';
 
 import '../../../database/database.dart';
 import '../models/encounter.dart';
@@ -8,6 +9,7 @@ import '../models/encounter.dart';
 class EncountersProvider extends ChangeNotifier {
   final AppDatabase _database;
   SyncEncounterRepository _encounterRepository;
+  final _logger = Logger();
 
   EncountersProvider(
     AppDatabase database,
@@ -29,16 +31,21 @@ class EncountersProvider extends ChangeNotifier {
   }
 
   Future<void> syncAllEncounters() async {
+    final serverEncounters = await _encounterRepository.getEncounters();
+
+    try {
+      await Future.wait(
+          serverEncounters.map((e) => _database.upsertEncounter(e)).toList());
+    } catch (e) {
+      _logger.e(e);
+    }
+
     final encounters = await _database.getEncounters();
-    final promises = encounters
+    await Future.wait(encounters
         .map(
           (e) => _encounterRepository.upsertEncounter(e),
         )
-        .toList();
-
-    await Future.wait(promises);
-
-    // TODO: use updatedAt to upsert correctly if syncing between two live devices?
+        .toList());
   }
 
   Future<void> convertEncounterType(Encounter encounter) async {

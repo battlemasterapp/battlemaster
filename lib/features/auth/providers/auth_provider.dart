@@ -5,6 +5,7 @@ import 'package:battlemaster/main.dart';
 import 'package:device_info_plus/device_info_plus.dart';
 import 'package:fingerprint/fingerprint.dart';
 import 'package:flutter/foundation.dart';
+import 'package:logger/logger.dart';
 import 'package:pocketbase/pocketbase.dart';
 import 'package:sentry_flutter/sentry_flutter.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -34,6 +35,7 @@ class UserCredentials extends AuthCredentials {
 class AuthProvider extends ChangeNotifier {
   final PocketBase _pb;
   BaseDeviceInfo? _deviceInfo;
+  final _logger = Logger();
 
   AuthProvider({
     PocketBase? pb,
@@ -56,23 +58,30 @@ class AuthProvider extends ChangeNotifier {
     }
 
     if (credentials is AnonymousCredentials) {
-      await _anonymousAuth(credentials);
-      return true;
+      return await _anonymousAuth(credentials);
     }
 
     if (credentials is UserCredentials) {
-      await _auth(credentials);
-      return true;
+      return await _auth(credentials);
     }
 
     throw UnimplementedError();
   }
 
   Future<bool> _auth(UserCredentials credentials) async {
-    await _pb.collection("users").authWithPassword(
+    try {
+      await _pb.collection("users").authWithPassword(
           credentials.email,
           credentials.password,
         );
+    } on ClientException catch (e) {
+      _logger.e(e);
+      notifyListeners();
+      return false;
+    } catch (e) {
+      _logger.e(e);
+      await Sentry.captureException(e);
+    }
     notifyListeners();
     return true;
   }
@@ -90,6 +99,11 @@ class AuthProvider extends ChangeNotifier {
     } catch (e) {
       await Sentry.captureException(e);
       return false;
+    }
+    try {
+      await _pb.collection("users").requestVerification(data.email);
+    } catch (e) {
+      await Sentry.captureException(e);
     }
     return true;
   }
