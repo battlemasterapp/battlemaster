@@ -1,4 +1,5 @@
 import 'package:battlemaster/features/auth/providers/auth_provider.dart';
+import 'package:battlemaster/features/encounters/providers/encounters_provider.dart';
 import 'package:battlemaster/features/sync/widgets/login_form.dart';
 import 'package:battlemaster/features/sync/widgets/signup_form.dart';
 import 'package:battlemaster/features/sync/widgets/sync_status.dart';
@@ -32,6 +33,7 @@ class __LoginState extends State<_Login> {
   @override
   Widget build(BuildContext context) {
     final authProvider = context.read<AuthProvider>();
+    final encountersProvider = context.read<EncountersProvider>();
     // FIXME: textos
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 48, vertical: 8),
@@ -63,6 +65,7 @@ class __LoginState extends State<_Login> {
                           description: Text("tente novamente"),
                         );
                       }
+                      await encountersProvider.syncAllEncounters();
                     },
                   ),
                 if (!_showLogin)
@@ -82,6 +85,7 @@ class __LoginState extends State<_Login> {
                       }
                       await authProvider
                           .login(UserCredentials(data.email, data.password));
+                      await encountersProvider.syncAllEncounters();
                     },
                   ),
                 const SizedBox(height: 8),

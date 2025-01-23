@@ -69,4 +69,15 @@ class SyncEncounterRepository {
       logger.e(e);
     }
   }
+
+  Future<List<Encounter>> getEncounters() async {
+    if (!_canSync()) {
+      return [];
+    }
+
+    final result = await _pb.collection(_tableName).getFullList();
+    return result
+        .map((entry) => Encounter.fromJson(entry.data["data"]))
+        .toList();
+  }
 }

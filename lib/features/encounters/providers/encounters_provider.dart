@@ -28,6 +28,19 @@ class EncountersProvider extends ChangeNotifier {
     return created;
   }
 
+  Future<void> syncAllEncounters() async {
+    final encounters = await _database.getEncounters();
+    final promises = encounters
+        .map(
+          (e) => _encounterRepository.upsertEncounter(e),
+        )
+        .toList();
+
+    await Future.wait(promises);
+
+    // TODO: use updatedAt to upsert correctly if syncing between two live devices?
+  }
+
   Future<void> convertEncounterType(Encounter encounter) async {
     final updated = encounter.copyWith(
       type: encounter.type == EncounterType.encounter

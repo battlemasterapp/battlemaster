@@ -75,6 +75,21 @@ class AppDatabase extends _$AppDatabase {
         );
   }
 
+  Future<List<Encounter>> getEncounters() async {
+    return (await select(encounterTable).get())
+        .map((row) => Encounter(
+              id: row.id,
+              name: row.name,
+              type: row.type,
+              combatants: row.combatants,
+              engine: GameEngineType.values[row.engine],
+              round: row.round,
+              turn: row.turn,
+              logs: row.logs,
+            ))
+        .toList();
+  }
+
   Future<Encounter> insertEncounter(Encounter encounter) async {
     final id = await into(encounterTable).insert(EncounterTableCompanion.insert(
       name: encounter.name,

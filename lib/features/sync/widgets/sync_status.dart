@@ -63,6 +63,11 @@ class SyncStatus extends StatelessWidget {
               Text("Seus dados estão sincronizados"),
               const SizedBox(height: 16),
               ElevatedButton(
+                onPressed: () async {},
+                child: Text("Sincronizar"),
+              ),
+              const SizedBox(height: 8),
+              OutlinedButton(
                 onPressed: () async {
                   await authProvider.logout();
                 },
