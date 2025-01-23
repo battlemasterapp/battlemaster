@@ -31,7 +31,7 @@ class MainDrawer extends StatelessWidget {
           for (final page in pages.entries)
             ListTile(
               title: Text(page.value.title),
-              leading: Icon(page.value.icon),
+              leading: page.value.icon,
               selected: selectedPage == page.key,
               onTap: () {
                 onPageSelected?.call(page.key);
