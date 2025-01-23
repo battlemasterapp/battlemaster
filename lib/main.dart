@@ -6,6 +6,7 @@ import 'package:battlemaster/features/auth/providers/auth_provider.dart';
 import 'package:battlemaster/features/conditions/custom_conditions_page.dart';
 import 'package:battlemaster/features/player_view/providers/player_view_notifier.dart';
 import 'package:battlemaster/features/settings/providers/system_settings_provider.dart';
+import 'package:battlemaster/features/sync/providers/sync_encounter_repository.dart';
 import 'package:fetch_client/fetch_client.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
@@ -117,9 +118,17 @@ class BattlemasterApp extends StatelessWidget {
           create: (_) => AppDatabase(),
           dispose: (_, db) => db.close(),
         ),
-        ChangeNotifierProxyProvider<AppDatabase, EncountersProvider>(
-          create: (context) => EncountersProvider(context.read<AppDatabase>()),
-          update: (_, __, provider) => provider!,
+        ChangeNotifierProvider<AuthProvider>(
+          create: (context) => AuthProvider(),
+        ),
+        ChangeNotifierProxyProvider2<AppDatabase, AuthProvider,
+            EncountersProvider>(
+          create: (context) => EncountersProvider(
+            context.read<AppDatabase>(),
+            SyncEncounterRepository(auth: context.read<AuthProvider>()),
+          ),
+          update: (_, __, auth, provider) =>
+              provider!..encounterRepo = SyncEncounterRepository(auth: auth),
         ),
         ChangeNotifierProxyProvider<SystemSettingsProvider, Pf2eEngineProvider>(
           create: (context) {
@@ -172,9 +181,6 @@ class BattlemasterApp extends StatelessWidget {
         Provider<AnalyticsService>(
           create: (_) => AnalyticsService(),
           lazy: false,
-        ),
-        ChangeNotifierProvider<AuthProvider>(
-          create: (context) => AuthProvider(),
         ),
         ChangeNotifierProxyProvider<AuthProvider, PlayerViewNotifier>(
           create: (context) => PlayerViewNotifier(

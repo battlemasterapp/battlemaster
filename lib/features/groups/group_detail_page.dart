@@ -1,4 +1,6 @@
+import 'package:battlemaster/features/auth/providers/auth_provider.dart';
 import 'package:battlemaster/features/encounter_tracker/widgets/details_panel.dart';
+import 'package:battlemaster/features/sync/providers/sync_encounter_repository.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
@@ -19,12 +21,16 @@ class GroupDetailPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return ChangeNotifierProvider(
+    return ChangeNotifierProxyProvider<AuthProvider, EncounterTrackerNotifier>(
       create: (context) => EncounterTrackerNotifier(
         database: context.read<AppDatabase>(),
         settings: context.read<SystemSettingsProvider>(),
         encounterId: groupId,
+        encounterRepo:
+            SyncEncounterRepository(auth: context.read<AuthProvider>()),
       ),
+      update: (_, auth, tracker) =>
+          tracker!..encounterRepo = SyncEncounterRepository(auth: auth),
       child: Builder(builder: (context) {
         return StreamBuilder<Encounter>(
             stream: context.read<EncounterTrackerNotifier>().watchEncounter(),

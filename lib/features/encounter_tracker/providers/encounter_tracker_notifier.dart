@@ -8,6 +8,7 @@ import 'package:battlemaster/features/encounter_tracker/providers/share_encounte
 import 'package:battlemaster/features/encounters/models/encounter_log.dart';
 import 'package:battlemaster/features/settings/models/skip_dead_behavior.dart';
 import 'package:battlemaster/features/settings/providers/system_settings_provider.dart';
+import 'package:battlemaster/features/sync/providers/sync_encounter_repository.dart';
 import 'package:flutter/material.dart';
 import 'package:nanoid2/nanoid2.dart';
 
@@ -29,14 +30,21 @@ class EncounterTrackerNotifier extends ChangeNotifier {
   int _activeCombatantIndex = 0;
   final _activeIndexController = StreamController<int>();
   ShareEncounterNotifier? shareEncounterNotifier;
+  SyncEncounterRepository _encounterRepository;
 
   EncounterTrackerNotifier({
     required AppDatabase database,
     required SystemSettingsProvider settings,
     required this.encounterId,
     this.shareEncounterNotifier,
+    required SyncEncounterRepository encounterRepo,
   })  : _database = database,
-        _settings = settings;
+        _settings = settings,
+        _encounterRepository = encounterRepo;
+
+  set encounterRepo(SyncEncounterRepository repo) {
+    _encounterRepository = repo;
+  }
 
   @override
   void dispose() {
@@ -85,8 +93,13 @@ class EncounterTrackerNotifier extends ChangeNotifier {
     _activeIndexController.add(_activeCombatantIndex);
   }
 
+  Future<void> _update(Encounter encounter) async {
+    await _database.updateEncounter(encounter);
+    await _encounterRepository.upsertEncounter(encounter);
+  }
+
   Future<void> editName(String name) async {
-    await _database.updateEncounter(_encounter.copyWith(name: name));
+    await _update(_encounter.copyWith(name: name));
   }
 
   Future<void> updateCombatantInitiative(
@@ -101,7 +114,7 @@ class EncounterTrackerNotifier extends ChangeNotifier {
     );
 
     final updated = log.apply(_encounter);
-    await _database.updateEncounter(updated);
+    await _update(updated);
   }
 
   Future<void> updateCombatantHealth(
@@ -121,7 +134,7 @@ class EncounterTrackerNotifier extends ChangeNotifier {
     );
 
     final updated = log.apply(_encounter);
-    await _database.updateEncounter(updated);
+    await _update(updated);
   }
 
   Future<void> updateCombatantsConditions(
@@ -136,14 +149,14 @@ class EncounterTrackerNotifier extends ChangeNotifier {
     );
 
     final updated = log.apply(_encounter);
-    await _database.updateEncounter(updated);
+    await _update(updated);
   }
 
   Future<void> updateCombatantData(
     Combatant combatant,
     CombatantData data,
   ) async {
-    await _database.updateEncounter(_encounter.copyWith(
+    await _update(_encounter.copyWith(
       combatants: _encounter.combatants.map((c) {
         if (c.id == combatant.id) {
           return c.updateCombatantData(data);
@@ -154,7 +167,7 @@ class EncounterTrackerNotifier extends ChangeNotifier {
   }
 
   Future<void> updateCombatant(Combatant combatant) async {
-    await _database.updateEncounter(_encounter.copyWith(
+    await _update(_encounter.copyWith(
       combatants: _encounter.combatants.map((c) {
         if (c.id == combatant.id) {
           return combatant;
@@ -194,7 +207,7 @@ class EncounterTrackerNotifier extends ChangeNotifier {
       _encounter,
       (e, log) => log.apply(e),
     );
-    await _database.updateEncounter(updated);
+    await _update(updated);
   }
 
   Future<void> removeCombatant(Combatant combatant) async {
@@ -204,17 +217,17 @@ class EncounterTrackerNotifier extends ChangeNotifier {
       combatant: combatant,
     );
     final updated = removeLog.apply(_encounter);
-    await _database.updateEncounter(updated);
+    await _update(updated);
   }
 
   Future<void> deleteHistory() async {
     final updated = _encounter.copyWith(logs: []);
-    await _database.updateEncounter(updated);
+    await _update(updated);
   }
 
   Future<void> undoLog(EncounterLog log) async {
     final updated = log.undo(_encounter);
-    await _database.updateEncounter(updated);
+    await _update(updated);
   }
 
   Future<void> playStop() async {
@@ -253,7 +266,7 @@ class EncounterTrackerNotifier extends ChangeNotifier {
       (e, log) => log.apply(e),
     );
 
-    await _database.updateEncounter(
+    await _update(
       updated.copyWith(
         combatants: updated.combatants
           ..sort((a, b) => b.initiative.compareTo(a.initiative)),
@@ -305,7 +318,7 @@ class EncounterTrackerNotifier extends ChangeNotifier {
       ),
     );
 
-    await _database.updateEncounter(updated);
+    await _update(updated);
   }
 
   Future<void> nextRound() async {
@@ -321,7 +334,7 @@ class EncounterTrackerNotifier extends ChangeNotifier {
     if (firstIndex == -1) {
       _setActiveCombatantIndex(0);
       notifyListeners();
-      await _database.updateEncounter(_encounter.copyWith(
+      await _update(_encounter.copyWith(
         round: _round,
         turn: _activeCombatantIndex,
       ));
@@ -330,7 +343,7 @@ class EncounterTrackerNotifier extends ChangeNotifier {
 
     _setActiveCombatantIndex(firstIndex);
     notifyListeners();
-    await _database.updateEncounter(_encounter.copyWith(
+    await _update(_encounter.copyWith(
       round: _round,
       turn: _activeCombatantIndex,
     ));
@@ -346,7 +359,7 @@ class EncounterTrackerNotifier extends ChangeNotifier {
     _round--;
     _setActiveCombatantIndex(_activeCombatantIndex);
     notifyListeners();
-    await _database.updateEncounter(_encounter.copyWith(
+    await _update(_encounter.copyWith(
       round: _round,
       turn: _activeCombatantIndex,
     ));
@@ -370,7 +383,7 @@ class EncounterTrackerNotifier extends ChangeNotifier {
       if (combatant.isAlive || !skipIfDead) {
         _setActiveCombatantIndex(_activeCombatantIndex);
         notifyListeners();
-        await _database.updateEncounter(_encounter.copyWith(
+        await _update(_encounter.copyWith(
           round: _round,
           turn: _activeCombatantIndex,
         ));
@@ -396,7 +409,7 @@ class EncounterTrackerNotifier extends ChangeNotifier {
       if (combatant.isAlive || !skipIfDead) {
         _setActiveCombatantIndex(combatantIndex);
         notifyListeners();
-        await _database.updateEncounter(_encounter.copyWith(
+        await _update(_encounter.copyWith(
           round: _round,
           turn: _activeCombatantIndex,
         ));

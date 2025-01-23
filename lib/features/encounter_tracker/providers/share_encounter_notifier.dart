@@ -67,7 +67,9 @@ class ShareEncounterNotifier extends ChangeNotifier {
   }) async {
     _logger.d('Going live with encounter');
     assert(_live == false);
-    await authProvider.login(await AnonymousCredentials.generate());
+    if (!authProvider.isAuthenticated) {
+      await authProvider.login(await AnonymousCredentials.generate());
+    }
 
     RecordModel? sharedEncounter;
     try {
