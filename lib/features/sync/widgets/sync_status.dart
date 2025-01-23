@@ -3,6 +3,7 @@ import 'dart:math';
 import 'package:battlemaster/features/auth/providers/auth_provider.dart';
 import 'package:battlemaster/features/encounters/providers/encounters_provider.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:provider/provider.dart';
 import 'package:ultimate_flutter_icons/flutter_icons.dart';
 
@@ -12,6 +13,8 @@ class SyncStatus extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final authProvider = context.read<AuthProvider>();
+    final localization = AppLocalizations.of(context)!;
+    // FIXME: textos
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 48, vertical: 8),
       child: LayoutBuilder(
@@ -31,17 +34,16 @@ class SyncStatus extends StatelessWidget {
                 ),
                 const SizedBox(height: 16),
                 Text(
-                  "Você está logado como um usuário anônimo.",
+                  localization.sync_status_anonymous_login,
                   style: Theme.of(context).textTheme.titleMedium,
                 ),
-                Text(
-                    "Saia e entre na sua conta para sincronizar seus combates."),
+                Text(localization.sync_status_anonymous_login_description),
                 const SizedBox(height: 16),
                 ElevatedButton(
                   onPressed: () async {
                     await authProvider.logout();
                   },
-                  child: Text("Sair"),
+                  child: Text(localization.logout_button),
                 ),
               ],
             );
@@ -58,10 +60,11 @@ class SyncStatus extends StatelessWidget {
                     Colors.black,
               ),
               Text(
-                "Você está logado como ${authProvider.userModel?.getStringValue('name')}",
+                localization.sync_status_logged_in(
+                    authProvider.userModel!.getStringValue('name')),
                 style: Theme.of(context).textTheme.titleMedium,
               ),
-              Text("Seus dados estão sincronizados"),
+              Text(localization.sync_status_logged_in_description),
               const SizedBox(height: 16),
               const SyncButton(),
               const SizedBox(height: 8),
@@ -69,7 +72,7 @@ class SyncStatus extends StatelessWidget {
                 onPressed: () async {
                   await authProvider.logout();
                 },
-                child: Text("Sair"),
+                child: Text(localization.logout_button),
               ),
             ],
           );
@@ -90,6 +93,7 @@ class _SyncButtonState extends State<SyncButton> {
   bool _loading = false;
   @override
   Widget build(BuildContext context) {
+    final localization = AppLocalizations.of(context)!;
     return ElevatedButton(
       onPressed: () async {
         setState(() {
@@ -100,7 +104,9 @@ class _SyncButtonState extends State<SyncButton> {
           _loading = false;
         });
       },
-      child: _loading ? CircularProgressIndicator() : Text("Sincronizar"),
+      child: _loading
+          ? CircularProgressIndicator()
+          : Text(localization.sync_status_sync_button),
     );
   }
 }

@@ -1,6 +1,8 @@
 import 'package:email_validator/email_validator.dart';
 import 'package:flutter/material.dart';
 import 'package:icons_plus/icons_plus.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+
 
 class LoginForm extends StatefulWidget {
   const LoginForm({
@@ -23,23 +25,23 @@ class _LoginFormState extends State<LoginForm> {
 
   @override
   Widget build(BuildContext context) {
-    // FIXME: textos
+    final localization = AppLocalizations.of(context)!;
     return Form(
       key: _formKey,
       child: Column(
         children: [
           TextFormField(
             keyboardType: TextInputType.emailAddress,
-            decoration: InputDecoration(labelText: "email"),
+            decoration: InputDecoration(labelText: localization.login_form_email_label),
             onChanged: (value) {
               _email = value;
             },
             validator: (value) {
               if (value == null || value.isEmpty) {
-                return "email é obrigatório";
+                return localization.login_form_email_required;
               }
               if (!EmailValidator.validate(value)) {
-                return "digite um email válido";
+                return localization.login_form_email_invalid;
               }
               return null;
             },
@@ -51,7 +53,7 @@ class _LoginFormState extends State<LoginForm> {
             enableSuggestions: false,
             autocorrect: false,
             decoration: InputDecoration(
-              labelText: "senha",
+              labelText: localization.login_form_password_label,
               suffixIcon: IconButton(
                 icon: Icon(_showPassword
                     ? MingCute.eye_2_fill
@@ -66,7 +68,7 @@ class _LoginFormState extends State<LoginForm> {
             },
             validator: (value) {
               if (value == null || value.isEmpty) {
-                return "senha é obrigatória";
+                return localization.login_form_password_required;
               }
               return null;
             },
@@ -92,7 +94,7 @@ class _LoginFormState extends State<LoginForm> {
                   },
             child: _loading
                 ? CircularProgressIndicator.adaptive()
-                : Text("Entrar"),
+                : Text(localization.login_form_submit),
           ),
         ],
       ),

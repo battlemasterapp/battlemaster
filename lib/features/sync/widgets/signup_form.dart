@@ -1,5 +1,6 @@
 import 'package:email_validator/email_validator.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:icons_plus/icons_plus.dart';
 
 class SignupData {
@@ -40,7 +41,10 @@ class SignupData {
 }
 
 class SignupForm extends StatefulWidget {
-  const SignupForm({super.key, required this.onSubmit,});
+  const SignupForm({
+    super.key,
+    required this.onSubmit,
+  });
 
   final ValueChanged<SignupData> onSubmit;
 
@@ -56,7 +60,7 @@ class _SignupFormState extends State<SignupForm> {
 
   @override
   Widget build(BuildContext context) {
-    // FIXME: textos
+    final localization = AppLocalizations.of(context)!;
     return Form(
       key: _formKey,
       child: Column(
@@ -67,17 +71,18 @@ class _SignupFormState extends State<SignupForm> {
               Expanded(
                 child: TextFormField(
                   keyboardType: TextInputType.name,
-                  decoration: InputDecoration(labelText: "nome"),
+                  decoration: InputDecoration(
+                      labelText: localization.signup_form_name_label),
                   onChanged: (value) {
                     _form = _form.copyWith(name: value);
                   },
                   validator: (value) {
                     if (value == null || value.isEmpty) {
-                      return "nome é obrigatório";
+                      return localization.signup_form_name_required;
                     }
                     final parts = value.split(" ");
                     if (parts.length <= 1) {
-                      return "digite seu nome e sobrenome";
+                      return localization.signup_form_name_min_length;
                     }
                     return null;
                   },
@@ -87,16 +92,17 @@ class _SignupFormState extends State<SignupForm> {
               Expanded(
                 child: TextFormField(
                   keyboardType: TextInputType.emailAddress,
-                  decoration: InputDecoration(labelText: "email"),
+                  decoration: InputDecoration(
+                      labelText: localization.signup_form_email_label),
                   onChanged: (value) {
                     _form = _form.copyWith(email: value);
                   },
                   validator: (value) {
                     if (value == null || value.isEmpty) {
-                      return "email é obrigatório";
+                      return localization.signup_form_email_required;
                     }
                     if (!EmailValidator.validate(value)) {
-                      return "digite um email válido";
+                      return localization.signup_form_email_invalid;
                     }
                     return null;
                   },
@@ -115,7 +121,7 @@ class _SignupFormState extends State<SignupForm> {
                   enableSuggestions: false,
                   autocorrect: false,
                   decoration: InputDecoration(
-                    labelText: "senha",
+                    labelText: localization.login_form_password_label,
                     suffixIcon: IconButton(
                       icon: Icon(_showPassword
                           ? MingCute.eye_2_fill
@@ -130,10 +136,10 @@ class _SignupFormState extends State<SignupForm> {
                   },
                   validator: (value) {
                     if (value == null || value.isEmpty) {
-                      return "senha é obrigatória";
+                      return localization.signup_form_password_required;
                     }
                     if (value.length < 8) {
-                      return "sua senha precisa ter 8 digitos";
+                      return localization.signup_form_password_min_length;
                     }
                     return null;
                   },
@@ -146,16 +152,20 @@ class _SignupFormState extends State<SignupForm> {
                   obscureText: !_showPassword,
                   enableSuggestions: false,
                   autocorrect: false,
-                  decoration: InputDecoration(labelText: "confirme a senha"),
+                  decoration: InputDecoration(
+                      labelText:
+                          localization.signup_form_password_confirmation_label),
                   onChanged: (value) {
                     _form = _form.copyWith(passwordConfirmation: value);
                   },
                   validator: (value) {
                     if (value == null || value.isEmpty) {
-                      return "confirmação senha é obrigatória";
+                      return localization
+                          .signup_form_password_confirmation_required;
                     }
-                    if (value != _form.passwordConfirmation) {
-                      return "as senhas não são iguais";
+                    if (value != _form.password) {
+                      return localization
+                          .signup_form_password_confirmation_mismatch;
                     }
                     return null;
                   },
@@ -168,13 +178,23 @@ class _SignupFormState extends State<SignupForm> {
             style: ElevatedButton.styleFrom(
               minimumSize: Size.fromHeight(40),
             ),
-            onPressed: _loading ? null : () {
-              if (!_formKey.currentState!.validate()) {
-                return;
-              }
-              widget.onSubmit(_form);
-            },
-            child: _loading ? CircularProgressIndicator.adaptive() : Text("Criar conta"),
+            onPressed: _loading
+                ? null
+                : () {
+                    if (!_formKey.currentState!.validate()) {
+                      return;
+                    }
+                    setState(() {
+                      _loading = true;
+                    });
+                    widget.onSubmit(_form);
+                    setState(() {
+                      _loading = false;
+                    });
+                  },
+            child: _loading
+                ? CircularProgressIndicator.adaptive()
+                : Text(localization.signup_form_submit),
           ),
         ],
       ),

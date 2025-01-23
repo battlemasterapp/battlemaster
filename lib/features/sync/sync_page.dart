@@ -5,6 +5,7 @@ import 'package:battlemaster/features/sync/widgets/signup_form.dart';
 import 'package:battlemaster/features/sync/widgets/sync_status.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_animate/flutter_animate.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:provider/provider.dart';
 import 'package:toastification/toastification.dart';
 
@@ -32,9 +33,9 @@ class __LoginState extends State<_Login> {
   bool _showLogin = true;
   @override
   Widget build(BuildContext context) {
+    final localization = AppLocalizations.of(context)!;
     final authProvider = context.read<AuthProvider>();
     final encountersProvider = context.read<EncountersProvider>();
-    // FIXME: textos
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 48, vertical: 8),
       child: Column(
@@ -42,7 +43,7 @@ class __LoginState extends State<_Login> {
         crossAxisAlignment: CrossAxisAlignment.center,
         children: [
           Text(
-            "Sincronize seus combates entre aparelhos",
+            localization.sync_page_title,
             style: Theme.of(context).textTheme.titleLarge,
           ),
           const SizedBox(height: 24),
@@ -61,8 +62,9 @@ class __LoginState extends State<_Login> {
                           style: ToastificationStyle.fillColored,
                           autoCloseDuration: 3.seconds,
                           showProgressBar: false,
-                          title: Text("Houve um erro ao entrar"),
-                          description: Text("Tente novamente ou crie uma conta"),
+                          title: Text(localization.login_error_title),
+                          description:
+                              Text(localization.login_error_description),
                         );
                       }
                       await encountersProvider.syncAllEncounters();
@@ -78,9 +80,9 @@ class __LoginState extends State<_Login> {
                           style: ToastificationStyle.fillColored,
                           autoCloseDuration: 3.seconds,
                           showProgressBar: false,
-                          title: Text("houve um erro ao criar sua conta"),
-                          description: Text(
-                              "faça o login ou tente novamente mais tarde"),
+                          title: Text(localization.signup_error_title),
+                          description:
+                              Text(localization.signup_error_description),
                         );
                         return;
                       }
@@ -95,24 +97,25 @@ class __LoginState extends State<_Login> {
                 if (_showLogin)
                   Column(
                     children: [
-                      Text("Não tem acesso?"),
+                      Text(localization.sync_page_no_access_question),
                       TextButton(
                         onPressed: () => setState(() {
                           _showLogin = false;
                         }),
-                        child: Text("Criar nova conta"),
+                        child: Text(localization.create_account_cta),
                       ),
                     ],
                   ),
                 if (!_showLogin)
                   Column(
                     children: [
-                      Text("Já tem uma conta?"),
+                      Text(
+                          localization.sync_page_already_have_account_question),
                       TextButton(
                         onPressed: () => setState(() {
                           _showLogin = true;
                         }),
-                        child: Text("Acesse sua conta"),
+                        child: Text(localization.login_cta),
                       ),
                     ],
                   ),
