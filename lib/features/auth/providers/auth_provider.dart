@@ -45,7 +45,8 @@ class AuthProvider extends ChangeNotifier {
 
   bool get isAuthenticated => _pb.authStore.isValid;
 
-  bool get isAnonymous => _pb.authStore.record?.collectionName == 'anonymous_users';
+  bool get isAnonymous =>
+      _pb.authStore.record?.collectionName == 'anonymous_users';
 
   String get userKey => isAnonymous ? 'anonymousId' : 'userId';
 
@@ -71,9 +72,9 @@ class AuthProvider extends ChangeNotifier {
   Future<bool> _auth(UserCredentials credentials) async {
     try {
       await _pb.collection("users").authWithPassword(
-          credentials.email,
-          credentials.password,
-        );
+            credentials.email,
+            credentials.password,
+          );
     } on ClientException catch (e) {
       _logger.e(e);
       notifyListeners();

@@ -3,7 +3,6 @@ import 'package:flutter/material.dart';
 import 'package:icons_plus/icons_plus.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
-
 class LoginForm extends StatefulWidget {
   const LoginForm({
     super.key,
@@ -32,7 +31,8 @@ class _LoginFormState extends State<LoginForm> {
         children: [
           TextFormField(
             keyboardType: TextInputType.emailAddress,
-            decoration: InputDecoration(labelText: localization.login_form_email_label),
+            decoration:
+                InputDecoration(labelText: localization.login_form_email_label),
             onChanged: (value) {
               _email = value;
             },
