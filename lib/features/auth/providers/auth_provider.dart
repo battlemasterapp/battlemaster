@@ -1,16 +1,41 @@
 import 'dart:io';
 
-import 'package:battlemaster/features/auth/pocketbase.dart';
+import 'package:battlemaster/features/sync/widgets/signup_form.dart';
+import 'package:battlemaster/main.dart';
 import 'package:device_info_plus/device_info_plus.dart';
 import 'package:fingerprint/fingerprint.dart';
 import 'package:flutter/foundation.dart';
+import 'package:logger/logger.dart';
 import 'package:pocketbase/pocketbase.dart';
+import 'package:sentry_flutter/sentry_flutter.dart';
+import 'package:shared_preferences/shared_preferences.dart';
+
+abstract class AuthCredentials {
+  final String email;
+  final String password;
+
+  AuthCredentials(this.email, this.password);
+}
+
+class AnonymousCredentials extends AuthCredentials {
+  AnonymousCredentials(super.email, super.password);
+
+  static Future<AnonymousCredentials> generate() async {
+    final fingerprint = await Fingerprint.create();
+    final fingerprintString = fingerprint.toString();
+
+    return AnonymousCredentials(fingerprintString, fingerprintString);
+  }
+}
+
+class UserCredentials extends AuthCredentials {
+  UserCredentials(super.email, super.password);
+}
 
 class AuthProvider extends ChangeNotifier {
   final PocketBase _pb;
-  bool _anonymousLogin = true;
-  Fingerprint? _fingerprint;
   BaseDeviceInfo? _deviceInfo;
+  final _logger = Logger();
 
   AuthProvider({
     PocketBase? pb,
@@ -20,29 +45,68 @@ class AuthProvider extends ChangeNotifier {
 
   bool get isAuthenticated => _pb.authStore.isValid;
 
-  bool get isAnonymous => _anonymousLogin;
+  bool get isAnonymous =>
+      _pb.authStore.record?.collectionName == 'anonymous_users';
 
-  String get userKey => _anonymousLogin ? 'anonymousId' : 'userId';
+  String get userKey => isAnonymous ? 'anonymousId' : 'userId';
 
-  String get _userCollection => _anonymousLogin ? 'anonymous_users' : 'users';
+  String get _userCollection => isAnonymous ? 'anonymous_users' : 'users';
 
-  Future<bool> login() async {
+  Future<bool> login(AuthCredentials credentials) async {
     if (isAuthenticated) {
       await refresh();
       return true;
     }
 
-    if (isAnonymous) {
-      await _anonymousAuth();
-      return true;
+    if (credentials is AnonymousCredentials) {
+      return await _anonymousAuth(credentials);
     }
 
-    await _auth();
+    if (credentials is UserCredentials) {
+      return await _auth(credentials);
+    }
+
+    throw UnimplementedError();
+  }
+
+  Future<bool> _auth(UserCredentials credentials) async {
+    try {
+      await _pb.collection("users").authWithPassword(
+            credentials.email,
+            credentials.password,
+          );
+    } on ClientException catch (e) {
+      _logger.e(e);
+      notifyListeners();
+      return false;
+    } catch (e) {
+      _logger.e(e);
+      await Sentry.captureException(e);
+    }
+    notifyListeners();
     return true;
   }
 
-  Future<bool> _auth() async {
-    throw UnimplementedError();
+  Future<bool> signUp(SignupData data) async {
+    try {
+      await _pb.collection("users").create(
+        body: {
+          "email": data.email,
+          "name": data.name,
+          "password": data.password,
+          "passwordConfirm": data.passwordConfirmation,
+        },
+      );
+    } catch (e) {
+      await Sentry.captureException(e);
+      return false;
+    }
+    try {
+      await _pb.collection("users").requestVerification(data.email);
+    } catch (e) {
+      await Sentry.captureException(e);
+    }
+    return true;
   }
 
   String _getPlatform() {
@@ -101,9 +165,7 @@ class AuthProvider extends ChangeNotifier {
     return 'unknown';
   }
 
-  Future<bool> _anonymousAuth() async {
-    _fingerprint ??= await Fingerprint.create();
-
+  Future<bool> _anonymousAuth(AnonymousCredentials credentials) async {
     await _pb.send(
       '/api/anonymous-user',
       method: 'POST',
@@ -112,14 +174,13 @@ class AuthProvider extends ChangeNotifier {
         'env': _getEnv(),
         'device': await _getDevice(),
       },
-      headers: {'X-FINGERPRINT': _fingerprint.toString()},
+      headers: {'X-FINGERPRINT': credentials.email},
     );
     await _pb.collection('anonymous_users').authWithPassword(
-          _fingerprint.toString(),
-          _fingerprint.toString(),
+          credentials.email,
+          credentials.password,
         );
 
-    _anonymousLogin = true;
     notifyListeners();
     return true;
   }
@@ -129,8 +190,10 @@ class AuthProvider extends ChangeNotifier {
     notifyListeners();
   }
 
-  void logout() {
+  Future<void> logout() async {
     _pb.authStore.clear();
     notifyListeners();
+    final prefs = await SharedPreferences.getInstance();
+    prefs.remove("pb_auth");
   }
 }

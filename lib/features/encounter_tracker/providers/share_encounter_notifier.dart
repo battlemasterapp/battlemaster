@@ -1,6 +1,6 @@
-import 'package:battlemaster/features/auth/pocketbase.dart';
 import 'package:battlemaster/features/auth/providers/auth_provider.dart';
 import 'package:battlemaster/features/encounters/models/encounter.dart';
+import 'package:battlemaster/main.dart';
 import 'package:flutter/foundation.dart';
 import 'package:logger/logger.dart';
 import 'package:pocketbase/pocketbase.dart';
@@ -33,7 +33,7 @@ class ShareEncounterNotifier extends ChangeNotifier {
   Future<void> _reconnect() async {
     _logger.d('Reconnecting to live encounter');
     if (!authProvider.isAuthenticated) {
-      await authProvider.login();
+      await authProvider.login(await AnonymousCredentials.generate());
     }
     try {
       _sharedEncounter ??= await _pb.collection('live_encounters').getFirstListItem(
@@ -67,7 +67,9 @@ class ShareEncounterNotifier extends ChangeNotifier {
   }) async {
     _logger.d('Going live with encounter');
     assert(_live == false);
-    await authProvider.login();
+    if (!authProvider.isAuthenticated) {
+      await authProvider.login(await AnonymousCredentials.generate());
+    }
 
     RecordModel? sharedEncounter;
     try {

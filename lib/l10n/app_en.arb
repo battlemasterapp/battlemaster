@@ -1061,5 +1061,147 @@
         "example": "Goblin"
       }
     }
+  },
+  "sync_page_title": "Sync your encounters between devices",
+  "@sync_page_title": {
+    "description": "The title of the sync page."
+  },
+  "login_error_title": "An error occurred",
+  "@login_error_title": {
+    "description": "The title of the login error."
+  },
+  "login_error_description": "Please try again or create an account.",
+  "@login_error_description": {
+    "description": "The description of the login error."
+  },
+  "signup_error_title": "An error occurred",
+  "@signup_error_title": {
+    "description": "The title of the signup error."
+  },
+  "signup_error_description": "Please try again or login.",
+  "@signup_error_description": {
+    "description": "The description of the signup error."
+  },
+  "sync_page_no_access_question": "Don't have access?",
+  "@sync_page_no_access_question": {
+    "description": "The question to show when the user doesn't have access."
+  },
+  "create_account_cta": "Create an account",
+  "@create_account_cta": {
+    "description": "The call-to-action to create an account."
+  },
+  "sync_page_already_have_account_question": "Already have an account?",
+  "@sync_page_already_have_account_question": {
+    "description": "The question to show when the user already has an account."
+  },
+  "login_cta": "Login",
+  "@login_cta": {
+    "description": "The call-to-action to login."
+  },
+  "login_form_email_label": "Email",
+  "@login_form_email_label": {
+    "description": "The label of the email input."
+  },
+  "login_form_email_required": "Please enter your email.",
+  "@login_form_email_required": {
+    "description": "The validation text for the email input."
+  },
+  "login_form_email_invalid": "Please enter a valid email.",
+  "@login_form_email_invalid": {
+    "description": "The validation text for the email input."
+  },
+  "login_form_password_label": "Password",
+  "@login_form_password_label": {
+    "description": "The label of the password input."
+  },
+  "login_form_password_required": "Please enter your password.",
+  "@login_form_password_required": {
+    "description": "The validation text for the password input."
+  },
+  "login_form_submit": "Login",
+  "@login_form_submit": {
+    "description": "The button to submit the login form."
+  },
+  "signup_form_name_label": "Name",
+  "@signup_form_name_label": {
+    "description": "The label of the name input."
+  },
+  "signup_form_name_required": "Please enter your name.",
+  "@signup_form_name_required": {
+    "description": "The validation text for the name input."
+  },
+  "signup_form_name_min_length": "Enter your name and last name.",
+  "@signup_form_name_min_length": {
+    "description": "The validation text for the name input."
+  },
+  "signup_form_email_label": "Email",
+  "@signup_form_email_label": {
+    "description": "The label of the email input."
+  },
+  "signup_form_email_required": "Please enter your email.",
+  "@signup_form_email_required": {
+    "description": "The validation text for the email input."
+  },
+  "signup_form_email_invalid": "Please enter a valid email.",
+  "@signup_form_email_invalid": {
+    "description": "The validation text for the email input."
+  },
+  "signup_form_password_label": "Password",
+  "@signup_form_password_label": {
+    "description": "The label of the password input."
+  },
+  "signup_form_password_required": "Please enter your password.",
+  "@signup_form_password_required": {
+    "description": "The validation text for the password input."
+  },
+  "signup_form_password_min_length": "Password must be at least 8 characters long.",
+  "@signup_form_password_min_length": {
+    "description": "The validation text for the password input."
+  },
+  "signup_form_password_confirmation_label": "Confirm password",
+  "@signup_form_password_confirmation_label": {
+    "description": "The label of the password confirmation input."
+  },
+  "signup_form_password_confirmation_required": "Please confirm your password.",
+  "@signup_form_password_confirmation_required": {
+    "description": "The validation text for the password confirmation input."
+  },
+  "signup_form_password_confirmation_mismatch": "Passwords do not match.",
+  "@signup_form_password_confirmation_mismatch": {
+    "description": "The validation text for the password confirmation input."
+  },
+  "signup_form_submit": "Create account",
+  "@signup_form_submit": {
+    "description": "The button to submit the signup form."
+  },
+  "sync_status_anonymous_login": "You are logged in anonymously.",
+  "@sync_status_anonymous_login": {
+    "description": "The message to show the user is logged in anonymously."
+  },
+  "sync_status_anonymous_login_description": "Create an account to sync your encounters between devices.",
+  "@sync_status_anonymous_login_description": {
+    "description": "The description of the anonymous login status."
+  },
+  "logout_button": "Logout",
+  "@logout_button": {
+    "description": "The button to logout."
+  },
+  "sync_status_logged_in": "You are logged in as {name}.",
+  "@sync_status_logged_in": {
+    "description": "The message to show the user is logged in.",
+    "placeholders": {
+      "name": {
+        "type": "String",
+        "example": "John Doe"
+      }
+    }
+  },
+  "sync_status_logged_in_description": "Your data is synced between devices.",
+  "@sync_status_logged_in_description": {
+    "description": "The description of the logged in status."
+  },
+  "sync_status_sync_button": "Sync",
+  "@sync_status_sync_button": {
+    "description": "The button to sync the data."
   }
 }

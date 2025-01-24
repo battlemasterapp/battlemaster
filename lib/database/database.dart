@@ -75,8 +75,24 @@ class AppDatabase extends _$AppDatabase {
         );
   }
 
+  Future<List<Encounter>> getEncounters() async {
+    return (await select(encounterTable).get())
+        .map((row) => Encounter(
+              id: row.id,
+              name: row.name,
+              type: row.type,
+              combatants: row.combatants,
+              engine: GameEngineType.values[row.engine],
+              round: row.round,
+              turn: row.turn,
+              logs: row.logs,
+            ))
+        .toList();
+  }
+
   Future<Encounter> insertEncounter(Encounter encounter) async {
     final id = await into(encounterTable).insert(EncounterTableCompanion.insert(
+      id: encounter.id > 0 ? Value(encounter.id) : Value.absent(),
       name: encounter.name,
       type: encounter.type,
       combatants: encounter.combatants,
@@ -102,6 +118,16 @@ class AppDatabase extends _$AppDatabase {
         logs: Value(encounter.logs),
       ),
     );
+  }
+
+  Future<void> upsertEncounter(Encounter encounter) async {
+    final existing = await (select(encounterTable)
+          ..where((e) => e.id.equals(encounter.id)))
+        .getSingleOrNull();
+    if (existing != null) {
+      return await updateEncounter(encounter);
+    }
+    await insertEncounter(encounter);
   }
 
   Stream<List<CustomCondition>> watchConditions() {

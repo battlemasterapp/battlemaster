@@ -1,8 +1,11 @@
+import 'package:badges/badges.dart' as badges;
 import 'package:battlemaster/features/analytics/analytics_service.dart';
+import 'package:battlemaster/features/auth/providers/auth_provider.dart';
 import 'package:battlemaster/features/encounters/models/encounter_type.dart';
 import 'package:battlemaster/features/main_page/navigation_page.dart';
 import 'package:battlemaster/features/player_view/player_view_page.dart';
 import 'package:battlemaster/features/settings/providers/system_settings_provider.dart';
+import 'package:battlemaster/features/sync/sync_page.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:icons_plus/icons_plus.dart';
@@ -27,28 +30,48 @@ class _MainPageState extends State<MainPage> {
   Widget build(BuildContext context) {
     final settings = context.watch<SystemSettingsProvider>();
     final localization = AppLocalizations.of(context)!;
+    final isSyncing = context
+        .select<AuthProvider, bool>((p) => p.isAuthenticated && !p.isAnonymous);
 
     final pages = {
       "combats": NavigationPage(
         page: CombatsPage(type: EncounterType.encounter),
         title: localization.combats_page_title,
-        icon: MingCute.sword_fill,
+        icon: Icon(MingCute.sword_fill),
       ),
       "groups": NavigationPage(
         page: CombatsPage(type: EncounterType.group),
         title: localization.groups_page_title,
-        icon: MingCute.group_fill,
+        icon: Icon(MingCute.group_fill),
       ),
       if (settings.encounterSettings.liveEncounterSettings.enabled)
         "live-view": NavigationPage(
           page: const PlayerViewPage(),
           title: localization.live_view_page_title,
-          icon: MingCute.tv_2_fill,
+          icon: Icon(MingCute.tv_2_fill),
         ),
+      "sync": NavigationPage(
+        page: SyncPage(),
+        title: "Sync",
+        icon: isSyncing
+            ? badges.Badge(
+                badgeStyle: badges.BadgeStyle(
+                  shape: badges.BadgeShape.instagram,
+                  badgeColor: Colors.green,
+                ),
+                badgeContent: Icon(
+                  Icons.check,
+                  color: Colors.white,
+                  size: 10,
+                ),
+                child: Icon(MingCute.user_4_fill),
+              )
+            : Icon(MingCute.user_4_fill),
+      ),
       "settings": NavigationPage(
         page: SettingsPage(),
         title: localization.settings_page_title,
-        icon: MingCute.settings_3_fill,
+        icon: Icon(MingCute.settings_3_fill),
       ),
     };
 
@@ -103,7 +126,7 @@ class _MainPageState extends State<MainPage> {
                     destinations: [
                       for (final page in pages.entries)
                         NavigationRailDestination(
-                          icon: Icon(page.value.icon),
+                          icon: page.value.icon,
                           label: Text(page.value.title),
                         ),
                     ],

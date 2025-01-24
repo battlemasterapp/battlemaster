@@ -19,7 +19,9 @@ final pf2eLightTheme = ThemeData(
     foregroundColor: Colors.white,
   ),
   inputDecorationTheme: const InputDecorationTheme(
-    border: OutlineInputBorder(),
+    border: OutlineInputBorder(
+      borderRadius: BorderRadius.all(Radius.circular(24)),
+    ),
   ),
 );
 
@@ -41,6 +43,8 @@ final pf2eDarkTheme = ThemeData(
     foregroundColor: Colors.white,
   ),
   inputDecorationTheme: const InputDecorationTheme(
-    border: OutlineInputBorder(),
+    border: OutlineInputBorder(
+      borderRadius: BorderRadius.all(Radius.circular(24)),
+    ),
   ),
 );

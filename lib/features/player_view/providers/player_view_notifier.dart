@@ -1,8 +1,8 @@
 import 'dart:async';
 
-import 'package:battlemaster/features/auth/pocketbase.dart';
 import 'package:battlemaster/features/auth/providers/auth_provider.dart';
 import 'package:battlemaster/features/player_view/models/encounter_view.dart';
+import 'package:battlemaster/main.dart';
 import 'package:flutter/foundation.dart';
 import 'package:pocketbase/pocketbase.dart';
 
@@ -42,7 +42,9 @@ class PlayerViewNotifier extends ChangeNotifier {
     }
     assert(_code != null);
 
-    await auth.login();
+    if (!auth.isAuthenticated) {
+      await auth.login(await AnonymousCredentials.generate());
+    }
     _state = PlayerViewState.loading;
     notifyListeners();
 

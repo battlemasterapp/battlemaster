@@ -7,6 +7,7 @@ import 'package:battlemaster/features/encounter_tracker/widgets/encounter_tracke
 import 'package:battlemaster/features/encounter_tracker/widgets/live_encounter/encounter_code_dialog.dart';
 import 'package:battlemaster/features/encounter_tracker/widgets/live_encounter/go_live_button.dart';
 import 'package:battlemaster/features/encounters/models/encounter.dart';
+import 'package:battlemaster/features/sync/providers/sync_encounter_repository.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:icons_plus/icons_plus.dart';
@@ -41,16 +42,19 @@ class EncounterTrackerPage extends StatelessWidget {
           ),
           update: (_, auth, notifier) => notifier!..authProvider = auth,
         ),
-        ChangeNotifierProxyProvider<ShareEncounterNotifier,
+        ChangeNotifierProxyProvider2<ShareEncounterNotifier, AuthProvider,
             EncounterTrackerNotifier>(
           create: (context) => EncounterTrackerNotifier(
             database: context.read<AppDatabase>(),
             settings: context.read<SystemSettingsProvider>(),
             encounterId: encounterId,
             shareEncounterNotifier: context.read<ShareEncounterNotifier>(),
+            encounterRepo:
+                SyncEncounterRepository(auth: context.read<AuthProvider>()),
           ),
-          update: (_, share, tracker) =>
-              tracker!..shareEncounterNotifier = share,
+          update: (_, share, auth, tracker) => tracker!
+            ..shareEncounterNotifier = share
+            ..encounterRepo = SyncEncounterRepository(auth: auth),
         ),
       ],
       child: Builder(
