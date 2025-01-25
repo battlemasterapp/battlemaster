@@ -14,7 +14,6 @@ class SyncStatus extends StatelessWidget {
   Widget build(BuildContext context) {
     final authProvider = context.read<AuthProvider>();
     final localization = AppLocalizations.of(context)!;
-    // FIXME: textos
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 48, vertical: 8),
       child: LayoutBuilder(

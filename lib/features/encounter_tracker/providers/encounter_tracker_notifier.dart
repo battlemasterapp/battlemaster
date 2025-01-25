@@ -79,6 +79,7 @@ class EncounterTrackerNotifier extends ChangeNotifier {
           round: row.round,
           turn: row.turn,
           logs: row.logs,
+          syncId: row.syncId,
         );
         await shareEncounterNotifier?.updateEncounter(_encounter);
         return _encounter;
@@ -95,7 +96,10 @@ class EncounterTrackerNotifier extends ChangeNotifier {
 
   Future<void> _update(Encounter encounter) async {
     await _database.updateEncounter(encounter);
-    await _encounterRepository.upsertEncounter(encounter);
+    final syncId = await _encounterRepository.upsertEncounter(encounter);
+    if (syncId != null && encounter.syncId == null) {
+      await _database.updateEncounter(encounter.copyWith(syncId: syncId));
+    }
   }
 
   Future<void> editName(String name) async {

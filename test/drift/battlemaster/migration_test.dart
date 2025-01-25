@@ -40,7 +40,7 @@ void main() {
   // too. This is particularly true for migrations that change existing columns
   // (e.g. altering their type or constraints). Migrations that only add tables
   // or columns typically don't need these advanced tests.
-  // TODO: Check whether you have migrations that could benefit from these tests
+  // Check whether you have migrations that could benefit from these tests
   // and adapt this example to your database if necessary:
   test("migration from v1 to v2 does not corrupt data", () async {
     // Add data to insert into the old database, and the expected rows after the

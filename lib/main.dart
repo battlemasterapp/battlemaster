@@ -126,7 +126,7 @@ class BattlemasterApp extends StatelessWidget {
           create: (context) => EncountersProvider(
             context.read<AppDatabase>(),
             SyncEncounterRepository(auth: context.read<AuthProvider>()),
-          ),
+          )..syncAllEncounters(),
           update: (_, __, auth, provider) =>
               provider!..encounterRepo = SyncEncounterRepository(auth: auth),
         ),

@@ -21,37 +21,28 @@ class SyncEncounterRepository {
     return _auth.isAuthenticated && !_auth.isAnonymous;
   }
 
-  Future<void> upsertEncounter(Encounter encounter) async {
+  Future<String?> upsertEncounter(Encounter encounter) async {
     if (!_canSync()) {
-      return;
+      return null;
     }
 
-    RecordModel? record;
-
-    try {
-      // check if exists
-      record = await _pb.collection(_tableName).getFirstListItem(
-            'userId = "${_auth.userModel?.id}" && encounterId = ${encounter.id}',
-          );
-
-      // if exists update
+    if (encounter.syncId != null) {
       await _pb.collection(_tableName).update(
-        record.id,
+        encounter.syncId!,
         body: {
           "data": encounter.toJson(),
         },
       );
-    } catch (e) {
-      logger.e(e);
-      // create new record
-      await _pb.collection(_tableName).create(
-        body: {
-          "userId": _auth.userModel?.id,
-          "data": encounter.toJson(),
-          "encounterId": encounter.id,
-        },
-      );
+      return encounter.syncId;
     }
+
+    final record = await _pb.collection(_tableName).create(
+      body: {
+        "userId": _auth.userModel?.id,
+        "data": encounter.toJson(),
+      },
+    );
+    return record.id;
   }
 
   Future<void> deleteEncounter(Encounter encounter) async {
@@ -59,11 +50,12 @@ class SyncEncounterRepository {
       return;
     }
 
+    if (encounter.syncId == null) {
+      return;
+    }
+
     try {
-      final record = await _pb.collection(_tableName).getFirstListItem(
-            'userId = "${_auth.userModel?.id}" && encounterId = ${encounter.id}',
-          );
-      await _pb.collection(_tableName).delete(record.id);
+      await _pb.collection(_tableName).delete(encounter.syncId!);
     } catch (e) {
       Sentry.captureException(e);
       logger.e(e);
@@ -77,7 +69,8 @@ class SyncEncounterRepository {
 
     final result = await _pb.collection(_tableName).getFullList();
     return result
-        .map((entry) => Encounter.fromJson(entry.data["data"]))
+        .map((entry) =>
+            Encounter.fromJson(entry.data["data"]..["syncId"] = entry.id))
         .toList();
   }
 }

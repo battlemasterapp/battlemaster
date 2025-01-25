@@ -69,9 +69,7 @@ class $EncounterTableTable extends EncounterTable
   @override
   late final GeneratedColumn<String> syncId = GeneratedColumn<String>(
       'sync_id', aliasedName, true,
-      type: DriftSqlType.string,
-      requiredDuringInsert: false,
-      defaultConstraints: GeneratedColumn.constraintIsAlways('UNIQUE'));
+      type: DriftSqlType.string, requiredDuringInsert: false);
   @override
   List<GeneratedColumn> get $columns =>
       [id, name, type, combatants, engine, round, turn, logs, syncId];

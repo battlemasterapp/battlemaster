@@ -89,13 +89,13 @@ class AppDatabase extends _$AppDatabase {
               round: row.round,
               turn: row.turn,
               logs: row.logs,
+              syncId: row.syncId,
             ))
         .toList();
   }
 
   Future<Encounter> insertEncounter(Encounter encounter) async {
     final id = await into(encounterTable).insert(EncounterTableCompanion.insert(
-      id: encounter.id > 0 ? Value(encounter.id) : Value.absent(),
       name: encounter.name,
       type: encounter.type,
       combatants: encounter.combatants,
@@ -108,8 +108,8 @@ class AppDatabase extends _$AppDatabase {
     return Encounter.fromJson(encounter.toJson()..['id'] = id);
   }
 
-  Future<void> updateEncounter(Encounter encounter) async {
-    await (update(encounterTable)..where((e) => e.id.equals(encounter.id)))
+  Future<int> updateEncounter(Encounter encounter) async {
+    return await (update(encounterTable)..where((e) => e.id.equals(encounter.id)))
         .write(
       EncounterTableCompanion(
         id: Value(encounter.id),
@@ -120,16 +120,18 @@ class AppDatabase extends _$AppDatabase {
         round: Value(encounter.round),
         turn: Value(encounter.turn),
         logs: Value(encounter.logs),
+        syncId: Value(encounter.syncId),
       ),
     );
   }
 
   Future<void> upsertEncounter(Encounter encounter) async {
     final existing = await (select(encounterTable)
-          ..where((e) => e.id.equals(encounter.id)))
+          ..where((e) => e.syncId.equals(encounter.syncId ?? "-1")))
         .getSingleOrNull();
     if (existing != null) {
-      return await updateEncounter(encounter);
+       await updateEncounter(encounter.copyWith(id: existing.id));
+       return;
     }
     await insertEncounter(encounter);
   }
