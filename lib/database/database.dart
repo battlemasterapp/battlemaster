@@ -35,7 +35,7 @@ class AppDatabase extends _$AppDatabase {
         );
 
   @override
-  int get schemaVersion => 4;
+  int get schemaVersion => 5;
 
   @override
   MigrationStrategy get migration {
@@ -51,6 +51,9 @@ class AppDatabase extends _$AppDatabase {
         },
         from3To4: (m, schema) async {
           await m.createTable(customBestiaries);
+        }, 
+        from4To5: (m, schema) async {
+          await m.addColumn(encounterTable, encounterTable.syncId);
         },
       ),
     );
@@ -100,6 +103,7 @@ class AppDatabase extends _$AppDatabase {
       round: Value(encounter.round),
       turn: Value(encounter.turn),
       logs: Value(encounter.logs),
+      syncId: encounter.syncId != null ? Value(encounter.syncId) : Value.absent(),
     ));
     return Encounter.fromJson(encounter.toJson()..['id'] = id);
   }
