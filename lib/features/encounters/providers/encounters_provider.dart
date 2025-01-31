@@ -46,20 +46,18 @@ class EncountersProvider extends ChangeNotifier {
     }
 
     final encounters = await _database.getEncounters();
-    await Future.wait(encounters
-        .map(
-          (e) async {
-            final syncId = await _encounterRepository.upsertEncounter(e);
-            if (syncId == null) {
-              return;
-            }
-            if (e.syncId != null) {
-              return;
-            }
-            await _database.updateEncounter(e.copyWith(syncId: syncId));
-          },
-        )
-        .toList());
+    await Future.wait(encounters.map(
+      (e) async {
+        final syncId = await _encounterRepository.upsertEncounter(e);
+        if (syncId == null) {
+          return;
+        }
+        if (e.syncId != null) {
+          return;
+        }
+        await _database.updateEncounter(e.copyWith(syncId: syncId));
+      },
+    ).toList());
   }
 
   Future<void> convertEncounterType(Encounter encounter) async {

@@ -51,7 +51,7 @@ class AppDatabase extends _$AppDatabase {
         },
         from3To4: (m, schema) async {
           await m.createTable(customBestiaries);
-        }, 
+        },
         from4To5: (m, schema) async {
           await m.addColumn(encounterTable, encounterTable.syncId);
         },
@@ -103,13 +103,15 @@ class AppDatabase extends _$AppDatabase {
       round: Value(encounter.round),
       turn: Value(encounter.turn),
       logs: Value(encounter.logs),
-      syncId: encounter.syncId != null ? Value(encounter.syncId) : Value.absent(),
+      syncId:
+          encounter.syncId != null ? Value(encounter.syncId) : Value.absent(),
     ));
     return Encounter.fromJson(encounter.toJson()..['id'] = id);
   }
 
   Future<int> updateEncounter(Encounter encounter) async {
-    return await (update(encounterTable)..where((e) => e.id.equals(encounter.id)))
+    return await (update(encounterTable)
+          ..where((e) => e.id.equals(encounter.id)))
         .write(
       EncounterTableCompanion(
         id: Value(encounter.id),
@@ -130,8 +132,8 @@ class AppDatabase extends _$AppDatabase {
           ..where((e) => e.syncId.equals(encounter.syncId ?? "-1")))
         .getSingleOrNull();
     if (existing != null) {
-       await updateEncounter(encounter.copyWith(id: existing.id));
-       return;
+      await updateEncounter(encounter.copyWith(id: existing.id));
+      return;
     }
     await insertEncounter(encounter);
   }
