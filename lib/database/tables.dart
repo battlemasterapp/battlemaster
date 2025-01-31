@@ -15,6 +15,7 @@ class EncounterTable extends Table {
   TextColumn get logs => text()
       .withDefault(const Constant('[]'))
       .map(const EncounterLogConverter())();
+  TextColumn get syncId => text().nullable()();
 }
 
 class CustomConditions extends Table {

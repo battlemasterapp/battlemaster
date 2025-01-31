@@ -112,6 +112,16 @@
               "dart_expr": "const EncounterLogConverter()",
               "dart_type_name": "List<EncounterLog>"
             }
+          },
+          {
+            "name": "sync_id",
+            "getter_name": "syncId",
+            "moor_type": "string",
+            "nullable": true,
+            "customConstraints": null,
+            "default_dart": null,
+            "default_client_dart": null,
+            "dsl_features": []
           }
         ],
         "is_virtual": false,

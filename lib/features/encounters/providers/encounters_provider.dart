@@ -24,9 +24,14 @@ class EncountersProvider extends ChangeNotifier {
   Stream<List<Encounter>> watchEncounters(EncounterType type) =>
       _database.watchEncounters(type);
 
-  Future<Encounter> addEncounter(Encounter encounter) async {
+  Future<Encounter> createEncounter(Encounter encounter) async {
     final created = await _database.insertEncounter(encounter);
-    await _encounterRepository.upsertEncounter(created);
+    final syncId = await _encounterRepository.upsertEncounter(created);
+    if (syncId != null) {
+      final syncedEncounter = created.copyWith(syncId: syncId);
+      await _database.updateEncounter(syncedEncounter);
+      return syncedEncounter;
+    }
     return created;
   }
 
@@ -41,11 +46,18 @@ class EncountersProvider extends ChangeNotifier {
     }
 
     final encounters = await _database.getEncounters();
-    await Future.wait(encounters
-        .map(
-          (e) => _encounterRepository.upsertEncounter(e),
-        )
-        .toList());
+    await Future.wait(encounters.map(
+      (e) async {
+        final syncId = await _encounterRepository.upsertEncounter(e);
+        if (syncId == null) {
+          return;
+        }
+        if (e.syncId != null) {
+          return;
+        }
+        await _database.updateEncounter(e.copyWith(syncId: syncId));
+      },
+    ).toList());
   }
 
   Future<void> convertEncounterType(Encounter encounter) async {

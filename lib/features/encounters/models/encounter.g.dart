@@ -21,6 +21,7 @@ Encounter _$EncounterFromJson(Map<String, dynamic> json) => Encounter(
           const [],
       round: (json['round'] as num?)?.toInt() ?? 1,
       turn: (json['turn'] as num?)?.toInt() ?? 0,
+      syncId: json['syncId'] as String?,
     );
 
 Map<String, dynamic> _$EncounterToJson(Encounter instance) => <String, dynamic>{
@@ -32,6 +33,7 @@ Map<String, dynamic> _$EncounterToJson(Encounter instance) => <String, dynamic>{
       'combatants': instance.combatants.map((e) => e.toJson()).toList(),
       'engine': _$GameEngineTypeEnumMap[instance.engine]!,
       'logs': instance.logs.map((e) => e.toJson()).toList(),
+      'syncId': instance.syncId,
     };
 
 const _$GameEngineTypeEnumMap = {

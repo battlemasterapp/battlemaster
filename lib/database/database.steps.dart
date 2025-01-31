@@ -236,10 +236,96 @@ class Shape3 extends i0.VersionedTable {
       columnsByName['engine']! as i1.GeneratedColumn<int>;
 }
 
+final class Schema5 extends i0.VersionedSchema {
+  Schema5({required super.database}) : super(version: 5);
+  @override
+  late final List<i1.DatabaseSchemaEntity> entities = [
+    encounterTable,
+    customConditions,
+    customBestiaries,
+  ];
+  late final Shape4 encounterTable = Shape4(
+      source: i0.VersionedTable(
+        entityName: 'encounter_table',
+        withoutRowId: false,
+        isStrict: false,
+        tableConstraints: [],
+        columns: [
+          _column_0,
+          _column_1,
+          _column_2,
+          _column_3,
+          _column_4,
+          _column_6,
+          _column_7,
+          _column_8,
+          _column_9,
+        ],
+        attachedDatabase: database,
+      ),
+      alias: null);
+  late final Shape1 customConditions = Shape1(
+      source: i0.VersionedTable(
+        entityName: 'custom_conditions',
+        withoutRowId: false,
+        isStrict: false,
+        tableConstraints: [],
+        columns: [
+          _column_0,
+          _column_1,
+          _column_5,
+          _column_4,
+        ],
+        attachedDatabase: database,
+      ),
+      alias: null);
+  late final Shape3 customBestiaries = Shape3(
+      source: i0.VersionedTable(
+        entityName: 'custom_bestiaries',
+        withoutRowId: false,
+        isStrict: false,
+        tableConstraints: [],
+        columns: [
+          _column_0,
+          _column_1,
+          _column_3,
+          _column_4,
+        ],
+        attachedDatabase: database,
+      ),
+      alias: null);
+}
+
+class Shape4 extends i0.VersionedTable {
+  Shape4({required super.source, required super.alias}) : super.aliased();
+  i1.GeneratedColumn<int> get id =>
+      columnsByName['id']! as i1.GeneratedColumn<int>;
+  i1.GeneratedColumn<String> get name =>
+      columnsByName['name']! as i1.GeneratedColumn<String>;
+  i1.GeneratedColumn<int> get type =>
+      columnsByName['type']! as i1.GeneratedColumn<int>;
+  i1.GeneratedColumn<String> get combatants =>
+      columnsByName['combatants']! as i1.GeneratedColumn<String>;
+  i1.GeneratedColumn<int> get engine =>
+      columnsByName['engine']! as i1.GeneratedColumn<int>;
+  i1.GeneratedColumn<int> get round =>
+      columnsByName['round']! as i1.GeneratedColumn<int>;
+  i1.GeneratedColumn<int> get turn =>
+      columnsByName['turn']! as i1.GeneratedColumn<int>;
+  i1.GeneratedColumn<String> get logs =>
+      columnsByName['logs']! as i1.GeneratedColumn<String>;
+  i1.GeneratedColumn<String> get syncId =>
+      columnsByName['sync_id']! as i1.GeneratedColumn<String>;
+}
+
+i1.GeneratedColumn<String> _column_9(String aliasedName) =>
+    i1.GeneratedColumn<String>('sync_id', aliasedName, true,
+        type: i1.DriftSqlType.string);
 i0.MigrationStepWithVersion migrationSteps({
   required Future<void> Function(i1.Migrator m, Schema2 schema) from1To2,
   required Future<void> Function(i1.Migrator m, Schema3 schema) from2To3,
   required Future<void> Function(i1.Migrator m, Schema4 schema) from3To4,
+  required Future<void> Function(i1.Migrator m, Schema5 schema) from4To5,
 }) {
   return (currentVersion, database) async {
     switch (currentVersion) {
@@ -258,6 +344,11 @@ i0.MigrationStepWithVersion migrationSteps({
         final migrator = i1.Migrator(database, schema);
         await from3To4(migrator, schema);
         return 4;
+      case 4:
+        final schema = Schema5(database: database);
+        final migrator = i1.Migrator(database, schema);
+        await from4To5(migrator, schema);
+        return 5;
       default:
         throw ArgumentError.value('Unknown migration from $currentVersion');
     }
@@ -268,10 +359,12 @@ i1.OnUpgrade stepByStep({
   required Future<void> Function(i1.Migrator m, Schema2 schema) from1To2,
   required Future<void> Function(i1.Migrator m, Schema3 schema) from2To3,
   required Future<void> Function(i1.Migrator m, Schema4 schema) from3To4,
+  required Future<void> Function(i1.Migrator m, Schema5 schema) from4To5,
 }) =>
     i0.VersionedSchema.stepByStepHelper(
         step: migrationSteps(
       from1To2: from1To2,
       from2To3: from2To3,
       from3To4: from3To4,
+      from4To5: from4To5,
     ));

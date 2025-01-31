@@ -42,7 +42,7 @@ const _$SkipDeadBehaviorEnumMap = {
 LiveEncounterSettings _$LiveEncounterSettingsFromJson(
         Map<String, dynamic> json) =>
     LiveEncounterSettings(
-      featureEnabled: json['featureEnabled'] as bool? ?? false,
+      featureEnabled: json['featureEnabled'] as bool? ?? true,
       userEnabled: json['userEnabled'] as bool? ?? true,
       showMonsterHealth: json['showMonsterHealth'] as bool? ?? true,
       hideFutureCombatants: json['hideFutureCombatants'] as bool? ?? true,

@@ -38,7 +38,7 @@ const _$ThemeModeEnumMap = {
 };
 
 PF2eSettings _$PF2eSettingsFromJson(Map<String, dynamic> json) => PF2eSettings(
-      enabled: json['enabled'] as bool? ?? false,
+      enabled: json['enabled'] as bool? ?? true,
       bestiaries: (json['bestiaries'] as List<dynamic>?)
               ?.map((e) => e as String)
               .toSet() ??

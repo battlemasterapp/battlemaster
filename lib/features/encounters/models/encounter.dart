@@ -18,6 +18,7 @@ class Encounter extends Equatable {
   final List<Combatant> combatants;
   final GameEngineType engine;
   final List<EncounterLog> logs;
+  final String? syncId;
 
   const Encounter({
     required this.name,
@@ -28,6 +29,7 @@ class Encounter extends Equatable {
     this.logs = const [],
     this.round = 1,
     this.turn = 0,
+    this.syncId,
   })  : assert(round > 0),
         assert(turn >= 0);
 
@@ -44,6 +46,7 @@ class Encounter extends Equatable {
     List<Combatant>? combatants,
     GameEngineType? engine,
     List<EncounterLog>? logs,
+    String? syncId,
   }) {
     return Encounter(
       id: id ?? this.id,
@@ -54,6 +57,7 @@ class Encounter extends Equatable {
       logs: logs ?? this.logs,
       round: round ?? this.round,
       turn: turn ?? this.turn,
+      syncId: syncId ?? this.syncId,
     );
   }
 
