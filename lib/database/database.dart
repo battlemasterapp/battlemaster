@@ -73,6 +73,7 @@ class AppDatabase extends _$AppDatabase {
                     round: row.round,
                     turn: row.turn,
                     logs: row.logs,
+                    syncId: row.syncId,
                   ))
               .toList(),
         );
