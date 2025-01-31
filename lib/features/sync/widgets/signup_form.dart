@@ -46,7 +46,7 @@ class SignupForm extends StatefulWidget {
     required this.onSubmit,
   });
 
-  final ValueChanged<SignupData> onSubmit;
+  final Function(SignupData data) onSubmit;
 
   @override
   State<SignupForm> createState() => _SignupFormState();
@@ -180,14 +180,14 @@ class _SignupFormState extends State<SignupForm> {
             ),
             onPressed: _loading
                 ? null
-                : () {
+                : () async {
                     if (!_formKey.currentState!.validate()) {
                       return;
                     }
                     setState(() {
                       _loading = true;
                     });
-                    widget.onSubmit(_form);
+                    await widget.onSubmit(_form);
                     setState(() {
                       _loading = false;
                     });

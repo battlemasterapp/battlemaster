@@ -80,16 +80,18 @@ class _LoginFormState extends State<LoginForm> {
             ),
             onPressed: _loading
                 ? null
-                : () {
+                : () async {
                     if (!_formKey.currentState!.validate()) {
                       return;
                     }
                     setState(() {
                       _loading = true;
+                      debugPrint("loading");
                     });
-                    widget.onSubmit(_email, _password);
+                    await widget.onSubmit(_email, _password);
                     setState(() {
                       _loading = false;
+                      debugPrint("not loading");
                     });
                   },
             child: _loading

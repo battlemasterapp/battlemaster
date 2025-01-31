@@ -104,7 +104,7 @@ class _SyncButtonState extends State<SyncButton> {
         });
       },
       child: _loading
-          ? CircularProgressIndicator()
+          ? CircularProgressIndicator.adaptive()
           : Text(localization.sync_status_sync_button),
     );
   }
