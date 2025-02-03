@@ -198,6 +198,7 @@
   "health_indicator_critical": "Crítico",
   "health_indicator_dead": "Morto",
   "copied_to_clipboard": "Copiado para a área de transferência!",
+  "share_encounter_code": "Acompanhe o combate em {url}",
   "pf2e_variable_action_preposition": "a",
   "pf2e_creature_level": "Criatura {level}",
   "pf2e_items": "Itens",

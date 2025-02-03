@@ -958,6 +958,17 @@
   "@copied_to_clipboard": {
     "description": "The message to show the text was copied to the clipboard."
   },
+  "share_encounter_code": "Check out the encounter at {url}",
+  "@share_encounter_code": {
+    "description": "share encounter code text",
+    "placeholders": {
+      "url": {
+        "type": "String",
+        "description": "the url",
+        "example": "https://foo.bar"
+      }
+    }
+  },
   "pf2e_variable_action_preposition": "to",
   "@pf2e_variable_action_preposition": {
     "description": "The preposition for the variable action."

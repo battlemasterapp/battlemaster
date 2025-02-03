@@ -1,7 +1,6 @@
 import 'package:battlemaster/features/analytics/analytics_service.dart';
 import 'package:battlemaster/features/player_view/providers/player_view_notifier.dart';
 import 'package:battlemaster/features/player_view/widgets/live_view.dart';
-import 'package:battlemaster/main.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:go_router/go_router.dart';
@@ -63,7 +62,6 @@ class CodeViewPage extends StatefulWidget {
 }
 
 class _CodeViewPageState extends State<CodeViewPage> {
-
   @override
   void initState() {
     super.initState();

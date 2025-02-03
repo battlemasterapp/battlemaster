@@ -63,8 +63,8 @@ class EncounterCodeDialog extends StatelessWidget {
                       title: Text(localization.copied_to_clipboard),
                     );
                     const baseUrl = String.fromEnvironment("BASE_URL");
-                    // FIXME: textos
-                    Share.share("Veja o combate em $baseUrl/live/$code");
+                    Share.share(localization
+                        .share_encounter_code("$baseUrl/live/$code"));
                   },
                   color: Colors.grey.shade800,
                   icon: Icon(MingCute.share_3_fill),

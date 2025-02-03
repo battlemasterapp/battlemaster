@@ -103,7 +103,8 @@ final _router = GoRouter(
     GoRoute(
       path: '/live/:code',
       name: 'live',
-      builder: (context, state) => CodeViewPage(code: state.pathParameters["code"]!),
+      builder: (context, state) =>
+          CodeViewPage(code: state.pathParameters["code"]!),
     ),
   ],
 );
