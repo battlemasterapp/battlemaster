@@ -4,6 +4,7 @@ import 'package:battlemaster/database/database.dart';
 import 'package:battlemaster/features/analytics/analytics_service.dart';
 import 'package:battlemaster/features/auth/providers/auth_provider.dart';
 import 'package:battlemaster/features/conditions/custom_conditions_page.dart';
+import 'package:battlemaster/features/player_view/player_view_page.dart';
 import 'package:battlemaster/features/player_view/providers/player_view_notifier.dart';
 import 'package:battlemaster/features/settings/providers/system_settings_provider.dart';
 import 'package:battlemaster/features/sync/providers/sync_encounter_repository.dart';
@@ -98,6 +99,12 @@ final _router = GoRouter(
       path: '/conditions',
       name: 'conditions',
       builder: (context, state) => const CustomConditionsPage(),
+    ),
+    GoRoute(
+      path: '/live/:code',
+      name: 'live',
+      builder: (context, state) =>
+          CodeViewPage(code: state.pathParameters["code"]!),
     ),
   ],
 );

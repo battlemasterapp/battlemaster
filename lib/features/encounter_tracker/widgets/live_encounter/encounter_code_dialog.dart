@@ -3,6 +3,7 @@ import 'package:flutter/services.dart';
 import 'package:flutter_animate/flutter_animate.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:icons_plus/icons_plus.dart';
+import 'package:share_plus/share_plus.dart';
 import 'package:toastification/toastification.dart';
 
 class EncounterCodeDialog extends StatelessWidget {
@@ -61,9 +62,12 @@ class EncounterCodeDialog extends StatelessWidget {
                       showProgressBar: false,
                       title: Text(localization.copied_to_clipboard),
                     );
+                    const baseUrl = String.fromEnvironment("BASE_URL");
+                    Share.share(localization
+                        .share_encounter_code("$baseUrl/live/$code"));
                   },
                   color: Colors.grey.shade800,
-                  icon: Icon(MingCute.copy_2_fill),
+                  icon: Icon(MingCute.share_3_fill),
                 ),
               ],
             ),

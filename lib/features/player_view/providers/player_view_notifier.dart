@@ -11,7 +11,7 @@ enum PlayerViewState { disconnected, loading, ready, error }
 class PlayerViewNotifier extends ChangeNotifier {
   String? _code;
   final PocketBase _pb;
-  PlayerViewState _state = PlayerViewState.loading;
+  PlayerViewState _state = PlayerViewState.disconnected;
   EncounterView? _encounter;
   AuthProvider auth;
   final _activeIndexController = StreamController<int>.broadcast();
