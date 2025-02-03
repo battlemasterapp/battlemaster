@@ -59,6 +59,7 @@ dependencies:
   flagsmith: ^6.0.0
   device_info_plus: ^11.1.1
   email_validator: ^3.0.0
+  share_plus: ^10.1.4
 
 dev_dependencies:
   flutter_test:
