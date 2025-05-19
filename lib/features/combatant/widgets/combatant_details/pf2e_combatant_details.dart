@@ -361,11 +361,13 @@ class _Attack extends StatelessWidget {
               style: TextStyle(fontWeight: FontWeight.bold),
             ),
             TextSpan(
-                text: attack.effects
-                    .join(", ")
-                    .replaceAll("-", " ")
-                    .capitalizeAll()),
+              text: attack.effects
+                  .join(", ")
+                  .replaceAll("-", " ")
+                  .capitalizeAll(),
+            ),
           ],
+          // TextSpan(text: attack.entry.toString()),
         ],
       ),
     );
