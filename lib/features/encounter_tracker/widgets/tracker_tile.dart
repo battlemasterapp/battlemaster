@@ -101,7 +101,10 @@ class TrackerTile extends StatelessWidget {
                           style: Theme.of(context)
                               .textTheme
                               .bodyMedium
-                              ?.copyWith(fontWeight: selected ? FontWeight.bold : FontWeight.normal),
+                              ?.copyWith(
+                                  fontWeight: selected
+                                      ? FontWeight.bold
+                                      : FontWeight.normal),
                         ),
                         const SizedBox(width: 8),
                         _Health(

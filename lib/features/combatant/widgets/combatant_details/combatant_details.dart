@@ -38,23 +38,29 @@ class CombatantDetails extends StatelessWidget {
           Row(
             mainAxisSize: MainAxisSize.min,
             children: [
-              Text(
-                getName(context),
-                style: Theme.of(context).textTheme.titleLarge?.copyWith(
-                      color: Colors.black,
-                    ),
+              Flexible(
+                flex: 4,
+                child: Text(
+                  getName(context),
+                  style: Theme.of(context).textTheme.titleLarge?.copyWith(
+                        color: Colors.black,
+                      ),
+                ),
               ),
-              IconButton(
-                onPressed: () async {
-                  await showDialog(
-                    context: context,
-                    builder: (context) => EditCombatantDialog(
-                      combatant: combatant,
-                      onEdit: (c) => onEdit?.call(c),
-                    ),
-                  );
-                },
-                icon: Icon(MingCute.pencil_fill),
+              Flexible(
+                flex: 1,
+                child: IconButton(
+                  onPressed: () async {
+                    await showDialog(
+                      context: context,
+                      builder: (context) => EditCombatantDialog(
+                        combatant: combatant,
+                        onEdit: (c) => onEdit?.call(c),
+                      ),
+                    );
+                  },
+                  icon: Icon(MingCute.pencil_fill),
+                ),
               ),
             ],
           ),

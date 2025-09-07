@@ -15,9 +15,7 @@ class Pf2eAttack {
   String get name => _entry["name"] ?? "";
 
   String get range =>
-      _entry["system"]?["weaponType"]?["value"] ??
-      _entry["type"] ??
-      "";
+      _entry["system"]?["weaponType"]?["value"] ?? _entry["type"] ?? "";
 
   int get modifier {
     final baseModifier = _entry["system"]?["bonus"]?["value"] ?? -1;

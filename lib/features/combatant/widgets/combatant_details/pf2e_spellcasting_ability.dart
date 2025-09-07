@@ -130,8 +130,13 @@ class _SpellInfoDialog extends StatelessWidget {
                 const Spacer(),
                 Text(
                   "${spell.isCantrip ? "Cantrip" : "Spell"} ${spell.level}",
-                  style: Theme.of(context).textTheme.titleLarge,
+                  style: Theme.of(context).textTheme.titleMedium,
                 ),
+                if (spell.heightenedLevel > spell.level)
+                  Text(
+                    "-> ${spell.heightenedLevel} (Heightened)",
+                    style: Theme.of(context).textTheme.titleMedium,
+                  )
               ],
             ),
             Traits(traits: spell.traits),

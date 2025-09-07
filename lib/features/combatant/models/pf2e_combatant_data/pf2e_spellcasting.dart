@@ -151,21 +151,23 @@ class SpellcastingLevelEntry {
   List<Map<String, dynamic>> get raw => _spells;
 
   List<Pf2eSpellEntry> get spells =>
-      _spells.map((e) => Pf2eSpellEntry(e, level)).toList();
+      _spells.map((e) => Pf2eSpellEntry(e, heightenedLevel: level)).toList();
 }
 
 class Pf2eSpellEntry {
   final Map<String, dynamic> _entry;
-  final int level;
+  int heightenedLevel = 0;
 
   Pf2eSpellEntry(
-    Map<String, dynamic> entry,
-    this.level,
-  ) : _entry = entry;
+    Map<String, dynamic> entry, {
+    this.heightenedLevel = 0,
+  }) : _entry = entry;
 
   Map<String, dynamic> get raw => _entry;
 
   String get name => _entry["name"] ?? "";
+
+  int get level => _entry["system"]?["level"]?["value"] ?? 0;
 
   List<String> get traits {
     final Map rawTraits = _entry["system"]?["traits"] ?? {};
