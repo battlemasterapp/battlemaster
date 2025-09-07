@@ -30,43 +30,34 @@ class CombatantDetails extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final canEdit = combatant.engineType == GameEngineType.custom;
     return DefaultTextStyle(
       style: const TextStyle(color: Colors.black),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          if (!canEdit)
-            Text(
-              getName(context),
-              style: Theme.of(context).textTheme.titleLarge?.copyWith(
-                    color: Colors.black,
-                  ),
-            ),
-          if (canEdit)
-            Row(
-              mainAxisSize: MainAxisSize.min,
-              children: [
-                Text(
-                  getName(context),
-                  style: Theme.of(context).textTheme.titleLarge?.copyWith(
-                        color: Colors.black,
-                      ),
-                ),
-                IconButton(
-                  onPressed: () async {
-                    await showDialog(
-                      context: context,
-                      builder: (context) => EditCombatantDialog(
-                        combatant: combatant,
-                        onEdit: (c) => onEdit?.call(c),
-                      ),
-                    );
-                  },
-                  icon: Icon(MingCute.pencil_fill),
-                ),
-              ],
-            ),
+          Row(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              Text(
+                getName(context),
+                style: Theme.of(context).textTheme.titleLarge?.copyWith(
+                      color: Colors.black,
+                    ),
+              ),
+              IconButton(
+                onPressed: () async {
+                  await showDialog(
+                    context: context,
+                    builder: (context) => EditCombatantDialog(
+                      combatant: combatant,
+                      onEdit: (c) => onEdit?.call(c),
+                    ),
+                  );
+                },
+                icon: Icon(MingCute.pencil_fill),
+              ),
+            ],
+          ),
           const SizedBox(height: 4),
           AddConditionButton(
             conditions: combatant.conditions,
