@@ -96,7 +96,13 @@ class TrackerTile extends StatelessWidget {
                               Colors.black,
                         ),
                         const SizedBox(width: 8),
-                        Text(getName(context)),
+                        Text(
+                          getName(context),
+                          style: Theme.of(context)
+                              .textTheme
+                              .bodyMedium
+                              ?.copyWith(fontWeight: selected ? FontWeight.bold : FontWeight.normal),
+                        ),
                         const SizedBox(width: 8),
                         _Health(
                           combatant: combatant,
