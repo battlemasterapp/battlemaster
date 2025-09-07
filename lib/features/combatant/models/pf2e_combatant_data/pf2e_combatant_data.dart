@@ -116,7 +116,7 @@ class Pf2eCombatantData extends CombatantData {
 
   List<Pf2eSkill> get skills {
     final Map<String, Map> rawSkillsMap =
-        rawData["system"]?["skills"].cast<String, Map>() ?? <String, Map>{};
+        rawData["system"]?["skills"]?.cast<String, Map>() ?? <String, Map>{};
 
     final List<Map<String, dynamic>> rawEntries =
         (rawData["items"] ?? []).cast<Map<String, dynamic>>();
